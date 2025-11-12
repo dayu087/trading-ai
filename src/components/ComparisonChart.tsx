@@ -81,9 +81,7 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
       const trader = traders[index]
       if (!history.data) return
 
-      console.log(
-        `Trader ${trader.trader_id}: ${history.data.length} data points`
-      )
+      console.log(`Trader ${trader.trader_id}: ${history.data.length} data points`)
 
       history.data.forEach((point: any) => {
         const ts = point.timestamp
@@ -103,8 +101,7 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
         // 计算盈亏百分比：从total_pnl和balance计算
         // 假设初始余额 = balance - total_pnl
         const initialBalance = point.balance - point.total_pnl
-        const pnlPct =
-          initialBalance > 0 ? (point.total_pnl / initialBalance) * 100 : 0
+        const pnlPct = initialBalance > 0 ? (point.total_pnl / initialBalance) * 100 : 0
 
         timestampMap.get(ts)!.traders.set(trader.trader_id, {
           pnl_pct: pnlPct,
@@ -157,9 +154,7 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
     return (
       <div className="text-center py-16" style={{ color: '#848E9C' }}>
         <BarChart3 className="w-12 h-12 mx-auto mb-4 opacity-60" />
-        <div className="text-lg font-semibold mb-2">
-          {t('noHistoricalData', language)}
-        </div>
+        <div className="text-lg font-semibold mb-2">{t('noHistoricalData', language)}</div>
         <div className="text-sm">{t('dataWillAppear', language)}</div>
       </div>
     )
@@ -167,10 +162,7 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
 
   // 限制显示数据点
   const MAX_DISPLAY_POINTS = 2000
-  const displayData =
-    combinedData.length > MAX_DISPLAY_POINTS
-      ? combinedData.slice(-MAX_DISPLAY_POINTS)
-      : combinedData
+  const displayData = combinedData.length > MAX_DISPLAY_POINTS ? combinedData.slice(-MAX_DISPLAY_POINTS) : combinedData
 
   // 计算Y轴范围
   const calculateYDomain = () => {
@@ -202,10 +194,7 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
     if (active && payload && payload.length) {
       const data = payload[0].payload
       return (
-        <div
-          className="rounded p-3 shadow-xl"
-          style={{ background: '#1E2329', border: '1px solid #2B3139' }}
-        >
+        <div className="rounded p-3 shadow-xl" style={{ background: '#1E2329', border: '1px solid #2B3139' }}>
           <div className="text-xs mb-2" style={{ color: '#848E9C' }}>
             {data.time} - #{data.index}
           </div>
@@ -216,22 +205,13 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
 
             return (
               <div key={trader.trader_id} className="mb-1.5 last:mb-0">
-                <div
-                  className="text-xs font-semibold mb-0.5"
-                  style={{ color: traderColor(trader.trader_id) }}
-                >
+                <div className="text-xs font-semibold mb-0.5" style={{ color: traderColor(trader.trader_id) }}>
                   {trader.trader_name}
                 </div>
-                <div
-                  className="text-sm mono font-bold"
-                  style={{ color: pnlPct >= 0 ? '#0ECB81' : '#F6465D' }}
-                >
+                <div className="text-sm mono font-bold" style={{ color: pnlPct >= 0 ? '#0ECB81' : '#F6465D' }}>
                   {pnlPct >= 0 ? '+' : ''}
                   {pnlPct.toFixed(2)}%
-                  <span
-                    className="text-xs ml-2 font-normal"
-                    style={{ color: '#848E9C' }}
-                  >
+                  <span className="text-xs ml-2 font-normal" style={{ color: '#848E9C' }}>
                     ({equity?.toFixed(2)} USDT)
                   </span>
                 </div>
@@ -249,9 +229,7 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
     displayData.length > 0
       ? (() => {
           const lastPoint = displayData[displayData.length - 1]
-          const values = traders.map(
-            (t) => lastPoint[`${t.trader_id}_pnl_pct`] || 0
-          )
+          const values = traders.map((t) => lastPoint[`${t.trader_id}_pnl_pct`] || 0)
           return Math.abs(values[0] - values[1])
         })()
       : 0
@@ -282,10 +260,7 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
           NOFX
         </div>
         <ResponsiveContainer width="100%" height={520}>
-          <LineChart
-            data={displayData}
-            margin={{ top: 20, right: 30, left: 20, bottom: 40 }}
-          >
+          <LineChart data={displayData} margin={{ top: 20, right: 30, left: 20, bottom: 40 }}>
             <defs>
               {traders.map((trader) => (
                 <linearGradient
@@ -296,16 +271,8 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
                   x2="0"
                   y2="1"
                 >
-                  <stop
-                    offset="5%"
-                    stopColor={traderColor(trader.trader_id)}
-                    stopOpacity={0.9}
-                  />
-                  <stop
-                    offset="95%"
-                    stopColor={traderColor(trader.trader_id)}
-                    stopOpacity={0.2}
-                  />
+                  <stop offset="5%" stopColor={traderColor(trader.trader_id)} stopOpacity={0.9} />
+                  <stop offset="95%" stopColor={traderColor(trader.trader_id)} stopOpacity={0.2} />
                 </linearGradient>
               ))}
             </defs>
@@ -354,11 +321,7 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
                 dataKey={`${trader.trader_id}_pnl_pct`}
                 stroke={traderColor(trader.trader_id)}
                 strokeWidth={3}
-                dot={
-                  displayData.length < 50
-                    ? { fill: traderColor(trader.trader_id), r: 3 }
-                    : false
-                }
+                dot={displayData.length < 50 ? { fill: traderColor(trader.trader_id), r: 3 } : false}
                 activeDot={{
                   r: 6,
                   fill: traderColor(trader.trader_id),
@@ -374,9 +337,7 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
               wrapperStyle={{ paddingTop: '20px' }}
               iconType="line"
               formatter={(value, entry: any) => {
-                const traderId = traders.find(
-                  (t) => value === t.trader_name
-                )?.trader_id
+                const traderId = traders.find((t) => value === t.trader_name)?.trader_id
                 const trader = traders.find((t) => t.trader_id === traderId)
                 return (
                   <span
@@ -404,16 +365,10 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
           className="p-2 md:p-3 rounded transition-all hover:bg-opacity-50"
           style={{ background: 'rgba(240, 185, 11, 0.05)' }}
         >
-          <div
-            className="text-xs mb-1 uppercase tracking-wider"
-            style={{ color: '#848E9C' }}
-          >
+          <div className="text-xs mb-1 uppercase tracking-wider" style={{ color: '#848E9C' }}>
             {t('comparisonMode', language)}
           </div>
-          <div
-            className="text-sm md:text-base font-bold"
-            style={{ color: '#EAECEF' }}
-          >
+          <div className="text-sm md:text-base font-bold" style={{ color: '#EAECEF' }}>
             PnL %
           </div>
         </div>
@@ -421,16 +376,10 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
           className="p-2 md:p-3 rounded transition-all hover:bg-opacity-50"
           style={{ background: 'rgba(240, 185, 11, 0.05)' }}
         >
-          <div
-            className="text-xs mb-1 uppercase tracking-wider"
-            style={{ color: '#848E9C' }}
-          >
+          <div className="text-xs mb-1 uppercase tracking-wider" style={{ color: '#848E9C' }}>
             {t('dataPoints', language)}
           </div>
-          <div
-            className="text-sm md:text-base font-bold mono"
-            style={{ color: '#EAECEF' }}
-          >
+          <div className="text-sm md:text-base font-bold mono" style={{ color: '#EAECEF' }}>
             {t('count', language, { count: combinedData.length })}
           </div>
         </div>
@@ -438,10 +387,7 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
           className="p-2 md:p-3 rounded transition-all hover:bg-opacity-50"
           style={{ background: 'rgba(240, 185, 11, 0.05)' }}
         >
-          <div
-            className="text-xs mb-1 uppercase tracking-wider"
-            style={{ color: '#848E9C' }}
-          >
+          <div className="text-xs mb-1 uppercase tracking-wider" style={{ color: '#848E9C' }}>
             {t('currentGap', language)}
           </div>
           <div
@@ -455,16 +401,10 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
           className="p-2 md:p-3 rounded transition-all hover:bg-opacity-50"
           style={{ background: 'rgba(240, 185, 11, 0.05)' }}
         >
-          <div
-            className="text-xs mb-1 uppercase tracking-wider"
-            style={{ color: '#848E9C' }}
-          >
+          <div className="text-xs mb-1 uppercase tracking-wider" style={{ color: '#848E9C' }}>
             {t('displayRange', language)}
           </div>
-          <div
-            className="text-sm md:text-base font-bold mono"
-            style={{ color: '#EAECEF' }}
-          >
+          <div className="text-sm md:text-base font-bold mono" style={{ color: '#EAECEF' }}>
             {combinedData.length > MAX_DISPLAY_POINTS
               ? `${t('recent', language)} ${MAX_DISPLAY_POINTS}`
               : t('allData', language)}

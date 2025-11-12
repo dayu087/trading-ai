@@ -1,12 +1,4 @@
-import {
-  BookOpen,
-  Settings,
-  TrendingUp,
-  Wrench,
-  Bot,
-  Database,
-  GitBranch,
-} from 'lucide-react'
+import { BookOpen, Settings, TrendingUp, Wrench, Bot, Database, GitBranch } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
 export interface FAQItem {

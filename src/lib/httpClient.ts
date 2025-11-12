@@ -147,11 +147,7 @@ export class HttpClient {
   /**
    * POST request
    */
-  async post(
-    url: string,
-    body?: any,
-    headers?: Record<string, string>
-  ): Promise<Response> {
+  async post(url: string, body?: any, headers?: Record<string, string>): Promise<Response> {
     const response = await fetch(url, {
       method: 'POST',
       headers: {
@@ -166,11 +162,7 @@ export class HttpClient {
   /**
    * PUT request
    */
-  async put(
-    url: string,
-    body?: any,
-    headers?: Record<string, string>
-  ): Promise<Response> {
+  async put(url: string, body?: any, headers?: Record<string, string>): Promise<Response> {
     const response = await fetch(url, {
       method: 'PUT',
       headers: {
@@ -185,10 +177,7 @@ export class HttpClient {
   /**
    * DELETE request
    */
-  async delete(
-    url: string,
-    headers?: Record<string, string>
-  ): Promise<Response> {
+  async delete(url: string, headers?: Record<string, string>): Promise<Response> {
     const response = await fetch(url, {
       method: 'DELETE',
       headers,

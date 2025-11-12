@@ -83,9 +83,7 @@ export function FAQLayout({ language }: FAQLayoutProps) {
           <FAQSearchBar
             searchTerm={searchTerm}
             onSearchChange={setSearchTerm}
-            placeholder={
-              language === 'zh' ? '搜索常见问题...' : 'Search FAQ...'
-            }
+            placeholder={language === 'zh' ? '搜索常见问题...' : 'Search FAQ...'}
           />
         </div>
       </div>
@@ -105,24 +103,17 @@ export function FAQLayout({ language }: FAQLayoutProps) {
         {/* Content Area */}
         <main className="flex-1 min-w-0">
           {filteredCategories.length > 0 ? (
-            <FAQContent
-              categories={filteredCategories}
-              language={language}
-              onActiveItemChange={setActiveItemId}
-            />
+            <FAQContent categories={filteredCategories} language={language} onActiveItemChange={setActiveItemId} />
           ) : (
             <div className="text-center py-12">
               <p className="text-lg" style={{ color: '#848E9C' }}>
-                {language === 'zh'
-                  ? '没有找到匹配的问题'
-                  : 'No matching questions found'}
+                {language === 'zh' ? '没有找到匹配的问题' : 'No matching questions found'}
               </p>
               <button
                 onClick={() => setSearchTerm('')}
                 className="mt-4 px-6 py-2 rounded-lg font-semibold transition-all hover:opacity-90"
                 style={{
-                  background:
-                    'linear-gradient(135deg, #F0B90B 0%, #FCD535 100%)',
+                  background: 'linear-gradient(135deg, #F0B90B 0%, #FCD535 100%)',
                   color: '#0B0E11',
                 }}
               >
@@ -137,8 +128,7 @@ export function FAQLayout({ language }: FAQLayoutProps) {
       <div
         className="mt-16 p-8 rounded-lg text-center"
         style={{
-          background:
-            'linear-gradient(135deg, rgba(240, 185, 11, 0.1) 0%, rgba(252, 213, 53, 0.05) 100%)',
+          background: 'linear-gradient(135deg, rgba(240, 185, 11, 0.1) 0%, rgba(252, 213, 53, 0.05) 100%)',
           border: '1px solid rgba(240, 185, 11, 0.2)',
         }}
       >

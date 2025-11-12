@@ -34,14 +34,8 @@ interface AuthContextType {
     otpSecret?: string
     qrCodeURL?: string
   }>
-  verifyOTP: (
-    userID: string,
-    otpCode: string
-  ) => Promise<{ success: boolean; message?: string }>
-  completeRegistration: (
-    userID: string,
-    otpCode: string
-  ) => Promise<{ success: boolean; message?: string }>
+  verifyOTP: (userID: string, otpCode: string) => Promise<{ success: boolean; message?: string }>
+  completeRegistration: (userID: string, otpCode: string) => Promise<{ success: boolean; message?: string }>
   resetPassword: (
     email: string,
     newPassword: string,
@@ -178,11 +172,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  const register = async (
-    email: string,
-    password: string,
-    betaCode?: string
-  ) => {
+  const register = async (email: string, password: string, betaCode?: string) => {
     try {
       const requestBody: {
         email: string
@@ -307,11 +297,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  const resetPassword = async (
-    email: string,
-    newPassword: string,
-    otpCode: string
-  ) => {
+  const resetPassword = async (email: string, newPassword: string, otpCode: string) => {
     try {
       const response = await fetch('/api/reset-password', {
         method: 'POST',

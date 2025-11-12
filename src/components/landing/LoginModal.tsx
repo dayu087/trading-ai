@@ -37,10 +37,7 @@ export default function LoginModal({ onClose, language }: LoginModalProps) {
         >
           <X className="w-6 h-6" />
         </motion.button>
-        <h2
-          className="text-2xl font-bold mb-6"
-          style={{ color: 'var(--brand-light-gray)' }}
-        >
+        <h2 className="text-2xl font-bold mb-6" style={{ color: 'var(--brand-light-gray)' }}>
           {t('accessNofxPlatform', language)}
         </h2>
         <p className="text-sm mb-6" style={{ color: 'var(--text-secondary)' }}>

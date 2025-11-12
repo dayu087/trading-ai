@@ -55,29 +55,19 @@ export default function HeroSection({ language }: HeroSectionProps) {
                   boxShadow: '0 0 20px rgba(240, 185, 11, 0.2)',
                 }}
               >
-                <Sparkles
-                  className="w-4 h-4"
-                  style={{ color: 'var(--brand-yellow)' }}
-                />
-                <span
-                  className="text-sm font-semibold"
-                  style={{ color: 'var(--brand-yellow)' }}
-                >
+                <Sparkles className="w-4 h-4" style={{ color: 'var(--brand-yellow)' }} />
+                <span className="text-sm font-semibold" style={{ color: 'var(--brand-yellow)' }}>
                   {isLoading ? (
                     t('githubStarsInDays', language)
                   ) : language === 'zh' ? (
                     <>
                       {daysOld} 天内{' '}
-                      <span className="inline-block tabular-nums">
-                        {(animatedStars / 1000).toFixed(1)}
-                      </span>
+                      <span className="inline-block tabular-nums">{(animatedStars / 1000).toFixed(1)}</span>
                       K+ GitHub Stars
                     </>
                   ) : (
                     <>
-                      <span className="inline-block tabular-nums">
-                        {(animatedStars / 1000).toFixed(1)}
-                      </span>
+                      <span className="inline-block tabular-nums">{(animatedStars / 1000).toFixed(1)}</span>
                       K+ GitHub Stars in {daysOld} days
                     </>
                   )}
@@ -85,15 +75,10 @@ export default function HeroSection({ language }: HeroSectionProps) {
               </motion.div>
             </motion.div>
 
-            <h1
-              className="text-5xl lg:text-7xl font-bold leading-tight"
-              style={{ color: 'var(--brand-light-gray)' }}
-            >
+            <h1 className="text-5xl lg:text-7xl font-bold leading-tight" style={{ color: 'var(--brand-light-gray)' }}>
               {t('heroTitle1', language)}
               <br />
-              <span style={{ color: 'var(--brand-yellow)' }}>
-                {t('heroTitle2', language)}
-              </span>
+              <span style={{ color: 'var(--brand-yellow)' }}>{t('heroTitle2', language)}</span>
             </h1>
 
             <motion.p
@@ -146,11 +131,7 @@ export default function HeroSection({ language }: HeroSectionProps) {
               </motion.a>
             </div>
 
-            <motion.p
-              className="text-xs pt-4"
-              style={{ color: 'var(--text-tertiary)' }}
-              variants={fadeInUp}
-            >
+            <motion.p className="text-xs pt-4" style={{ color: 'var(--text-tertiary)' }} variants={fadeInUp}>
               {t('poweredBy', language)}
             </motion.p>
           </motion.div>

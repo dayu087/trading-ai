@@ -13,11 +13,7 @@ interface TraderConfigViewModalProps {
   traderData?: TraderConfigData | null
 }
 
-export function TraderConfigViewModal({
-  isOpen,
-  onClose,
-  traderData,
-}: TraderConfigViewModalProps) {
+export function TraderConfigViewModal({ isOpen, onClose, traderData }: TraderConfigViewModalProps) {
   const [copiedField, setCopiedField] = useState<string | null>(null)
 
   if (!isOpen || !traderData) return null
@@ -32,21 +28,12 @@ export function TraderConfigViewModal({
     }
   }
 
-  const CopyButton = ({
-    text,
-    fieldName,
-  }: {
-    text: string
-    fieldName: string
-  }) => (
+  const CopyButton = ({ text, fieldName }: { text: string; fieldName: string }) => (
     <button
       onClick={() => copyToClipboard(text, fieldName)}
       className="ml-2 px-2 py-1 text-xs rounded transition-all duration-200 hover:scale-105"
       style={{
-        background:
-          copiedField === fieldName
-            ? 'rgba(14, 203, 129, 0.1)'
-            : 'rgba(240, 185, 11, 0.1)',
+        background: copiedField === fieldName ? 'rgba(14, 203, 129, 0.1)' : 'rgba(240, 185, 11, 0.1)',
         color: copiedField === fieldName ? '#0ECB81' : '#F0B90B',
         border: `1px solid ${copiedField === fieldName ? 'rgba(14, 203, 129, 0.3)' : 'rgba(240, 185, 11, 0.3)'}`,
       }}
@@ -72,9 +59,7 @@ export function TraderConfigViewModal({
         <span className="text-sm text-[#EAECEF] font-mono">
           {typeof value === 'boolean' ? (value ? '是' : '否') : value}
         </span>
-        {copyable && typeof value === 'string' && value && (
-          <CopyButton text={value} fieldName={fieldName} />
-        )}
+        {copyable && typeof value === 'string' && value && <CopyButton text={value} fieldName={fieldName} />}
       </div>
     </div>
   )
@@ -93,9 +78,7 @@ export function TraderConfigViewModal({
             </div>
             <div>
               <h2 className="text-xl font-bold text-[#EAECEF]">交易员配置</h2>
-              <p className="text-sm text-[#848E9C] mt-1">
-                {traderData.trader_name} 的配置信息
-              </p>
+              <p className="text-sm text-[#848E9C] mt-1">{traderData.trader_name} 的配置信息</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -124,55 +107,23 @@ export function TraderConfigViewModal({
         <div className="p-6 space-y-6">
           {/* Basic Info */}
           <div className="bg-[#0B0E11] border border-[#2B3139] rounded-lg p-5">
-            <h3 className="text-lg font-semibold text-[#EAECEF] mb-4 flex items-center gap-2">
-              🤖 基础信息
-            </h3>
+            <h3 className="text-lg font-semibold text-[#EAECEF] mb-4 flex items-center gap-2">🤖 基础信息</h3>
             <div className="space-y-3">
-              <InfoRow
-                label="交易员ID"
-                value={traderData.trader_id || ''}
-                copyable
-                fieldName="trader_id"
-              />
-              <InfoRow
-                label="交易员名称"
-                value={traderData.trader_name}
-                copyable
-                fieldName="trader_name"
-              />
-              <InfoRow
-                label="AI模型"
-                value={getShortName(traderData.ai_model).toUpperCase()}
-              />
-              <InfoRow
-                label="交易所"
-                value={getShortName(traderData.exchange_id).toUpperCase()}
-              />
-              <InfoRow
-                label="初始余额"
-                value={`$${traderData.initial_balance.toLocaleString()}`}
-              />
+              <InfoRow label="交易员ID" value={traderData.trader_id || ''} copyable fieldName="trader_id" />
+              <InfoRow label="交易员名称" value={traderData.trader_name} copyable fieldName="trader_name" />
+              <InfoRow label="AI模型" value={getShortName(traderData.ai_model).toUpperCase()} />
+              <InfoRow label="交易所" value={getShortName(traderData.exchange_id).toUpperCase()} />
+              <InfoRow label="初始余额" value={`$${traderData.initial_balance.toLocaleString()}`} />
             </div>
           </div>
 
           {/* Trading Configuration */}
           <div className="bg-[#0B0E11] border border-[#2B3139] rounded-lg p-5">
-            <h3 className="text-lg font-semibold text-[#EAECEF] mb-4 flex items-center gap-2">
-              ⚖️ 交易配置
-            </h3>
+            <h3 className="text-lg font-semibold text-[#EAECEF] mb-4 flex items-center gap-2">⚖️ 交易配置</h3>
             <div className="space-y-3">
-              <InfoRow
-                label="保证金模式"
-                value={traderData.is_cross_margin ? '全仓' : '逐仓'}
-              />
-              <InfoRow
-                label="BTC/ETH 杠杆"
-                value={`${traderData.btc_eth_leverage}x`}
-              />
-              <InfoRow
-                label="山寨币杠杆"
-                value={`${traderData.altcoin_leverage}x`}
-              />
+              <InfoRow label="保证金模式" value={traderData.is_cross_margin ? '全仓' : '逐仓'} />
+              <InfoRow label="BTC/ETH 杠杆" value={`${traderData.btc_eth_leverage}x`} />
+              <InfoRow label="山寨币杠杆" value={`${traderData.altcoin_leverage}x`} />
               <InfoRow
                 label="交易币种"
                 value={traderData.trading_symbols || '使用默认币种'}
@@ -184,14 +135,9 @@ export function TraderConfigViewModal({
 
           {/* Signal Sources */}
           <div className="bg-[#0B0E11] border border-[#2B3139] rounded-lg p-5">
-            <h3 className="text-lg font-semibold text-[#EAECEF] mb-4 flex items-center gap-2">
-              📡 信号源配置
-            </h3>
+            <h3 className="text-lg font-semibold text-[#EAECEF] mb-4 flex items-center gap-2">📡 信号源配置</h3>
             <div className="space-y-3">
-              <InfoRow
-                label="Coin Pool 信号"
-                value={traderData.use_coin_pool}
-              />
+              <InfoRow label="Coin Pool 信号" value={traderData.use_coin_pool} />
               <InfoRow label="OI Top 信号" value={traderData.use_oi_top} />
             </div>
           </div>
@@ -199,28 +145,15 @@ export function TraderConfigViewModal({
           {/* Custom Prompt */}
           <div className="bg-[#0B0E11] border border-[#2B3139] rounded-lg p-5">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-[#EAECEF] flex items-center gap-2">
-                💬 交易策略提示词
-              </h3>
-              {traderData.custom_prompt && (
-                <CopyButton
-                  text={traderData.custom_prompt}
-                  fieldName="custom_prompt"
-                />
-              )}
+              <h3 className="text-lg font-semibold text-[#EAECEF] flex items-center gap-2">💬 交易策略提示词</h3>
+              {traderData.custom_prompt && <CopyButton text={traderData.custom_prompt} fieldName="custom_prompt" />}
             </div>
             <div className="space-y-3">
-              <InfoRow
-                label="覆盖默认提示词"
-                value={traderData.override_base_prompt}
-              />
+              <InfoRow label="覆盖默认提示词" value={traderData.override_base_prompt} />
               {traderData.custom_prompt ? (
                 <div>
                   <div className="text-sm text-[#848E9C] mb-2">
-                    {traderData.override_base_prompt
-                      ? '自定义提示词'
-                      : '附加提示词'}
-                    ：
+                    {traderData.override_base_prompt ? '自定义提示词' : '附加提示词'}：
                   </div>
                   <div
                     className="p-3 rounded border text-sm text-[#EAECEF] font-mono leading-relaxed max-h-48 overflow-y-auto"
@@ -254,12 +187,7 @@ export function TraderConfigViewModal({
             关闭
           </button>
           <button
-            onClick={() =>
-              copyToClipboard(
-                JSON.stringify(traderData, null, 2),
-                'full_config'
-              )
-            }
+            onClick={() => copyToClipboard(JSON.stringify(traderData, null, 2), 'full_config')}
             className="px-6 py-3 bg-gradient-to-r from-[#F0B90B] to-[#E1A706] text-black rounded-lg hover:from-[#E1A706] hover:to-[#D4951E] transition-all duration-200 font-medium shadow-lg"
           >
             {copiedField === 'full_config' ? '✓ 已复制配置' : '📋 复制完整配置'}

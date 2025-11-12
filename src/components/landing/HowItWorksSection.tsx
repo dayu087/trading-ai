@@ -24,16 +24,10 @@ function StepCard({ number, title, description, delay }: any) {
         {number}
       </motion.div>
       <div>
-        <h3
-          className="text-2xl font-semibold mb-2"
-          style={{ color: 'var(--brand-light-gray)' }}
-        >
+        <h3 className="text-2xl font-semibold mb-2" style={{ color: 'var(--brand-light-gray)' }}>
           {title}
         </h3>
-        <p
-          className="text-lg leading-relaxed"
-          style={{ color: 'var(--text-secondary)' }}
-        >
+        <p className="text-lg leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
           {description}
         </p>
       </div>
@@ -45,9 +39,7 @@ interface HowItWorksSectionProps {
   language: Language
 }
 
-export default function HowItWorksSection({
-  language,
-}: HowItWorksSectionProps) {
+export default function HowItWorksSection({ language }: HowItWorksSectionProps) {
   return (
     <AnimatedSection id="how-it-works" backgroundColor="var(--brand-dark-gray)">
       <div className="max-w-7xl mx-auto">
@@ -57,10 +49,7 @@ export default function HowItWorksSection({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h2
-            className="text-4xl font-bold mb-4"
-            style={{ color: 'var(--brand-light-gray)' }}
-          >
+          <h2 className="text-4xl font-bold mb-4" style={{ color: 'var(--brand-light-gray)' }}>
             {t('howToStart', language)}
           </h2>
           <p className="text-lg" style={{ color: 'var(--text-secondary)' }}>

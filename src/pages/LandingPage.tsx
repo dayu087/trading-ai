@@ -89,10 +89,7 @@ export function LandingPage() {
                 whileTap={{ scale: 0.95 }}
               >
                 {t('getStartedNow', language)}
-                <motion.div
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
+                <motion.div animate={{ x: [0, 5, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
                   <ArrowRight className="w-5 h-5" />
                 </motion.div>
               </motion.button>
@@ -118,12 +115,7 @@ export function LandingPage() {
           </div>
         </AnimatedSection>
 
-        {showLoginModal && (
-          <LoginModal
-            onClose={() => setShowLoginModal(false)}
-            language={language}
-          />
-        )}
+        {showLoginModal && <LoginModal onClose={() => setShowLoginModal(false)} language={language} />}
         <FooterSection language={language} />
       </div>
     </>

@@ -25,17 +25,11 @@ export class CryptoService {
     const headerIndex = pem.indexOf(pemHeader)
     const footerIndex = pem.indexOf(pemFooter)
 
-    if (
-      headerIndex === -1 ||
-      footerIndex === -1 ||
-      headerIndex >= footerIndex
-    ) {
+    if (headerIndex === -1 || footerIndex === -1 || headerIndex >= footerIndex) {
       throw new Error('Invalid PEM formatted public key')
     }
 
-    const pemContents = pem
-      .substring(headerIndex + pemHeader.length, footerIndex)
-      .replace(/\s+/g, '') // 移除所有空白字符（包括换行符、空格等）
+    const pemContents = pem.substring(headerIndex + pemHeader.length, footerIndex).replace(/\s+/g, '') // 移除所有空白字符（包括换行符、空格等）
 
     const binaryDerString = atob(pemContents)
     const binaryDer = new Uint8Array(binaryDerString.length)
@@ -55,15 +49,9 @@ export class CryptoService {
     )
   }
 
-  static async encryptSensitiveData(
-    plaintext: string,
-    userId?: string,
-    sessionId?: string
-  ): Promise<EncryptedPayload> {
+  static async encryptSensitiveData(plaintext: string, userId?: string, sessionId?: string): Promise<EncryptedPayload> {
     if (!this.publicKey) {
-      throw new Error(
-        'Crypto service not initialized. Call initialize() first.'
-      )
+      throw new Error('Crypto service not initialized. Call initialize() first.')
     }
 
     // 1. 生成 256-bit AES 密钥
@@ -131,10 +119,7 @@ export class CryptoService {
     for (let i = 0; i < bytes.length; i++) {
       binary += String.fromCharCode(bytes[i])
     }
-    return btoa(binary)
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_')
-      .replace(/=/g, '')
+    return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
   }
 
   static async fetchPublicKey(): Promise<string> {
@@ -146,9 +131,7 @@ export class CryptoService {
     return data.public_key
   }
 
-  static async decryptSensitiveData(
-    payload: EncryptedPayload
-  ): Promise<string> {
+  static async decryptSensitiveData(payload: EncryptedPayload): Promise<string> {
     const response = await fetch('/api/crypto/decrypt', {
       method: 'POST',
       headers: {
@@ -170,16 +153,11 @@ export class CryptoService {
 export function generateObfuscation(): string {
   const bytes = new Uint8Array(32)
   crypto.getRandomValues(bytes)
-  return Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join(
-    ''
-  )
+  return Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('')
 }
 
 // 验证私钥格式
-export function validatePrivateKeyFormat(
-  value: string,
-  expectedLength: number = 64
-): boolean {
+export function validatePrivateKeyFormat(value: string, expectedLength: number = 64): boolean {
   const normalized = value.startsWith('0x') ? value.slice(2) : value
   if (normalized.length !== expectedLength) {
     return false

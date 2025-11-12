@@ -121,15 +121,7 @@ export function TraderConfigModal({
       } catch (error) {
         console.error('Failed to fetch config:', error)
         // 使用默认币种列表
-        setAvailableCoins([
-          'BTCUSDT',
-          'ETHUSDT',
-          'SOLUSDT',
-          'BNBUSDT',
-          'XRPUSDT',
-          'DOGEUSDT',
-          'ADAUSDT',
-        ])
+        setAvailableCoins(['BTCUSDT', 'ETHUSDT', 'SOLUSDT', 'BNBUSDT', 'XRPUSDT', 'DOGEUSDT', 'ADAUSDT'])
       }
     }
     fetchConfig()
@@ -170,9 +162,7 @@ export function TraderConfigModal({
 
   const handleCoinToggle = (coin: string) => {
     setSelectedCoins((prev) => {
-      const newCoins = prev.includes(coin)
-        ? prev.filter((c) => c !== coin)
-        : [...prev, coin]
+      const newCoins = prev.includes(coin) ? prev.filter((c) => c !== coin) : [...prev, coin]
 
       // 同时更新 formData.trading_symbols
       const symbolsString = newCoins.join(',')
@@ -193,14 +183,11 @@ export function TraderConfigModal({
 
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch(
-        `/api/account?trader_id=${traderData.trader_id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      const response = await fetch(`/api/account?trader_id=${traderData.trader_id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
 
       if (!response.ok) {
         throw new Error('获取账户余额失败')
@@ -267,12 +254,8 @@ export function TraderConfigModal({
               <span className="text-lg">{isEditMode ? '✏️' : '➕'}</span>
             </div>
             <div>
-              <h2 className="text-xl font-bold text-[#EAECEF]">
-                {isEditMode ? '修改交易员' : '创建交易员'}
-              </h2>
-              <p className="text-sm text-[#848E9C] mt-1">
-                {isEditMode ? '修改交易员配置参数' : '配置新的AI交易员'}
-              </p>
+              <h2 className="text-xl font-bold text-[#EAECEF]">{isEditMode ? '修改交易员' : '创建交易员'}</h2>
+              <p className="text-sm text-[#848E9C] mt-1">{isEditMode ? '修改交易员配置参数' : '配置新的AI交易员'}</p>
             </div>
           </div>
           <button
@@ -287,34 +270,24 @@ export function TraderConfigModal({
         <div className="p-6 space-y-8">
           {/* Basic Info */}
           <div className="bg-[#0B0E11] border border-[#2B3139] rounded-lg p-5">
-            <h3 className="text-lg font-semibold text-[#EAECEF] mb-5 flex items-center gap-2">
-              🤖 基础配置
-            </h3>
+            <h3 className="text-lg font-semibold text-[#EAECEF] mb-5 flex items-center gap-2">🤖 基础配置</h3>
             <div className="space-y-4">
               <div>
-                <label className="text-sm text-[#EAECEF] block mb-2">
-                  交易员名称
-                </label>
+                <label className="text-sm text-[#EAECEF] block mb-2">交易员名称</label>
                 <input
                   type="text"
                   value={formData.trader_name}
-                  onChange={(e) =>
-                    handleInputChange('trader_name', e.target.value)
-                  }
+                  onChange={(e) => handleInputChange('trader_name', e.target.value)}
                   className="w-full px-3 py-2 bg-[#0B0E11] border border-[#2B3139] rounded text-[#EAECEF] focus:border-[#F0B90B] focus:outline-none"
                   placeholder="请输入交易员名称"
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm text-[#EAECEF] block mb-2">
-                    AI模型
-                  </label>
+                  <label className="text-sm text-[#EAECEF] block mb-2">AI模型</label>
                   <select
                     value={formData.ai_model}
-                    onChange={(e) =>
-                      handleInputChange('ai_model', e.target.value)
-                    }
+                    onChange={(e) => handleInputChange('ai_model', e.target.value)}
                     className="w-full px-3 py-2 bg-[#0B0E11] border border-[#2B3139] rounded text-[#EAECEF] focus:border-[#F0B90B] focus:outline-none"
                   >
                     {availableModels.map((model) => (
@@ -325,21 +298,15 @@ export function TraderConfigModal({
                   </select>
                 </div>
                 <div>
-                  <label className="text-sm text-[#EAECEF] block mb-2">
-                    交易所
-                  </label>
+                  <label className="text-sm text-[#EAECEF] block mb-2">交易所</label>
                   <select
                     value={formData.exchange_id}
-                    onChange={(e) =>
-                      handleInputChange('exchange_id', e.target.value)
-                    }
+                    onChange={(e) => handleInputChange('exchange_id', e.target.value)}
                     className="w-full px-3 py-2 bg-[#0B0E11] border border-[#2B3139] rounded text-[#EAECEF] focus:border-[#F0B90B] focus:outline-none"
                   >
                     {availableExchanges.map((exchange) => (
                       <option key={exchange.id} value={exchange.id}>
-                        {getShortName(
-                          exchange.name || exchange.id
-                        ).toUpperCase()}
+                        {getShortName(exchange.name || exchange.id).toUpperCase()}
                       </option>
                     ))}
                   </select>
@@ -350,16 +317,12 @@ export function TraderConfigModal({
 
           {/* Trading Configuration */}
           <div className="bg-[#0B0E11] border border-[#2B3139] rounded-lg p-5">
-            <h3 className="text-lg font-semibold text-[#EAECEF] mb-5 flex items-center gap-2">
-              ⚖️ 交易配置
-            </h3>
+            <h3 className="text-lg font-semibold text-[#EAECEF] mb-5 flex items-center gap-2">⚖️ 交易配置</h3>
             <div className="space-y-4">
               {/* 第一行：保证金模式和初始余额 */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm text-[#EAECEF] block mb-2">
-                    保证金模式
-                  </label>
+                  <label className="text-sm text-[#EAECEF] block mb-2">保证金模式</label>
                   <div className="flex gap-2">
                     <button
                       type="button"
@@ -374,9 +337,7 @@ export function TraderConfigModal({
                     </button>
                     <button
                       type="button"
-                      onClick={() =>
-                        handleInputChange('is_cross_margin', false)
-                      }
+                      onClick={() => handleInputChange('is_cross_margin', false)}
                       className={`flex-1 px-3 py-2 rounded text-sm ${
                         !formData.is_cross_margin
                           ? 'bg-[#F0B90B] text-black'
@@ -391,9 +352,7 @@ export function TraderConfigModal({
                   <div className="flex items-center justify-between mb-2">
                     <label className="text-sm text-[#EAECEF]">
                       初始余额 ($)
-                      {!isEditMode && (
-                        <span className="text-[#F0B90B] ml-1">*</span>
-                      )}
+                      {!isEditMode && <span className="text-[#F0B90B] ml-1">*</span>}
                     </label>
                     {isEditMode && (
                       <button
@@ -409,12 +368,7 @@ export function TraderConfigModal({
                   <input
                     type="number"
                     value={formData.initial_balance}
-                    onChange={(e) =>
-                      handleInputChange(
-                        'initial_balance',
-                        Number(e.target.value)
-                      )
-                    }
+                    onChange={(e) => handleInputChange('initial_balance', Number(e.target.value))}
                     onBlur={(e) => {
                       // Force minimum value on blur
                       const value = Number(e.target.value)
@@ -450,28 +404,20 @@ export function TraderConfigModal({
                       点击"获取当前余额"按钮可自动获取您交易所账户的当前净值
                     </p>
                   )}
-                  {balanceFetchError && (
-                    <p className="text-xs text-red-500 mt-1">
-                      {balanceFetchError}
-                    </p>
-                  )}
+                  {balanceFetchError && <p className="text-xs text-red-500 mt-1">{balanceFetchError}</p>}
                 </div>
               </div>
 
               {/* 第二行：AI 扫描决策间隔 */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm text-[#EAECEF] block mb-2">
-                    {t('aiScanInterval', language)}
-                  </label>
+                  <label className="text-sm text-[#EAECEF] block mb-2">{t('aiScanInterval', language)}</label>
                   <input
                     type="number"
                     value={formData.scan_interval_minutes}
                     onChange={(e) => {
                       const parsedValue = Number(e.target.value)
-                      const safeValue = Number.isFinite(parsedValue)
-                        ? Math.max(3, parsedValue)
-                        : 3
+                      const safeValue = Number.isFinite(parsedValue) ? Math.max(3, parsedValue) : 3
                       handleInputChange('scan_interval_minutes', safeValue)
                     }}
                     className="w-full px-3 py-2 bg-[#0B0E11] border border-[#2B3139] rounded text-[#EAECEF] focus:border-[#F0B90B] focus:outline-none"
@@ -479,9 +425,7 @@ export function TraderConfigModal({
                     max="60"
                     step="1"
                   />
-                  <p className="text-xs text-gray-500 mt-1">
-                    {t('scanIntervalRecommend', language)}
-                  </p>
+                  <p className="text-xs text-gray-500 mt-1">{t('scanIntervalRecommend', language)}</p>
                 </div>
                 <div></div>
               </div>
@@ -489,36 +433,22 @@ export function TraderConfigModal({
               {/* 第三行：杠杆设置 */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm text-[#EAECEF] block mb-2">
-                    BTC/ETH 杠杆
-                  </label>
+                  <label className="text-sm text-[#EAECEF] block mb-2">BTC/ETH 杠杆</label>
                   <input
                     type="number"
                     value={formData.btc_eth_leverage}
-                    onChange={(e) =>
-                      handleInputChange(
-                        'btc_eth_leverage',
-                        Number(e.target.value)
-                      )
-                    }
+                    onChange={(e) => handleInputChange('btc_eth_leverage', Number(e.target.value))}
                     className="w-full px-3 py-2 bg-[#0B0E11] border border-[#2B3139] rounded text-[#EAECEF] focus:border-[#F0B90B] focus:outline-none"
                     min="1"
                     max="125"
                   />
                 </div>
                 <div>
-                  <label className="text-sm text-[#EAECEF] block mb-2">
-                    山寨币杠杆
-                  </label>
+                  <label className="text-sm text-[#EAECEF] block mb-2">山寨币杠杆</label>
                   <input
                     type="number"
                     value={formData.altcoin_leverage}
-                    onChange={(e) =>
-                      handleInputChange(
-                        'altcoin_leverage',
-                        Number(e.target.value)
-                      )
-                    }
+                    onChange={(e) => handleInputChange('altcoin_leverage', Number(e.target.value))}
                     className="w-full px-3 py-2 bg-[#0B0E11] border border-[#2B3139] rounded text-[#EAECEF] focus:border-[#F0B90B] focus:outline-none"
                     min="1"
                     max="75"
@@ -529,9 +459,7 @@ export function TraderConfigModal({
               {/* 第三行：交易币种 */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="text-sm text-[#EAECEF]">
-                    交易币种 (用逗号分隔，留空使用默认)
-                  </label>
+                  <label className="text-sm text-[#EAECEF]">交易币种 (用逗号分隔，留空使用默认)</label>
                   <button
                     type="button"
                     onClick={() => setShowCoinSelector(!showCoinSelector)}
@@ -543,9 +471,7 @@ export function TraderConfigModal({
                 <input
                   type="text"
                   value={formData.trading_symbols}
-                  onChange={(e) =>
-                    handleInputChange('trading_symbols', e.target.value)
-                  }
+                  onChange={(e) => handleInputChange('trading_symbols', e.target.value)}
                   className="w-full px-3 py-2 bg-[#0B0E11] border border-[#2B3139] rounded text-[#EAECEF] focus:border-[#F0B90B] focus:outline-none"
                   placeholder="例如: BTCUSDT,ETHUSDT,ADAUSDT"
                 />
@@ -553,9 +479,7 @@ export function TraderConfigModal({
                 {/* 币种选择器 */}
                 {showCoinSelector && (
                   <div className="mt-3 p-3 bg-[#0B0E11] border border-[#2B3139] rounded">
-                    <div className="text-xs text-[#848E9C] mb-2">
-                      点击选择币种：
-                    </div>
+                    <div className="text-xs text-[#848E9C] mb-2">点击选择币种：</div>
                     <div className="flex flex-wrap gap-2">
                       {availableCoins.map((coin) => (
                         <button
@@ -580,55 +504,39 @@ export function TraderConfigModal({
 
           {/* Signal Sources */}
           <div className="bg-[#0B0E11] border border-[#2B3139] rounded-lg p-5">
-            <h3 className="text-lg font-semibold text-[#EAECEF] mb-5 flex items-center gap-2">
-              📡 信号源配置
-            </h3>
+            <h3 className="text-lg font-semibold text-[#EAECEF] mb-5 flex items-center gap-2">📡 信号源配置</h3>
             <div className="grid grid-cols-2 gap-4">
               <div className="flex items-center gap-3">
                 <input
                   type="checkbox"
                   checked={formData.use_coin_pool}
-                  onChange={(e) =>
-                    handleInputChange('use_coin_pool', e.target.checked)
-                  }
+                  onChange={(e) => handleInputChange('use_coin_pool', e.target.checked)}
                   className="w-4 h-4"
                 />
-                <label className="text-sm text-[#EAECEF]">
-                  使用 Coin Pool 信号
-                </label>
+                <label className="text-sm text-[#EAECEF]">使用 Coin Pool 信号</label>
               </div>
               <div className="flex items-center gap-3">
                 <input
                   type="checkbox"
                   checked={formData.use_oi_top}
-                  onChange={(e) =>
-                    handleInputChange('use_oi_top', e.target.checked)
-                  }
+                  onChange={(e) => handleInputChange('use_oi_top', e.target.checked)}
                   className="w-4 h-4"
                 />
-                <label className="text-sm text-[#EAECEF]">
-                  使用 OI Top 信号
-                </label>
+                <label className="text-sm text-[#EAECEF]">使用 OI Top 信号</label>
               </div>
             </div>
           </div>
 
           {/* Trading Prompt */}
           <div className="bg-[#0B0E11] border border-[#2B3139] rounded-lg p-5">
-            <h3 className="text-lg font-semibold text-[#EAECEF] mb-5 flex items-center gap-2">
-              💬 交易策略提示词
-            </h3>
+            <h3 className="text-lg font-semibold text-[#EAECEF] mb-5 flex items-center gap-2">💬 交易策略提示词</h3>
             <div className="space-y-4">
               {/* 系统提示词模板选择 */}
               <div>
-                <label className="text-sm text-[#EAECEF] block mb-2">
-                  {t('systemPromptTemplate', language)}
-                </label>
+                <label className="text-sm text-[#EAECEF] block mb-2">{t('systemPromptTemplate', language)}</label>
                 <select
                   value={formData.system_prompt_template}
-                  onChange={(e) =>
-                    handleInputChange('system_prompt_template', e.target.value)
-                  }
+                  onChange={(e) => handleInputChange('system_prompt_template', e.target.value)}
                   className="w-full px-3 py-2 bg-[#0B0E11] border border-[#2B3139] rounded text-[#EAECEF] focus:border-[#F0B90B] focus:outline-none"
                 >
                   {promptTemplates.map((template) => {
@@ -643,9 +551,7 @@ export function TraderConfigModal({
                         taro_long_prompts: 'promptTemplateTaroLong',
                       }
                       const key = keyMap[name]
-                      return key
-                        ? t(key, language)
-                        : name.charAt(0).toUpperCase() + name.slice(1)
+                      return key ? t(key, language) : name.charAt(0).toUpperCase() + name.slice(1)
                     }
 
                     return (
@@ -664,10 +570,7 @@ export function TraderConfigModal({
                     border: '1px solid rgba(240, 185, 11, 0.15)',
                   }}
                 >
-                  <div
-                    className="text-xs font-semibold mb-1"
-                    style={{ color: '#F0B90B' }}
-                  >
+                  <div className="text-xs font-semibold mb-1" style={{ color: '#F0B90B' }}>
                     {(() => {
                       const titleKeyMap: Record<string, string> = {
                         default: 'promptDescDefault',
@@ -678,9 +581,7 @@ export function TraderConfigModal({
                         taro_long_prompts: 'promptDescTaroLong',
                       }
                       const key = titleKeyMap[formData.system_prompt_template]
-                      return key
-                        ? t(key, language)
-                        : t('promptDescDefault', language)
+                      return key ? t(key, language) : t('promptDescDefault', language)
                     })()}
                   </div>
                   <div className="text-xs" style={{ color: '#848E9C' }}>
@@ -694,24 +595,18 @@ export function TraderConfigModal({
                         taro_long_prompts: 'promptDescTaroLongContent',
                       }
                       const key = contentKeyMap[formData.system_prompt_template]
-                      return key
-                        ? t(key, language)
-                        : t('promptDescDefaultContent', language)
+                      return key ? t(key, language) : t('promptDescDefaultContent', language)
                     })()}
                   </div>
                 </div>
-                <p className="text-xs text-[#848E9C] mt-1">
-                  选择预设的交易策略模板（包含交易哲学、风控原则等）
-                </p>
+                <p className="text-xs text-[#848E9C] mt-1">选择预设的交易策略模板（包含交易哲学、风控原则等）</p>
               </div>
 
               <div className="flex items-center gap-3">
                 <input
                   type="checkbox"
                   checked={formData.override_base_prompt}
-                  onChange={(e) =>
-                    handleInputChange('override_base_prompt', e.target.checked)
-                  }
+                  onChange={(e) => handleInputChange('override_base_prompt', e.target.checked)}
                   className="w-4 h-4"
                 />
                 <label className="text-sm text-[#EAECEF]">覆盖默认提示词</label>
@@ -735,20 +630,14 @@ export function TraderConfigModal({
               </div>
               <div>
                 <label className="text-sm text-[#EAECEF] block mb-2">
-                  {formData.override_base_prompt
-                    ? '自定义提示词'
-                    : '附加提示词'}
+                  {formData.override_base_prompt ? '自定义提示词' : '附加提示词'}
                 </label>
                 <textarea
                   value={formData.custom_prompt}
-                  onChange={(e) =>
-                    handleInputChange('custom_prompt', e.target.value)
-                  }
+                  onChange={(e) => handleInputChange('custom_prompt', e.target.value)}
                   className="w-full px-3 py-2 bg-[#0B0E11] border border-[#2B3139] rounded text-[#EAECEF] focus:border-[#F0B90B] focus:outline-none h-24 resize-none"
                   placeholder={
-                    formData.override_base_prompt
-                      ? '输入完整的交易策略提示词...'
-                      : '输入额外的交易策略提示...'
+                    formData.override_base_prompt ? '输入完整的交易策略提示词...' : '输入额外的交易策略提示...'
                   }
                 />
               </div>
@@ -767,12 +656,7 @@ export function TraderConfigModal({
           {onSave && (
             <button
               onClick={handleSave}
-              disabled={
-                isSaving ||
-                !formData.trader_name ||
-                !formData.ai_model ||
-                !formData.exchange_id
-              }
+              disabled={isSaving || !formData.trader_name || !formData.ai_model || !formData.exchange_id}
               className="px-8 py-3 bg-gradient-to-r from-[#F0B90B] to-[#E1A706] text-black rounded-lg hover:from-[#E1A706] hover:to-[#D4951E] transition-all duration-200 disabled:bg-[#848E9C] disabled:cursor-not-allowed font-medium shadow-lg"
             >
               {isSaving ? '保存中...' : isEditMode ? '保存修改' : '创建交易员'}

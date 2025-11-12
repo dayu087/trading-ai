@@ -29,10 +29,7 @@ export default function FooterSection({ language }: FooterSectionProps) {
         {/* Multi-link columns */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-8">
           <div>
-            <h3
-              className="text-sm font-semibold mb-3"
-              style={{ color: '#EAECEF' }}
-            >
+            <h3 className="text-sm font-semibold mb-3" style={{ color: '#EAECEF' }}>
               {t('links', language)}
             </h3>
             <ul className="space-y-2 text-sm" style={{ color: '#848E9C' }}>
@@ -70,10 +67,7 @@ export default function FooterSection({ language }: FooterSectionProps) {
           </div>
 
           <div>
-            <h3
-              className="text-sm font-semibold mb-3"
-              style={{ color: '#EAECEF' }}
-            >
+            <h3 className="text-sm font-semibold mb-3" style={{ color: '#EAECEF' }}>
               {t('resources', language)}
             </h3>
             <ul className="space-y-2 text-sm" style={{ color: '#848E9C' }}>
@@ -111,10 +105,7 @@ export default function FooterSection({ language }: FooterSectionProps) {
           </div>
 
           <div>
-            <h3
-              className="text-sm font-semibold mb-3"
-              style={{ color: '#EAECEF' }}
-            >
+            <h3 className="text-sm font-semibold mb-3" style={{ color: '#EAECEF' }}>
               {t('supporters', language)}
             </h3>
             <ul className="space-y-2 text-sm" style={{ color: '#848E9C' }}>
@@ -149,16 +140,8 @@ export default function FooterSection({ language }: FooterSectionProps) {
                 </a>
               </li>
               <li>
-                <a
-                  className="hover:text-[#F0B90B]"
-                  href="https://amber.ac/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Amber.ac{' '}
-                  <span className="opacity-70">
-                    {t('strategicInvestment', language)}
-                  </span>
+                <a className="hover:text-[#F0B90B]" href="https://amber.ac/" target="_blank" rel="noopener noreferrer">
+                  Amber.ac <span className="opacity-70">{t('strategicInvestment', language)}</span>
                 </a>
               </li>
             </ul>

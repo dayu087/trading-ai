@@ -7,11 +7,7 @@ interface IconProps {
 }
 
 // Binance SVG 图标组件
-const BinanceIcon: React.FC<IconProps> = ({
-  width = 24,
-  height = 24,
-  className,
-}) => (
+const BinanceIcon: React.FC<IconProps> = ({ width = 24, height = 24, className }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={width}
@@ -27,11 +23,7 @@ const BinanceIcon: React.FC<IconProps> = ({
 )
 
 // Hyperliquid SVG 图标组件
-const HyperliquidIcon: React.FC<IconProps> = ({
-  width = 24,
-  height = 24,
-  className,
-}) => (
+const HyperliquidIcon: React.FC<IconProps> = ({ width = 24, height = 24, className }) => (
   <svg
     width={width}
     height={height}
@@ -48,11 +40,7 @@ const HyperliquidIcon: React.FC<IconProps> = ({
 )
 
 // Aster SVG 图标组件
-const AsterIcon: React.FC<IconProps> = ({
-  width = 24,
-  height = 24,
-  className,
-}) => (
+const AsterIcon: React.FC<IconProps> = ({ width = 24, height = 24, className }) => (
   <svg
     width={width}
     height={height}
@@ -126,10 +114,7 @@ const AsterIcon: React.FC<IconProps> = ({
 )
 
 // 获取交易所图标的函数
-export const getExchangeIcon = (
-  exchangeType: string,
-  props: IconProps = {}
-) => {
+export const getExchangeIcon = (exchangeType: string, props: IconProps = {}) => {
   // 支持完整ID或类型名
   const type = exchangeType.toLowerCase().includes('binance')
     ? 'binance'

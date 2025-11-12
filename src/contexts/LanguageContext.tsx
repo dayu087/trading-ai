@@ -6,9 +6,7 @@ interface LanguageContextType {
   setLanguage: (lang: Language) => void
 }
 
-const LanguageContext = createContext<LanguageContextType | undefined>(
-  undefined
-)
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   // Initialize language from localStorage or default to English
@@ -24,11 +22,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <LanguageContext.Provider
-      value={{ language, setLanguage: handleSetLanguage }}
-    >
-      {children}
-    </LanguageContext.Provider>
+    <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage }}>{children}</LanguageContext.Provider>
   )
 }
 

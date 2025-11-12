@@ -6,17 +6,10 @@ interface FAQSearchBarProps {
   placeholder?: string
 }
 
-export function FAQSearchBar({
-  searchTerm,
-  onSearchChange,
-  placeholder = 'Search FAQ...',
-}: FAQSearchBarProps) {
+export function FAQSearchBar({ searchTerm, onSearchChange, placeholder = 'Search FAQ...' }: FAQSearchBarProps) {
   return (
     <div className="relative">
-      <Search
-        className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5"
-        style={{ color: '#848E9C' }}
-      />
+      <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5" style={{ color: '#848E9C' }} />
       <input
         type="text"
         value={searchTerm}

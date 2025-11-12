@@ -30,10 +30,7 @@ export function Header({ simple = false }: HeaderProps) {
           </div>
 
           {/* Right - Language Toggle (always show) */}
-          <div
-            className="flex gap-1 rounded p-1"
-            style={{ background: '#1E2329' }}
-          >
+          <div className="flex gap-1 rounded p-1" style={{ background: '#1E2329' }}>
             <button
               onClick={() => setLanguage('zh')}
               className="px-3 py-1.5 rounded text-xs font-semibold transition-all"

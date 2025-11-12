@@ -11,9 +11,7 @@ import PasswordChecklist from 'react-password-checklist'
 export function RegisterPage() {
   const { language } = useLanguage()
   const { register, completeRegistration } = useAuth()
-  const [step, setStep] = useState<'register' | 'setup-otp' | 'verify-otp'>(
-    'register'
-  )
+  const [step, setStep] = useState<'register' | 'setup-otp' | 'verify-otp'>('register')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -111,19 +109,12 @@ export function RegisterPage() {
         }}
       />
 
-      <div
-        className="flex items-center justify-center pt-20"
-        style={{ minHeight: 'calc(100vh - 80px)' }}
-      >
+      <div className="flex items-center justify-center pt-20" style={{ minHeight: 'calc(100vh - 80px)' }}>
         <div className="w-full max-w-md">
           {/* Logo */}
           <div className="text-center mb-8">
             <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-              <img
-                src="/icons/nofx.svg"
-                alt="NoFx Logo"
-                className="w-16 h-16 object-contain"
-              />
+              <img src="/icons/nofx.svg" alt="NoFx Logo" className="w-16 h-16 object-contain" />
             </div>
             <h1 className="text-2xl font-bold" style={{ color: '#EAECEF' }}>
               {t('appTitle', language)}
@@ -146,10 +137,7 @@ export function RegisterPage() {
             {step === 'register' && (
               <form onSubmit={handleRegister} className="space-y-4">
                 <div>
-                  <label
-                    className="block text-sm font-semibold mb-2"
-                    style={{ color: 'var(--brand-light-gray)' }}
-                  >
+                  <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--brand-light-gray)' }}>
                     {t('email', language)}
                   </label>
                   <Input
@@ -162,10 +150,7 @@ export function RegisterPage() {
                 </div>
 
                 <div>
-                  <label
-                    className="block text-sm font-semibold mb-2"
-                    style={{ color: 'var(--brand-light-gray)' }}
-                  >
+                  <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--brand-light-gray)' }}>
                     {t('password', language)}
                   </label>
                   <div className="relative">
@@ -191,10 +176,7 @@ export function RegisterPage() {
                 </div>
 
                 <div>
-                  <label
-                    className="block text-sm font-semibold mb-2"
-                    style={{ color: 'var(--brand-light-gray)' }}
-                  >
+                  <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--brand-light-gray)' }}>
                     {t('confirmPassword', language)}
                   </label>
                   <div className="relative">
@@ -214,35 +196,18 @@ export function RegisterPage() {
                       className="absolute inset-y-0 right-2 w-8 h-10 flex items-center justify-center rounded bg-transparent p-0 m-0 border-0 outline-none focus:outline-none focus:ring-0 appearance-none cursor-pointer btn-icon"
                       style={{ color: 'var(--text-secondary)' }}
                     >
-                      {showConfirmPassword ? (
-                        <EyeOff size={18} />
-                      ) : (
-                        <Eye size={18} />
-                      )}
+                      {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                     </button>
                   </div>
                 </div>
 
                 {/* 密码规则清单（通过才允许提交） */}
-                <div
-                  className="mt-1 text-xs"
-                  style={{ color: 'var(--text-secondary)' }}
-                >
-                  <div
-                    className="mb-1"
-                    style={{ color: 'var(--brand-light-gray)' }}
-                  >
+                <div className="mt-1 text-xs" style={{ color: 'var(--text-secondary)' }}>
+                  <div className="mb-1" style={{ color: 'var(--brand-light-gray)' }}>
                     {t('passwordRequirements', language)}
                   </div>
                   <PasswordChecklist
-                    rules={[
-                      'minLength',
-                      'capital',
-                      'lowercase',
-                      'number',
-                      'specialChar',
-                      'match',
-                    ]}
+                    rules={['minLength', 'capital', 'lowercase', 'number', 'specialChar', 'match']}
                     minLength={8}
                     value={password}
                     valueAgain={confirmPassword}
@@ -261,22 +226,13 @@ export function RegisterPage() {
 
                 {betaMode && (
                   <div>
-                    <label
-                      className="block text-sm font-semibold mb-2"
-                      style={{ color: '#EAECEF' }}
-                    >
+                    <label className="block text-sm font-semibold mb-2" style={{ color: '#EAECEF' }}>
                       内测码 *
                     </label>
                     <input
                       type="text"
                       value={betaCode}
-                      onChange={(e) =>
-                        setBetaCode(
-                          e.target.value
-                            .replace(/[^a-z0-9]/gi, '')
-                            .toLowerCase()
-                        )
-                      }
+                      onChange={(e) => setBetaCode(e.target.value.replace(/[^a-z0-9]/gi, '').toLowerCase())}
                       className="w-full px-3 py-2 rounded font-mono"
                       style={{
                         background: '#0B0E11',
@@ -307,18 +263,14 @@ export function RegisterPage() {
 
                 <button
                   type="submit"
-                  disabled={
-                    loading || (betaMode && !betaCode.trim()) || !passwordValid
-                  }
+                  disabled={loading || (betaMode && !betaCode.trim()) || !passwordValid}
                   className="w-full px-4 py-2 rounded text-sm font-semibold transition-all hover:scale-105 disabled:opacity-50"
                   style={{
                     background: 'var(--brand-yellow)',
                     color: 'var(--brand-black)',
                   }}
                 >
-                  {loading
-                    ? t('loading', language)
-                    : t('registerButton', language)}
+                  {loading ? t('loading', language) : t('registerButton', language)}
                 </button>
               </form>
             )}
@@ -327,10 +279,7 @@ export function RegisterPage() {
               <div className="space-y-4">
                 <div className="text-center">
                   <div className="text-4xl mb-2">📱</div>
-                  <h3
-                    className="text-lg font-semibold mb-2"
-                    style={{ color: '#EAECEF' }}
-                  >
+                  <h3 className="text-lg font-semibold mb-2" style={{ color: '#EAECEF' }}>
                     {t('setupTwoFactor', language)}
                   </h3>
                   <p className="text-sm" style={{ color: '#848E9C' }}>
@@ -346,16 +295,10 @@ export function RegisterPage() {
                       border: '1px solid var(--panel-border)',
                     }}
                   >
-                    <p
-                      className="text-sm font-semibold mb-2"
-                      style={{ color: 'var(--brand-light-gray)' }}
-                    >
+                    <p className="text-sm font-semibold mb-2" style={{ color: 'var(--brand-light-gray)' }}>
                       {t('authStep1Title', language)}
                     </p>
-                    <p
-                      className="text-xs"
-                      style={{ color: 'var(--text-secondary)' }}
-                    >
+                    <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
                       {t('authStep1Desc', language)}
                     </p>
                   </div>
@@ -367,10 +310,7 @@ export function RegisterPage() {
                       border: '1px solid var(--panel-border)',
                     }}
                   >
-                    <p
-                      className="text-sm font-semibold mb-2"
-                      style={{ color: 'var(--brand-light-gray)' }}
-                    >
+                    <p className="text-sm font-semibold mb-2" style={{ color: 'var(--brand-light-gray)' }}>
                       {t('authStep2Title', language)}
                     </p>
                     <p className="text-xs mb-2" style={{ color: '#848E9C' }}>
@@ -379,10 +319,7 @@ export function RegisterPage() {
 
                     {qrCodeURL && (
                       <div className="mt-2">
-                        <p
-                          className="text-xs mb-2"
-                          style={{ color: '#848E9C' }}
-                        >
+                        <p className="text-xs mb-2" style={{ color: '#848E9C' }}>
                           {t('qrCodeHint', language)}
                         </p>
                         <div className="bg-white p-2 rounded text-center">
@@ -430,16 +367,10 @@ export function RegisterPage() {
                       border: '1px solid var(--panel-border)',
                     }}
                   >
-                    <p
-                      className="text-sm font-semibold mb-2"
-                      style={{ color: 'var(--brand-light-gray)' }}
-                    >
+                    <p className="text-sm font-semibold mb-2" style={{ color: 'var(--brand-light-gray)' }}>
                       {t('authStep3Title', language)}
                     </p>
-                    <p
-                      className="text-xs"
-                      style={{ color: 'var(--text-secondary)' }}
-                    >
+                    <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
                       {t('authStep3Desc', language)}
                     </p>
                   </div>
@@ -467,18 +398,13 @@ export function RegisterPage() {
                 </div>
 
                 <div>
-                  <label
-                    className="block text-sm font-semibold mb-2"
-                    style={{ color: 'var(--brand-light-gray)' }}
-                  >
+                  <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--brand-light-gray)' }}>
                     {t('otpCode', language)}
                   </label>
                   <input
                     type="text"
                     value={otpCode}
-                    onChange={(e) =>
-                      setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))
-                    }
+                    onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                     className="w-full px-3 py-2 rounded text-center text-2xl font-mono"
                     style={{
                       background: 'var(--brand-black)',
@@ -521,9 +447,7 @@ export function RegisterPage() {
                     className="flex-1 px-4 py-2 rounded text-sm font-semibold transition-all hover:scale-105 disabled:opacity-50"
                     style={{ background: '#F0B90B', color: '#000' }}
                   >
-                    {loading
-                      ? t('loading', language)
-                      : t('completeRegistration', language)}
+                    {loading ? t('loading', language) : t('completeRegistration', language)}
                   </button>
                 </div>
               </form>

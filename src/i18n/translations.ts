@@ -152,8 +152,7 @@ export const translations = {
     goToTradersPage: 'Go to Traders Page',
     configureModelsFirst: 'Please configure AI models first',
     configureExchangesFirst: 'Please configure exchanges first',
-    configureModelsAndExchangesFirst:
-      'Please configure AI models and exchanges first',
+    configureModelsAndExchangesFirst: 'Please configure AI models and exchanges first',
     modelNotConfigured: 'Selected model is not configured',
     exchangeNotConfigured: 'Selected exchange is not configured',
     confirmDeleteTrader: 'Are you sure you want to delete this trader?',
@@ -198,14 +197,11 @@ export const translations = {
     enterSigner: 'Enter Signer Address',
     enterSecretKey: 'Enter Secret Key',
     enterPassphrase: 'Enter Passphrase (Required for OKX)',
-    hyperliquidPrivateKeyDesc:
-      'Hyperliquid uses private key for trading authentication',
-    hyperliquidWalletAddressDesc:
-      'Wallet address corresponding to the private key',
+    hyperliquidPrivateKeyDesc: 'Hyperliquid uses private key for trading authentication',
+    hyperliquidWalletAddressDesc: 'Wallet address corresponding to the private key',
     asterUserDesc:
       'Main wallet address - The EVM wallet address you use to log in to Aster (Note: Only EVM wallets are supported, Solana wallets are not supported)',
-    asterSignerDesc:
-      'API wallet address - Generate from https://www.asterdex.com/en/api-wallet',
+    asterSignerDesc: 'API wallet address - Generate from https://www.asterdex.com/en/api-wallet',
     asterPrivateKeyDesc:
       'API wallet private key - Get from https://www.asterdex.com/en/api-wallet (only used locally for signing, never transmitted)',
     asterUsdtWarning:
@@ -219,37 +215,28 @@ export const translations = {
     secureInputButton: 'Secure Input',
     secureInputReenter: 'Re-enter Securely',
     secureInputClear: 'Clear',
-    secureInputHint:
-      'Captured via secure two-step input. Use "Re-enter Securely" to update this value.',
+    secureInputHint: 'Captured via secure two-step input. Use "Re-enter Securely" to update this value.',
 
     // Two Stage Key Modal
     twoStageModalTitle: 'Secure Key Input',
-    twoStageModalDescription:
-      'Use a two-step flow to enter your {length}-character private key safely.',
+    twoStageModalDescription: 'Use a two-step flow to enter your {length}-character private key safely.',
     twoStageStage1Title: 'Step 1 · Enter the first half',
     twoStageStage1Placeholder: 'First 32 characters (include 0x if present)',
-    twoStageStage1Hint:
-      'Continuing copies an obfuscation string to your clipboard as a diversion.',
+    twoStageStage1Hint: 'Continuing copies an obfuscation string to your clipboard as a diversion.',
     twoStageStage1Error: 'Please enter the first part before continuing.',
     twoStageNext: 'Next',
     twoStageProcessing: 'Processing…',
     twoStageCancel: 'Cancel',
     twoStageStage2Title: 'Step 2 · Enter the rest',
     twoStageStage2Placeholder: 'Remaining characters of your private key',
-    twoStageStage2Hint:
-      'Paste the obfuscation string somewhere neutral, then finish entering your key.',
-    twoStageClipboardSuccess:
-      'Obfuscation string copied. Paste it into any text field once before completing.',
-    twoStageClipboardReminder:
-      'Remember to paste the obfuscation string before submitting to avoid clipboard leaks.',
-    twoStageClipboardManual:
-      'Automatic copy failed. Copy the obfuscation string below manually.',
+    twoStageStage2Hint: 'Paste the obfuscation string somewhere neutral, then finish entering your key.',
+    twoStageClipboardSuccess: 'Obfuscation string copied. Paste it into any text field once before completing.',
+    twoStageClipboardReminder: 'Remember to paste the obfuscation string before submitting to avoid clipboard leaks.',
+    twoStageClipboardManual: 'Automatic copy failed. Copy the obfuscation string below manually.',
     twoStageBack: 'Back',
     twoStageSubmit: 'Confirm',
-    twoStageInvalidFormat:
-      'Invalid private key format. Expected {length} hexadecimal characters (optional 0x prefix).',
-    testnetDescription:
-      'Enable to connect to exchange test environment for simulated trading',
+    twoStageInvalidFormat: 'Invalid private key format. Expected {length} hexadecimal characters (optional 0x prefix).',
+    testnetDescription: 'Enable to connect to exchange test environment for simulated trading',
     securityWarning: 'Security Warning',
     saveConfiguration: 'Save Configuration',
 
@@ -257,25 +244,20 @@ export const translations = {
     positionMode: 'Position Mode',
     crossMarginMode: 'Cross Margin',
     isolatedMarginMode: 'Isolated Margin',
-    crossMarginDescription:
-      'Cross margin: All positions share account balance as collateral',
-    isolatedMarginDescription:
-      'Isolated margin: Each position manages collateral independently, risk isolation',
+    crossMarginDescription: 'Cross margin: All positions share account balance as collateral',
+    isolatedMarginDescription: 'Isolated margin: Each position manages collateral independently, risk isolation',
     leverageConfiguration: 'Leverage Configuration',
     btcEthLeverage: 'BTC/ETH Leverage',
     altcoinLeverage: 'Altcoin Leverage',
-    leverageRecommendation:
-      'Recommended: BTC/ETH 5-10x, Altcoins 3-5x for risk control',
+    leverageRecommendation: 'Recommended: BTC/ETH 5-10x, Altcoins 3-5x for risk control',
     tradingSymbols: 'Trading Symbols',
-    tradingSymbolsPlaceholder:
-      'Enter symbols, comma separated (e.g., BTCUSDT,ETHUSDT,SOLUSDT)',
+    tradingSymbolsPlaceholder: 'Enter symbols, comma separated (e.g., BTCUSDT,ETHUSDT,SOLUSDT)',
     selectSymbols: 'Select Symbols',
     selectTradingSymbols: 'Select Trading Symbols',
     selectedSymbolsCount: 'Selected {count} symbols',
     clearSelection: 'Clear All',
     confirmSelection: 'Confirm',
-    tradingSymbolsDescription:
-      'Empty = use default symbols. Must end with USDT (e.g., BTCUSDT, ETHUSDT)',
+    tradingSymbolsDescription: 'Empty = use default symbols. Must end with USDT (e.g., BTCUSDT, ETHUSDT)',
     btcEthLeverageValidation: 'BTC/ETH leverage must be between 1-50x',
     altcoinLeverageValidation: 'Altcoin leverage must be between 1-20x',
     invalidSymbolFormat: 'Invalid symbol format: {symbol}, must end with USDT',
@@ -298,11 +280,9 @@ export const translations = {
     promptDescAdaptiveRelaxedContent:
       'High-frequency trading, BTC optional confirmation, pursue trading opportunities, suitable for volatile markets',
     promptDescHansen: '🎯 Hansen Strategy',
-    promptDescHansenContent:
-      'Hansen custom strategy, maximize Sharpe ratio, for professional traders',
+    promptDescHansenContent: 'Hansen custom strategy, maximize Sharpe ratio, for professional traders',
     promptDescNof1: '🌐 NoF1 English Framework',
-    promptDescNof1Content:
-      'Hyperliquid exchange specialist, English prompts, maximize risk-adjusted returns',
+    promptDescNof1Content: 'Hyperliquid exchange specialist, English prompts, maximize risk-adjusted returns',
     promptDescTaroLong: '📈 Taro Long Position Strategy',
     promptDescTaroLongContent:
       'Data-driven decisions, multi-dimensional validation, continuous learning evolution, long position specialist',
@@ -310,8 +290,7 @@ export const translations = {
     // Loading & Error
     loading: 'Loading...',
     loadingError: '⚠️ Failed to load AI learning data',
-    noCompleteData:
-      'No complete trading data (needs to complete open → close cycle)',
+    noCompleteData: 'No complete trading data (needs to complete open → close cycle)',
 
     // AI Traders Page - Additional
     inUse: 'In Use',
@@ -319,51 +298,35 @@ export const translations = {
     noExchangesConfigured: 'No configured exchanges',
     signalSource: 'Signal Source',
     signalSourceConfig: 'Signal Source Configuration',
-    coinPoolDescription:
-      'API endpoint for coin pool data, leave blank to disable this signal source',
-    oiTopDescription:
-      'API endpoint for open interest rankings, leave blank to disable this signal source',
+    coinPoolDescription: 'API endpoint for coin pool data, leave blank to disable this signal source',
+    oiTopDescription: 'API endpoint for open interest rankings, leave blank to disable this signal source',
     information: 'Information',
-    signalSourceInfo1:
-      '• Signal source configuration is per-user, each user can set their own URLs',
-    signalSourceInfo2:
-      '• When creating traders, you can choose whether to use these signal sources',
-    signalSourceInfo3:
-      '• Configured URLs will be used to fetch market data and trading signals',
+    signalSourceInfo1: '• Signal source configuration is per-user, each user can set their own URLs',
+    signalSourceInfo2: '• When creating traders, you can choose whether to use these signal sources',
+    signalSourceInfo3: '• Configured URLs will be used to fetch market data and trading signals',
     editAIModel: 'Edit AI Model',
     addAIModel: 'Add AI Model',
-    confirmDeleteModel:
-      'Are you sure you want to delete this AI model configuration?',
-    cannotDeleteModelInUse:
-      'Cannot delete this AI model because it is being used by traders',
+    confirmDeleteModel: 'Are you sure you want to delete this AI model configuration?',
+    cannotDeleteModelInUse: 'Cannot delete this AI model because it is being used by traders',
     tradersUsing: 'Traders using this configuration',
-    pleaseDeleteTradersFirst:
-      'Please delete or reconfigure these traders first',
+    pleaseDeleteTradersFirst: 'Please delete or reconfigure these traders first',
     selectModel: 'Select AI Model',
     pleaseSelectModel: 'Please select a model',
     customBaseURL: 'Base URL (Optional)',
-    customBaseURLPlaceholder:
-      'Custom API base URL, e.g.: https://api.openai.com/v1',
+    customBaseURLPlaceholder: 'Custom API base URL, e.g.: https://api.openai.com/v1',
     leaveBlankForDefault: 'Leave blank to use default API address',
-    modelConfigInfo1:
-      '• API Key will be encrypted and stored, please ensure it is valid',
+    modelConfigInfo1: '• API Key will be encrypted and stored, please ensure it is valid',
     modelConfigInfo2: '• Base URL is used for custom API server address',
-    modelConfigInfo3:
-      '• After deleting configuration, traders using this model will not work properly',
+    modelConfigInfo3: '• After deleting configuration, traders using this model will not work properly',
     saveConfig: 'Save Configuration',
     editExchange: 'Edit Exchange',
     addExchange: 'Add Exchange',
-    confirmDeleteExchange:
-      'Are you sure you want to delete this exchange configuration?',
-    cannotDeleteExchangeInUse:
-      'Cannot delete this exchange because it is being used by traders',
+    confirmDeleteExchange: 'Are you sure you want to delete this exchange configuration?',
+    cannotDeleteExchangeInUse: 'Cannot delete this exchange because it is being used by traders',
     pleaseSelectExchange: 'Please select an exchange',
-    exchangeConfigWarning1:
-      '• API keys will be encrypted, recommend using read-only or futures trading permissions',
-    exchangeConfigWarning2:
-      '• Do not grant withdrawal permissions to ensure fund security',
-    exchangeConfigWarning3:
-      '• After deleting configuration, related traders will not be able to trade',
+    exchangeConfigWarning1: '• API keys will be encrypted, recommend using read-only or futures trading permissions',
+    exchangeConfigWarning2: '• Do not grant withdrawal permissions to ensure fund security',
+    exchangeConfigWarning3: '• After deleting configuration, related traders will not be able to trade',
     edit: 'Edit',
     viewGuide: 'View Guide',
     binanceSetupGuide: 'Binance Setup Guide',
@@ -379,8 +342,7 @@ export const translations = {
     createTraderFailed: 'Failed to create trader',
     getTraderConfigFailed: 'Failed to get trader configuration',
     modelConfigNotExist: 'Model configuration does not exist or is not enabled',
-    exchangeConfigNotExist:
-      'Exchange configuration does not exist or is not enabled',
+    exchangeConfigNotExist: 'Exchange configuration does not exist or is not enabled',
     updateTraderFailed: 'Failed to update trader',
     deleteTraderFailed: 'Failed to delete trader',
     operationFailed: 'Operation failed',
@@ -410,8 +372,7 @@ export const translations = {
     passwordRuleNumber: 'At least 1 number',
     passwordRuleSpecial: 'At least 1 special character (@#$%!&*?)',
     passwordRuleMatch: 'Passwords match',
-    passwordNotMeetRequirements:
-      'Password does not meet the security requirements',
+    passwordNotMeetRequirements: 'Password does not meet the security requirements',
     otpPlaceholder: '000000',
     loginTitle: 'Sign in to your account',
     registerTitle: 'Create a new account',
@@ -430,23 +391,19 @@ export const translations = {
     newPassword: 'New Password',
     newPasswordPlaceholder: 'Enter new password (at least 6 characters)',
     resetPasswordButton: 'Reset Password',
-    resetPasswordSuccess:
-      'Password reset successful! Please login with your new password',
+    resetPasswordSuccess: 'Password reset successful! Please login with your new password',
     resetPasswordFailed: 'Password reset failed',
     backToLogin: 'Back to Login',
     scanQRCode: 'Scan QR Code',
     enterOTPCode: 'Enter 6-digit OTP code',
     verifyOTP: 'Verify OTP',
     setupTwoFactor: 'Set up two-factor authentication',
-    setupTwoFactorDesc:
-      'Follow the steps below to secure your account with Google Authenticator',
-    scanQRCodeInstructions:
-      'Scan this QR code with Google Authenticator or Authy',
+    setupTwoFactorDesc: 'Follow the steps below to secure your account with Google Authenticator',
+    scanQRCodeInstructions: 'Scan this QR code with Google Authenticator or Authy',
     otpSecret: 'Or enter this secret manually:',
     qrCodeHint: 'QR code (if scanning fails, use the secret below):',
     authStep1Title: 'Step 1: Install Google Authenticator',
-    authStep1Desc:
-      'Download and install Google Authenticator from your app store',
+    authStep1Desc: 'Download and install Google Authenticator from your app store',
     authStep2Title: 'Step 2: Add account',
     authStep2Desc: 'Tap "+", then choose "Scan QR code" or "Enter a setup key"',
     authStep3Title: 'Step 3: Verify setup',
@@ -465,8 +422,7 @@ export const translations = {
     medium: 'Medium',
     strong: 'Strong',
     passwordStrength: 'Password strength',
-    passwordStrengthHint:
-      'Use at least 8 characters with mix of letters, numbers and symbols',
+    passwordStrengthHint: 'Use at least 8 characters with mix of letters, numbers and symbols',
     passwordMismatch: 'Passwords do not match',
     emailRequired: 'Email is required',
     passwordRequired: 'Password is required',
@@ -489,24 +445,20 @@ export const translations = {
     heroTitle2: 'Write the Trade.',
     heroDescription:
       'NOFX is the future standard for AI trading — an open, community-driven agentic trading OS. Supporting Binance, Aster DEX and other exchanges, self-hosted, multi-agent competition, let AI automatically make decisions, execute and optimize trades for you.',
-    poweredBy:
-      'Powered by Aster DEX and Binance, strategically invested by Amber.ac.',
+    poweredBy: 'Powered by Aster DEX and Binance, strategically invested by Amber.ac.',
 
     // Landing Page CTA
     readyToDefine: 'Ready to define the future of AI trading?',
-    startWithCrypto:
-      'Starting with crypto markets, expanding to TradFi. NOFX is the infrastructure of AgentFi.',
+    startWithCrypto: 'Starting with crypto markets, expanding to TradFi. NOFX is the infrastructure of AgentFi.',
     getStartedNow: 'Get Started Now',
     viewSourceCode: 'View Source Code',
 
     // Features Section
     coreFeatures: 'Core Features',
     whyChooseNofx: 'Why Choose NOFX?',
-    openCommunityDriven:
-      'Open source, transparent, community-driven AI trading OS',
+    openCommunityDriven: 'Open source, transparent, community-driven AI trading OS',
     openSourceSelfHosted: '100% Open Source & Self-Hosted',
-    openSourceDesc:
-      'Your framework, your rules. Non-black box, supports custom prompts and multi-models.',
+    openSourceDesc: 'Your framework, your rules. Non-black box, supports custom prompts and multi-models.',
     openSourceFeatures1: 'Fully open source code',
     openSourceFeatures2: 'Self-hosting deployment support',
     openSourceFeatures3: 'Custom AI prompts',
@@ -519,8 +471,7 @@ export const translations = {
     multiAgentFeatures3: 'Sandbox security testing',
     multiAgentFeatures4: 'Cross-market strategy porting',
     secureReliableTrading: 'Secure and Reliable Trading',
-    secureDesc:
-      'Enterprise-grade security, complete control over your funds and trading strategies.',
+    secureDesc: 'Enterprise-grade security, complete control over your funds and trading strategies.',
     secureFeatures1: 'Local private key management',
     secureFeatures2: 'Fine-grained API permission control',
     secureFeatures3: 'Real-time risk monitoring',
@@ -529,18 +480,13 @@ export const translations = {
     // About Section
     aboutNofx: 'About NOFX',
     whatIsNofx: 'What is NOFX?',
-    nofxNotAnotherBot:
-      "NOFX is not another trading bot, but the 'Linux' of AI trading —",
-    nofxDescription1:
-      'a transparent, trustworthy open source OS that provides a unified',
-    nofxDescription2:
-      "'decision-risk-execution' layer, supporting all asset classes.",
+    nofxNotAnotherBot: "NOFX is not another trading bot, but the 'Linux' of AI trading —",
+    nofxDescription1: 'a transparent, trustworthy open source OS that provides a unified',
+    nofxDescription2: "'decision-risk-execution' layer, supporting all asset classes.",
     nofxDescription3:
       'Starting with crypto markets (24/7, high volatility perfect testing ground), future expansion to stocks, futures, forex. Core: open architecture, AI',
-    nofxDescription4:
-      'Darwinism (multi-agent self-competition, strategy evolution), CodeFi',
-    nofxDescription5:
-      'flywheel (developers get point rewards for PR contributions).',
+    nofxDescription4: 'Darwinism (multi-agent self-competition, strategy evolution), CodeFi',
+    nofxDescription5: 'flywheel (developers get point rewards for PR contributions).',
     youFullControl: 'You 100% Control',
     fullControlDesc: 'Complete control over AI prompts and funds',
     startupMessages1: 'Starting automated trading system...',
@@ -549,20 +495,16 @@ export const translations = {
 
     // How It Works Section
     howToStart: 'How to Get Started with NOFX',
-    fourSimpleSteps:
-      'Four simple steps to start your AI automated trading journey',
+    fourSimpleSteps: 'Four simple steps to start your AI automated trading journey',
     step1Title: 'Clone GitHub Repository',
-    step1Desc:
-      'git clone https://github.com/tinkle-community/nofx and switch to dev branch to test new features.',
+    step1Desc: 'git clone https://github.com/tinkle-community/nofx and switch to dev branch to test new features.',
     step2Title: 'Configure Environment',
-    step2Desc:
-      'Frontend setup for exchange APIs (like Binance, Hyperliquid), AI models and custom prompts.',
+    step2Desc: 'Frontend setup for exchange APIs (like Binance, Hyperliquid), AI models and custom prompts.',
     step3Title: 'Deploy & Run',
     step3Desc:
       'One-click Docker deployment, start AI agents. Note: High-risk market, only test with money you can afford to lose.',
     step4Title: 'Optimize & Contribute',
-    step4Desc:
-      'Monitor trading, submit PRs to improve framework. Join Telegram to share strategies.',
+    step4Desc: 'Monitor trading, submit PRs to improve framework. Join Telegram to share strategies.',
     importantRiskWarning: 'Important Risk Warning',
     riskWarningText:
       'Dev branch is unstable, do not use funds you cannot afford to lose. NOFX is non-custodial, no official strategies. Trading involves risks, invest carefully.',
@@ -579,24 +521,20 @@ export const translations = {
 
     // Login Modal
     accessNofxPlatform: 'Access NOFX Platform',
-    loginRegisterPrompt:
-      'Please login or register to access the full AI trading platform',
+    loginRegisterPrompt: 'Please login or register to access the full AI trading platform',
     registerNewAccount: 'Register New Account',
 
     // Candidate Coins Warnings
     candidateCoins: 'Candidate Coins',
     candidateCoinsZeroWarning: 'Candidate Coins Count is 0',
     possibleReasons: 'Possible Reasons:',
-    coinPoolApiNotConfigured:
-      'Coin pool API not configured or inaccessible (check signal source settings)',
+    coinPoolApiNotConfigured: 'Coin pool API not configured or inaccessible (check signal source settings)',
     apiConnectionTimeout: 'API connection timeout or returned empty data',
-    noCustomCoinsAndApiFailed:
-      'No custom coins configured and API fetch failed',
+    noCustomCoinsAndApiFailed: 'No custom coins configured and API fetch failed',
     solutions: 'Solutions:',
     setCustomCoinsInConfig: 'Set custom coin list in trader configuration',
     orConfigureCorrectApiUrl: 'Or configure correct coin pool API address',
-    orDisableCoinPoolOptions:
-      'Or disable "Use Coin Pool" and "Use OI Top" options',
+    orDisableCoinPoolOptions: 'Or disable "Use Coin Pool" and "Use OI Top" options',
     signalSourceNotConfigured: 'Signal Source Not Configured',
     signalSourceWarningMessage:
       'You have traders that enabled "Use Coin Pool" or "Use OI Top", but signal source API address is not configured yet. This will cause candidate coins count to be 0, and traders cannot work properly.',
@@ -686,8 +624,7 @@ export const translations = {
       'Yes! You can adjust leverage settings, modify coin selection pool, change decision intervals, and customize system prompts (advanced).',
 
     faqMaxPositions: "What's the maximum number of concurrent positions?",
-    faqMaxPositionsAnswer:
-      'Default: 3 positions. This is a soft limit defined in the AI prompt, not hard-coded.',
+    faqMaxPositionsAnswer: 'Default: 3 positions. This is a soft limit defined in the AI prompt, not hard-coded.',
 
     faqMarginInsufficient: 'Margin is insufficient error (code=-2019)',
     faqMarginInsufficientAnswer:
@@ -740,8 +677,7 @@ export const translations = {
       'Depends on your model and decision frequency: DeepSeek: ~$0.10-0.50 per day (1 trader, 5min intervals); Qwen: ~$0.20-0.80 per day; Custom API (e.g., OpenAI GPT-4): ~$2-5 per day. Estimates based on typical usage.',
 
     faqMultipleModels: 'Can I use multiple AI models?',
-    faqMultipleModelsAnswer:
-      'Yes! Each trader can use a different AI model. You can even A/B test different models.',
+    faqMultipleModelsAnswer: 'Yes! Each trader can use a different AI model. You can even A/B test different models.',
 
     faqAiLearning: 'Does the AI learn from its mistakes?',
     faqAiLearningAnswer:
@@ -769,16 +705,13 @@ export const translations = {
       'Yes! Trading data is in SQLite format. You can query it directly with: sqlite3 trading.db "SELECT * FROM trades;"',
 
     faqGetHelp: 'Where can I get help?',
-    faqGetHelpAnswer:
-      'Check GitHub Discussions, join our Telegram Community, or open an issue on GitHub.',
+    faqGetHelpAnswer: 'Check GitHub Discussions, join our Telegram Community, or open an issue on GitHub.',
 
     // Two-Stage Key Modal
     twoStageKey: {
       title: 'Two-Stage Private Key Input',
-      stage1Description:
-        'Enter the first {length} characters of your private key',
-      stage2Description:
-        'Enter the remaining {length} characters of your private key',
+      stage1Description: 'Enter the first {length} characters of your private key',
+      stage2Description: 'Enter the remaining {length} characters of your private key',
       stage1InputLabel: 'First Part',
       stage2InputLabel: 'Second Part',
       characters: 'characters',
@@ -788,16 +721,14 @@ export const translations = {
       backButton: 'Back',
       encryptButton: 'Encrypt & Submit',
       obfuscationCopied: 'Obfuscation data copied to clipboard',
-      obfuscationInstruction:
-        'Paste something else to clear clipboard, then continue',
+      obfuscationInstruction: 'Paste something else to clear clipboard, then continue',
       obfuscationManual: 'Manual obfuscation required',
     },
 
     // Error Messages
     errors: {
       privatekeyIncomplete: 'Please enter at least {expected} characters',
-      privatekeyInvalidFormat:
-        'Invalid private key format (should be 64 hex characters)',
+      privatekeyInvalidFormat: 'Invalid private key format (should be 64 hex characters)',
       privatekeyObfuscationFailed: 'Clipboard obfuscation failed',
     },
   },
@@ -947,8 +878,7 @@ export const translations = {
     noTraders: '暂无AI交易员',
     createFirstTrader: '创建您的第一个AI交易员开始使用',
     dashboardEmptyTitle: '暂无交易员',
-    dashboardEmptyDescription:
-      '您还未创建任何AI交易员，创建您的第一个交易员以开始自动化交易。',
+    dashboardEmptyDescription: '您还未创建任何AI交易员，创建您的第一个交易员以开始自动化交易。',
     goToTradersPage: '前往交易员页面',
     configureModelsFirst: '请先配置AI模型',
     configureExchangesFirst: '请先配置交易所',
@@ -999,10 +929,8 @@ export const translations = {
     enterPassphrase: '输入Passphrase (OKX必填)',
     hyperliquidPrivateKeyDesc: 'Hyperliquid 使用私钥进行交易认证',
     hyperliquidWalletAddressDesc: '与私钥对应的钱包地址',
-    asterUserDesc:
-      '主钱包地址 - 您用于登录 Aster 的 EVM 钱包地址（注意：仅支持 EVM 钱包，不支持 Solana 钱包）',
-    asterSignerDesc:
-      'API 钱包地址 - 从 https://www.asterdex.com/zh-CN/api-wallet 生成',
+    asterUserDesc: '主钱包地址 - 您用于登录 Aster 的 EVM 钱包地址（注意：仅支持 EVM 钱包，不支持 Solana 钱包）',
+    asterSignerDesc: 'API 钱包地址 - 从 https://www.asterdex.com/zh-CN/api-wallet 生成',
     asterPrivateKeyDesc:
       'API 钱包私钥 - 从 https://www.asterdex.com/zh-CN/api-wallet 获取（仅在本地用于签名，不会被传输）',
     asterUsdtWarning:
@@ -1016,16 +944,14 @@ export const translations = {
     secureInputButton: '安全输入',
     secureInputReenter: '重新安全输入',
     secureInputClear: '清除',
-    secureInputHint:
-      '已通过安全双阶段输入设置。若需修改，请点击"重新安全输入"。',
+    secureInputHint: '已通过安全双阶段输入设置。若需修改，请点击"重新安全输入"。',
 
     // Two Stage Key Modal
     twoStageModalTitle: '安全私钥输入',
     twoStageModalDescription: '使用双阶段流程安全输入长度为 {length} 的私钥。',
     twoStageStage1Title: '步骤一 · 输入前半段',
     twoStageStage1Placeholder: '前 32 位字符（若有 0x 前缀请保留）',
-    twoStageStage1Hint:
-      '继续后会将扰动字符串复制到剪贴板，用于迷惑剪贴板监控。',
+    twoStageStage1Hint: '继续后会将扰动字符串复制到剪贴板，用于迷惑剪贴板监控。',
     twoStageStage1Error: '请先输入第一段私钥。',
     twoStageNext: '下一步',
     twoStageProcessing: '处理中…',
@@ -1033,15 +959,12 @@ export const translations = {
     twoStageStage2Title: '步骤二 · 输入剩余部分',
     twoStageStage2Placeholder: '剩余的私钥字符',
     twoStageStage2Hint: '将扰动字符串粘贴到任意位置后，再完成私钥输入。',
-    twoStageClipboardSuccess:
-      '扰动字符串已复制。请在完成前在任意文本处粘贴一次以迷惑剪贴板记录。',
-    twoStageClipboardReminder:
-      '记得在提交前粘贴一次扰动字符串，降低剪贴板泄漏风险。',
+    twoStageClipboardSuccess: '扰动字符串已复制。请在完成前在任意文本处粘贴一次以迷惑剪贴板记录。',
+    twoStageClipboardReminder: '记得在提交前粘贴一次扰动字符串，降低剪贴板泄漏风险。',
     twoStageClipboardManual: '自动复制失败，请手动复制下面的扰动字符串。',
     twoStageBack: '返回',
     twoStageSubmit: '确认',
-    twoStageInvalidFormat:
-      '私钥格式不正确，应为 {length} 位十六进制字符（可选 0x 前缀）。',
+    twoStageInvalidFormat: '私钥格式不正确，应为 {length} 位十六进制字符（可选 0x 前缀）。',
     testnetDescription: '启用后将连接到交易所测试环境,用于模拟交易',
     securityWarning: '安全提示',
     saveConfiguration: '保存配置',
@@ -1057,15 +980,13 @@ export const translations = {
     altcoinLeverage: '山寨币杠杆',
     leverageRecommendation: '推荐：BTC/ETH 5-10倍，山寨币 3-5倍，控制风险',
     tradingSymbols: '交易币种',
-    tradingSymbolsPlaceholder:
-      '输入币种，逗号分隔（如：BTCUSDT,ETHUSDT,SOLUSDT）',
+    tradingSymbolsPlaceholder: '输入币种，逗号分隔（如：BTCUSDT,ETHUSDT,SOLUSDT）',
     selectSymbols: '选择币种',
     selectTradingSymbols: '选择交易币种',
     selectedSymbolsCount: '已选择 {count} 个币种',
     clearSelection: '清空选择',
     confirmSelection: '确认选择',
-    tradingSymbolsDescription:
-      '留空 = 使用默认币种。必须以USDT结尾（如：BTCUSDT, ETHUSDT）',
+    tradingSymbolsDescription: '留空 = 使用默认币种。必须以USDT结尾（如：BTCUSDT, ETHUSDT）',
     btcEthLeverageValidation: 'BTC/ETH杠杆必须在1-50倍之间',
     altcoinLeverageValidation: '山寨币杠杆必须在1-20倍之间',
     invalidSymbolFormat: '无效的币种格式：{symbol}，必须以USDT结尾',
@@ -1083,13 +1004,11 @@ export const translations = {
     promptDescAdaptive: '🛡️ 保守策略 (v6.0.0)',
     promptDescAdaptiveContent: '严格风控，BTC 强制确认，高胜率优先，适合保守型交易者',
     promptDescAdaptiveRelaxed: '⚡ 激进策略 (v6.0.0)',
-    promptDescAdaptiveRelaxedContent:
-      '高频交易，BTC 可选确认，追求交易机会，适合波动市场',
+    promptDescAdaptiveRelaxedContent: '高频交易，BTC 可选确认，追求交易机会，适合波动市场',
     promptDescHansen: '🎯 Hansen 策略',
     promptDescHansenContent: 'Hansen 定制策略，最大化夏普比率，专业交易者专用',
     promptDescNof1: '🌐 NoF1 英文框架',
-    promptDescNof1Content:
-      'Hyperliquid 交易所专用，英文提示词，风险调整回报最大化',
+    promptDescNof1Content: 'Hyperliquid 交易所专用，英文提示词，风险调整回报最大化',
     promptDescTaroLong: '📈 Taro 长仓策略',
     promptDescTaroLongContent: '数据驱动决策，多维度验证，持续学习进化，长仓专用',
 
@@ -1107,8 +1026,7 @@ export const translations = {
     coinPoolDescription: '用于获取币种池数据的API地址，留空则不使用此信号源',
     oiTopDescription: '用于获取持仓量排行数据的API地址，留空则不使用此信号源',
     information: '说明',
-    signalSourceInfo1:
-      '• 信号源配置为用户级别，每个用户可以设置自己的信号源URL',
+    signalSourceInfo1: '• 信号源配置为用户级别，每个用户可以设置自己的信号源URL',
     signalSourceInfo2: '• 在创建交易员时可以选择是否使用这些信号源',
     signalSourceInfo3: '• 配置的URL将用于获取市场数据和交易信号',
     editAIModel: '编辑AI模型',
@@ -1256,8 +1174,7 @@ export const translations = {
 
     // Landing Page CTA
     readyToDefine: '准备好定义 AI 交易的未来吗？',
-    startWithCrypto:
-      '从加密市场起步，扩展到 TradFi。NOFX 是 AgentFi 的基础架构。',
+    startWithCrypto: '从加密市场起步，扩展到 TradFi。NOFX 是 AgentFi 的基础架构。',
     getStartedNow: '立即开始',
     viewSourceCode: '查看源码',
 
@@ -1290,10 +1207,8 @@ export const translations = {
     nofxNotAnotherBot: "NOFX 不是另一个交易机器人，而是 AI 交易的 'Linux' ——",
     nofxDescription1: "一个透明、可信任的开源 OS，提供统一的 '决策-风险-执行'",
     nofxDescription2: '层，支持所有资产类别。',
-    nofxDescription3:
-      '从加密市场起步（24/7、高波动性完美测试场），未来扩展到股票、期货、外汇。核心：开放架构、AI',
-    nofxDescription4:
-      '达尔文主义（多代理自竞争、策略进化）、CodeFi 飞轮（开发者 PR',
+    nofxDescription3: '从加密市场起步（24/7、高波动性完美测试场），未来扩展到股票、期货、外汇。核心：开放架构、AI',
+    nofxDescription4: '达尔文主义（多代理自竞争、策略进化）、CodeFi 飞轮（开发者 PR',
     nofxDescription5: '贡献获积分奖励）。',
     youFullControl: '你 100% 掌控',
     fullControlDesc: '完全掌控 AI 提示词和资金',
@@ -1305,19 +1220,15 @@ export const translations = {
     howToStart: '如何开始使用 NOFX',
     fourSimpleSteps: '四个简单步骤，开启 AI 自动交易之旅',
     step1Title: '拉取 GitHub 仓库',
-    step1Desc:
-      'git clone https://github.com/tinkle-community/nofx 并切换到 dev 分支测试新功能。',
+    step1Desc: 'git clone https://github.com/tinkle-community/nofx 并切换到 dev 分支测试新功能。',
     step2Title: '配置环境',
-    step2Desc:
-      '前端设置交易所 API（如 Binance、Hyperliquid）、AI 模型和自定义提示词。',
+    step2Desc: '前端设置交易所 API（如 Binance、Hyperliquid）、AI 模型和自定义提示词。',
     step3Title: '部署与运行',
-    step3Desc:
-      '一键 Docker 部署，启动 AI 代理。注意：高风险市场，仅用闲钱测试。',
+    step3Desc: '一键 Docker 部署，启动 AI 代理。注意：高风险市场，仅用闲钱测试。',
     step4Title: '优化与贡献',
     step4Desc: '监控交易，提交 PR 改进框架。加入 Telegram 分享策略。',
     importantRiskWarning: '重要风险提示',
-    riskWarningText:
-      'dev 分支不稳定，勿用无法承受损失的资金。NOFX 非托管，无官方策略。交易有风险，投资需谨慎。',
+    riskWarningText: 'dev 分支不稳定，勿用无法承受损失的资金。NOFX 非托管，无官方策略。交易有风险，投资需谨慎。',
 
     // Community Section (testimonials are kept as-is since they are quotes)
 
@@ -1367,20 +1278,16 @@ export const translations = {
 
     // FAQ Questions & Answers - General
     faqWhatIsNOFX: 'NOFX 是什么？',
-    faqWhatIsNOFXAnswer:
-      'NOFX 是一个 AI 驱动的加密货币交易机器人，使用大语言模型（LLM）在期货市场进行交易决策。',
+    faqWhatIsNOFXAnswer: 'NOFX 是一个 AI 驱动的加密货币交易机器人，使用大语言模型（LLM）在期货市场进行交易决策。',
 
     faqSupportedExchanges: '支持哪些交易所？',
-    faqSupportedExchangesAnswer:
-      '支持币安合约（Binance Futures）、Hyperliquid 和 Aster DEX。更多交易所开发中。',
+    faqSupportedExchangesAnswer: '支持币安合约（Binance Futures）、Hyperliquid 和 Aster DEX。更多交易所开发中。',
 
     faqIsProfitable: 'NOFX 能盈利吗？',
-    faqIsProfitableAnswer:
-      'AI 交易是实验性的，不保证盈利。请始终用小额资金测试，不要投入超过您承受能力的资金。',
+    faqIsProfitableAnswer: 'AI 交易是实验性的，不保证盈利。请始终用小额资金测试，不要投入超过您承受能力的资金。',
 
     faqMultipleTraders: '可以同时运行多个交易员吗？',
-    faqMultipleTradersAnswer:
-      '可以！NOFX 支持运行多个交易员，每个可配置不同的 AI 模型和交易策略。',
+    faqMultipleTradersAnswer: '可以！NOFX 支持运行多个交易员，每个可配置不同的 AI 模型和交易策略。',
 
     // Contributing & Community
     faqGithubProjectsTasks: '如何在 GitHub Projects 中领取任务？',
@@ -1397,8 +1304,7 @@ export const translations = {
       '操作系统：Linux、macOS 或 Windows（推荐 Docker）；内存：最低 2GB，推荐 4GB；硬盘：应用 + 日志需要 1GB；网络：稳定的互联网连接。',
 
     faqNeedCoding: '需要编程经验吗？',
-    faqNeedCodingAnswer:
-      '不需要！NOFX 有 Web 界面进行所有配置。但基础的命令行知识有助于安装和故障排查。',
+    faqNeedCodingAnswer: '不需要！NOFX 有 Web 界面进行所有配置。但基础的命令行知识有助于安装和故障排查。',
 
     faqGetApiKeys: '如何获取 API 密钥？',
     faqGetApiKeysAnswer:
@@ -1413,12 +1319,10 @@ export const translations = {
       '常见问题：网络连接问题、依赖安装失败、内存不足（需要至少 2C2G）。如果卡在 "go build" 不动，尝试：docker compose down && docker compose build --no-cache && docker compose up -d',
 
     faqBalanceZero: '账户余额显示为 0',
-    faqBalanceZeroAnswer:
-      '资金可能在现货账户而非合约账户，或被理财功能锁定。您需要在币安手动将资金划转到合约账户。',
+    faqBalanceZeroAnswer: '资金可能在现货账户而非合约账户，或被理财功能锁定。您需要在币安手动将资金划转到合约账户。',
 
     faqTestnet: '可以使用测试网测试吗？',
-    faqTestnetAnswer:
-      '暂时不支持测试网。我们建议使用真实交易但小额资金（10-50 USDT）进行测试。',
+    faqTestnetAnswer: '暂时不支持测试网。我们建议使用真实交易但小额资金（10-50 USDT）进行测试。',
 
     // Trading Questions
     faqNoTrades: '为什么我的交易员不开仓？',
@@ -1426,16 +1330,13 @@ export const translations = {
       '常见原因：AI 根据市场情况决定"等待"；余额或保证金不足；达到持仓上限（默认最多 3 个仓位）；查看故障排查指南了解详细诊断。',
 
     faqDecisionFrequency: 'AI 多久做一次决策？',
-    faqDecisionFrequencyAnswer:
-      '可配置！默认是每 3-5 分钟。太频繁 = 过度交易，太慢 = 错过机会。',
+    faqDecisionFrequencyAnswer: '可配置！默认是每 3-5 分钟。太频繁 = 过度交易，太慢 = 错过机会。',
 
     faqCustomStrategy: '可以自定义交易策略吗？',
-    faqCustomStrategyAnswer:
-      '可以！您可以调整杠杆设置、修改币种选择池、更改决策间隔、自定义系统提示词（高级）。',
+    faqCustomStrategyAnswer: '可以！您可以调整杠杆设置、修改币种选择池、更改决策间隔、自定义系统提示词（高级）。',
 
     faqMaxPositions: '最多可以同时持有多少个仓位？',
-    faqMaxPositionsAnswer:
-      '默认：3 个仓位。这是 AI 提示词中的软限制，不是硬编码。',
+    faqMaxPositionsAnswer: '默认：3 个仓位。这是 AI 提示词中的软限制，不是硬编码。',
 
     faqMarginInsufficient: '保证金不足错误 (code=-2019)',
     faqMarginInsufficientAnswer:
@@ -1459,8 +1360,7 @@ export const translations = {
       '错误信息："Order\'s position side does not match user\'s setting"。解决方法：切换为双向持仓模式。登录币安合约 → 点击右上角偏好设置 → 选择持仓模式 → 双向持仓。注意：先平掉所有持仓。',
 
     faqPortInUse: '后端无法启动 / 端口被占用',
-    faqPortInUseAnswer:
-      '使用 "lsof -i :8080" 查看占用端口的进程，在 .env 中修改端口：NOFX_BACKEND_PORT=8081。',
+    faqPortInUseAnswer: '使用 "lsof -i :8080" 查看占用端口的进程，在 .env 中修改端口：NOFX_BACKEND_PORT=8081。',
 
     faqFrontendLoading: '前端一直显示"加载中..."',
     faqFrontendLoadingAnswer:
@@ -1488,12 +1388,10 @@ export const translations = {
       '取决于您的模型和决策频率：DeepSeek：每天约 $0.10-0.50（1 个交易员，5 分钟间隔）；Qwen：每天约 $0.20-0.80；自定义 API（例如 OpenAI GPT-4）：每天约 $2-5。基于典型使用的估算。',
 
     faqMultipleModels: '可以使用多个 AI 模型吗？',
-    faqMultipleModelsAnswer:
-      '可以！每个交易员可以使用不同的 AI 模型。您甚至可以 A/B 测试不同模型。',
+    faqMultipleModelsAnswer: '可以！每个交易员可以使用不同的 AI 模型。您甚至可以 A/B 测试不同模型。',
 
     faqAiLearning: 'AI 会从错误中学习吗？',
-    faqAiLearningAnswer:
-      '会的，在一定程度上。NOFX 在每次决策提示中提供历史表现反馈，允许 AI 调整策略。',
+    faqAiLearningAnswer: '会的，在一定程度上。NOFX 在每次决策提示中提供历史表现反馈，允许 AI 调整策略。',
 
     faqOnlyShort: 'AI 只开空单，不开多单',
     faqOnlyShortAnswer:
@@ -1513,12 +1411,10 @@ export const translations = {
       'API 密钥存储在本地数据库中。永远不要分享您的数据库或 .env 文件。我们建议使用带 IP 白名单限制的 API 密钥。',
 
     faqExportHistory: '可以导出交易历史吗？',
-    faqExportHistoryAnswer:
-      '可以！交易数据是 SQLite 格式。您可以直接查询：sqlite3 trading.db "SELECT * FROM trades;"',
+    faqExportHistoryAnswer: '可以！交易数据是 SQLite 格式。您可以直接查询：sqlite3 trading.db "SELECT * FROM trades;"',
 
     faqGetHelp: '在哪里可以获得帮助？',
-    faqGetHelpAnswer:
-      '查看 GitHub Discussions、加入 Telegram 社区或在 GitHub 上提出 issue。',
+    faqGetHelpAnswer: '查看 GitHub Discussions、加入 Telegram 社区或在 GitHub 上提出 issue。',
 
     // Two-Stage Key Modal
     twoStageKey: {
@@ -1547,11 +1443,7 @@ export const translations = {
   },
 }
 
-export function t(
-  key: string,
-  lang: Language,
-  params?: Record<string, string | number>
-): string {
+export function t(key: string, lang: Language, params?: Record<string, string | number>): string {
   // Handle nested keys like 'twoStageKey.title'
   const keys = key.split('.')
   let value: any = translations[lang]

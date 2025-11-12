@@ -26,21 +26,12 @@ export default function FeaturesSection({ language }: FeaturesSectionProps) {
             }}
             whileHover={{ scale: 1.05 }}
           >
-            <Rocket
-              className="w-4 h-4"
-              style={{ color: 'var(--brand-yellow)' }}
-            />
-            <span
-              className="text-sm font-semibold"
-              style={{ color: 'var(--brand-yellow)' }}
-            >
+            <Rocket className="w-4 h-4" style={{ color: 'var(--brand-yellow)' }} />
+            <span className="text-sm font-semibold" style={{ color: 'var(--brand-yellow)' }}>
               {t('coreFeatures', language)}
             </span>
           </motion.div>
-          <h2
-            className="text-4xl font-bold mb-4"
-            style={{ color: 'var(--brand-light-gray)' }}
-          >
+          <h2 className="text-4xl font-bold mb-4" style={{ color: 'var(--brand-light-gray)' }}>
             {t('whyChooseNofx', language)}
           </h2>
           <p className="text-lg" style={{ color: 'var(--text-secondary)' }}>

@@ -28,64 +28,33 @@ export default function AboutSection({ language }: AboutSectionProps) {
               }}
               whileHover={{ scale: 1.05 }}
             >
-              <Target
-                className="w-4 h-4"
-                style={{ color: 'var(--brand-yellow)' }}
-              />
-              <span
-                className="text-sm font-semibold"
-                style={{ color: 'var(--brand-yellow)' }}
-              >
+              <Target className="w-4 h-4" style={{ color: 'var(--brand-yellow)' }} />
+              <span className="text-sm font-semibold" style={{ color: 'var(--brand-yellow)' }}>
                 {t('aboutNofx', language)}
               </span>
             </motion.div>
 
-            <h2
-              className="text-4xl font-bold"
-              style={{ color: 'var(--brand-light-gray)' }}
-            >
+            <h2 className="text-4xl font-bold" style={{ color: 'var(--brand-light-gray)' }}>
               {t('whatIsNofx', language)}
             </h2>
-            <p
-              className="text-lg leading-relaxed"
-              style={{ color: 'var(--text-secondary)' }}
-            >
-              {t('nofxNotAnotherBot', language)}{' '}
-              {t('nofxDescription1', language)}{' '}
-              {t('nofxDescription2', language)}
+            <p className="text-lg leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+              {t('nofxNotAnotherBot', language)} {t('nofxDescription1', language)} {t('nofxDescription2', language)}
             </p>
-            <p
-              className="text-lg leading-relaxed"
-              style={{ color: 'var(--text-secondary)' }}
-            >
-              {t('nofxDescription3', language)}{' '}
-              {t('nofxDescription4', language)}{' '}
-              {t('nofxDescription5', language)}
+            <p className="text-lg leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+              {t('nofxDescription3', language)} {t('nofxDescription4', language)} {t('nofxDescription5', language)}
             </p>
-            <motion.div
-              className="flex items-center gap-3 pt-4"
-              whileHover={{ x: 5 }}
-            >
+            <motion.div className="flex items-center gap-3 pt-4" whileHover={{ x: 5 }}>
               <div
                 className="w-12 h-12 rounded-full flex items-center justify-center"
                 style={{ background: 'rgba(240, 185, 11, 0.1)' }}
               >
-                <Shield
-                  className="w-6 h-6"
-                  style={{ color: 'var(--brand-yellow)' }}
-                />
+                <Shield className="w-6 h-6" style={{ color: 'var(--brand-yellow)' }} />
               </div>
               <div>
-                <div
-                  className="font-semibold"
-                  style={{ color: 'var(--brand-light-gray)' }}
-                >
+                <div className="font-semibold" style={{ color: 'var(--brand-light-gray)' }}>
                   {t('youFullControl', language)}
                 </div>
-                <div
-                  className="text-sm"
-                  style={{ color: 'var(--text-secondary)' }}
-                >
+                <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
                   {t('fullControlDesc', language)}
                 </div>
               </div>

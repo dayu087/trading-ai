@@ -8,7 +8,7 @@ import prettier from 'eslint-plugin-prettier'
 
 export default [
   {
-    ignores: ['dist', 'node_modules', 'build', '*.config.js']
+    ignores: ['dist', 'node_modules', 'build', '*.config.js'],
   },
   js.configs.recommended,
   {
@@ -19,8 +19,8 @@ export default [
         ecmaVersion: 'latest',
         sourceType: 'module',
         ecmaFeatures: {
-          jsx: true
-        }
+          jsx: true,
+        },
       },
       globals: {
         window: 'readonly',
@@ -32,15 +32,15 @@ export default [
         clearInterval: 'readonly',
         fetch: 'readonly',
         localStorage: 'readonly',
-        sessionStorage: 'readonly'
-      }
+        sessionStorage: 'readonly',
+      },
     },
     plugins: {
       '@typescript-eslint': tseslint,
-      'react': react,
+      react: react,
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
-      'prettier': prettier
+      prettier: prettier,
     },
     rules: {
       ...tseslint.configs.recommended.rules,
@@ -48,7 +48,7 @@ export default [
       ...reactHooks.configs.recommended.rules,
 
       // Prettier integration
-      'prettier/prettier': 'error',
+      'prettier/prettier': ['error', { printWidth: 120 }],
 
       // React rules
       'react/react-in-jsx-scope': 'off',
@@ -78,12 +78,12 @@ export default [
       'react/no-unescaped-entities': 'off',
 
       // 可视情况关闭依赖数组校验（如需严格可改为 'warn'）
-      'react-hooks/exhaustive-deps': 'off'
+      'react-hooks/exhaustive-deps': 'off',
     },
     settings: {
       react: {
-        version: 'detect'
-      }
-    }
-  }
+        version: 'detect',
+      },
+    },
+  },
 ]

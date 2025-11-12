@@ -7,15 +7,10 @@ const DEFAULT_LENGTH = 64
 function generateObfuscation(): string {
   const bytes = new Uint8Array(32)
   crypto.getRandomValues(bytes)
-  return Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join(
-    ''
-  )
+  return Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('')
 }
 
-function validatePrivateKeyFormat(
-  value: string,
-  expectedLength: number
-): boolean {
+function validatePrivateKeyFormat(value: string, expectedLength: number): boolean {
   const normalized = value.startsWith('0x') ? value.slice(2) : value
   if (normalized.length !== expectedLength) {
     return false
@@ -49,14 +44,10 @@ export function TwoStageKeyModal({
   const [part1, setPart1] = useState('')
   const [part2, setPart2] = useState('')
   const [error, setError] = useState<string | null>(null)
-  const [clipboardStatus, setClipboardStatus] = useState<
-    'idle' | 'copied' | 'failed'
-  >('idle')
+  const [clipboardStatus, setClipboardStatus] = useState<'idle' | 'copied' | 'failed'>('idle')
   const [obfuscationLog, setObfuscationLog] = useState<string[]>([])
   const [processing, setProcessing] = useState(false)
-  const [manualObfuscationValue, setManualObfuscationValue] = useState<
-    string | null
-  >(null)
+  const [manualObfuscationValue, setManualObfuscationValue] = useState<string | null>(null)
 
   const stage1Ref = useRef<HTMLInputElement>(null)
   const stage2Ref = useRef<HTMLInputElement>(null)
@@ -95,10 +86,7 @@ export function TwoStageKeyModal({
         try {
           await navigator.clipboard.writeText(obfuscation)
           setClipboardStatus('copied')
-          setObfuscationLog([
-            ...obfuscationLog,
-            `Stage 1: ${new Date().toISOString()} - Auto copied obfuscation`,
-          ])
+          setObfuscationLog([...obfuscationLog, `Stage 1: ${new Date().toISOString()} - Auto copied obfuscation`])
         } catch {
           setClipboardStatus('failed')
           setObfuscationLog([
@@ -108,10 +96,7 @@ export function TwoStageKeyModal({
         }
       } else {
         setClipboardStatus('failed')
-        setObfuscationLog([
-          ...obfuscationLog,
-          `Stage 1: ${new Date().toISOString()} - Clipboard API not available`,
-        ])
+        setObfuscationLog([...obfuscationLog, `Stage 1: ${new Date().toISOString()} - Clipboard API not available`])
       }
 
       setTimeout(() => {
@@ -140,10 +125,7 @@ export function TwoStageKeyModal({
       return
     }
 
-    const finalLog = [
-      ...obfuscationLog,
-      `Stage 2: ${new Date().toISOString()} - Completed`,
-    ]
+    const finalLog = [...obfuscationLog, `Stage 2: ${new Date().toISOString()} - Completed`]
     onComplete({
       value: fullKey,
       obfuscationLog: finalLog,
@@ -170,11 +152,7 @@ export function TwoStageKeyModal({
           <div className="text-center mb-6">
             <h2 className="text-xl font-bold text-white mb-2">
               🔐 {t('twoStageKey.title', language)}
-              {contextLabel && (
-                <span className="text-gray-300 text-base font-normal ml-2">
-                  ({contextLabel})
-                </span>
-              )}
+              {contextLabel && <span className="text-gray-300 text-base font-normal ml-2">({contextLabel})</span>}
             </h2>
             <p className="text-gray-300 text-sm">
               {stage === 1
@@ -192,8 +170,8 @@ export function TwoStageKeyModal({
             <div className="space-y-4">
               <div>
                 <label className="block text-gray-300 text-sm mb-2">
-                  {t('twoStageKey.stage1InputLabel', language)} (
-                  {expectedPart1Length} {t('twoStageKey.characters', language)})
+                  {t('twoStageKey.stage1InputLabel', language)} ({expectedPart1Length}{' '}
+                  {t('twoStageKey.characters', language)})
                 </label>
                 <input
                   ref={stage1Ref}
@@ -215,9 +193,7 @@ export function TwoStageKeyModal({
                   disabled={part1.length < expectedPart1Length || processing}
                   className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white font-medium py-3 px-4 rounded-lg transition-colors"
                 >
-                  {processing
-                    ? t('twoStageKey.processing', language)
-                    : t('twoStageKey.nextButton', language)}
+                  {processing ? t('twoStageKey.processing', language) : t('twoStageKey.nextButton', language)}
                 </button>
                 <button
                   onClick={onCancel}
@@ -235,25 +211,17 @@ export function TwoStageKeyModal({
             <div className="mb-4 p-4 rounded-lg bg-blue-900/50 border border-blue-600">
               {clipboardStatus === 'copied' && (
                 <div className="text-blue-300">
-                  <div className="font-medium">
-                    {t('twoStageKey.obfuscationCopied', language)}
-                  </div>
-                  <div className="text-sm mt-1">
-                    {t('twoStageKey.obfuscationInstruction', language)}
-                  </div>
+                  <div className="font-medium">{t('twoStageKey.obfuscationCopied', language)}</div>
+                  <div className="text-sm mt-1">{t('twoStageKey.obfuscationInstruction', language)}</div>
                 </div>
               )}
               {clipboardStatus === 'failed' && manualObfuscationValue && (
                 <div className="text-yellow-300">
-                  <div className="font-medium">
-                    {t('twoStageKey.obfuscationManual', language)}
-                  </div>
+                  <div className="font-medium">{t('twoStageKey.obfuscationManual', language)}</div>
                   <div className="text-xs mt-2 p-2 bg-gray-800 rounded font-mono break-all border">
                     {manualObfuscationValue}
                   </div>
-                  <div className="text-sm mt-1">
-                    {t('twoStageKey.obfuscationInstruction', language)}
-                  </div>
+                  <div className="text-sm mt-1">{t('twoStageKey.obfuscationInstruction', language)}</div>
                 </div>
               )}
             </div>
@@ -264,8 +232,8 @@ export function TwoStageKeyModal({
             <div className="space-y-4">
               <div>
                 <label className="block text-gray-300 text-sm mb-2">
-                  {t('twoStageKey.stage2InputLabel', language)} (
-                  {expectedPart2Length} {t('twoStageKey.characters', language)})
+                  {t('twoStageKey.stage2InputLabel', language)} ({expectedPart2Length}{' '}
+                  {t('twoStageKey.characters', language)})
                 </label>
                 <input
                   ref={stage2Ref}

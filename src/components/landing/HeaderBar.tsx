@@ -1,782 +1,104 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { Menu, X, ChevronDown } from 'lucide-react'
-import { t, type Language } from '../../i18n/translations'
+import styled from 'styled-components'
+import { useLanguage } from '../../contexts/LanguageContext'
+import { useAuth } from '../../contexts/AuthContext'
+import { t } from '../../i18n/translations'
 
 interface HeaderBarProps {
-  onLoginClick?: () => void
   isLoggedIn?: boolean
   isHomePage?: boolean
   currentPage?: string
-  language?: Language
-  onLanguageChange?: (lang: Language) => void
-  user?: { email: string } | null
-  onLogout?: () => void
-  onPageChange?: (page: string) => void
+  handleRoute?: (route: string) => void
 }
 
 export default function HeaderBar({
   isLoggedIn = false,
   isHomePage = false,
   currentPage,
-  language = 'zh' as Language,
-  onLanguageChange,
-  user,
-  onLogout,
-  onPageChange,
+  handleRoute,
 }: HeaderBarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false)
   const [userDropdownOpen, setUserDropdownOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
   const userDropdownRef = useRef<HTMLDivElement>(null)
+  const { language, setLanguage } = useLanguage()
+  const { user, logout } = useAuth()
 
-  // Close dropdown when clicking outside
+  const leftNavList = useMemo(() => {
+    if (isLoggedIn) {
+      return [
+        { key: 'competition', label: t('realtimeNav', language) },
+        { key: 'traders', label: t('configNav', language) },
+        { key: 'dashboard', label: 'dashboardNav' },
+        { key: 'faq', label: t('faqNav', language) },
+      ]
+    } else {
+      return [
+        { key: 'competition', label: t('realtimeNav', language) },
+        { key: 'faq', label: t('faqNav', language) },
+      ]
+    }
+  }, [isLoggedIn])
+
+  const rightNavList = useMemo(() => {
+    if (isHomePage) {
+      return [
+        { key: 'features', label: t('features', language) },
+        { key: 'howItWorks', label: t('howItWorks', language) },
+        { key: 'GitHub', label: 'GitHub' },
+        { key: 'community', label: t('community', language) },
+      ]
+    } else {
+      return []
+    }
+  }, [isHomePage])
+
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setLanguageDropdownOpen(false)
-      }
-      if (
-        userDropdownRef.current &&
-        !userDropdownRef.current.contains(event.target as Node)
-      ) {
-        setUserDropdownOpen(false)
-      }
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) setLanguageDropdownOpen(false)
+      if (userDropdownRef.current && !userDropdownRef.current.contains(event.target as Node)) setUserDropdownOpen(false)
     }
-
     document.addEventListener('mousedown', handleClickOutside)
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
+    return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  const handleChangePage = (page: string) => {
+    const curentRoute = window.location.pathname
+    if (curentRoute === '/' || curentRoute === '/faq' || !isLoggedIn) {
+      setTimeout(() => {
+        window.location.href = `/${page}`
+      }, 0)
+    } else {
+      if (handleRoute) handleRoute(page)
+      window.history.pushState({}, '', `/${page}`)
+    }
+  }
+
   return (
-    <nav className="fixed top-0 w-full z-50 header-bar">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <a
-            href="/"
-            className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer"
-          >
-            <img src="/icons/nofx.svg" alt="NOFX Logo" className="w-8 h-8" />
-            <span
-              className="text-xl font-bold"
-              style={{ color: 'var(--brand-yellow)' }}
-            >
-              NOFX
-            </span>
-            <span
-              className="text-sm hidden sm:block"
-              style={{ color: 'var(--text-secondary)' }}
-            >
-              Agentic Trading OS
-            </span>
-          </a>
+    <HeaderContainer>
+      <HeaderInner>
+        <LogoLink href="/">
+          <img src="/icons/nofx.svg" alt="NOFX Logo" />
+          <span className="brand">NOFX</span>
+          <span className="sub">Agentic Trading OS</span>
+        </LogoLink>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center justify-between flex-1 ml-8">
-            {/* Left Side - Navigation Tabs */}
-            <div className="flex items-center gap-4">
-              {isLoggedIn ? (
-                // Main app navigation when logged in
-                <>
-                  <button
-                    onClick={() => {
-                      console.log(
-                        '实时 button clicked, onPageChange:',
-                        onPageChange
-                      )
-                      onPageChange?.('competition')
-                    }}
-                    className="text-sm font-bold transition-all duration-300 relative focus:outline-2 focus:outline-yellow-500"
-                    style={{
-                      color:
-                        currentPage === 'competition'
-                          ? 'var(--brand-yellow)'
-                          : 'var(--brand-light-gray)',
-                      padding: '8px 16px',
-                      borderRadius: '8px',
-                      position: 'relative',
-                    }}
-                    onMouseEnter={(e) => {
-                      if (currentPage !== 'competition') {
-                        e.currentTarget.style.color = 'var(--brand-yellow)'
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (currentPage !== 'competition') {
-                        e.currentTarget.style.color = 'var(--brand-light-gray)'
-                      }
-                    }}
-                  >
-                    {/* Background for selected state */}
-                    {currentPage === 'competition' && (
-                      <span
-                        className="absolute inset-0 rounded-lg"
-                        style={{
-                          background: 'rgba(240, 185, 11, 0.15)',
-                          zIndex: -1,
-                        }}
-                      />
-                    )}
+        {/* Desktop Menu */}
+        <DesktopMenu>
+          <NavGroup>
+            {leftNavList.map((it) => (
+              <NavButton key={it.key} $active={currentPage === it.key} onClick={() => handleChangePage(it.key)}>
+                {it.label}
+              </NavButton>
+            ))}
+          </NavGroup>
 
-                    {t('realtimeNav', language)}
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      console.log(
-                        '配置 button clicked, onPageChange:',
-                        onPageChange
-                      )
-                      onPageChange?.('traders')
-                    }}
-                    className="text-sm font-bold transition-all duration-300 relative focus:outline-2 focus:outline-yellow-500"
-                    style={{
-                      color:
-                        currentPage === 'traders'
-                          ? 'var(--brand-yellow)'
-                          : 'var(--brand-light-gray)',
-                      padding: '8px 16px',
-                      borderRadius: '8px',
-                      position: 'relative',
-                    }}
-                    onMouseEnter={(e) => {
-                      if (currentPage !== 'traders') {
-                        e.currentTarget.style.color = 'var(--brand-yellow)'
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (currentPage !== 'traders') {
-                        e.currentTarget.style.color = 'var(--brand-light-gray)'
-                      }
-                    }}
-                  >
-                    {/* Background for selected state */}
-                    {currentPage === 'traders' && (
-                      <span
-                        className="absolute inset-0 rounded-lg"
-                        style={{
-                          background: 'rgba(240, 185, 11, 0.15)',
-                          zIndex: -1,
-                        }}
-                      />
-                    )}
-
-                    {t('configNav', language)}
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      console.log(
-                        '看板 button clicked, onPageChange:',
-                        onPageChange
-                      )
-                      onPageChange?.('trader')
-                    }}
-                    className="text-sm font-bold transition-all duration-300 relative focus:outline-2 focus:outline-yellow-500"
-                    style={{
-                      color:
-                        currentPage === 'trader'
-                          ? 'var(--brand-yellow)'
-                          : 'var(--brand-light-gray)',
-                      padding: '8px 16px',
-                      borderRadius: '8px',
-                      position: 'relative',
-                    }}
-                    onMouseEnter={(e) => {
-                      if (currentPage !== 'trader') {
-                        e.currentTarget.style.color = 'var(--brand-yellow)'
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (currentPage !== 'trader') {
-                        e.currentTarget.style.color = 'var(--brand-light-gray)'
-                      }
-                    }}
-                  >
-                    {/* Background for selected state */}
-                    {currentPage === 'trader' && (
-                      <span
-                        className="absolute inset-0 rounded-lg"
-                        style={{
-                          background: 'rgba(240, 185, 11, 0.15)',
-                          zIndex: -1,
-                        }}
-                      />
-                    )}
-
-                    {t('dashboardNav', language)}
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      console.log(
-                        'FAQ button clicked, onPageChange:',
-                        onPageChange
-                      )
-                      onPageChange?.('faq')
-                    }}
-                    className="text-sm font-bold transition-all duration-300 relative focus:outline-2 focus:outline-yellow-500"
-                    style={{
-                      color:
-                        currentPage === 'faq'
-                          ? 'var(--brand-yellow)'
-                          : 'var(--brand-light-gray)',
-                      padding: '8px 16px',
-                      borderRadius: '8px',
-                      position: 'relative',
-                    }}
-                    onMouseEnter={(e) => {
-                      if (currentPage !== 'faq') {
-                        e.currentTarget.style.color = 'var(--brand-yellow)'
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (currentPage !== 'faq') {
-                        e.currentTarget.style.color = 'var(--brand-light-gray)'
-                      }
-                    }}
-                  >
-                    {/* Background for selected state */}
-                    {currentPage === 'faq' && (
-                      <span
-                        className="absolute inset-0 rounded-lg"
-                        style={{
-                          background: 'rgba(240, 185, 11, 0.15)',
-                          zIndex: -1,
-                        }}
-                      />
-                    )}
-
-                    {t('faqNav', language)}
-                  </button>
-                </>
-              ) : (
-                // Landing page navigation when not logged in
-                <>
-                  <a
-                    href="/competition"
-                    className="text-sm font-bold transition-all duration-300 relative focus:outline-2 focus:outline-yellow-500"
-                    style={{
-                      color:
-                        currentPage === 'competition'
-                          ? 'var(--brand-yellow)'
-                          : 'var(--brand-light-gray)',
-                      padding: '8px 16px',
-                      borderRadius: '8px',
-                      position: 'relative',
-                    }}
-                    onMouseEnter={(e) => {
-                      if (currentPage !== 'competition') {
-                        e.currentTarget.style.color = 'var(--brand-yellow)'
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (currentPage !== 'competition') {
-                        e.currentTarget.style.color = 'var(--brand-light-gray)'
-                      }
-                    }}
-                  >
-                    {/* Background for selected state */}
-                    {currentPage === 'competition' && (
-                      <span
-                        className="absolute inset-0 rounded-lg"
-                        style={{
-                          background: 'rgba(240, 185, 11, 0.15)',
-                          zIndex: -1,
-                        }}
-                      />
-                    )}
-
-                    {t('realtimeNav', language)}
-                  </a>
-
-                  <a
-                    href="/faq"
-                    className="text-sm font-bold transition-all duration-300 relative focus:outline-2 focus:outline-yellow-500"
-                    style={{
-                      color:
-                        currentPage === 'faq'
-                          ? 'var(--brand-yellow)'
-                          : 'var(--brand-light-gray)',
-                      padding: '8px 16px',
-                      borderRadius: '8px',
-                      position: 'relative',
-                    }}
-                    onMouseEnter={(e) => {
-                      if (currentPage !== 'faq') {
-                        e.currentTarget.style.color = 'var(--brand-yellow)'
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (currentPage !== 'faq') {
-                        e.currentTarget.style.color = 'var(--brand-light-gray)'
-                      }
-                    }}
-                  >
-                    {/* Background for selected state */}
-                    {currentPage === 'faq' && (
-                      <span
-                        className="absolute inset-0 rounded-lg"
-                        style={{
-                          background: 'rgba(240, 185, 11, 0.15)',
-                          zIndex: -1,
-                        }}
-                      />
-                    )}
-
-                    {t('faqNav', language)}
-                  </a>
-                </>
-              )}
-            </div>
-
-            {/* Right Side - Original Navigation Items and Login */}
-            <div className="flex items-center gap-6">
-              {/* Only show original navigation items on home page */}
-              {isHomePage &&
-                [
-                  { key: 'features', label: t('features', language) },
-                  { key: 'howItWorks', label: t('howItWorks', language) },
-                  { key: 'GitHub', label: 'GitHub' },
-                  { key: 'community', label: t('community', language) },
-                ].map((item) => (
-                  <a
-                    key={item.key}
-                    href={
-                      item.key === 'GitHub'
-                        ? 'https://github.com/tinkle-community/nofx'
-                        : item.key === 'community'
-                          ? 'https://t.me/nofx_dev_community'
-                          : `#${item.key === 'features' ? 'features' : 'how-it-works'}`
-                    }
-                    target={
-                      item.key === 'GitHub' || item.key === 'community'
-                        ? '_blank'
-                        : undefined
-                    }
-                    rel={
-                      item.key === 'GitHub' || item.key === 'community'
-                        ? 'noopener noreferrer'
-                        : undefined
-                    }
-                    className="text-sm transition-colors relative group"
-                    style={{ color: 'var(--brand-light-gray)' }}
-                  >
-                    {item.label}
-                    <span
-                      className="absolute -bottom-1 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-300"
-                      style={{ background: 'var(--brand-yellow)' }}
-                    />
-                  </a>
-                ))}
-
-              {/* User Info and Actions */}
-              {isLoggedIn && user ? (
-                <div className="flex items-center gap-3">
-                  {/* User Info with Dropdown */}
-                  <div className="relative" ref={userDropdownRef}>
-                    <button
-                      onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                      className="flex items-center gap-2 px-3 py-2 rounded transition-colors"
-                      style={{
-                        background: 'var(--panel-bg)',
-                        border: '1px solid var(--panel-border)',
-                      }}
-                      onMouseEnter={(e) =>
-                        (e.currentTarget.style.background =
-                          'rgba(255, 255, 255, 0.05)')
-                      }
-                      onMouseLeave={(e) =>
-                        (e.currentTarget.style.background = 'var(--panel-bg)')
-                      }
-                    >
-                      <div
-                        className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold"
-                        style={{
-                          background: 'var(--brand-yellow)',
-                          color: 'var(--brand-black)',
-                        }}
-                      >
-                        {user.email[0].toUpperCase()}
-                      </div>
-                      <span
-                        className="text-sm"
-                        style={{ color: 'var(--brand-light-gray)' }}
-                      >
-                        {user.email}
-                      </span>
-                      <ChevronDown
-                        className="w-4 h-4"
-                        style={{ color: 'var(--brand-light-gray)' }}
-                      />
-                    </button>
-
-                    {userDropdownOpen && (
-                      <div
-                        className="absolute right-0 top-full mt-2 w-48 rounded-lg shadow-lg overflow-hidden z-50"
-                        style={{
-                          background: 'var(--brand-dark-gray)',
-                          border: '1px solid var(--panel-border)',
-                        }}
-                      >
-                        <div
-                          className="px-3 py-2 border-b"
-                          style={{ borderColor: 'var(--panel-border)' }}
-                        >
-                          <div
-                            className="text-xs"
-                            style={{ color: 'var(--text-secondary)' }}
-                          >
-                            {t('loggedInAs', language)}
-                          </div>
-                          <div
-                            className="text-sm font-medium"
-                            style={{ color: 'var(--brand-light-gray)' }}
-                          >
-                            {user.email}
-                          </div>
-                        </div>
-                        {onLogout && (
-                          <button
-                            onClick={() => {
-                              onLogout()
-                              setUserDropdownOpen(false)
-                            }}
-                            className="w-full px-3 py-2 text-sm font-semibold transition-colors hover:opacity-80 text-center"
-                            style={{
-                              background: 'var(--binance-red-bg)',
-                              color: 'var(--binance-red)',
-                            }}
-                          >
-                            {t('exitLogin', language)}
-                          </button>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ) : (
-                /* Show login/register buttons when not logged in and not on login/register pages */
-                currentPage !== 'login' &&
-                currentPage !== 'register' && (
-                  <div className="flex items-center gap-3">
-                    <a
-                      href="/login"
-                      className="px-3 py-2 text-sm font-medium transition-colors rounded"
-                      style={{ color: 'var(--brand-light-gray)' }}
-                    >
-                      {t('signIn', language)}
-                    </a>
-                    <a
-                      href="/register"
-                      className="px-4 py-2 rounded font-semibold text-sm transition-colors hover:opacity-90"
-                      style={{
-                        background: 'var(--brand-yellow)',
-                        color: 'var(--brand-black)',
-                      }}
-                    >
-                      {t('signUp', language)}
-                    </a>
-                  </div>
-                )
-              )}
-
-              {/* Language Toggle - Always at the rightmost */}
-              <div className="relative" ref={dropdownRef}>
-                <button
-                  onClick={() => setLanguageDropdownOpen(!languageDropdownOpen)}
-                  className="flex items-center gap-2 px-3 py-2 rounded transition-colors"
-                  style={{ color: 'var(--brand-light-gray)' }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.background =
-                      'rgba(255, 255, 255, 0.05)')
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.background = 'transparent')
-                  }
-                >
-                  <span className="text-lg">
-                    {language === 'zh' ? '🇨🇳' : '🇺🇸'}
-                  </span>
-                  <ChevronDown className="w-4 h-4" />
-                </button>
-
-                {languageDropdownOpen && (
-                  <div
-                    className="absolute right-0 top-full mt-2 w-32 rounded-lg shadow-lg overflow-hidden z-50"
-                    style={{
-                      background: 'var(--brand-dark-gray)',
-                      border: '1px solid var(--panel-border)',
-                    }}
-                  >
-                    <button
-                      onClick={() => {
-                        onLanguageChange?.('zh')
-                        setLanguageDropdownOpen(false)
-                      }}
-                      className={`w-full flex items-center gap-2 px-3 py-2 transition-colors ${
-                        language === 'zh' ? '' : 'hover:opacity-80'
-                      }`}
-                      style={{
-                        color: 'var(--brand-light-gray)',
-                        background:
-                          language === 'zh'
-                            ? 'rgba(240, 185, 11, 0.1)'
-                            : 'transparent',
-                      }}
-                    >
-                      <span className="text-base">🇨🇳</span>
-                      <span className="text-sm">中文</span>
-                    </button>
-                    <button
-                      onClick={() => {
-                        onLanguageChange?.('en')
-                        setLanguageDropdownOpen(false)
-                      }}
-                      className={`w-full flex items-center gap-2 px-3 py-2 transition-colors ${
-                        language === 'en' ? '' : 'hover:opacity-80'
-                      }`}
-                      style={{
-                        color: 'var(--brand-light-gray)',
-                        background:
-                          language === 'en'
-                            ? 'rgba(240, 185, 11, 0.1)'
-                            : 'transparent',
-                      }}
-                    >
-                      <span className="text-base">🇺🇸</span>
-                      <span className="text-sm">English</span>
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <motion.button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden"
-            style={{ color: 'var(--brand-light-gray)' }}
-            whileTap={{ scale: 0.9 }}
-          >
-            {mobileMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
-          </motion.button>
-        </div>
-      </div>
-
-      {/* Mobile Menu */}
-      <motion.div
-        initial={false}
-        animate={
-          mobileMenuOpen
-            ? { height: 'auto', opacity: 1 }
-            : { height: 0, opacity: 0 }
-        }
-        transition={{ duration: 0.3 }}
-        className="md:hidden overflow-hidden"
-        style={{
-          background: 'var(--brand-dark-gray)',
-          borderTop: '1px solid rgba(240, 185, 11, 0.1)',
-        }}
-      >
-        <div className="px-4 py-4 space-y-3">
-          {/* New Navigation Tabs */}
-          {isLoggedIn ? (
-            <button
-              onClick={() => {
-                console.log(
-                  '移动端 实时 button clicked, onPageChange:',
-                  onPageChange
-                )
-                onPageChange?.('competition')
-                setMobileMenuOpen(false)
-              }}
-              className="block text-sm font-bold transition-all duration-300 relative focus:outline-2 focus:outline-yellow-500"
-              style={{
-                color:
-                  currentPage === 'competition'
-                    ? 'var(--brand-yellow)'
-                    : 'var(--brand-light-gray)',
-                padding: '12px 16px',
-                borderRadius: '8px',
-                position: 'relative',
-                width: '100%',
-                textAlign: 'left',
-              }}
-            >
-              {/* Background for selected state */}
-              {currentPage === 'competition' && (
-                <span
-                  className="absolute inset-0 rounded-lg"
-                  style={{
-                    background: 'rgba(240, 185, 11, 0.15)',
-                    zIndex: -1,
-                  }}
-                />
-              )}
-
-              {t('realtimeNav', language)}
-            </button>
-          ) : (
-            <a
-              href="/competition"
-              className="block text-sm font-bold transition-all duration-300 relative focus:outline-2 focus:outline-yellow-500"
-              style={{
-                color:
-                  currentPage === 'competition'
-                    ? 'var(--brand-yellow)'
-                    : 'var(--brand-light-gray)',
-                padding: '12px 16px',
-                borderRadius: '8px',
-                position: 'relative',
-              }}
-            >
-              {/* Background for selected state */}
-              {currentPage === 'competition' && (
-                <span
-                  className="absolute inset-0 rounded-lg"
-                  style={{
-                    background: 'rgba(240, 185, 11, 0.15)',
-                    zIndex: -1,
-                  }}
-                />
-              )}
-
-              {t('realtimeNav', language)}
-            </a>
-          )}
-          {/* Only show 配置 and 看板 when logged in */}
-          {isLoggedIn && (
-            <>
-              <button
-                onClick={() => {
-                  console.log(
-                    '移动端 配置 button clicked, onPageChange:',
-                    onPageChange
-                  )
-                  onPageChange?.('traders')
-                  setMobileMenuOpen(false)
-                }}
-                className="block text-sm font-bold transition-all duration-300 relative focus:outline-2 focus:outline-yellow-500 hover:text-yellow-500"
-                style={{
-                  color:
-                    currentPage === 'traders'
-                      ? 'var(--brand-yellow)'
-                      : 'var(--brand-light-gray)',
-                  padding: '12px 16px',
-                  borderRadius: '8px',
-                  position: 'relative',
-                  width: '100%',
-                  textAlign: 'left',
-                }}
-              >
-                {/* Background for selected state */}
-                {currentPage === 'traders' && (
-                  <span
-                    className="absolute inset-0 rounded-lg"
-                    style={{
-                      background: 'rgba(240, 185, 11, 0.15)',
-                      zIndex: -1,
-                    }}
-                  />
-                )}
-
-                {t('configNav', language)}
-              </button>
-              <button
-                onClick={() => {
-                  console.log(
-                    '移动端 看板 button clicked, onPageChange:',
-                    onPageChange
-                  )
-                  onPageChange?.('trader')
-                  setMobileMenuOpen(false)
-                }}
-                className="block text-sm font-bold transition-all duration-300 relative focus:outline-2 focus:outline-yellow-500 hover:text-yellow-500"
-                style={{
-                  color:
-                    currentPage === 'trader'
-                      ? 'var(--brand-yellow)'
-                      : 'var(--brand-light-gray)',
-                  padding: '12px 16px',
-                  borderRadius: '8px',
-                  position: 'relative',
-                  width: '100%',
-                  textAlign: 'left',
-                }}
-              >
-                {/* Background for selected state */}
-                {currentPage === 'trader' && (
-                  <span
-                    className="absolute inset-0 rounded-lg"
-                    style={{
-                      background: 'rgba(240, 185, 11, 0.15)',
-                      zIndex: -1,
-                    }}
-                  />
-                )}
-
-                {t('dashboardNav', language)}
-              </button>
-              <button
-                onClick={() => {
-                  console.log(
-                    '移动端 FAQ button clicked, onPageChange:',
-                    onPageChange
-                  )
-                  onPageChange?.('faq')
-                  setMobileMenuOpen(false)
-                }}
-                className="block text-sm font-bold transition-all duration-300 relative focus:outline-2 focus:outline-yellow-500 hover:text-yellow-500"
-                style={{
-                  color:
-                    currentPage === 'faq'
-                      ? 'var(--brand-yellow)'
-                      : 'var(--brand-light-gray)',
-                  padding: '12px 16px',
-                  borderRadius: '8px',
-                  position: 'relative',
-                  width: '100%',
-                  textAlign: 'left',
-                }}
-              >
-                {/* Background for selected state */}
-                {currentPage === 'faq' && (
-                  <span
-                    className="absolute inset-0 rounded-lg"
-                    style={{
-                      background: 'rgba(240, 185, 11, 0.15)',
-                      zIndex: -1,
-                    }}
-                  />
-                )}
-
-                {t('faqNav', language)}
-              </button>
-            </>
-          )}
-
-          {/* Original Navigation Items - Only on home page */}
-          {isHomePage &&
-            [
-              { key: 'features', label: t('features', language) },
-              { key: 'howItWorks', label: t('howItWorks', language) },
-              { key: 'GitHub', label: 'GitHub' },
-              { key: 'community', label: t('community', language) },
-            ].map((item) => (
-              <a
+          <RightGroup>
+            {rightNavList.map((item) => (
+              <TextLink
                 key={item.key}
                 href={
                   item.key === 'GitHub'
@@ -785,148 +107,490 @@ export default function HeaderBar({
                       ? 'https://t.me/nofx_dev_community'
                       : `#${item.key === 'features' ? 'features' : 'how-it-works'}`
                 }
-                target={
-                  item.key === 'GitHub' || item.key === 'community'
-                    ? '_blank'
-                    : undefined
-                }
-                rel={
-                  item.key === 'GitHub' || item.key === 'community'
-                    ? 'noopener noreferrer'
-                    : undefined
-                }
-                className="block text-sm py-2"
-                style={{ color: 'var(--brand-light-gray)' }}
+                target={item.key === 'GitHub' || item.key === 'community' ? '_blank' : undefined}
+                rel="noopener noreferrer"
               >
                 {item.label}
-              </a>
+              </TextLink>
             ))}
 
-          {/* Language Toggle */}
-          <div className="py-2">
-            <div className="flex items-center gap-2 mb-2">
-              <span
-                className="text-xs"
-                style={{ color: 'var(--brand-light-gray)' }}
-              >
-                {t('language', language)}:
-              </span>
-            </div>
-            <div className="space-y-1">
-              <button
-                onClick={() => {
-                  onLanguageChange?.('zh')
-                  setMobileMenuOpen(false)
-                }}
-                className={`w-full flex items-center gap-3 px-3 py-2 rounded transition-colors ${
-                  language === 'zh'
-                    ? 'bg-yellow-500 text-black'
-                    : 'text-gray-400 hover:text-white'
-                }`}
-              >
-                <span className="text-lg">🇨🇳</span>
-                <span className="text-sm">中文</span>
-              </button>
-              <button
-                onClick={() => {
-                  onLanguageChange?.('en')
-                  setMobileMenuOpen(false)
-                }}
-                className={`w-full flex items-center gap-3 px-3 py-2 rounded transition-colors ${
-                  language === 'en'
-                    ? 'bg-yellow-500 text-black'
-                    : 'text-gray-400 hover:text-white'
-                }`}
-              >
-                <span className="text-lg">🇺🇸</span>
-                <span className="text-sm">English</span>
-              </button>
-            </div>
-          </div>
+            {/* User */}
+            {isLoggedIn && user ? (
+              <UserDropdownContainer ref={userDropdownRef}>
+                <UserButton onClick={() => setUserDropdownOpen(!userDropdownOpen)}>
+                  <UserIcon>{user.email[0].toUpperCase()}</UserIcon>
+                  <span style={{ color: 'var(--brand-light-gray)' }}>{user.email}</span>
+                  <ChevronDown size={16} color="var(--brand-light-gray)" />
+                </UserButton>
 
-          {/* User info and logout for mobile when logged in */}
-          {isLoggedIn && user && (
-            <div
-              className="mt-4 pt-4"
-              style={{ borderTop: '1px solid var(--panel-border)' }}
-            >
-              <div
-                className="flex items-center gap-2 px-3 py-2 mb-2 rounded"
-                style={{ background: 'var(--panel-bg)' }}
-              >
-                <div
-                  className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold"
-                  style={{
-                    background: 'var(--brand-yellow)',
-                    color: 'var(--brand-black)',
-                  }}
-                >
-                  {user.email[0].toUpperCase()}
-                </div>
-                <div>
-                  <div
-                    className="text-xs"
-                    style={{ color: 'var(--text-secondary)' }}
+                {userDropdownOpen && (
+                  <UserDropdown>
+                    <div
+                      style={{
+                        padding: '8px 12px',
+                        borderBottom: '1px solid var(--panel-border)',
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontSize: '0.75rem',
+                          color: 'var(--text-secondary)',
+                        }}
+                      >
+                        {t('loggedInAs', language)}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: '0.875rem',
+                          color: 'var(--brand-light-gray)',
+                        }}
+                      >
+                        {user.email}
+                      </div>
+                    </div>
+                    {logout && (
+                      <UserDropdownItem
+                        onClick={() => {
+                          logout()
+                          setUserDropdownOpen(false)
+                        }}
+                      >
+                        {t('exitLogin', language)}
+                      </UserDropdownItem>
+                    )}
+                  </UserDropdown>
+                )}
+              </UserDropdownContainer>
+            ) : (
+              currentPage !== 'login' &&
+              currentPage !== 'register' && (
+                <>
+                  <a
+                    href="/login"
+                    style={{
+                      color: 'var(--brand-light-gray)',
+                      fontSize: '0.875rem',
+                    }}
                   >
-                    {t('loggedInAs', language)}
-                  </div>
-                  <div
-                    className="text-sm"
-                    style={{ color: 'var(--brand-light-gray)' }}
+                    {t('signIn', language)}
+                  </a>
+                  <a
+                    href="/register"
+                    style={{
+                      background: 'var(--brand-yellow)',
+                      color: 'var(--brand-black)',
+                      padding: '8px 16px',
+                      borderRadius: '8px',
+                      fontWeight: 600,
+                      fontSize: '0.875rem',
+                    }}
                   >
-                    {user.email}
-                  </div>
-                </div>
-              </div>
-              {onLogout && (
-                <button
-                  onClick={() => {
-                    onLogout()
-                    setMobileMenuOpen(false)
-                  }}
-                  className="w-full px-4 py-2 rounded text-sm font-semibold transition-colors text-center"
-                  style={{
-                    background: 'var(--binance-red-bg)',
-                    color: 'var(--binance-red)',
-                  }}
-                >
-                  {t('exitLogin', language)}
-                </button>
-              )}
-            </div>
-          )}
-
-          {/* Show login/register buttons when not logged in and not on login/register pages */}
-          {!isLoggedIn &&
-            currentPage !== 'login' &&
-            currentPage !== 'register' && (
-              <div className="space-y-2 mt-2">
-                <a
-                  href="/login"
-                  className="block w-full px-4 py-2 rounded text-sm font-medium text-center transition-colors"
-                  style={{
-                    color: 'var(--brand-light-gray)',
-                    border: '1px solid var(--brand-light-gray)',
-                  }}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {t('signIn', language)}
-                </a>
-                <a
-                  href="/register"
-                  className="block w-full px-4 py-2 rounded font-semibold text-sm text-center transition-colors"
-                  style={{
-                    background: 'var(--brand-yellow)',
-                    color: 'var(--brand-black)',
-                  }}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {t('signUp', language)}
-                </a>
-              </div>
+                    {t('signUp', language)}
+                  </a>
+                </>
+              )
             )}
+
+            {/* Language */}
+            <LangDropdownContainer ref={dropdownRef}>
+              <LangButton onClick={() => setLanguageDropdownOpen(!languageDropdownOpen)}>
+                <span>{language === 'zh' ? '🇨🇳' : '🇺🇸'}</span>
+                <ChevronDown size={16} />
+              </LangButton>
+              {languageDropdownOpen && (
+                <LangDropdown>
+                  <LangOption
+                    $active={language === 'zh'}
+                    onClick={() => {
+                      setLanguage('zh')
+                      setLanguageDropdownOpen(false)
+                    }}
+                  >
+                    🇨🇳 中文
+                  </LangOption>
+                  <LangOption
+                    $active={language === 'en'}
+                    onClick={() => {
+                      setLanguage('en')
+                      setLanguageDropdownOpen(false)
+                    }}
+                  >
+                    🇺🇸 English
+                  </LangOption>
+                </LangDropdown>
+              )}
+            </LangDropdownContainer>
+          </RightGroup>
+        </DesktopMenu>
+
+        {/* Mobile Menu Button */}
+        <motion.button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="md:hidden"
+          style={{ color: 'var(--brand-light-gray)' }}
+          whileTap={{ scale: 0.9 }}
+        >
+          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </motion.button>
+      </HeaderInner>
+
+      {/* Mobile Menu */}
+      <MobileMenuContainer
+        initial={false}
+        animate={mobileMenuOpen ? { height: 'auto', opacity: 1 } : { height: 0, opacity: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        <div style={{ padding: '16px' }}>
+          <MobileItem
+            $active={currentPage === 'competition'}
+            onClick={() => {
+              handleChangePage?.('competition')
+              setMobileMenuOpen(false)
+            }}
+          >
+            {t('realtimeNav', language)}
+          </MobileItem>
+          {isLoggedIn && (
+            <>
+              <MobileItem
+                $active={currentPage === 'traders'}
+                onClick={() => {
+                  handleChangePage?.('traders')
+                  setMobileMenuOpen(false)
+                }}
+              >
+                {t('configNav', language)}
+              </MobileItem>
+              <MobileItem
+                $active={currentPage === 'trader'}
+                onClick={() => {
+                  handleChangePage?.('trader')
+                  setMobileMenuOpen(false)
+                }}
+              >
+                {t('dashboardNav', language)}
+              </MobileItem>
+              <MobileItem
+                $active={currentPage === 'faq'}
+                onClick={() => {
+                  handleChangePage?.('faq')
+                  setMobileMenuOpen(false)
+                }}
+              >
+                {t('faqNav', language)}
+              </MobileItem>
+            </>
+          )}
         </div>
-      </motion.div>
-    </nav>
+      </MobileMenuContainer>
+    </HeaderContainer>
   )
 }
+
+// ---------- Styled Components ----------
+const HeaderContainer = styled.nav`
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 50;
+  background: var(--brand-dark-gray);
+`
+
+const HeaderInner = styled.div`
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  @media (min-width: 640px) {
+    padding: 0 1.5rem;
+  }
+  @media (min-width: 1024px) {
+    padding: 0 2rem;
+  }
+`
+
+const LogoLink = styled.a`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  img {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .brand {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--brand-yellow);
+  }
+
+  .sub {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    display: none;
+
+    @media (min-width: 640px) {
+      display: block;
+    }
+  }
+`
+
+const DesktopMenu = styled.div`
+  display: none;
+  @media (min-width: 768px) {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 2rem;
+  }
+`
+
+const NavGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+`
+
+const NavButton = styled.button<{ $active?: boolean }>`
+  font-size: 0.875rem;
+  font-weight: bold;
+  position: relative;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: color 0.3s;
+
+  color: ${({ $active }) => ($active ? 'var(--brand-yellow)' : 'var(--brand-light-gray)')};
+
+  &:hover {
+    color: var(--brand-yellow);
+  }
+
+  ${({ $active }) =>
+    $active &&
+    `
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      background: rgba(240, 185, 11, 0.15);
+      z-index: -1;
+    }
+  `}
+`
+
+const LinkText = styled.a<{ $active?: boolean }>`
+  font-size: 0.875rem;
+  font-weight: bold;
+  position: relative;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: color 0.3s;
+
+  color: ${({ $active }) => ($active ? 'var(--brand-yellow)' : 'var(--brand-light-gray)')};
+
+  &:hover {
+    color: var(--brand-yellow);
+  }
+
+  ${({ $active }) =>
+    $active &&
+    `
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      background: rgba(240, 185, 11, 0.15);
+      z-index: -1;
+    }
+  `}
+`
+
+const RightGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+`
+
+const TextLink = styled.a`
+  font-size: 0.875rem;
+  color: var(--brand-light-gray);
+  position: relative;
+  transition: color 0.3s;
+  &:hover {
+    color: var(--brand-yellow);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--brand-yellow);
+    transition: width 0.3s;
+  }
+
+  &:hover::after {
+    width: 100%;
+  }
+`
+
+const UserDropdownContainer = styled.div`
+  position: relative;
+`
+
+const UserButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  transition: background 0.2s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+`
+
+const UserIcon = styled.div`
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--brand-yellow);
+  color: var(--brand-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+`
+
+const UserDropdown = styled.div`
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin-top: 0.5rem;
+  width: 12rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: var(--brand-dark-gray);
+  border: 1px solid var(--panel-border);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  z-index: 50;
+`
+
+const UserDropdownItem = styled.button`
+  width: 100%;
+  text-align: center;
+  padding: 8px 12px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  background: var(--binance-red-bg);
+  color: var(--binance-red);
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+`
+
+const LangDropdownContainer = styled.div`
+  position: relative;
+`
+
+const LangButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background 0.2s;
+  color: var(--brand-light-gray);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+`
+
+const LangDropdown = styled.div`
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin-top: 0.5rem;
+  width: 8rem;
+  border-radius: 0.5rem;
+  background: var(--brand-dark-gray);
+  border: 1px solid var(--panel-border);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  z-index: 50;
+`
+
+const LangOption = styled.button<{ $active?: boolean }>`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 0.875rem;
+  color: var(--brand-light-gray);
+  background: ${({ $active }) => ($active ? 'rgba(240, 185, 11, 0.1)' : 'transparent')};
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: ${({ $active }) => ($active ? 1 : 0.8)};
+  }
+`
+
+const MobileMenuContainer = styled(motion.div)`
+  background: var(--brand-dark-gray);
+  border-top: 1px solid rgba(240, 185, 11, 0.1);
+  overflow: hidden;
+`
+
+const MobileItem = styled.button<{ $active?: boolean }>`
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-size: 0.875rem;
+  font-weight: bold;
+  padding: 12px 16px;
+  border-radius: 8px;
+  position: relative;
+  color: ${({ $active }) => ($active ? 'var(--brand-yellow)' : 'var(--brand-light-gray)')};
+  transition: color 0.3s;
+
+  &:hover {
+    color: var(--brand-yellow);
+  }
+
+  ${({ $active }) =>
+    $active &&
+    `
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      background: rgba(240, 185, 11, 0.15);
+      z-index: -1;
+    }
+  `}
+`

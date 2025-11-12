@@ -54,10 +54,7 @@ export function ResetPasswordPage() {
     <div className="min-h-screen" style={{ background: '#0B0E11' }}>
       <Header simple />
 
-      <div
-        className="flex items-center justify-center"
-        style={{ minHeight: 'calc(100vh - 80px)' }}
-      >
+      <div className="flex items-center justify-center" style={{ minHeight: 'calc(100vh - 80px)' }}>
         <div className="w-full max-w-md">
           {/* Back to Login */}
           <button
@@ -89,17 +86,11 @@ export function ResetPasswordPage() {
           </div>
 
           {/* Reset Password Form */}
-          <div
-            className="rounded-lg p-6"
-            style={{ background: '#1E2329', border: '1px solid #2B3139' }}
-          >
+          <div className="rounded-lg p-6" style={{ background: '#1E2329', border: '1px solid #2B3139' }}>
             {success ? (
               <div className="text-center py-8">
                 <div className="text-5xl mb-4">✅</div>
-                <p
-                  className="text-lg font-semibold mb-2"
-                  style={{ color: '#EAECEF' }}
-                >
+                <p className="text-lg font-semibold mb-2" style={{ color: '#EAECEF' }}>
                   {t('resetPasswordSuccess', language)}
                 </p>
                 <p className="text-sm" style={{ color: '#848E9C' }}>
@@ -109,10 +100,7 @@ export function ResetPasswordPage() {
             ) : (
               <form onSubmit={handleResetPassword} className="space-y-4">
                 <div>
-                  <label
-                    className="block text-sm font-semibold mb-2"
-                    style={{ color: '#EAECEF' }}
-                  >
+                  <label className="block text-sm font-semibold mb-2" style={{ color: '#EAECEF' }}>
                     {t('email', language)}
                   </label>
                   <Input
@@ -125,10 +113,7 @@ export function ResetPasswordPage() {
                 </div>
 
                 <div>
-                  <label
-                    className="block text-sm font-semibold mb-2"
-                    style={{ color: '#EAECEF' }}
-                  >
+                  <label className="block text-sm font-semibold mb-2" style={{ color: '#EAECEF' }}>
                     {t('newPassword', language)}
                   </label>
                   <div className="relative">
@@ -147,20 +132,13 @@ export function ResetPasswordPage() {
                       className="absolute inset-y-0 right-2 w-8 h-10 flex items-center justify-center btn-icon"
                       style={{ color: 'var(--text-secondary)' }}
                     >
-                      {showPassword ? (
-                        <EyeOff className="w-5 h-5" />
-                      ) : (
-                        <Eye className="w-5 h-5" />
-                      )}
+                      {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                     </button>
                   </div>
                 </div>
 
                 <div>
-                  <label
-                    className="block text-sm font-semibold mb-2"
-                    style={{ color: '#EAECEF' }}
-                  >
+                  <label className="block text-sm font-semibold mb-2" style={{ color: '#EAECEF' }}>
                     {t('confirmPassword', language)}
                   </label>
                   <div className="relative">
@@ -175,41 +153,22 @@ export function ResetPasswordPage() {
                     <button
                       type="button"
                       onMouseDown={(e) => e.preventDefault()}
-                      onClick={() =>
-                        setShowConfirmPassword(!showConfirmPassword)
-                      }
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                       className="absolute inset-y-0 right-2 w-8 h-10 flex items-center justify-center btn-icon"
                       style={{ color: 'var(--text-secondary)' }}
                     >
-                      {showConfirmPassword ? (
-                        <EyeOff className="w-5 h-5" />
-                      ) : (
-                        <Eye className="w-5 h-5" />
-                      )}
+                      {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                     </button>
                   </div>
                 </div>
 
                 {/* 密码强度检查（必须通过才允许提交） */}
-                <div
-                  className="mt-1 text-xs"
-                  style={{ color: 'var(--text-secondary)' }}
-                >
-                  <div
-                    className="mb-1"
-                    style={{ color: 'var(--brand-light-gray)' }}
-                  >
+                <div className="mt-1 text-xs" style={{ color: 'var(--text-secondary)' }}>
+                  <div className="mb-1" style={{ color: 'var(--brand-light-gray)' }}>
                     {t('passwordRequirements', language)}
                   </div>
                   <PasswordChecklist
-                    rules={[
-                      'minLength',
-                      'capital',
-                      'lowercase',
-                      'number',
-                      'specialChar',
-                      'match',
-                    ]}
+                    rules={['minLength', 'capital', 'lowercase', 'number', 'specialChar', 'match']}
                     minLength={8}
                     value={newPassword}
                     valueAgain={confirmPassword}
@@ -227,10 +186,7 @@ export function ResetPasswordPage() {
                 </div>
 
                 <div>
-                  <label
-                    className="block text-sm font-semibold mb-2"
-                    style={{ color: '#EAECEF' }}
-                  >
+                  <label className="block text-sm font-semibold mb-2" style={{ color: '#EAECEF' }}>
                     {t('otpCode', language)}
                   </label>
                   <div className="text-center mb-3">
@@ -242,9 +198,7 @@ export function ResetPasswordPage() {
                   <input
                     type="text"
                     value={otpCode}
-                    onChange={(e) =>
-                      setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))
-                    }
+                    onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                     className="w-full px-3 py-2 rounded text-center text-2xl font-mono"
                     style={{
                       background: '#0B0E11',
@@ -275,9 +229,7 @@ export function ResetPasswordPage() {
                   className="w-full px-4 py-2 rounded text-sm font-semibold transition-all hover:scale-105 disabled:opacity-50"
                   style={{ background: '#F0B90B', color: '#000' }}
                 >
-                  {loading
-                    ? t('loading', language)
-                    : t('resetPasswordButton', language)}
+                  {loading ? t('loading', language) : t('resetPasswordButton', language)}
                 </button>
               </form>
             )}
