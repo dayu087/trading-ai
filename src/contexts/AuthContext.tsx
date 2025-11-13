@@ -55,18 +55,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // Reset 401 flag on page load to allow fresh 401 handling
     reset401Flag()
-
     // 先检查是否为管理员模式（使用带缓存的系统配置获取）
     getSystemConfig()
-      .then(() => {
-        // 不再在管理员模式下模拟登录；统一检查本地存储
-        const savedToken = localStorage.getItem('auth_token')
-        const savedUser = localStorage.getItem('auth_user')
-        if (savedToken && savedUser) {
-          setToken(savedToken)
-          setUser(JSON.parse(savedUser))
+      .then((data: any) => {
+        if (data?.admin_mode) {
+          // 管理员模式，模拟登录
+          const adminUser = { id: 'admin', email: 'admin@localhost' }
+          setToken('admin_token')
+          setUser(adminUser)
         }
-
+        // // 不再在管理员模式下模拟登录；统一检查本地存储
+        // const savedToken = localStorage.getItem('auth_token')
+        // const savedUser = localStorage.getItem('auth_user')
+        // if (savedToken && savedUser) {
+        //   setToken(savedToken)
+        //   setUser(JSON.parse(savedUser))
+        // }
         setIsLoading(false)
       })
       .catch((err) => {
@@ -92,9 +96,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setToken(null)
       // Note: localStorage cleanup is already done in httpClient
     }
-
     window.addEventListener('unauthorized', handleUnauthorized)
-
     return () => {
       window.removeEventListener('unauthorized', handleUnauthorized)
     }

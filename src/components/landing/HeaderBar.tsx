@@ -2,23 +2,12 @@ import { useState, useEffect, useRef, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { Menu, X, ChevronDown } from 'lucide-react'
 import styled from 'styled-components'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useLanguage } from '../../contexts/LanguageContext'
 import { useAuth } from '../../contexts/AuthContext'
 import { t } from '../../i18n/translations'
 
-interface HeaderBarProps {
-  isLoggedIn?: boolean
-  isHomePage?: boolean
-  currentPage?: string
-  handleRoute?: (route: string) => void
-}
-
-export default function HeaderBar({
-  isLoggedIn = false,
-  isHomePage = false,
-  currentPage,
-  handleRoute,
-}: HeaderBarProps) {
+export default function HeaderBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false)
   const [userDropdownOpen, setUserDropdownOpen] = useState(false)
@@ -26,13 +15,16 @@ export default function HeaderBar({
   const userDropdownRef = useRef<HTMLDivElement>(null)
   const { language, setLanguage } = useLanguage()
   const { user, logout } = useAuth()
+  const { pathname } = useLocation()
+  const navigate = useNavigate()
+  const currentPage = pathname.replace('/', '') || ''
 
   const leftNavList = useMemo(() => {
-    if (isLoggedIn) {
+    if (user) {
       return [
         { key: 'competition', label: t('realtimeNav', language) },
         { key: 'traders', label: t('configNav', language) },
-        { key: 'dashboard', label: 'dashboardNav' },
+        { key: 'dashboard', label: t('dashboardNav', language) },
         { key: 'faq', label: t('faqNav', language) },
       ]
     } else {
@@ -41,10 +33,10 @@ export default function HeaderBar({
         { key: 'faq', label: t('faqNav', language) },
       ]
     }
-  }, [isLoggedIn])
+  }, [user, language])
 
   const rightNavList = useMemo(() => {
-    if (isHomePage) {
+    if (pathname == '/') {
       return [
         { key: 'features', label: t('features', language) },
         { key: 'howItWorks', label: t('howItWorks', language) },
@@ -54,7 +46,7 @@ export default function HeaderBar({
     } else {
       return []
     }
-  }, [isHomePage])
+  }, [pathname, language])
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -64,18 +56,6 @@ export default function HeaderBar({
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
-
-  const handleChangePage = (page: string) => {
-    const curentRoute = window.location.pathname
-    if (curentRoute === '/' || curentRoute === '/faq' || !isLoggedIn) {
-      setTimeout(() => {
-        window.location.href = `/${page}`
-      }, 0)
-    } else {
-      if (handleRoute) handleRoute(page)
-      window.history.pushState({}, '', `/${page}`)
-    }
-  }
 
   return (
     <HeaderContainer>
@@ -90,7 +70,7 @@ export default function HeaderBar({
         <DesktopMenu>
           <NavGroup>
             {leftNavList.map((it) => (
-              <NavButton key={it.key} $active={currentPage === it.key} onClick={() => handleChangePage(it.key)}>
+              <NavButton key={it.key} $active={currentPage === it.key} onClick={() => navigate(`/${it.key}`)}>
                 {it.label}
               </NavButton>
             ))}
@@ -115,7 +95,7 @@ export default function HeaderBar({
             ))}
 
             {/* User */}
-            {isLoggedIn && user ? (
+            {user ? (
               <UserDropdownContainer ref={userDropdownRef}>
                 <UserButton onClick={() => setUserDropdownOpen(!userDropdownOpen)}>
                   <UserIcon>{user.email[0].toUpperCase()}</UserIcon>
@@ -244,18 +224,18 @@ export default function HeaderBar({
           <MobileItem
             $active={currentPage === 'competition'}
             onClick={() => {
-              handleChangePage?.('competition')
+              navigate(`/competition`)
               setMobileMenuOpen(false)
             }}
           >
             {t('realtimeNav', language)}
           </MobileItem>
-          {isLoggedIn && (
+          {user && (
             <>
               <MobileItem
                 $active={currentPage === 'traders'}
                 onClick={() => {
-                  handleChangePage?.('traders')
+                  navigate(`/traders`)
                   setMobileMenuOpen(false)
                 }}
               >
@@ -264,7 +244,7 @@ export default function HeaderBar({
               <MobileItem
                 $active={currentPage === 'trader'}
                 onClick={() => {
-                  handleChangePage?.('trader')
+                  navigate(`/trader`)
                   setMobileMenuOpen(false)
                 }}
               >
@@ -273,7 +253,7 @@ export default function HeaderBar({
               <MobileItem
                 $active={currentPage === 'faq'}
                 onClick={() => {
-                  handleChangePage?.('faq')
+                  navigate(`/faq`)
                   setMobileMenuOpen(false)
                 }}
               >

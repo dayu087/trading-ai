@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
-import HeaderBar from '../components/landing/HeaderBar'
 import HeroSection from '../components/landing/HeroSection'
 import AboutSection from '../components/landing/AboutSection'
 import FeaturesSection from '../components/landing/FeaturesSection'
@@ -23,25 +22,6 @@ export function LandingPage() {
   console.log('LandingPage - user:', user, 'isLoggedIn:', isLoggedIn)
   return (
     <>
-      <HeaderBar
-        onLoginClick={() => setShowLoginModal(true)}
-        isLoggedIn={isLoggedIn}
-        isHomePage={true}
-        language={language}
-        onLanguageChange={setLanguage}
-        user={user}
-        onLogout={logout}
-        onPageChange={(page) => {
-          console.log('LandingPage onPageChange called with:', page)
-          if (page === 'competition') {
-            window.location.href = '/competition'
-          } else if (page === 'traders') {
-            window.location.href = '/traders'
-          } else if (page === 'trader') {
-            window.location.href = '/dashboard'
-          }
-        }}
-      />
       <div
         className="min-h-screen px-4 sm:px-6 lg:px-8"
         style={{

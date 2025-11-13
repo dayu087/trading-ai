@@ -42,6 +42,8 @@ export default function TraderDetails({
   const [lastUpdate, setLastUpdate] = useState<string>('--:--:--')
   const { language } = useLanguage()
 
+  console.log(selectedTraderId, traders, 'traders')
+
   // 如果在trader页面，获取该trader的数据
   const { data: status } = useSWR<SystemStatus>(
     selectedTraderId ? `status-${selectedTraderId}` : null,
@@ -191,199 +193,195 @@ export default function TraderDetails({
   }
 
   return (
-    <div className="min-h-screen" style={{ background: '#0B0E11', color: '#EAECEF' }}>
-      <main className="max-w-[1920px] mx-auto px-6 py-6 pt-24">
-        <Root>
-          {/* Trader Header */}
-          <HeaderCard>
-            <HeaderTop>
-              <h2>
-                <AvatarBadge>🤖</AvatarBadge>
-                <TraderTitle>{selectedTrader.trader_name}</TraderTitle>
-              </h2>
+    <Root>
+      {/* Trader Header */}
+      <HeaderCard>
+        <HeaderTop>
+          <h2>
+            <AvatarBadge>🤖</AvatarBadge>
+            <TraderTitle>{selectedTrader.trader_name}</TraderTitle>
+          </h2>
 
-              {/* Trader Selector */}
-              {traders && traders.length > 0 && (
-                <SelectorRow>
-                  <SelectorLabel>{t('switchTrader', language)}:</SelectorLabel>
-                  <Select value={selectedTraderId} onChange={(e) => onTraderSelect(e.target.value)}>
-                    {traders.map((trader) => (
-                      <option key={trader.trader_id} value={trader.trader_id}>
-                        {trader.trader_name}
-                      </option>
-                    ))}
-                  </Select>
-                </SelectorRow>
-              )}
-            </HeaderTop>
-
-            <HeaderBottom>
-              <ModelText>
-                AI Model:{' '}
-                <ModelBadge isQwen={selectedTrader.ai_model.includes('qwen')}>
-                  {getModelDisplayName(selectedTrader.ai_model.split('_').pop() || selectedTrader.ai_model)}
-                </ModelBadge>
-              </ModelText>
-
-              {status && (
-                <StatusRow>
-                  <Dot>•</Dot>
-                  <StatusText>Cycles: {status.call_count}</StatusText>
-                  <Dot>•</Dot>
-                  <StatusText>Runtime: {status.runtime_minutes} min</StatusText>
-                </StatusRow>
-              )}
-            </HeaderBottom>
-          </HeaderCard>
-
-          {/* Debug Info */}
-          {account && (
-            <DebugBar>
-              🔄 Last Update: {lastUpdate} | Total Equity: {account?.total_equity?.toFixed(2) || '0.00'} | Available:{' '}
-              {account?.available_balance?.toFixed(2) || '0.00'} | P&L: {account?.total_pnl?.toFixed(2) || '0.00'} (
-              {account?.total_pnl_pct?.toFixed(2) || '0.00'}%)
-            </DebugBar>
+          {/* Trader Selector */}
+          {traders && traders.length > 0 && (
+            <SelectorRow>
+              <SelectorLabel>{t('switchTrader', language)}:</SelectorLabel>
+              <Select value={selectedTraderId} onChange={(e) => onTraderSelect(e.target.value)}>
+                {traders.map((trader) => (
+                  <option key={trader.trader_id} value={trader.trader_id}>
+                    {trader.trader_name}
+                  </option>
+                ))}
+              </Select>
+            </SelectorRow>
           )}
+        </HeaderTop>
 
-          {/* Account Overview */}
-          <StatsGrid>
-            <StatCard
-              title={t('totalEquity', language)}
-              value={`${account?.total_equity?.toFixed(2) || '0.00'} USDT`}
-              change={account?.total_pnl_pct || 0}
-              positive={(account?.total_pnl ?? 0) > 0}
-            />
-            <StatCard
-              title={t('availableBalance', language)}
-              value={`${account?.available_balance?.toFixed(2) || '0.00'} USDT`}
-              subtitle={`${
-                account?.available_balance && account?.total_equity
-                  ? ((account.available_balance / account.total_equity) * 100).toFixed(1)
-                  : '0.0'
-              }% ${t('free', language)}`}
-            />
-            <StatCard
-              title={t('totalPnL', language)}
-              value={`${
-                account?.total_pnl !== undefined && account.total_pnl >= 0 ? '+' : ''
-              }${account?.total_pnl?.toFixed(2) || '0.00'} USDT`}
-              change={account?.total_pnl_pct || 0}
-              positive={(account?.total_pnl ?? 0) >= 0}
-            />
-            <StatCard
-              title={t('positions', language)}
-              value={`${account?.position_count || 0}`}
-              subtitle={`${t('margin', language)}: ${account?.margin_used_pct?.toFixed(1) || '0.0'}%`}
-            />
-          </StatsGrid>
+        <HeaderBottom>
+          <ModelText>
+            AI Model:{' '}
+            <ModelBadge isQwen={selectedTrader.ai_model.includes('qwen')}>
+              {getModelDisplayName(selectedTrader.ai_model.split('_').pop() || selectedTrader.ai_model)}
+            </ModelBadge>
+          </ModelText>
 
-          {/* Main two-column layout */}
-          <TwoCol>
-            {/* Left column: chart + positions */}
-            <LeftCol>
-              <ChartWrap className="">
-                {/* EquityChart component kept as-is reference */}
-                <EquityChart traderId={selectedTrader.trader_id}></EquityChart>
-              </ChartWrap>
+          {status && (
+            <StatusRow>
+              <Dot>•</Dot>
+              <StatusText>Cycles: {status.call_count}</StatusText>
+              <Dot>•</Dot>
+              <StatusText>Runtime: {status.runtime_minutes} min</StatusText>
+            </StatusRow>
+          )}
+        </HeaderBottom>
+      </HeaderCard>
 
-              {/* Current Positions */}
-              <PositionsCard>
-                <PositionsHeader>
-                  <PositionsTitle>📈 {t('currentPositions', language)}</PositionsTitle>
-                  {positions && positions.length > 0 && (
-                    <PositionsCount>
-                      {positions.length} {t('active', language)}
-                    </PositionsCount>
-                  )}
-                </PositionsHeader>
+      {/* Debug Info */}
+      {account && (
+        <DebugBar>
+          🔄 Last Update: {lastUpdate} | Total Equity: {account?.total_equity?.toFixed(2) || '0.00'} | Available:{' '}
+          {account?.available_balance?.toFixed(2) || '0.00'} | P&L: {account?.total_pnl?.toFixed(2) || '0.00'} (
+          {account?.total_pnl_pct?.toFixed(2) || '0.00'}%)
+        </DebugBar>
+      )}
 
-                {positions && positions.length > 0 ? (
-                  <PositionsTableWrap>
-                    <table>
-                      <thead>
-                        <tr>
-                          <th>{t('symbol', language)}</th>
-                          <th>{t('side', language)}</th>
-                          <th>{t('entryPrice', language)}</th>
-                          <th>{t('markPrice', language)}</th>
-                          <th>{t('quantity', language)}</th>
-                          <th>{t('positionValue', language)}</th>
-                          <th>{t('leverage', language)}</th>
-                          <th>{t('unrealizedPnL', language)}</th>
-                          <th>{t('liqPrice', language)}</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {positions.map((pos, i) => (
-                          <tr key={i}>
-                            <td className="mono">{pos.symbol}</td>
-                            <td>
-                              <SideBadge side={pos.side === 'long' ? 'long' : 'short'}>
-                                {t(pos.side === 'long' ? 'long' : 'short', language)}
-                              </SideBadge>
-                            </td>
-                            <td className="mono">{pos.entry_price.toFixed(4)}</td>
-                            <td className="mono">{pos.mark_price.toFixed(4)}</td>
-                            <td className="mono">{pos.quantity.toFixed(4)}</td>
-                            <td className="mono bold">{(pos.quantity * pos.mark_price).toFixed(2)} USDT</td>
-                            <td className="mono leverage">{pos.leverage}x</td>
-                            <td className="mono">
-                              <PnLText positive={pos.unrealized_pnl >= 0}>
-                                {pos.unrealized_pnl >= 0 ? '+' : ''}
-                                {pos.unrealized_pnl.toFixed(2)} ({pos.unrealized_pnl_pct.toFixed(2)}%)
-                              </PnLText>
-                            </td>
-                            <td className="mono liq">{pos.liquidation_price.toFixed(4)}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </PositionsTableWrap>
-                ) : (
-                  <NoPositions>
-                    <div className="emoji">📊</div>
-                    <NoPositionsTitle>{t('noPositions', language)}</NoPositionsTitle>
-                    <NoPositionsDesc>{t('noActivePositions', language)}</NoPositionsDesc>
-                  </NoPositions>
+      {/* Account Overview */}
+      <StatsGrid>
+        <StatCard
+          title={t('totalEquity', language)}
+          value={`${account?.total_equity?.toFixed(2) || '0.00'} USDT`}
+          change={account?.total_pnl_pct || 0}
+          positive={(account?.total_pnl ?? 0) > 0}
+        />
+        <StatCard
+          title={t('availableBalance', language)}
+          value={`${account?.available_balance?.toFixed(2) || '0.00'} USDT`}
+          subtitle={`${
+            account?.available_balance && account?.total_equity
+              ? ((account.available_balance / account.total_equity) * 100).toFixed(1)
+              : '0.0'
+          }% ${t('free', language)}`}
+        />
+        <StatCard
+          title={t('totalPnL', language)}
+          value={`${
+            account?.total_pnl !== undefined && account.total_pnl >= 0 ? '+' : ''
+          }${account?.total_pnl?.toFixed(2) || '0.00'} USDT`}
+          change={account?.total_pnl_pct || 0}
+          positive={(account?.total_pnl ?? 0) >= 0}
+        />
+        <StatCard
+          title={t('positions', language)}
+          value={`${account?.position_count || 0}`}
+          subtitle={`${t('margin', language)}: ${account?.margin_used_pct?.toFixed(1) || '0.0'}%`}
+        />
+      </StatsGrid>
+
+      {/* Main two-column layout */}
+      <TwoCol>
+        {/* Left column: chart + positions */}
+        <LeftCol>
+          <ChartWrap className="">
+            {/* EquityChart component kept as-is reference */}
+            <EquityChart traderId={selectedTrader.trader_id}></EquityChart>
+          </ChartWrap>
+
+          {/* Current Positions */}
+          <PositionsCard>
+            <PositionsHeader>
+              <PositionsTitle>📈 {t('currentPositions', language)}</PositionsTitle>
+              {positions && positions.length > 0 && (
+                <PositionsCount>
+                  {positions.length} {t('active', language)}
+                </PositionsCount>
+              )}
+            </PositionsHeader>
+
+            {positions && positions.length > 0 ? (
+              <PositionsTableWrap>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>{t('symbol', language)}</th>
+                      <th>{t('side', language)}</th>
+                      <th>{t('entryPrice', language)}</th>
+                      <th>{t('markPrice', language)}</th>
+                      <th>{t('quantity', language)}</th>
+                      <th>{t('positionValue', language)}</th>
+                      <th>{t('leverage', language)}</th>
+                      <th>{t('unrealizedPnL', language)}</th>
+                      <th>{t('liqPrice', language)}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {positions.map((pos, i) => (
+                      <tr key={i}>
+                        <td className="mono">{pos.symbol}</td>
+                        <td>
+                          <SideBadge side={pos.side === 'long' ? 'long' : 'short'}>
+                            {t(pos.side === 'long' ? 'long' : 'short', language)}
+                          </SideBadge>
+                        </td>
+                        <td className="mono">{pos.entry_price.toFixed(4)}</td>
+                        <td className="mono">{pos.mark_price.toFixed(4)}</td>
+                        <td className="mono">{pos.quantity.toFixed(4)}</td>
+                        <td className="mono bold">{(pos.quantity * pos.mark_price).toFixed(2)} USDT</td>
+                        <td className="mono leverage">{pos.leverage}x</td>
+                        <td className="mono">
+                          <PnLText positive={pos.unrealized_pnl >= 0}>
+                            {pos.unrealized_pnl >= 0 ? '+' : ''}
+                            {pos.unrealized_pnl.toFixed(2)} ({pos.unrealized_pnl_pct.toFixed(2)}%)
+                          </PnLText>
+                        </td>
+                        <td className="mono liq">{pos.liquidation_price.toFixed(4)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </PositionsTableWrap>
+            ) : (
+              <NoPositions>
+                <div className="emoji">📊</div>
+                <NoPositionsTitle>{t('noPositions', language)}</NoPositionsTitle>
+                <NoPositionsDesc>{t('noActivePositions', language)}</NoPositionsDesc>
+              </NoPositions>
+            )}
+          </PositionsCard>
+        </LeftCol>
+
+        {/* Right column: recent decisions */}
+        <RightCol>
+          <DecisionsCard>
+            <DecisionsHeader>
+              <DecisionsIcon>🧠</DecisionsIcon>
+              <div>
+                <DecisionsTitle>{t('recentDecisions', language)}</DecisionsTitle>
+                {decisions && decisions.length > 0 && (
+                  <DecisionsSub>{t('lastCycles', language, { count: decisions.length })}</DecisionsSub>
                 )}
-              </PositionsCard>
-            </LeftCol>
+              </div>
+            </DecisionsHeader>
 
-            {/* Right column: recent decisions */}
-            <RightCol>
-              <DecisionsCard>
-                <DecisionsHeader>
-                  <DecisionsIcon>🧠</DecisionsIcon>
-                  <div>
-                    <DecisionsTitle>{t('recentDecisions', language)}</DecisionsTitle>
-                    {decisions && decisions.length > 0 && (
-                      <DecisionsSub>{t('lastCycles', language, { count: decisions.length })}</DecisionsSub>
-                    )}
-                  </div>
-                </DecisionsHeader>
+            <DecisionsList>
+              {decisions && decisions.length > 0 ? (
+                decisions.map((decision, i) => <DecisionCard key={i} decision={decision} language={language} />)
+              ) : (
+                <EmptyDecisions>
+                  <div className="emoji">🧠</div>
+                  <EmptyDecisionsTitle>{t('noDecisionsYet', language)}</EmptyDecisionsTitle>
+                  <EmptyDecisionsDesc>{t('aiDecisionsWillAppear', language)}</EmptyDecisionsDesc>
+                </EmptyDecisions>
+              )}
+            </DecisionsList>
+          </DecisionsCard>
+        </RightCol>
+      </TwoCol>
 
-                <DecisionsList>
-                  {decisions && decisions.length > 0 ? (
-                    decisions.map((decision, i) => <DecisionCard key={i} decision={decision} language={language} />)
-                  ) : (
-                    <EmptyDecisions>
-                      <div className="emoji">🧠</div>
-                      <EmptyDecisionsTitle>{t('noDecisionsYet', language)}</EmptyDecisionsTitle>
-                      <EmptyDecisionsDesc>{t('aiDecisionsWillAppear', language)}</EmptyDecisionsDesc>
-                    </EmptyDecisions>
-                  )}
-                </DecisionsList>
-              </DecisionsCard>
-            </RightCol>
-          </TwoCol>
-
-          {/* AI Learning & Performance Analysis */}
-          <AILearningWrap>
-            <AILearning traderId={selectedTrader.trader_id} />
-          </AILearningWrap>
-        </Root>
-      </main>
-    </div>
+      {/* AI Learning & Performance Analysis */}
+      <AILearningWrap>
+        <AILearning traderId={selectedTrader.trader_id} />
+      </AILearningWrap>
+    </Root>
   )
 }
 
@@ -793,7 +791,9 @@ const LeftCol = styled.div`
   flex-direction: column;
   gap: 16px;
 `
-const RightCol = styled.div``
+const RightCol = styled.div`
+  overflow: hidden;
+`
 
 /* Chart placeholder */
 const ChartWrap = styled.div``
@@ -908,6 +908,7 @@ const DecisionsCard = styled.div`
   border-radius: 12px;
   padding: 1.25rem;
   max-height: calc(100vh - 120px);
+  overflow-y: auto;
 `
 const DecisionsHeader = styled.div`
   display: flex;
@@ -941,6 +942,7 @@ const DecisionsList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
+  overflow-y: auto;
 `
 const EmptyDecisions = styled.div`
   text-align: center;
