@@ -124,7 +124,7 @@ export default function AILearning({ traderId }: AILearningProps) {
       {/* 指标卡片区域 */}
       <MetricsGrid>
         {/* 总交易数（白色卡片） */}
-        <MetricCard bg="#FFFFFF">
+        <MetricCard $bg="#FFFFFF">
           <MetricLabel>{t('totalTrades', language)}</MetricLabel>
           <MetricValue>
             <HighlightNumber>{performance.total_trades}</HighlightNumber>
@@ -133,7 +133,7 @@ export default function AILearning({ traderId }: AILearningProps) {
         </MetricCard>
 
         {/* 胜率（亮绿卡片） */}
-        <MetricCard bg="#CAFE36">
+        <MetricCard $bg="#CAFE36">
           <MetricLabel>{t('winRate', language)}</MetricLabel>
           <MetricValue>
             <HighlightNumber>{(performance.win_rate || 0).toFixed(1)}%</HighlightNumber>
@@ -144,7 +144,7 @@ export default function AILearning({ traderId }: AILearningProps) {
         </MetricCard>
 
         {/* 平均盈利（深蓝卡片） */}
-        <MetricCard bg="#0F2C3F">
+        <MetricCard $bg="#0F2C3F">
           <MetricLabel style={{ color: '#CAFE36' }}>{t('avgWin', language)}</MetricLabel>
           <MetricValue style={{ color: '#CAFE36' }}>
             <HighlightNumber>+{(performance.avg_win || 0).toFixed(2)}</HighlightNumber>
@@ -153,7 +153,7 @@ export default function AILearning({ traderId }: AILearningProps) {
         </MetricCard>
 
         {/* 平均亏损（白色卡片） */}
-        <MetricCard bg="#FFFFFF">
+        <MetricCard $bg="#FFFFFF">
           <MetricLabel>{t('avgLoss', language)}</MetricLabel>
           <MetricValue>
             <HighlightNumber>{(performance.avg_loss || 0).toFixed(2)}</HighlightNumber>
@@ -360,7 +360,7 @@ export default function AILearning({ traderId }: AILearningProps) {
                 const isProfitable = trade.pn_l >= 0
                 const isRecent = idx === 0
                 return (
-                  <TradeItem key={idx} recent={isRecent} profit={isProfitable}>
+                  <TradeItem key={idx}>
                     <RowBetween>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                         <Symbol>{trade.symbol}</Symbol>
@@ -408,7 +408,7 @@ export default function AILearning({ traderId }: AILearningProps) {
 
                     <PnLBox $profit={isProfitable}>
                       <Label>P&L</Label>
-                      <PnLText profit={isProfitable}>
+                      <PnLText $profit={isProfitable}>
                         {isProfitable ? '+' : ''}
                         {trade.pn_l.toFixed(2)} USDT
                       </PnLText>
@@ -443,49 +443,39 @@ export default function AILearning({ traderId }: AILearningProps) {
       </div>
 
       {/* AI学习说明 - 现代化设计 */}
-      <div
-        className="rounded-2xl p-6 backdrop-blur-sm"
-        style={{
-          background: 'linear-gradient(135deg, rgba(240, 185, 11, 0.1) 0%, rgba(252, 213, 53, 0.05) 100%)',
-          border: '1px solid rgba(240, 185, 11, 0.2)',
-          boxShadow: '0 4px 16px rgba(240, 185, 11, 0.1)',
-        }}
-      >
-        <div className="flex items-start gap-4">
-          <div
-            className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
-            style={{
-              background: 'rgba(240, 185, 11, 0.2)',
-              border: '1px solid rgba(240, 185, 11, 0.3)',
-            }}
-          >
+
+      <InfoCard>
+        <Row>
+          <IconWrapper>
             <Lightbulb className="w-5 h-5" style={{ color: '#FCD34D' }} />
-          </div>
+          </IconWrapper>
+
           <div>
-            <h3 className="font-bold mb-3 text-base" style={{ color: '#FCD34D' }}>
-              {t('howAILearns', language)}
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
-              <div className="flex items-start gap-2">
-                <span style={{ color: '#F0B90B' }}>•</span>
-                <span style={{ color: '#CBD5E1' }}>{t('aiLearningPoint1', language)}</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <span style={{ color: '#F0B90B' }}>•</span>
-                <span style={{ color: '#CBD5E1' }}>{t('aiLearningPoint2', language)}</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <span style={{ color: '#F0B90B' }}>•</span>
-                <span style={{ color: '#CBD5E1' }}>{t('aiLearningPoint3', language)}</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <span style={{ color: '#F0B90B' }}>•</span>
-                <span style={{ color: '#CBD5E1' }}>{t('aiLearningPoint4', language)}</span>
-              </div>
-            </div>
+            <Title>{t('howAILearns', language)}</Title>
+            <PointsGrid>
+              <PointRow>
+                <Bullet>•</Bullet>
+                <PointText>{t('aiLearningPoint1', language)}</PointText>
+              </PointRow>
+
+              <PointRow>
+                <Bullet>•</Bullet>
+                <PointText>{t('aiLearningPoint2', language)}</PointText>
+              </PointRow>
+
+              <PointRow>
+                <Bullet>•</Bullet>
+                <PointText>{t('aiLearningPoint3', language)}</PointText>
+              </PointRow>
+
+              <PointRow>
+                <Bullet>•</Bullet>
+                <PointText>{t('aiLearningPoint4', language)}</PointText>
+              </PointRow>
+            </PointsGrid>
           </div>
-        </div>
-      </div>
+        </Row>
+      </InfoCard>
     </div>
   )
 }
@@ -547,8 +537,8 @@ const MetricsGrid = styled.div`
 `
 
 // ====== Metric Card（白、深蓝、亮绿 3种背景可切换） ======
-const MetricCard = styled.div<{ bg: string }>`
-  background: ${(props) => props.bg || '#FFFFFF'};
+const MetricCard = styled.div<{ $bg: string }>`
+  background: ${(props) => props.$bg || '#FFFFFF'};
   border-radius: 24px;
   padding: 20px;
   display: flex;
@@ -770,7 +760,7 @@ const TradeList = styled.div`
 `
 
 // Trade Item
-const TradeItem = styled.div<{ recent: boolean; profit: boolean }>`
+const TradeItem = styled.div`
   padding: 16px;
   transition: all 0.2s;
   transform-origin: center;
@@ -859,7 +849,7 @@ const PnLBox = styled.div<{ $profit: boolean }>`
   color: ${({ $profit }) => ($profit ? 'var(--up_color)' : 'var(--down_color)')};
 `
 
-const PnLText = styled.span<{ profit: boolean }>`
+const PnLText = styled.span<{ $profit: boolean }>`
   font-weight: bold;
   font-family: monospace;
 `
@@ -895,4 +885,67 @@ const EmptyBox = styled.div`
   text-align: center;
   color: #94a3b8;
   opacity: 0.8;
+`
+
+const InfoCard = styled.div`
+  padding: 24px;
+  background: #f3f3f3;
+  border-radius: 24px;
+  border: 1px solid #191a23;
+`
+
+const Row = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+`
+
+const IconWrapper = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(240, 185, 11, 0.2);
+  border: 1px solid rgba(240, 185, 11, 0.3);
+`
+
+const Title = styled.h3`
+  font-weight: bold;
+  margin-bottom: 8px;
+  font-size: 1.25rem;
+  color: #191a23;
+`
+
+const PointsGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+
+  gap: 16px;
+  font-size: 0.875rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+`
+
+const PointRow = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+`
+
+const Bullet = styled.span`
+  color: #191a23;
+`
+
+const PointText = styled.span`
+  color: #191a23;
 `

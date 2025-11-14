@@ -8,6 +8,7 @@ import { EquityChart } from '../components/EquityChart'
 import AILearning from '../components/AILearning'
 import { useLanguage } from '../contexts/LanguageContext'
 import type { TraderInfo, SystemStatus, AccountInfo, Position, DecisionRecord, Statistics } from '../types' // <- 根据你项目调整路径
+import FooterView from '../components/FooterView'
 
 interface TraderDetailsProps {
   selectedTrader?: TraderInfo
@@ -382,6 +383,8 @@ export default function TraderDetails({
       <AILearningWrap>
         <AILearning traderId={selectedTrader.trader_id} />
       </AILearningWrap>
+
+      <FooterView />
     </Root>
   )
 }
@@ -412,7 +415,7 @@ function StatCard({
         {isChange ? <span> </span> : <span> USDT</span>}
       </StatValue>
       {change !== undefined && (
-        <StatChange positive={positive}>
+        <StatChange $positive={positive}>
           {positive ? '▲' : '▼'} {positive ? '+' : ''}
           {change.toFixed(2)}%
         </StatChange>
@@ -435,7 +438,7 @@ function DecisionCard({ decision, language }: { decision: DecisionRecord; langua
           <DecisionCycle>
             {t('cycle', language)} #{decision.cycle_number}
           </DecisionCycle>
-          <DecisionStatus success={decision.success}>
+          <DecisionStatus $success={decision.success}>
             {t(decision.success ? 'success' : 'failed', language)}
           </DecisionStatus>
         </DecisionInfo>
@@ -533,7 +536,7 @@ function DecisionCard({ decision, language }: { decision: DecisionRecord; langua
       {decision.execution_log && decision.execution_log.length > 0 && (
         <div style={{ marginTop: 8 }}>
           {decision.execution_log.map((log, k) => (
-            <LogLine key={k} success={log.includes('✓') || log.includes('成功')}>
+            <LogLine key={k} $success={log.includes('✓') || log.includes('成功')}>
               {log}
             </LogLine>
           ))}
@@ -787,8 +790,8 @@ const StatValue = styled.div`
     color: #191a23;
   }
 `
-const StatChange = styled.div<{ positive?: boolean }>`
-  color: ${({ positive }) => (positive ? '#2B6D18' : '#A54162')};
+const StatChange = styled.div<{ $positive?: boolean }>`
+  color: ${({ $positive }) => ($positive ? '#2B6D18' : '#A54162')};
   font-weight: 700;
   font-size: 1rem;
 `
@@ -1023,13 +1026,13 @@ const DecisionTime = styled.div`
   color: #191a23;
   border-bottom: 1px solid #f3f3f3;
 `
-const DecisionStatus = styled.div<{ success: boolean }>`
+const DecisionStatus = styled.div<{ $success: boolean }>`
   padding: 4px 10px;
   border-radius: 6px;
   font-size: 0.85rem;
   font-weight: 700;
-  color: ${({ success }) => (success ? '#0ECB81' : '#F6465D')};
-  background: ${({ success }) => (success ? 'rgba(14,203,129,0.1)' : 'rgba(246,70,93,0.1)')};
+  color: ${({ $success }) => ($success ? '#0ECB81' : '#F6465D')};
+  background: ${({ $success }) => ($success ? 'rgba(14,203,129,0.1)' : 'rgba(246,70,93,0.1)')};
 `
 const ToggleRow = styled.div`
   margin-bottom: 8px;
@@ -1113,9 +1116,9 @@ const WarningContent = styled.div`
   flex: 1;
 `
 
-const LogLine = styled.div<{ success?: boolean }>`
+const LogLine = styled.div<{ $success?: boolean }>`
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;
-  color: ${({ success }) => (success ? '#0ECB81' : '#F6465D')};
+  color: ${({ $success }) => ($success ? '#0ECB81' : '#F6465D')};
   font-size: 0.875rem;
   margin-top: 4px;
 `
