@@ -53,8 +53,13 @@ export default function HeaderBar() {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) setLanguageDropdownOpen(false)
       if (userDropdownRef.current && !userDropdownRef.current.contains(event.target as Node)) setUserDropdownOpen(false)
     }
+    const handleScroll = () => {}
     document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
+    document.addEventListener('scroll', handleScroll)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('scroll', handleScroll)
+    }
   }, [])
 
   return (
@@ -63,7 +68,6 @@ export default function HeaderBar() {
         <LogoLink href="/">
           <img src="/icons/nofx.svg" alt="NOFX Logo" />
           <span className="brand">NOFX</span>
-          <span className="sub">Agentic Trading OS</span>
         </LogoLink>
 
         {/* Desktop Menu */}
@@ -99,8 +103,8 @@ export default function HeaderBar() {
               <UserDropdownContainer ref={userDropdownRef}>
                 <UserButton onClick={() => setUserDropdownOpen(!userDropdownOpen)}>
                   <UserIcon>{user.email[0].toUpperCase()}</UserIcon>
-                  <span style={{ color: 'var(--brand-light-gray)' }}>{user.email}</span>
-                  <ChevronDown size={16} color="var(--brand-light-gray)" />
+                  <span>{user.email}</span>
+                  <ChevronDown size={18} color="var(--brand-black)" />
                 </UserButton>
 
                 {userDropdownOpen && (
@@ -174,8 +178,8 @@ export default function HeaderBar() {
             {/* Language */}
             <LangDropdownContainer ref={dropdownRef}>
               <LangButton onClick={() => setLanguageDropdownOpen(!languageDropdownOpen)}>
-                <span>{language === 'zh' ? '🇨🇳' : '🇺🇸'}</span>
-                <ChevronDown size={16} />
+                <span>{language.toLocaleUpperCase()}</span>
+                <ChevronDown size={18} color="var(--brand-black)" />
               </LangButton>
               {languageDropdownOpen && (
                 <LangDropdown>
@@ -273,7 +277,10 @@ const HeaderContainer = styled.nav`
   top: 0;
   width: 100%;
   z-index: 50;
-  background: var(--brand-dark-gray);
+  /* background: var(--brand-dark-gray); */
+  background-color: var(--background);
+  border-bottom: 1px solid transparent;
+  transition: all 0.3s ease-in-out;
 `
 
 const HeaderInner = styled.div`
@@ -296,7 +303,7 @@ const HeaderInner = styled.div`
 const LogoLink = styled.a`
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
   cursor: pointer;
   transition: opacity 0.2s;
 
@@ -310,19 +317,9 @@ const LogoLink = styled.a`
   }
 
   .brand {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     font-weight: bold;
-    color: var(--brand-yellow);
-  }
-
-  .sub {
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-    display: none;
-
-    @media (min-width: 640px) {
-      display: block;
-    }
+    color: var(--brand-black);
   }
 `
 
@@ -350,11 +347,11 @@ const NavButton = styled.button<{ $active?: boolean }>`
   padding: 8px 16px;
   border-radius: 8px;
   transition: color 0.3s;
-
-  color: ${({ $active }) => ($active ? 'var(--brand-yellow)' : 'var(--brand-light-gray)')};
+  color: var(--brand-black);
+  font-weight: ${({ $active }) => ($active ? 'bold' : 'normal')};
 
   &:hover {
-    color: var(--brand-yellow);
+    font-weight: bold;
   }
 
   ${({ $active }) =>
@@ -363,38 +360,13 @@ const NavButton = styled.button<{ $active?: boolean }>`
     &::before {
       content: '';
       position: absolute;
-      inset: 0;
-      border-radius: 8px;
-      background: rgba(240, 185, 11, 0.15);
-      z-index: -1;
-    }
-  `}
-`
-
-const LinkText = styled.a<{ $active?: boolean }>`
-  font-size: 0.875rem;
-  font-weight: bold;
-  position: relative;
-  padding: 8px 16px;
-  border-radius: 8px;
-  transition: color 0.3s;
-
-  color: ${({ $active }) => ($active ? 'var(--brand-yellow)' : 'var(--brand-light-gray)')};
-
-  &:hover {
-    color: var(--brand-yellow);
-  }
-
-  ${({ $active }) =>
-    $active &&
-    `
-    &::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 8px;
-      background: rgba(240, 185, 11, 0.15);
-      z-index: -1;
+      bottom: -4px;
+      left:calc(50% - 4px);
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background: #000;
+      z-index: 2;
     }
   `}
 `
@@ -438,11 +410,15 @@ const UserButton = styled.button`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 8px 12px;
+  padding: 8px 16px;
   border-radius: 8px;
-  background: var(--panel-bg);
-  border: 1px solid var(--panel-border);
+  border: 1px solid var(--border-black);
   transition: background 0.2s;
+
+  span {
+    font-size: 1rem;
+    color: var(--brand-black);
+  }
 
   &:hover {
     background: rgba(255, 255, 255, 0.05);
@@ -450,16 +426,16 @@ const UserButton = styled.button`
 `
 
 const UserIcon = styled.div`
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  background: var(--brand-yellow);
   color: var(--brand-black);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0.75rem;
   font-weight: bold;
+  border: 1px solid var(--border-black);
 `
 
 const UserDropdown = styled.div`
@@ -499,10 +475,15 @@ const LangButton = styled.button`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 8px 12px;
+  padding: 8px 16px;
   border-radius: 8px;
   transition: background 0.2s;
-  color: var(--brand-light-gray);
+  color: var(--brand-black);
+  border: 1px solid var(--border-black);
+
+  span {
+    font-size: 1rem;
+  }
 
   &:hover {
     background: rgba(255, 255, 255, 0.05);

@@ -194,7 +194,6 @@ export default function TraderDetails({
 
   return (
     <Root>
-      {/* Trader Header */}
       <HeaderCard>
         <HeaderTop>
           <h2>
@@ -220,7 +219,7 @@ export default function TraderDetails({
         <HeaderBottom>
           <ModelText>
             AI Model:{' '}
-            <ModelBadge isQwen={selectedTrader.ai_model.includes('qwen')}>
+            <ModelBadge $isQwen={selectedTrader.ai_model.includes('qwen')}>
               {getModelDisplayName(selectedTrader.ai_model.split('_').pop() || selectedTrader.ai_model)}
             </ModelBadge>
           </ModelText>
@@ -249,31 +248,34 @@ export default function TraderDetails({
       <StatsGrid>
         <StatCard
           title={t('totalEquity', language)}
-          value={`${account?.total_equity?.toFixed(2) || '0.00'} USDT`}
+          value={`${account?.total_equity?.toFixed(2) || '0.00'}`}
           change={account?.total_pnl_pct || 0}
           positive={(account?.total_pnl ?? 0) > 0}
         />
         <StatCard
           title={t('availableBalance', language)}
-          value={`${account?.available_balance?.toFixed(2) || '0.00'} USDT`}
+          value={`${account?.available_balance?.toFixed(2) || '0.00'}`}
           subtitle={`${
             account?.available_balance && account?.total_equity
               ? ((account.available_balance / account.total_equity) * 100).toFixed(1)
               : '0.0'
           }% ${t('free', language)}`}
+          bg="#CAFE36"
         />
         <StatCard
           title={t('totalPnL', language)}
           value={`${
             account?.total_pnl !== undefined && account.total_pnl >= 0 ? '+' : ''
-          }${account?.total_pnl?.toFixed(2) || '0.00'} USDT`}
+          }${account?.total_pnl?.toFixed(2) || '0.00'}`}
           change={account?.total_pnl_pct || 0}
           positive={(account?.total_pnl ?? 0) >= 0}
         />
         <StatCard
+          isChange={true}
           title={t('positions', language)}
           value={`${account?.position_count || 0}`}
           subtitle={`${t('margin', language)}: ${account?.margin_used_pct?.toFixed(1) || '0.0'}%`}
+          bg="#0D4751"
         />
       </StatsGrid>
 
@@ -281,8 +283,7 @@ export default function TraderDetails({
       <TwoCol>
         {/* Left column: chart + positions */}
         <LeftCol>
-          <ChartWrap className="">
-            {/* EquityChart component kept as-is reference */}
+          <ChartWrap>
             <EquityChart traderId={selectedTrader.trader_id}></EquityChart>
           </ChartWrap>
 
@@ -392,17 +393,24 @@ function StatCard({
   change,
   positive,
   subtitle,
+  isChange,
+  bg,
 }: {
+  bg?: string
   title: string
   value: string
   change?: number
   positive?: boolean
   subtitle?: string
+  isChange?: boolean
 }) {
   return (
-    <StatCardBox>
+    <StatCardBox $bg={bg}>
       <StatTitle>{title}</StatTitle>
-      <StatValue>{value}</StatValue>
+      <StatValue>
+        <strong> {value}</strong>
+        {isChange ? <span> </span> : <span> USDT</span>}
+      </StatValue>
       {change !== undefined && (
         <StatChange positive={positive}>
           {positive ? '▲' : '▼'} {positive ? '+' : ''}
@@ -423,15 +431,15 @@ function DecisionCard({ decision, language }: { decision: DecisionRecord; langua
     <DecisionBox>
       {/* Header */}
       <DecisionHeader>
-        <div>
+        <DecisionInfo>
           <DecisionCycle>
             {t('cycle', language)} #{decision.cycle_number}
           </DecisionCycle>
-          <DecisionTime>{new Date(decision.timestamp).toLocaleString()}</DecisionTime>
-        </div>
-        <DecisionStatus success={decision.success}>
-          {t(decision.success ? 'success' : 'failed', language)}
-        </DecisionStatus>
+          <DecisionStatus success={decision.success}>
+            {t(decision.success ? 'success' : 'failed', language)}
+          </DecisionStatus>
+        </DecisionInfo>
+        <DecisionTime>{new Date(decision.timestamp).toLocaleString()}</DecisionTime>
       </DecisionHeader>
 
       {/* Input Prompt */}
@@ -466,7 +474,7 @@ function DecisionCard({ decision, language }: { decision: DecisionRecord; langua
           {decision.decisions.map((action, j) => (
             <ActionItem key={j}>
               <ActionSymbol>{action.symbol}</ActionSymbol>
-              <ActionBadge isOpen={action.action.includes('open')}>{action.action}</ActionBadge>
+              <ActionBadge $isOpen={action.action.includes('open')}>{action.action}</ActionBadge>
               {action.leverage > 0 && <ActionText color="#F0B90B">{action.leverage}x</ActionText>}
               {action.price > 0 && (
                 <ActionText className="mono" color="#848E9C">
@@ -652,23 +660,29 @@ const LargeSkeleton = styled.div`
 
 /* Header card */
 const HeaderCard = styled.div`
-  margin-bottom: 1.5rem;
-  padding: 1.25rem;
-  border-radius: 12px;
-  background: linear-gradient(135deg, rgba(240, 185, 11, 0.15) 0%, rgba(252, 213, 53, 0.05) 100%);
-  border: 1px solid rgba(240, 185, 11, 0.2);
-  box-shadow: 0 0 30px rgba(240, 185, 11, 0.15);
+  padding: 2.5rem 1.5rem 2rem 4rem;
+  background: #cafe36;
+  box-shadow: 4px 4px 0px 0px #191a23;
+  border-radius: 24px 24px 24px 24px;
+  border: 1px solid #191a23;
 `
 const HeaderTop = styled.div`
   display: flex;
-  align-items: start;
+  align-items: center;
   justify-content: space-between;
-  margin-bottom: 0.75rem;
+  margin-bottom: 2rem;
+
+  h2 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
 `
+
 const AvatarBadge = styled.span`
   display: inline-flex;
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
@@ -677,27 +691,30 @@ const AvatarBadge = styled.span`
   background: linear-gradient(135deg, #f0b90b 0%, #fcd535 100%);
 `
 const TraderTitle = styled.span`
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  color: #eaecef;
-  vertical-align: middle;
+  color: #191a23;
+  padding: 4px 16px;
+  background: #ffffff;
+  border-radius: 8px;
 `
 const SelectorRow = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 16px;
 `
 const SelectorLabel = styled.span`
-  font-size: 0.875rem;
-  color: #848e9c;
+  font-size: 1rem;
+  color: #191a23;
 `
 const Select = styled.select`
-  background: #1e2329;
-  border: 1px solid #2b3139;
-  color: #eaecef;
-  padding: 0.4rem 0.6rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
+  background: #cafe36;
+  border: 1px solid #191a23;
+  color: #191a23;
+  padding: 0.25rem 0.6rem;
+  border-radius: 40px;
+  font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
 `
 const HeaderBottom = styled.div`
@@ -707,129 +724,138 @@ const HeaderBottom = styled.div`
   color: #848e9c;
 `
 const ModelText = styled.div`
-  font-size: 0.9rem;
-  color: #848e9c;
+  font-size: 1rem;
+  color: #191a23;
 `
-const ModelBadge = styled.span<{ isQwen: boolean }>`
+const ModelBadge = styled.span<{ $isQwen: boolean }>`
   font-weight: 600;
-  color: ${({ isQwen }) => (isQwen ? '#c084fc' : '#60a5fa')};
+  color: ${({ $isQwen }) => ($isQwen ? '#c084fc' : '#60a5fa')};
 `
 const StatusRow = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #848e9c;
+  color: #191a23;
 `
 const Dot = styled.span`
-  color: #848e9c;
+  color: #191a23;
 `
 const StatusText = styled.span`
-  color: #848e9c;
+  color: #191a23;
 `
 
 /* Debug bar */
 const DebugBar = styled.div`
-  margin-bottom: 1rem;
-  padding: 0.75rem;
-  border-radius: 8px;
-  font-size: 0.85rem;
+  margin: 2.5rem 0;
+  padding: 12px 24px;
+  font-size: 1rem;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Helvetica Neue', monospace;
-  background: #1e2329;
-  border: 1px solid #2b3139;
-  color: #848e9c;
+  color: #000000;
+  background: #f3f3f3;
+  border-radius: 16px 16px 16px 16px;
 `
 
 /* Stats grid */
 const StatsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  display: flex;
+  gap: 24px;
   margin-bottom: 1.5rem;
 `
-const StatCardBox = styled.div`
-  background: #1e2329;
-  border: 1px solid #2b3139;
-  border-radius: 12px;
+const StatCardBox = styled.div<{ $bg?: string }>`
+  flex: 1 1 25%;
   padding: 1rem;
+  border-radius: 24px;
+  border: 1px solid #191a23;
+  background: ${({ $bg }) => $bg || '#f3f3f3'};
 `
 const StatTitle = styled.div`
-  font-size: 0.75rem;
-  color: #848e9c;
-  text-transform: uppercase;
+  font-size: 0.875rem;
+  color: #191a23;
   margin-bottom: 0.25rem;
+  /* text-transform: uppercase; */
 `
 const StatValue = styled.div`
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #eaecef;
-  margin-bottom: 0.25rem;
+  font-weight: bold;
+  strong {
+    font-size: 2rem;
+    color: #191a23;
+    margin-bottom: 0.25rem;
+  }
+
+  span {
+    font-size: 14px;
+    color: #191a23;
+  }
 `
 const StatChange = styled.div<{ positive?: boolean }>`
-  color: ${({ positive }) => (positive ? '#0ECB81' : '#F6465D')};
+  color: ${({ positive }) => (positive ? '#2B6D18' : '#A54162')};
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 1rem;
 `
 const StatSubtitle = styled.div`
-  color: #848e9c;
-  font-size: 0.75rem;
-  margin-top: 0.5rem;
+  color: #191a23;
+  font-size: 1rem;
 `
 
 /* Two columns layout */
 const TwoCol = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-  margin-bottom: 1.5rem;
+  display: flex;
+  gap: 24px;
+  margin-bottom: 2.5rem;
 
   @media (min-width: 1024px) {
-    grid-template-columns: 1fr 420px;
   }
 `
 const LeftCol = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
 `
 const RightCol = styled.div`
+  min-width: 392px;
+  padding: 24px 16px;
+  background: #f3f3f3;
+  border-radius: 16px;
   overflow: hidden;
 `
 
 /* Chart placeholder */
-const ChartWrap = styled.div``
-
-const EquityChartPlaceholder = styled.div`
-  background: #1e2329;
-  border: 1px solid #2b3139;
-  border-radius: 12px;
-  padding: 1rem;
+const ChartWrap = styled.div`
+  background: #f3f3f3;
+  border-radius: 16px;
+  overflow: hidden;
+  /* padding: 24px; */
 `
+
+const EquityChartPlaceholder = styled.div``
 
 /* Positions card */
 const PositionsCard = styled.div`
-  background: #1e2329;
-  border: 1px solid #2b3139;
-  border-radius: 12px;
   padding: 1.25rem;
+  background: #f3f3f3;
+  border-radius: 16px;
 `
 const PositionsHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  margin-bottom: 24px;
 `
 const PositionsTitle = styled.h3`
-  font-size: 1rem;
-  color: #eaecef;
-  margin: 0;
+  padding: 4px 12px;
+  font-size: 1.25rem;
+  color: #191a23;
+  font-weight: bold;
+  background: #cafe36;
+  border-radius: 8px;
 `
 const PositionsCount = styled.div`
-  font-size: 0.75rem;
-  padding: 0.25rem 0.5rem;
-  border-radius: 6px;
-  background: rgba(240, 185, 11, 0.1);
-  color: #f0b90b;
-  border: 1px solid rgba(240, 185, 11, 0.2);
+  font-size: 0.875rem;
+  padding: 4px 12px;
+  border-radius: 16px;
+  color: #191a23;
+  border: 1px solid #000000;
 `
 const PositionsTableWrap = styled.div`
   overflow-x: auto;
@@ -889,11 +915,11 @@ const NoPositions = styled.div`
 const NoPositionsTitle = styled.div`
   font-size: 1.125rem;
   font-weight: 700;
-  color: #eaecef;
   margin-bottom: 0.5rem;
+  color: #191a23;
 `
 const NoPositionsDesc = styled.div`
-  color: #848e9c;
+  color: #191a23;
 `
 
 const PnLText = styled.span<{ positive: boolean }>`
@@ -903,20 +929,12 @@ const PnLText = styled.span<{ positive: boolean }>`
 
 /* Decisions card */
 const DecisionsCard = styled.div`
-  background: #1e2329;
-  border: 1px solid #2b3139;
   border-radius: 12px;
-  padding: 1.25rem;
-  max-height: calc(100vh - 120px);
-  overflow-y: auto;
 `
 const DecisionsHeader = styled.div`
   display: flex;
   gap: 12px;
   align-items: center;
-  margin-bottom: 1rem;
-  border-bottom: 1px solid #2b3139;
-  padding-bottom: 0.75rem;
 `
 const DecisionsIcon = styled.div`
   width: 40px;
@@ -930,19 +948,28 @@ const DecisionsIcon = styled.div`
   font-size: 1.125rem;
 `
 const DecisionsTitle = styled.h4`
-  margin: 0;
-  color: #eaecef;
+  padding: 4px 12px;
+  margin-bottom: 4px;
+  font-size: 1.25rem;
+  color: #191a23;
+  font-weight: bold;
+  border-radius: 8px;
+  background: #cafe36;
 `
 const DecisionsSub = styled.div`
-  font-size: 0.85rem;
-  color: #848e9c;
+  font-size: 0.875rem;
+  color: #191a23;
 `
 const DecisionsList = styled.div`
   margin-top: 1rem;
   display: flex;
   flex-direction: column;
   gap: 12px;
+  max-height: calc(100vh - 158px);
   overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `
 const EmptyDecisions = styled.div`
   text-align: center;
@@ -963,10 +990,9 @@ const EmptyDecisionsDesc = styled.div``
 
 /* Decision internal */
 const DecisionBox = styled.div`
-  border: 1px solid #2b3139;
-  background: #1e2329;
-  padding: 1.25rem;
-  border-radius: 10px;
+  padding: 1rem;
+  background: #ffffff;
+  border-radius: 16px;
   transition: transform 0.3s;
   &:hover {
     transform: translateY(-2px);
@@ -974,16 +1000,28 @@ const DecisionBox = styled.div`
 `
 const DecisionHeader = styled.div`
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.75rem;
+  flex-direction: column;
+  gap: 8px;
 `
+const DecisionInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+`
+
 const DecisionCycle = styled.div`
-  font-weight: 700;
-  color: #eaecef;
+  padding: 4px 12px;
+  color: #cafe36;
+  font-weight: bold;
+  background: #0d4751;
+  border-radius: 8px;
 `
 const DecisionTime = styled.div`
-  font-size: 0.85rem;
-  color: #848e9c;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+  font-size: 0.75rem;
+  color: #191a23;
+  border-bottom: 1px solid #f3f3f3;
 `
 const DecisionStatus = styled.div<{ success: boolean }>`
   padding: 4px 10px;
@@ -1004,40 +1042,44 @@ const ToggleButton = styled.button<{ color?: string }>`
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.95rem;
+  font-size: 0.875rem;
+
+  strong {
+    color: #191a23;
+  }
 `
 const CodeBlock = styled.pre`
-  background: #0b0e11;
+  max-width: 320px;
   border: 1px solid #2b3139;
   border-radius: 8px;
   padding: 0.75rem;
-  color: #eaecef;
+  color: #191a23;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;
   white-space: pre-wrap;
   max-height: 24rem;
   overflow-y: auto;
   margin-top: 8px;
+  background: rgba(243, 243, 243, 0.7);
 `
 const ActionItem = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #0b0e11;
-  padding: 6px 8px;
-  border-radius: 6px;
-  margin-bottom: 6px;
+  padding: 4px 12px;
+  background: rgba(243, 243, 243, 0.7);
+  border-radius: 4px;
+  margin-bottom: 12px;
 `
 const ActionSymbol = styled.span`
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;
-  font-weight: 700;
-  color: #eaecef;
+  font-size: 14px;
+  color: #191a23;
 `
-const ActionBadge = styled.span<{ isOpen: boolean }>`
-  padding: 2px 6px;
+const ActionBadge = styled.span<{ $isOpen: boolean }>`
+  margin-left: auto;
   border-radius: 4px;
-  font-weight: 700;
-  background: ${({ isOpen }) => (isOpen ? 'rgba(96,165,250,0.1)' : 'rgba(240,185,11,0.1)')};
-  color: ${({ isOpen }) => (isOpen ? '#60a5fa' : '#F0B90B')};
+  font-size: 14px;
+  color: ${({ $isOpen }) => ($isOpen ? '#60a5fa' : '#F0B90B')};
 `
 const ActionText = styled.span<{ color?: string }>`
   color: ${({ color }) => color || '#848E9C'};
@@ -1046,14 +1088,14 @@ const ActionText = styled.span<{ color?: string }>`
 
 const AccountState = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 8px;
-  background: #0b0e11;
-  padding: 8px;
-  border-radius: 6px;
-  color: #848e9c;
+  padding: 8px 24px;
+  background: rgba(243, 243, 243, 0.7);
+  border-radius: 4px;
+  color: #191a23;
   margin-top: 8px;
-  font-size: 0.85rem;
+  font-size: 0.875rem;
 `
 
 const WarningRow = styled.div`
@@ -1074,7 +1116,7 @@ const WarningContent = styled.div`
 const LogLine = styled.div<{ success?: boolean }>`
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;
   color: ${({ success }) => (success ? '#0ECB81' : '#F6465D')};
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   margin-top: 4px;
 `
 
@@ -1087,6 +1129,4 @@ const ErrorBox = styled.div`
 `
 
 /* AILearning placeholder wrapper */
-const AILearningWrap = styled.div`
-  margin-top: 1rem;
-`
+const AILearningWrap = styled.div``

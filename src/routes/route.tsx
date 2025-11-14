@@ -9,7 +9,7 @@ import { ResetPasswordPage } from '../components/ResetPasswordPage'
 import { CompetitionPage } from '../components/CompetitionPage'
 import { LandingPage } from '../pages/LandingPage'
 import { FAQPage } from '../pages/FAQPage'
-import TraderDetails from '../components/TraderDetails'
+import TraderDetails from '../pages/TraderPage'
 import { useAuth } from '../contexts/AuthContext'
 import type { TraderInfo } from '../types'
 

@@ -11,9 +11,15 @@ html {
 }
 
 :root {
+  --border-black: #000000;
+  --brand-black: #191a23;
+  --up_color: #41a562;
+  --down_color: #a54162;
+  --up_bg: #d2e8a4;
+  --down_bg: #fedaee;
+
   /* Binance Brand Colors */
   --brand-yellow: #f0b90b;
-  --brand-black: #000000;
   --brand-dark-gray: #0a0a0a;
   --brand-light-gray: #eaecef;
   --brand-almost-white: #fafafa;
@@ -25,9 +31,9 @@ html {
   --binance-yellow-light: #fcd535;
   --binance-yellow-glow: rgba(240, 185, 11, 0.2);
 
-  --background: #000000; /* Binance body bg */
-  --header-bg: #000000; /* Binance header bg */
-  --background-elevated: #000000;
+  --background: #ffffff; /* Binance body bg */
+  --header-bg: #ffffff; /* Binance header bg */
+  --background-elevated: #ffffff;
   --foreground: #eaecef;
   --panel-bg: #0a0a0a;
   --panel-bg-hover: #111111;
@@ -65,7 +71,7 @@ html {
     BlinkMacSystemFont,
     'Segoe UI',
     sans-serif;
-  line-height: 1.6;
+  line-height: 1.5;
   font-weight: 400;
   color-scheme: dark;
   color: var(--foreground);

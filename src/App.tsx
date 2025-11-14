@@ -61,7 +61,7 @@ const PageWrapper = styled.div`
 
 const MainWrapper = styled.main`
   width: 100%;
-  max-width: 1920px;
+  max-width: 1220px;
   margin: 0 auto;
   padding: 6rem 1.5rem 1.5rem;
 `
