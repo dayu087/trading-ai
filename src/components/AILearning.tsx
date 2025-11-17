@@ -111,7 +111,7 @@ export default function AILearning({ traderId }: AILearningProps) {
     .sort((a, b) => (b.total_pn_l || 0) - (a.total_pn_l || 0))
 
   return (
-    <div className="space-y-8" style={{ background: '#F3F3F3' }}>
+    <AILearningWrapper>
       {/* 标题卡片 */}
       <TitleCard>
         <Brain size={40} color="#191A23" />
@@ -476,7 +476,7 @@ export default function AILearning({ traderId }: AILearningProps) {
           </div>
         </Row>
       </InfoCard>
-    </div>
+    </AILearningWrapper>
   )
 }
 
@@ -500,6 +500,16 @@ function formatDuration(duration: string | undefined): string {
 }
 
 // ====== Title Card ======
+
+const AILearningWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: -52px;
+  padding-bottom: 80px;
+  max-width: 1220px;
+`
+
 const TitleCard = styled.div`
   width: 100%;
   background: #cafe36;

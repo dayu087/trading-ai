@@ -1,4 +1,5 @@
 import { motion, useScroll, useTransform, useAnimation } from 'framer-motion'
+import styled from 'styled-components'
 import { Sparkles } from 'lucide-react'
 import { t, Language } from '../../i18n/translations'
 import { useGitHubStats } from '../../hooks/useGitHubStats'
@@ -13,9 +14,8 @@ export default function HeroSection({ language }: HeroSectionProps) {
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
   const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.8])
   const handControls = useAnimation()
-  const { stars, daysOld, isLoading } = useGitHubStats('NoFxAiOS', 'nofx')
 
-  // 动画数字 - 仅对 stars 添加动画
+  const { stars, daysOld, isLoading } = useGitHubStats('NoFxAiOS', 'nofx')
   const animatedStars = useCounterAnimation({
     start: 0,
     end: stars,
@@ -32,31 +32,20 @@ export default function HeroSection({ language }: HeroSectionProps) {
   }
 
   return (
-    <section className="relative pt-32 pb-20 px-4">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Content */}
-          <motion.div
-            className="space-y-6 relative z-10"
-            style={{ opacity, scale }}
-            initial="initial"
-            animate="animate"
-            variants={staggerContainer}
-          >
+    <HeroBox>
+      <HeroContainer>
+        <Grid>
+          {/* Left */}
+          <LeftWrapper style={{ opacity, scale }} initial="initial" animate="animate" variants={staggerContainer}>
             <motion.div variants={fadeInUp}>
-              <motion.div
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
-                style={{
-                  background: 'rgba(240, 185, 11, 0.1)',
-                  border: '1px solid rgba(240, 185, 11, 0.2)',
-                }}
+              <Badge
                 whileHover={{
                   scale: 1.05,
                   boxShadow: '0 0 20px rgba(240, 185, 11, 0.2)',
                 }}
               >
                 <Sparkles className="w-4 h-4" style={{ color: 'var(--brand-yellow)' }} />
-                <span className="text-sm font-semibold" style={{ color: 'var(--brand-yellow)' }}>
+                <span>
                   {isLoading ? (
                     t('githubStarsInDays', language)
                   ) : language === 'zh' ? (
@@ -72,24 +61,18 @@ export default function HeroSection({ language }: HeroSectionProps) {
                     </>
                   )}
                 </span>
-              </motion.div>
+              </Badge>
             </motion.div>
 
-            <h1 className="text-5xl lg:text-7xl font-bold leading-tight" style={{ color: 'var(--brand-light-gray)' }}>
+            <Title>
               {t('heroTitle1', language)}
               <br />
-              <span style={{ color: 'var(--brand-yellow)' }}>{t('heroTitle2', language)}</span>
-            </h1>
+              <Highlight>{t('heroTitle2', language)}</Highlight>
+            </Title>
 
-            <motion.p
-              className="text-xl leading-relaxed"
-              style={{ color: 'var(--text-secondary)' }}
-              variants={fadeInUp}
-            >
-              {t('heroDescription', language)}
-            </motion.p>
+            <Description variants={fadeInUp}>{t('heroDescription', language)}</Description>
 
-            <div className="flex items-center gap-3 flex-wrap">
+            <ButtonsRow>
               <motion.a
                 href="https://github.com/tinkle-community/nofx"
                 target="_blank"
@@ -99,7 +82,6 @@ export default function HeroSection({ language }: HeroSectionProps) {
               >
                 <img
                   src="https://img.shields.io/github/stars/tinkle-community/nofx?style=for-the-badge&logo=github&logoColor=white&color=F0B90B&labelColor=0A0A0A"
-                  alt="GitHub Stars"
                   className="h-7"
                 />
               </motion.a>
@@ -112,10 +94,10 @@ export default function HeroSection({ language }: HeroSectionProps) {
               >
                 <img
                   src="https://img.shields.io/github/forks/tinkle-community/nofx?style=for-the-badge&logo=github&logoColor=white&color=F0B90B&labelColor=0A0A0A"
-                  alt="GitHub Forks"
                   className="h-7"
                 />
               </motion.a>
+
               <motion.a
                 href="https://github.com/tinkle-community/nofx/graphs/contributors"
                 target="_blank"
@@ -125,20 +107,16 @@ export default function HeroSection({ language }: HeroSectionProps) {
               >
                 <img
                   src="https://img.shields.io/github/contributors/tinkle-community/nofx?style=for-the-badge&logo=github&logoColor=white&color=F0B90B&labelColor=0A0A0A"
-                  alt="GitHub Contributors"
                   className="h-7"
                 />
               </motion.a>
-            </div>
+            </ButtonsRow>
 
-            <motion.p className="text-xs pt-4" style={{ color: 'var(--text-tertiary)' }} variants={fadeInUp}>
-              {t('poweredBy', language)}
-            </motion.p>
-          </motion.div>
+            <SmallNote variants={fadeInUp}>{t('poweredBy', language)}</SmallNote>
+          </LeftWrapper>
 
-          {/* Right Visual - Interactive Robot */}
-          <div
-            className="relative w-full cursor-pointer"
+          {/* Right */}
+          <RightWrapper
             onMouseEnter={() => {
               handControls.start({
                 y: [-8, 8, -8],
@@ -157,29 +135,20 @@ export default function HeroSection({ language }: HeroSectionProps) {
                 y: 0,
                 rotate: 0,
                 x: 0,
-                transition: {
-                  duration: 0.6,
-                  ease: 'easeOut',
-                },
+                transition: { duration: 0.6, ease: 'easeOut' },
               })
             }}
           >
-            {/* Background Layer */}
-            <motion.img
+            <BgImage
               src="/images/hand-bg.png"
               alt="NOFX Platform Background"
-              className="w-full opacity-90"
               style={{ opacity, scale }}
               whileHover={{ scale: 1.02 }}
               transition={{ type: 'spring', stiffness: 300 }}
             />
 
-            {/* Hand Layer - Animated */}
-            <motion.img
+            <HandImage
               src="/images/hand.png"
-              alt="Robot Hand"
-              className="absolute top-0 left-0 w-full"
-              style={{ opacity }}
               animate={handControls}
               initial={{ y: 0, rotate: 0, x: 0 }}
               whileHover={{
@@ -187,9 +156,115 @@ export default function HeroSection({ language }: HeroSectionProps) {
                 transition: { type: 'spring', stiffness: 400 },
               }}
             />
-          </div>
-        </div>
-      </div>
-    </section>
+          </RightWrapper>
+        </Grid>
+      </HeroContainer>
+    </HeroBox>
   )
 }
+
+const HeroBox = styled.section`
+  position: relative;
+  padding-top: 8rem; /* pt-32 */
+  padding-bottom: 5rem; /* pb-20 */
+  padding-left: 1rem; /* px-4 */
+  padding-right: 1rem;
+`
+
+const HeroContainer = styled.div`
+  max-width: 76.5rem; /* max-w-7xl */
+  margin: 0 auto;
+`
+
+const Grid = styled.div`
+  display: grid;
+  gap: 3rem; /* gap-12 */
+  align-items: center;
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+`
+
+const LeftWrapper = styled(motion.div)`
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+`
+
+const Badge = styled(motion.div)`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem; /* px-4 py-2 */
+  border-radius: 9999px;
+  margin-bottom: 1.5rem;
+  background: #f3f3f3;
+  font-size: 0.875rem;
+  font-weight: bold;
+  color: #191a23;
+`
+
+const Title = styled.h1`
+  font-size: 3rem; /* text-5xl */
+  font-weight: bold;
+  line-height: 1.15;
+  color: var(--brand-black);
+
+  @media (min-width: 1024px) {
+    font-size: 4.5rem; /* text-7xl */
+  }
+`
+
+const Highlight = styled.span`
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    z-index: -1;
+    width: 100%;
+    height: 40px;
+    background: #cafe36;
+  }
+`
+
+const Description = styled(motion.p)`
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--brand-black);
+`
+
+const ButtonsRow = styled.div`
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+  padding-top: 0.75rem;
+`
+
+const SmallNote = styled(motion.p)`
+  font-size: 0.75rem;
+  padding-top: 0.75rem;
+  color: var(--brand-black);
+`
+
+const RightWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+`
+
+const BgImage = styled(motion.img)`
+  width: 100%;
+  opacity: 0.9;
+`
+
+const HandImage = styled(motion.img)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+`

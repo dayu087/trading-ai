@@ -3,6 +3,7 @@ import AnimatedSection from './AnimatedSection'
 import { CryptoFeatureCard } from '../CryptoFeatureCard'
 import { Code, Cpu, Lock, Rocket } from 'lucide-react'
 import { t, Language } from '../../i18n/translations'
+import styled from 'styled-components'
 
 interface FeaturesSectionProps {
   language: Language
@@ -10,36 +11,19 @@ interface FeaturesSectionProps {
 
 export default function FeaturesSection({ language }: FeaturesSectionProps) {
   return (
-    <AnimatedSection id="features">
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <motion.div
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
-            style={{
-              background: 'rgba(240, 185, 11, 0.1)',
-              border: '1px solid rgba(240, 185, 11, 0.2)',
-            }}
-            whileHover={{ scale: 1.05 }}
-          >
-            <Rocket className="w-4 h-4" style={{ color: 'var(--brand-yellow)' }} />
-            <span className="text-sm font-semibold" style={{ color: 'var(--brand-yellow)' }}>
-              {t('coreFeatures', language)}
-            </span>
-          </motion.div>
-          <h2 className="text-4xl font-bold mb-4" style={{ color: 'var(--brand-light-gray)' }}>
-            {t('whyChooseNofx', language)}
-          </h2>
-          <p className="text-lg" style={{ color: 'var(--text-secondary)' }}>
-            {t('openCommunityDriven', language)}
-          </p>
-        </motion.div>
+    <AnimatedSection id="features" backgroundColor="#ffffff">
+      <Container>
+        <HeaderWrapper initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+          <Tag whileHover={{ scale: 1.05 }}>
+            <Rocket className="icon" />
+            <span>{t('coreFeatures', language)}</span>
+          </Tag>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          <Title>{t('whyChooseNofx', language)}</Title>
+          <Subtitle>{t('openCommunityDriven', language)}</Subtitle>
+        </HeaderWrapper>
+
+        <CardGrid>
           <CryptoFeatureCard
             icon={<Code className="w-8 h-8" />}
             title={t('openSourceSelfHosted', language)}
@@ -52,6 +36,7 @@ export default function FeaturesSection({ language }: FeaturesSectionProps) {
             ]}
             delay={0}
           />
+
           <CryptoFeatureCard
             icon={<Cpu className="w-8 h-8" />}
             title={t('multiAgentCompetition', language)}
@@ -64,6 +49,7 @@ export default function FeaturesSection({ language }: FeaturesSectionProps) {
             ]}
             delay={0.1}
           />
+
           <CryptoFeatureCard
             icon={<Lock className="w-8 h-8" />}
             title={t('secureReliableTrading', language)}
@@ -76,8 +62,67 @@ export default function FeaturesSection({ language }: FeaturesSectionProps) {
             ]}
             delay={0.2}
           />
-        </div>
-      </div>
+        </CardGrid>
+      </Container>
     </AnimatedSection>
   )
 }
+
+/* ---------------- Styled Components ---------------- */
+const Container = styled.div`
+  max-width: 76.5rem;
+  margin: 0 auto;
+`
+
+const HeaderWrapper = styled(motion.div)`
+  text-align: center;
+  margin-bottom: 4rem;
+`
+
+const Tag = styled(motion.div)`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.325rem 1rem;
+  border-radius: 9999px;
+  margin-bottom: 0%.5;
+  background: #f3f3f3;
+
+  span {
+    font-size: 0.875rem;
+    font-weight: bold;
+    color: var(--brand-black);
+  }
+
+  .icon {
+    width: 1rem;
+    height: 1rem;
+  }
+`
+
+const Title = styled.h2`
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: var(--brand-black);
+`
+
+const Subtitle = styled.p`
+  font-size: 1rem;
+  color: var(--brand-black);
+`
+
+const CardGrid = styled.div`
+  display: flex;
+  gap: 2rem;
+  max-width: 80rem;
+  margin: 0 auto;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+`

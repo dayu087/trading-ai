@@ -80,7 +80,7 @@ export default function HeaderBar() {
             ))}
           </NavGroup>
 
-          <RightGroup>
+          <CenterGroup>
             {rightNavList.map((item) => (
               <TextLink
                 key={item.key}
@@ -97,7 +97,9 @@ export default function HeaderBar() {
                 {item.label}
               </TextLink>
             ))}
+          </CenterGroup>
 
+          <RIghtGroup>
             {/* User */}
             {user ? (
               <UserDropdownContainer ref={userDropdownRef}>
@@ -204,7 +206,7 @@ export default function HeaderBar() {
                 </LangDropdown>
               )}
             </LangDropdownContainer>
-          </RightGroup>
+          </RIghtGroup>
         </DesktopMenu>
 
         {/* Mobile Menu Button */}
@@ -273,31 +275,30 @@ export default function HeaderBar() {
 
 // ---------- Styled Components ----------
 const HeaderContainer = styled.nav`
-  position: fixed;
-  top: 0;
+  /* position: sticky; */
+  /* top: 0; */
   width: 100%;
   z-index: 50;
-  /* background: var(--brand-dark-gray); */
   background-color: var(--background);
   border-bottom: 1px solid transparent;
   transition: all 0.3s ease-in-out;
+  border-bottom: 1px solid #191a23;
 `
 
 const HeaderInner = styled.div`
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 1rem;
   height: 4rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  @media (min-width: 640px) {
+  /* @media (min-width: 640px) {
     padding: 0 1.5rem;
   }
   @media (min-width: 1024px) {
     padding: 0 2rem;
-  }
+  } */
 `
 
 const LogoLink = styled.a`
@@ -324,13 +325,13 @@ const LogoLink = styled.a`
 `
 
 const DesktopMenu = styled.div`
-  display: none;
-  @media (min-width: 768px) {
-    display: flex;
-    flex: 1;
-    justify-content: space-between;
-    align-items: center;
-    margin-left: 2rem;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: 2rem;
+  @media (max-width: 768px) {
+    display: none;
   }
 `
 
@@ -344,14 +345,28 @@ const NavButton = styled.button<{ $active?: boolean }>`
   font-size: 0.875rem;
   font-weight: bold;
   position: relative;
-  padding: 8px 16px;
+  padding: 8px;
   border-radius: 8px;
   transition: color 0.3s;
   color: var(--brand-black);
   font-weight: ${({ $active }) => ($active ? 'bold' : 'normal')};
+  transition: all 0.1s ease-in-out;
+  cursor: pointer;
 
   &:hover {
+    transform: translateY(-4px);
     font-weight: bold;
+  }
+
+  &::before {
+    position: absolute;
+    bottom: -4px;
+    left: calc(50% - 4px);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #000;
+    z-index: 2;
   }
 
   ${({ $active }) =>
@@ -359,27 +374,28 @@ const NavButton = styled.button<{ $active?: boolean }>`
     `
     &::before {
       content: '';
-      position: absolute;
-      bottom: -4px;
-      left:calc(50% - 4px);
-      width:8px;
-      height:8px;
-      border-radius:50%;
-      background: #000;
-      z-index: 2;
+     
     }
   `}
 `
 
-const RightGroup = styled.div`
+const CenterGroup = styled.div`
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
+`
+
+const RIghtGroup = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
 `
 
 const TextLink = styled.a`
+  padding: 8px;
   font-size: 0.875rem;
-  color: var(--brand-light-gray);
+  color: var(--brand-black);
   position: relative;
   transition: color 0.3s;
   &:hover {
@@ -410,7 +426,7 @@ const UserButton = styled.button`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 8px 16px;
+  padding: 7px 16px;
   border-radius: 8px;
   border: 1px solid var(--border-black);
   transition: background 0.2s;

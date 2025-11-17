@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { motion } from 'framer-motion'
+import styled, { keyframes } from 'styled-components'
 import { Check } from 'lucide-react'
-import { cn } from '../lib/utils'
 
 interface CryptoFeatureCardProps {
   icon: React.ReactNode
@@ -17,104 +17,181 @@ export const CryptoFeatureCard = React.forwardRef<HTMLDivElement, CryptoFeatureC
     const [isHovered, setIsHovered] = React.useState(false)
 
     return (
-      <motion.div
+      <CardWrapper
         ref={ref}
+        className={className}
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay }}
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
-        className="relative h-full"
       >
-        <div
-          className={cn(
-            'relative h-full overflow-hidden border-2 transition-all duration-300 rounded-xl',
-            'bg-gradient-to-br from-[#000000] to-[#0A0A0A]',
-            'border-[#1A1A1A] hover:border-[#F0B90B]/50',
-            isHovered && 'shadow-[0_0_20px_rgba(240,185,11,0.2)]',
-            className
-          )}
-        >
-          {/* Animated glow border effect */}
-          <motion.div
-            className="absolute inset-0 opacity-0 pointer-events-none"
-            animate={{
-              opacity: isHovered ? 1 : 0,
-            }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#F0B90B]/20 to-transparent animate-[shimmer_2s_infinite]" />
-          </motion.div>
+        <CardContainer $isHovered={isHovered}>
+          {/* Glow border shimmer */}
+          <GlowOverlay animate={{ opacity: isHovered ? 1 : 0 }} transition={{ duration: 0.3 }}>
+            <GlowShimmer />
+          </GlowOverlay>
 
-          {/* Background pattern */}
-          <div className="absolute inset-0 opacity-5">
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage: `radial-gradient(circle at 2px 2px, #F0B90B 1px, transparent 0)`,
-                backgroundSize: '32px 32px',
-              }}
-            />
-          </div>
+          {/* patterned bg */}
+          <BackgroundPattern />
 
-          <div className="relative z-10 p-8 flex flex-col h-full">
-            {/* Icon container */}
-            <motion.div
-              className="mb-6 inline-flex items-center justify-center w-16 h-16 rounded-xl"
-              style={{
-                background: 'linear-gradient(135deg, rgba(240, 185, 11, 0.2) 0%, rgba(240, 185, 11, 0.05) 100%)',
-                border: '1px solid rgba(240, 185, 11, 0.3)',
-              }}
+          {/* Main content */}
+          <Content>
+            <IconBox
+              $isHovered={isHovered}
               animate={{
                 scale: isHovered ? 1.1 : 1,
-                boxShadow: isHovered ? '0 0 20px rgba(240, 185, 11, 0.4)' : '0 0 0px rgba(240, 185, 11, 0)',
+                boxShadow: isHovered ? '0 0 20px rgba(240,185,11,0.4)' : '0 0 0 rgba(240,185,11,0)',
               }}
               transition={{ duration: 0.3 }}
             >
               <div style={{ color: 'var(--brand-yellow)' }}>{icon}</div>
-            </motion.div>
+            </IconBox>
 
-            {/* Title */}
-            <h3 className="text-2xl font-bold mb-3" style={{ color: 'var(--brand-light-gray)' }}>
-              {title}
-            </h3>
+            <Title>{title}</Title>
+            <Description>{description}</Description>
 
-            {/* Description */}
-            <p className="mb-6 flex-grow leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-              {description}
-            </p>
-
-            {/* Features list */}
-            <div className="space-y-3 mb-6">
+            <FeatureList>
               {features.map((feature, index) => (
-                <motion.div
+                <FeatureItem
                   key={index}
                   initial={{ opacity: 0, x: -10 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: delay + index * 0.1 }}
-                  className="flex items-start gap-3"
                 >
-                  <div className="mt-0.5 flex-shrink-0">
-                    <div
-                      className="w-5 h-5 rounded-full flex items-center justify-center"
-                      style={{ background: 'rgba(240, 185, 11, 0.2)' }}
-                    >
-                      <Check className="w-3 h-3" style={{ color: 'var(--brand-yellow)' }} />
-                    </div>
-                  </div>
-                  <span className="text-sm" style={{ color: 'var(--brand-light-gray)' }}>
-                    {feature}
-                  </span>
-                </motion.div>
+                  <CheckCircle>
+                    <Check className="w-3 h-3" style={{ color: 'var(--brand-yellow)' }} />
+                  </CheckCircle>
+                  <FeatureText>{feature}</FeatureText>
+                </FeatureItem>
               ))}
-            </div>
-          </div>
-        </div>
-      </motion.div>
+            </FeatureList>
+          </Content>
+        </CardContainer>
+      </CardWrapper>
     )
   }
 )
 
 CryptoFeatureCard.displayName = 'CryptoFeatureCard'
+
+const shimmer = keyframes`
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+`
+
+const CardWrapper = styled(motion.div)`
+  flex: 1 1 30%;
+  position: relative;
+`
+
+const CardContainer = styled.div<{ $isHovered: boolean }>`
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #191a23;
+  transition:
+    border 0.3s ease,
+    box-shadow 0.3s ease;
+  box-shadow: 4px 4px 0px 0px #191a23;
+
+  ${({ $isHovered }) =>
+    $isHovered &&
+    `
+    box-shadow: 4px 4px 0px 0px #191A23;
+  `}
+`
+
+const GlowOverlay = styled(motion.div)`
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+`
+
+const GlowShimmer = styled.div`
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, transparent, #cafe36, transparent);
+  animation: ${shimmer} 2s infinite;
+`
+
+const BackgroundPattern = styled.div`
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  background-image: radial-gradient(circle at 2px 2px, #cafe36 1px, transparent 0);
+  background-size: 32px 32px;
+`
+
+const Content = styled.div`
+  position: relative;
+  z-index: 10;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`
+
+const IconBox = styled(motion.div)<{ $isHovered: boolean }>`
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0d4751;
+  border: 1px solid rgba(240, 185, 11, 0.3);
+  box-shadow: ${({ $isHovered }) => ($isHovered ? '0 0 20px rgba(240,185,11,0.4)' : '0 0 0 rgba(240,185,11,0)')};
+
+  svg {
+    color: #cafe36;
+  }
+`
+
+const Title = styled.h3`
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: var(--brand-black);
+`
+
+const Description = styled.p`
+  margin-bottom: 24px;
+  font-size: 1rem;
+  color: var(--brand-black);
+  line-height: 1.5;
+`
+
+const FeatureList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`
+
+const FeatureItem = styled(motion.div)`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`
+
+const CheckCircle = styled.div`
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background: rgba(240, 185, 11, 0.2); */
+  background: #000;
+  flex-shrink: 0;
+`
+
+const FeatureText = styled.span`
+  font-size: 0.875rem;
+  color: var(--brand-black);
+`

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from 'react'
+import { createContext, useContext, useState, ReactNode, useCallback } from 'react'
 import type { Language } from '../i18n/translations'
 
 interface LanguageContextType {
@@ -16,10 +16,13 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   })
 
   // Save language to localStorage whenever it changes
-  const handleSetLanguage = (lang: Language) => {
-    setLanguage(lang)
-    localStorage.setItem('language', lang)
-  }
+  const handleSetLanguage = useCallback(
+    (lang: Language) => {
+      setLanguage(lang)
+      localStorage.setItem('language', lang)
+    },
+    [language]
+  )
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage }}>{children}</LanguageContext.Provider>

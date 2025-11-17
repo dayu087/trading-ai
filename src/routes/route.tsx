@@ -18,8 +18,6 @@ export default function RouteView() {
   const { user, token } = useAuth()
   const [selectedTraderId, setSelectedTraderId] = useState<string>()
 
-  console.log(user, 'route')
-
   const { data: traders, error: tradersError } = useSWR<TraderInfo[]>(
     user && token ? 'traders' : null,
     api.getTraders,

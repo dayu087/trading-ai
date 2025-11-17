@@ -1,3 +1,4 @@
+import styled from 'styled-components'
 import { t, Language } from '../../i18n/translations'
 
 interface FooterSectionProps {
@@ -6,160 +7,177 @@ interface FooterSectionProps {
 
 export default function FooterSection({ language }: FooterSectionProps) {
   return (
-    <footer
-      style={{
-        borderTop: '1px solid var(--panel-border)',
-        background: 'var(--brand-dark-gray)',
-      }}
-    >
-      <div className="max-w-[1200px] mx-auto px-6 py-10">
-        {/* Brand */}
-        <div className="flex items-center gap-3 mb-8">
-          <img src="/icons/nofx.svg" alt="NOFX Logo" className="w-8 h-8" />
-          <div>
-            <div className="text-lg font-bold" style={{ color: '#EAECEF' }}>
-              NOFX
-            </div>
-            <div className="text-xs" style={{ color: '#848E9C' }}>
-              {t('futureStandardAI', language)}
-            </div>
-          </div>
-        </div>
+    <FooterWrapper>
+      <FooterInner>
+        {/* BRAND */}
+        <BrandRow>
+          <BrandLogo src="/icons/nofx.svg" alt="NOFX Logo" />
+          <BrandInfo>
+            <BrandTitle>NOFX</BrandTitle>
+            <BrandSubtitle>{t('futureStandardAI', language)}</BrandSubtitle>
+          </BrandInfo>
+        </BrandRow>
 
         {/* Multi-link columns */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-8">
-          <div>
-            <h3 className="text-sm font-semibold mb-3" style={{ color: '#EAECEF' }}>
-              {t('links', language)}
-            </h3>
-            <ul className="space-y-2 text-sm" style={{ color: '#848E9C' }}>
+        <LinksGrid>
+          {/* Column 1 */}
+          <Column>
+            <ColumnTitle>{t('links', language)}</ColumnTitle>
+            <List>
               <li>
-                <a
-                  className="hover:text-[#F0B90B]"
-                  href="https://github.com/tinkle-community/nofx"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <StyledLink href="https://github.com/tinkle-community/nofx" target="_blank">
                   GitHub
-                </a>
+                </StyledLink>
               </li>
               <li>
-                <a
-                  className="hover:text-[#F0B90B]"
-                  href="https://t.me/nofx_dev_community"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <StyledLink href="https://t.me/nofx_dev_community" target="_blank">
                   Telegram
-                </a>
+                </StyledLink>
               </li>
               <li>
-                <a
-                  className="hover:text-[#F0B90B]"
-                  href="https://x.com/nofx_ai"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <StyledLink href="https://x.com/nofx_ai" target="_blank">
                   X (Twitter)
-                </a>
+                </StyledLink>
               </li>
-            </ul>
-          </div>
+            </List>
+          </Column>
 
-          <div>
-            <h3 className="text-sm font-semibold mb-3" style={{ color: '#EAECEF' }}>
-              {t('resources', language)}
-            </h3>
-            <ul className="space-y-2 text-sm" style={{ color: '#848E9C' }}>
+          {/* Column 2 */}
+          <Column>
+            <ColumnTitle>{t('resources', language)}</ColumnTitle>
+            <List>
               <li>
-                <a
-                  className="hover:text-[#F0B90B]"
-                  href="https://github.com/tinkle-community/nofx/blob/main/README.md"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <StyledLink href="https://github.com/tinkle-community/nofx/blob/main/README.md" target="_blank">
                   {t('documentation', language)}
-                </a>
+                </StyledLink>
               </li>
               <li>
-                <a
-                  className="hover:text-[#F0B90B]"
-                  href="https://github.com/tinkle-community/nofx/issues"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <StyledLink href="https://github.com/tinkle-community/nofx/issues" target="_blank">
                   Issues
-                </a>
+                </StyledLink>
               </li>
               <li>
-                <a
-                  className="hover:text-[#F0B90B]"
-                  href="https://github.com/tinkle-community/nofx/pulls"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <StyledLink href="https://github.com/tinkle-community/nofx/pulls" target="_blank">
                   Pull Requests
-                </a>
+                </StyledLink>
               </li>
-            </ul>
-          </div>
+            </List>
+          </Column>
 
-          <div>
-            <h3 className="text-sm font-semibold mb-3" style={{ color: '#EAECEF' }}>
-              {t('supporters', language)}
-            </h3>
-            <ul className="space-y-2 text-sm" style={{ color: '#848E9C' }}>
+          {/* Column 3 */}
+          <Column>
+            <ColumnTitle>{t('supporters', language)}</ColumnTitle>
+            <List>
               <li>
-                <a
-                  className="hover:text-[#F0B90B]"
-                  href="https://www.asterdex.com/en/referral/fdfc0e"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <StyledLink href="https://www.asterdex.com/en/referral/fdfc0e" target="_blank">
                   Aster DEX
-                </a>
+                </StyledLink>
               </li>
               <li>
-                <a
-                  className="hover:text-[#F0B90B]"
-                  href="https://www.maxweb.red/join?ref=NOFXAI"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <StyledLink href="https://www.maxweb.red/join?ref=NOFXAI" target="_blank">
                   Binance
-                </a>
+                </StyledLink>
               </li>
               <li>
-                <a
-                  className="hover:text-[#F0B90B]"
-                  href="https://hyperliquid.xyz/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <StyledLink href="https://hyperliquid.xyz/" target="_blank">
                   Hyperliquid
-                </a>
+                </StyledLink>
               </li>
               <li>
-                <a className="hover:text-[#F0B90B]" href="https://amber.ac/" target="_blank" rel="noopener noreferrer">
-                  Amber.ac <span className="opacity-70">{t('strategicInvestment', language)}</span>
-                </a>
+                <StyledLink href="https://amber.ac/" target="_blank">
+                  Amber.ac <LightText>{t('strategicInvestment', language)}</LightText>
+                </StyledLink>
               </li>
-            </ul>
-          </div>
-        </div>
+            </List>
+          </Column>
+        </LinksGrid>
 
-        {/* Bottom note (kept subtle) */}
-        <div
-          className="pt-6 mt-8 text-center text-xs"
-          style={{
-            color: 'var(--text-tertiary)',
-            borderTop: '1px solid var(--panel-border)',
-          }}
-        >
+        {/* Bottom text */}
+        <BottomNote>
           <p>{t('footerTitle', language)}</p>
-          <p className="mt-1">{t('footerWarning', language)}</p>
-        </div>
-      </div>
-    </footer>
+          <p style={{ marginTop: '4px' }}>{t('footerWarning', language)}</p>
+        </BottomNote>
+      </FooterInner>
+    </FooterWrapper>
   )
 }
+
+const FooterWrapper = styled.footer`
+  border-top: 1px solid var(--panel-border);
+`
+
+const FooterInner = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px;
+`
+
+const BrandRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+`
+
+const BrandLogo = styled.img`
+  width: 32px;
+  height: 32px;
+`
+
+const BrandInfo = styled.div``
+
+const BrandTitle = styled.div`
+  font-size: 1.125rem;
+  font-weight: 700;
+`
+
+const BrandSubtitle = styled.div`
+  font-size: 0.75rem;
+`
+
+const LinksGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 32px;
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+`
+
+const Column = styled.div``
+
+const ColumnTitle = styled.h3`
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+`
+
+const List = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.875rem;
+`
+
+const StyledLink = styled.a`
+  transition: color 0.2s;
+
+  &:hover {
+    color: var(--brand-green);
+  }
+`
+
+const LightText = styled.span`
+  opacity: 0.7;
+`
+
+const BottomNote = styled.div`
+  margin-top: 32px;
+  padding-top: 24px;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  border-top: 1px solid var(--panel-border);
+`

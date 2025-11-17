@@ -1,3 +1,5 @@
+// Styled-components version of AboutSection
+import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import { Shield, Target } from 'lucide-react'
 import AnimatedSection from './AnimatedSection'
@@ -10,87 +12,145 @@ interface AboutSectionProps {
 
 export default function AboutSection({ language }: AboutSectionProps) {
   return (
-    <AnimatedSection id="about" backgroundColor="var(--brand-dark-gray)">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <motion.div
-            className="space-y-6"
+    <AnimatedSection id="about" backgroundColor="#F3F3F3" borderRadius="48px">
+      <Wrapper>
+        <Grid>
+          <CodeBox>
+            <Typewriter
+              lines={[
+                '$ git clone https://github.com/tinkle-community/nofx.git',
+                '$ cd nofx',
+                '$ chmod +x start.sh',
+                '$ ./start.sh start --build',
+                t('startupMessages1', language),
+                t('startupMessages2', language),
+                t('startupMessages3', language),
+              ]}
+              typingSpeed={70}
+              lineDelay={900}
+              className="text-sm font-mono"
+              style={{
+                color: '#0D4751',
+                textShadow: '0 0 8px rgba(0,255,136,0.4)',
+              }}
+            />
+          </CodeBox>
+
+          <AboutRight
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <motion.div
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
-              style={{
-                background: 'rgba(240, 185, 11, 0.1)',
-                border: '1px solid rgba(240, 185, 11, 0.2)',
-              }}
-              whileHover={{ scale: 1.05 }}
-            >
+            <Tag whileHover={{ scale: 1.05 }}>
               <Target className="w-4 h-4" style={{ color: 'var(--brand-yellow)' }} />
-              <span className="text-sm font-semibold" style={{ color: 'var(--brand-yellow)' }}>
-                {t('aboutNofx', language)}
-              </span>
-            </motion.div>
+              <span>{t('aboutNofx', language)}</span>
+            </Tag>
 
-            <h2 className="text-4xl font-bold" style={{ color: 'var(--brand-light-gray)' }}>
-              {t('whatIsNofx', language)}
-            </h2>
-            <p className="text-lg leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+            <Title>{t('whatIsNofx', language)}</Title>
+
+            <Paragraph>
               {t('nofxNotAnotherBot', language)} {t('nofxDescription1', language)} {t('nofxDescription2', language)}
-            </p>
-            <p className="text-lg leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-              {t('nofxDescription3', language)} {t('nofxDescription4', language)} {t('nofxDescription5', language)}
-            </p>
-            <motion.div className="flex items-center gap-3 pt-4" whileHover={{ x: 5 }}>
-              <div
-                className="w-12 h-12 rounded-full flex items-center justify-center"
-                style={{ background: 'rgba(240, 185, 11, 0.1)' }}
-              >
-                <Shield className="w-6 h-6" style={{ color: 'var(--brand-yellow)' }} />
-              </div>
-              <div>
-                <div className="font-semibold" style={{ color: 'var(--brand-light-gray)' }}>
-                  {t('youFullControl', language)}
-                </div>
-                <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                  {t('fullControlDesc', language)}
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
+            </Paragraph>
 
-          <div className="relative">
-            <div
-              className="rounded-2xl p-8"
-              style={{
-                background: 'var(--brand-black)',
-                border: '1px solid var(--panel-border)',
-              }}
-            >
-              <Typewriter
-                lines={[
-                  '$ git clone https://github.com/tinkle-community/nofx.git',
-                  '$ cd nofx',
-                  '$ chmod +x start.sh',
-                  '$ ./start.sh start --build',
-                  t('startupMessages1', language),
-                  t('startupMessages2', language),
-                  t('startupMessages3', language),
-                ]}
-                typingSpeed={70}
-                lineDelay={900}
-                className="text-sm font-mono"
-                style={{
-                  color: '#00FF88',
-                  textShadow: '0 0 8px rgba(0,255,136,0.4)',
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+            <Paragraph>
+              {t('nofxDescription3', language)} {t('nofxDescription4', language)} {t('nofxDescription5', language)}
+            </Paragraph>
+
+            <InfoRow whileHover={{ x: 5 }}>
+              <IconCircle>
+                <Shield className="w-6 h-6" style={{ color: 'var(--brand-yellow)' }} />
+              </IconCircle>
+              <div>
+                <h3>{t('youFullControl', language)}</h3>
+                <p>{t('fullControlDesc', language)}</p>
+              </div>
+            </InfoRow>
+          </AboutRight>
+        </Grid>
+      </Wrapper>
     </AnimatedSection>
   )
 }
+
+const Wrapper = styled.div`
+  max-width: 76.5rem;
+  margin: 0 auto;
+  border-radius: 24px;
+  border: 2px solid #191a23;
+  box-shadow: 4px 4px 0px 0px #191a23;
+`
+
+const Grid = styled.div`
+  display: flex;
+  gap: 3rem;
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+  }
+`
+
+const AboutRight = styled(motion.div)`
+  flex: 1 1 50%;
+  padding: 24px;
+  background: #cafe36;
+  border-radius: 24px;
+`
+
+const Tag = styled(motion.div)`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.325rem 1rem;
+  border-radius: 9999px;
+  background: #fff;
+  font-size: 0.875rem;
+  font-weight: bold;
+  color: #191a23;
+`
+
+const Title = styled.h2`
+  margin: 32px 0 16px 0;
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--brand-black);
+`
+
+const Paragraph = styled.p`
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: var(--brand-black);
+
+  &:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+`
+
+const InfoRow = styled(motion.div)`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 1rem;
+  font-size: 0.875rem;
+
+  h3 {
+    font-weight: bold;
+  }
+`
+
+const IconCircle = styled.div`
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+`
+
+const CodeBox = styled.div`
+  position: relative;
+  flex: 1 1 50%;
+  padding: 2rem;
+  border-radius: 1rem;
+`

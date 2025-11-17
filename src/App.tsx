@@ -60,10 +60,13 @@ const PageWrapper = styled.div`
 `
 
 const MainWrapper = styled.main`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
-  max-width: 1220px;
-  margin: 0 auto;
-  padding: 6rem 1.5rem 1.5rem;
+  padding-top: 40px;
+  max-height: calc(100vh - 64px);
+  overflow-y: scroll;
 `
 
 const LoadingScreen = styled.div`

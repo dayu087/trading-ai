@@ -7,7 +7,7 @@
 
 /* 强制显示滚动条以确保所有页面布局一致 */
 html {
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
 }
 
 :root {
@@ -17,6 +17,9 @@ html {
   --down_color: #a54162;
   --up_bg: #d2e8a4;
   --down_bg: #fedaee;
+  --foreground: #191a23;
+  --brand-green: #cafe36;
+  --panel-border: #f3f3f3;
 
   /* Binance Brand Colors */
   --brand-yellow: #f0b90b;
@@ -34,10 +37,8 @@ html {
   --background: #ffffff; /* Binance body bg */
   --header-bg: #ffffff; /* Binance header bg */
   --background-elevated: #ffffff;
-  --foreground: #eaecef;
   --panel-bg: #0a0a0a;
   --panel-bg-hover: #111111;
-  --panel-border: #1a1a1a;
   --panel-border-hover: #2a2a2a;
 
   /* Binance Signature Colors */
@@ -89,6 +90,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background-color: var(--background);
+  overflow: hidden;
 }
 
 #root {

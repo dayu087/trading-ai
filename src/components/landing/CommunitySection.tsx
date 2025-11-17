@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { styled } from 'styled-components'
 import AnimatedSection from './AnimatedSection'
 
 interface CardProps {
@@ -12,28 +13,19 @@ interface CardProps {
 
 function TestimonialCard({ quote, authorName, delay }: CardProps) {
   return (
-    <motion.div
-      className="p-6 rounded-xl"
-      style={{
-        background: 'var(--brand-dark-gray)',
-        border: '1px solid rgba(240, 185, 11, 0.1)',
-      }}
+    <CommunityItem
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay }}
-      whileHover={{ scale: 1.05 }}
+      whileHover={{ scale: 1.05, backgroundColor: '#cafe36' }}
     >
-      <p className="text-lg mb-4" style={{ color: 'var(--brand-light-gray)' }}>
-        "{quote}"
-      </p>
-      <div className="flex items-center gap-2">
-        <div className="w-8 h-8 rounded-full" style={{ background: 'var(--binance-yellow)' }} />
-        <span className="text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>
-          {authorName}
-        </span>
-      </div>
-    </motion.div>
+      <p>"{quote}"</p>
+      <CommunityAuthor>
+        <img src="" alt="" />
+        <span>{authorName}</span>
+      </CommunityAuthor>
+    </CommunityItem>
   )
 }
 
@@ -74,20 +66,60 @@ export default function CommunitySection() {
   ]
 
   return (
-    <AnimatedSection>
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          className="grid md:grid-cols-3 gap-6"
-          variants={staggerContainer}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-        >
+    <AnimatedSection backgroundColor="#ffffff">
+      <CommunityContainer>
+        <CommunityList variants={staggerContainer} initial="initial" whileInView="animate" viewport={{ once: true }}>
           {items.map((item, idx) => (
             <TestimonialCard key={idx} {...item} />
           ))}
-        </motion.div>
-      </div>
+        </CommunityList>
+      </CommunityContainer>
     </AnimatedSection>
   )
 }
+
+const CommunityContainer = styled.div`
+  max-width: 76.5rem;
+  margin: 0 auto;
+`
+
+const CommunityList = styled(motion.div)`
+  display: flex;
+  gap: 1rem;
+`
+
+const CommunityItem = styled(motion.div)`
+  flex: 1 1 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 24px;
+  background: #ffffff;
+  box-shadow: 4px 4px 0px 0px #191a23;
+  border-radius: 24px;
+  border: 1px solid #191a23;
+  cursor: pointer;
+
+  p {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+`
+
+const CommunityAuthor = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: yellow;
+  }
+
+  span {
+    font-size: 1rem;
+  }
+`
