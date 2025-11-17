@@ -4,13 +4,15 @@ import { Sparkles } from 'lucide-react'
 import { t, Language } from '../../i18n/translations'
 import { useGitHubStats } from '../../hooks/useGitHubStats'
 import { useCounterAnimation } from '../../hooks/useCounterAnimation'
+import { useScrollContext } from '../../contexts/ScrollProvider'
 
 interface HeroSectionProps {
   language: Language
 }
 
 export default function HeroSection({ language }: HeroSectionProps) {
-  const { scrollYProgress } = useScroll()
+  const { scrollRef } = useScrollContext()
+  const { scrollYProgress } = useScroll({ container: scrollRef })
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
   const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.8])
   const handControls = useAnimation()

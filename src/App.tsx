@@ -1,12 +1,13 @@
 import { BrowserRouter, useLocation } from 'react-router-dom'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
+import RouteView from './routes/route'
 import { LanguageProvider, useLanguage } from './contexts/LanguageContext'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
+import { ScrollProvider } from './contexts/ScrollProvider'
 import { useSystemConfig } from './hooks/useSystemConfig'
 import { t } from './i18n/translations'
 import HeaderBar from './components/landing/HeaderBar'
 import { Header } from './components/Header'
-import RouteView from './routes/route'
 
 /* ------------------------- 页面主体 ------------------------- */
 function AppContent() {
@@ -31,9 +32,9 @@ function AppContent() {
   return (
     <PageWrapper>
       {currentPage === 'reset-password' ? <Header simple /> : <HeaderBar />}
-      <MainWrapper>
+      <ScrollProvider>
         <RouteView />
-      </MainWrapper>
+      </ScrollProvider>
     </PageWrapper>
   )
 }
