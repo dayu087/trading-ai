@@ -519,6 +519,7 @@ const TitleCard = styled.div`
   align-items: center;
   gap: 16px;
   box-shadow: 4px 4px 0px 0px #191a23;
+  border: 2px solid #191a23;
 `
 
 const TitleText = styled.div`

@@ -183,7 +183,7 @@ export function EquityChart({ traderId }: EquityChartProps) {
             </EquityValue>
 
             <div className="profit-row">
-              <ProfitTag isProfit={isProfit}>
+              <ProfitTag $isProfit={isProfit}>
                 {isProfit ? <ArrowUp className="icon" /> : <ArrowDown className="icon" />}
                 {isProfit ? '+' : ''}
                 {currentValue.raw_pnl_pct}%
@@ -199,10 +199,10 @@ export function EquityChart({ traderId }: EquityChartProps) {
 
         {/* ---- Display Toggle ---- */}
         <ToggleWrapper>
-          <ToggleButton active={displayMode === 'dollar'} onClick={() => setDisplayMode('dollar')}>
+          <ToggleButton $active={displayMode === 'dollar'} onClick={() => setDisplayMode('dollar')}>
             <DollarSign className="icon" /> USDT
           </ToggleButton>
-          <ToggleButton active={displayMode === 'percent'} onClick={() => setDisplayMode('percent')}>
+          <ToggleButton $active={displayMode === 'percent'} onClick={() => setDisplayMode('percent')}>
             <Percent className="icon" />
           </ToggleButton>
         </ToggleWrapper>
@@ -384,7 +384,7 @@ const UnitLabel = styled.span`
   font-size: 1rem;
 `
 
-const ProfitTag = styled.span<{ isProfit: boolean }>`
+const ProfitTag = styled.span<{ $isProfit: boolean }>`
   display: flex;
   align-items: center;
   gap: 4px;
@@ -393,9 +393,9 @@ const ProfitTag = styled.span<{ isProfit: boolean }>`
   font-size: 14px;
   font-weight: bold;
   border-radius: 6px;
-  color: ${({ isProfit }) => (isProfit ? 'var(--up_color)' : 'var(--down_color)')};
-  background: ${({ isProfit }) => (isProfit ? 'var(--up_bg)' : 'var(--down_bg)')};
-  border: 1px solid ${({ isProfit }) => (isProfit ? 'rgba(14,203,129,0.2)' : 'rgba(246,70,93,0.2)')};
+  color: ${({ $isProfit }) => ($isProfit ? 'var(--up_color)' : 'var(--down_color)')};
+  background: ${({ $isProfit }) => ($isProfit ? 'var(--up_bg)' : 'var(--down_bg)')};
+  border: 1px solid ${({ $isProfit }) => ($isProfit ? 'rgba(14,203,129,0.2)' : 'rgba(246,70,93,0.2)')};
 
   .icon {
     width: 16px;
@@ -412,7 +412,7 @@ const ToggleWrapper = styled.div`
   border-radius: 8px;
 `
 
-const ToggleButton = styled.button<{ active: boolean }>`
+const ToggleButton = styled.button<{ $active: boolean }>`
   padding: 6px 12px;
   font-size: 13px;
   font-weight: bold;
@@ -422,9 +422,9 @@ const ToggleButton = styled.button<{ active: boolean }>`
   gap: 4px;
   transition: all 0.2s ease;
 
-  background: ${({ active }) => (active ? '#F0B90B' : 'transparent')};
-  color: ${({ active }) => (active ? '#000' : '#848E9C')};
-  box-shadow: ${({ active }) => (active ? '0 2px 8px rgba(240,185,11,0.4)' : 'none')};
+  background: ${({ $active }) => ($active ? '#F0B90B' : 'transparent')};
+  color: ${({ $active }) => ($active ? '#000' : '#848E9C')};
+  box-shadow: ${({ $active }) => ($active ? '0 2px 8px rgba(240,185,11,0.4)' : 'none')};
 
   .icon {
     width: 16px;

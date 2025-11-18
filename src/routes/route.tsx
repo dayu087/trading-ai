@@ -1,7 +1,4 @@
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
-import { useEffect, useState, useCallback } from 'react'
-import useSWR from 'swr'
-import { api } from '../lib/api'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { AITradersPage } from '../components/AITradersPage'
 import { LoginPage } from '../components/LoginPage'
 import { RegisterPage } from '../components/RegisterPage'
@@ -10,43 +7,8 @@ import { CompetitionPage } from '../components/CompetitionPage'
 import { LandingPage } from '../pages/LandingPage'
 import { FAQPage } from '../pages/FAQPage'
 import DashboardPage from '../pages/DashboardPage'
-import { useAuth } from '../contexts/AuthContext'
-import type { TraderInfo } from '../types'
 
 export default function RouteView() {
-  const navigate = useNavigate()
-  const { user, token } = useAuth()
-  const [selectedTraderId, setSelectedTraderId] = useState<string>()
-
-  const { data: traders, error: tradersError } = useSWR<TraderInfo[]>(
-    user && token ? 'traders' : null,
-    api.getTraders,
-    {
-      refreshInterval: 10000,
-      shouldRetryOnError: false,
-    }
-  )
-
-  useEffect(() => {
-    if (traders?.length && !selectedTraderId) {
-      setSelectedTraderId(traders[0].trader_id)
-    }
-  }, [traders, selectedTraderId])
-
-  const selectedTrader = traders?.find((t) => t.trader_id === selectedTraderId)
-
-  const handleTraderSelect = useCallback(
-    (traderId: string) => {
-      setSelectedTraderId(traderId)
-      navigate('/dashboard')
-    },
-    [navigate]
-  )
-
-  const handleNavigateToTraders = useCallback(() => {
-    navigate('/traders')
-  }, [navigate])
-
   return (
     <Routes>
       {/* 公共页面 */}
@@ -56,23 +18,9 @@ export default function RouteView() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/reset-password" element={<ResetPasswordPage />} />
-
       {/* 登录后可访问的页面 */}
-      <Route path="/traders" element={<AITradersPage onTraderSelect={handleTraderSelect} />} />
-      <Route
-        path="/dashboard"
-        element={
-          <DashboardPage
-            selectedTrader={selectedTrader}
-            traders={traders}
-            tradersError={tradersError}
-            selectedTraderId={selectedTraderId}
-            onTraderSelect={setSelectedTraderId}
-            onNavigateToTraders={handleNavigateToTraders}
-          />
-        }
-      />
-
+      <Route path="/traders" element={<AITradersPage />} />
+      <Route path="/dashboard" element={<DashboardPage />} />
       {/* 未匹配路由时重定向到首页 */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

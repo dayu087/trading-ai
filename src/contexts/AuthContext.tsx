@@ -1,6 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
+import useSWR from 'swr'
 import { getSystemConfig } from '../lib/config'
 import { reset401Flag } from '../lib/httpClient'
+import { api } from '../lib/api'
+import type { TraderInfo } from '../types'
 
 interface User {
   id: string
@@ -10,6 +13,13 @@ interface User {
 interface AuthContextType {
   user: User | null
   token: string | null
+  selectedTraderId: string | undefined
+  traders: TraderInfo[] | undefined
+  tradersError: Error | undefined
+  selectedTraderData: TraderInfo
+  setSelectedTraderId: (id: string | undefined) => void
+  setSelectedTraderData: (data: any) => void
+
   login: (
     email: string,
     password: string
@@ -51,9 +61,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [token, setToken] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [selectedTraderId, setSelectedTraderId] = useState<string>()
+  const [selectedTraderData, setSelectedTraderData] = useState<any>(null)
+
+  const { data: traders, error: tradersError } = useSWR<TraderInfo[]>(
+    user && token ? 'traders' : null,
+    api.getTraders,
+    {
+      refreshInterval: 10000,
+      shouldRetryOnError: false,
+    }
+  )
 
   useEffect(() => {
-    // Reset 401 flag on page load to allow fresh 401 handling
+    if (traders?.length && !selectedTraderId) {
+      setSelectedTraderId(traders[0].trader_id)
+    } else {
+      setSelectedTraderData(traders?.find((t) => t.trader_id === selectedTraderId))
+    }
+  }, [traders, selectedTraderId])
+
+  useEffect(() => {
     reset401Flag()
     // 先检查是否为管理员模式（使用带缓存的系统配置获取）
     getSystemConfig()
@@ -87,14 +115,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       })
   }, [])
 
-  // Listen for unauthorized events from httpClient (401 responses)
   useEffect(() => {
     const handleUnauthorized = () => {
       console.log('Unauthorized event received - clearing auth state')
-      // Clear auth state when 401 is detected
       setUser(null)
       setToken(null)
-      // Note: localStorage cleanup is already done in httpClient
     }
     window.addEventListener('unauthorized', handleUnauthorized)
     return () => {
@@ -341,24 +366,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.removeItem('auth_user')
   }
 
-  return (
-    <AuthContext.Provider
-      value={{
-        user,
-        token,
-        login,
-        loginAdmin,
-        register,
-        verifyOTP,
-        completeRegistration,
-        resetPassword,
-        logout,
-        isLoading,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  )
+  const AuthData = {
+    user,
+    token,
+    login,
+    loginAdmin,
+    register,
+    verifyOTP,
+    completeRegistration,
+    resetPassword,
+    logout,
+    isLoading,
+    selectedTraderId,
+    setSelectedTraderId,
+    selectedTraderData,
+    setSelectedTraderData,
+    traders,
+    tradersError,
+  }
+
+  return <AuthContext.Provider value={AuthData}>{children}</AuthContext.Provider>
 }
 
 export function useAuth() {

@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import useSWR from 'swr'
 import { api } from '../lib/api'
 import type { TraderInfo, CreateTraderRequest, AIModel, Exchange } from '../types'
@@ -28,13 +30,9 @@ function getModelDisplayName(modelId: string): string {
   }
 }
 
-interface AITradersPageProps {
-  onTraderSelect?: (traderId: string) => void
-}
-
-export function AITradersPage({ onTraderSelect }: AITradersPageProps) {
+export function AITradersPage() {
   const { language } = useLanguage()
-  const { user, token } = useAuth()
+  const { user, token, setSelectedTraderId } = useAuth()
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [showEditModal, setShowEditModal] = useState(false)
   const [showModelModal, setShowModelModal] = useState(false)
@@ -54,6 +52,7 @@ export function AITradersPage({ onTraderSelect }: AITradersPageProps) {
     coinPoolUrl: '',
     oiTopUrl: '',
   })
+  const navigate = useNavigate()
 
   const { data: traders, mutate: mutateTraders } = useSWR<TraderInfo[]>(
     user && token ? 'traders' : null,
@@ -632,6 +631,13 @@ export function AITradersPage({ onTraderSelect }: AITradersPageProps) {
     }
   }
 
+  const handleTraderSelect = (traderId: string) => {
+    if (traderId) {
+      setSelectedTraderId(traderId)
+      navigate('/dashboard')
+    }
+  }
+
   return (
     <div className="space-y-4 md:space-y-6 animate-fade-in">
       {/* Header */}
@@ -963,7 +969,7 @@ export function AITradersPage({ onTraderSelect }: AITradersPageProps) {
                   {/* Actions */}
                   <div className="flex gap-1.5 md:gap-2 flex-wrap md:flex-nowrap">
                     <button
-                      onClick={() => onTraderSelect?.(trader.trader_id)}
+                      onClick={() => handleTraderSelect(trader.trader_id)}
                       className="px-2 md:px-3 py-1.5 md:py-2 rounded text-xs md:text-sm font-semibold transition-all hover:scale-105 flex items-center gap-1 whitespace-nowrap"
                       style={{
                         background: 'rgba(99, 102, 241, 0.1)',

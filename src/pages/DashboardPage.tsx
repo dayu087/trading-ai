@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import useSWR from 'swr'
 import { api } from '../lib/api'
 import styled, { keyframes } from 'styled-components'
@@ -7,17 +8,11 @@ import { t, type Language } from '../i18n/translations'
 import { EquityChart } from '../components/EquityChart'
 import AILearning from '../components/AILearning'
 import { useLanguage } from '../contexts/LanguageContext'
-import type { TraderInfo, SystemStatus, AccountInfo, Position, DecisionRecord, Statistics } from '../types' // <- 根据你项目调整路径
+import { useAuth } from '../contexts/AuthContext'
+import type { SystemStatus, AccountInfo, Position, DecisionRecord, Statistics } from '../types' // <- 根据你项目调整路径
 import FooterView from '../components/FooterView'
-
-interface TraderDetailsProps {
-  selectedTrader?: TraderInfo
-  traders?: TraderInfo[]
-  tradersError?: Error
-  selectedTraderId?: string
-  onTraderSelect: (traderId: string) => void
-  onNavigateToTraders: () => void
-}
+import SkeletonLoad from '../components/dashboard/SkeletonLoad'
+import EmptySection from '../components/dashboard/EmptySection'
 
 function getModelDisplayName(modelId: string): string {
   switch (modelId.toLowerCase()) {
@@ -32,18 +27,11 @@ function getModelDisplayName(modelId: string): string {
   }
 }
 
-export default function TraderDetails({
-  selectedTrader,
-  traders,
-  tradersError,
-  selectedTraderId,
-  onTraderSelect,
-  onNavigateToTraders,
-}: TraderDetailsProps) {
+export default function TraderDetails() {
   const [lastUpdate, setLastUpdate] = useState<string>('--:--:--')
   const { language } = useLanguage()
-
-  console.log(selectedTraderId, traders, 'traders')
+  const navigate = useNavigate()
+  const { selectedTraderData, traders, tradersError, selectedTraderId, setSelectedTraderId } = useAuth()
 
   // 如果在trader页面，获取该trader的数据
   const { data: status } = useSWR<SystemStatus>(
@@ -103,96 +91,11 @@ export default function TraderDetails({
     }
   }, [account])
 
-  if (tradersError) {
-    return (
-      <EmptyContainer>
-        <EmptyInner>
-          <IconCircle role="img" aria-hidden>
-            <svg
-              width="48"
-              height="48"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3" />
-              <path d="M3 13h18" />
-              <path d="M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-          </IconCircle>
-          <EmptyTitle>{t('dashboardEmptyTitle', language)}</EmptyTitle>
-          <EmptyDesc>{t('dashboardEmptyDescription', language)}</EmptyDesc>
-
-          <CTAButton onClick={onNavigateToTraders}>{t('goToTradersPage', language)}</CTAButton>
-        </EmptyInner>
-      </EmptyContainer>
-    )
-  }
-
-  // If traders is loaded and empty, show empty state
-  if (traders && traders.length === 0) {
-    return (
-      <EmptyContainer>
-        <EmptyInner>
-          <IconCircle role="img" aria-hidden>
-            <svg
-              width="48"
-              height="48"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3" />
-              <path d="M3 13h18" />
-              <path d="M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-          </IconCircle>
-
-          <EmptyTitle>{t('dashboardEmptyTitle', language)}</EmptyTitle>
-          <EmptyDesc>{t('dashboardEmptyDescription', language)}</EmptyDesc>
-
-          <CTAButton onClick={onNavigateToTraders}>{t('goToTradersPage', language)}</CTAButton>
-        </EmptyInner>
-      </EmptyContainer>
-    )
-  }
+  if (tradersError) return <EmptySection language={language} toTraders={() => navigate('/traders')} />
+  if (traders && !traders?.length) return <EmptySection language={language} toTraders={() => navigate('/traders')} />
 
   // If traders is still loading or selectedTrader is not ready, show skeleton
-  if (!selectedTrader) {
-    return (
-      <SkeletonWrapper>
-        <CardSkeleton>
-          <SkeletonBar style={{ width: '12rem', height: '2rem' }} />
-          <SkeletonRow>
-            <SkeletonBar style={{ width: '8rem', height: '1rem' }} />
-            <SkeletonBar style={{ width: '6rem', height: '1rem' }} />
-            <SkeletonBar style={{ width: '7rem', height: '1rem' }} />
-          </SkeletonRow>
-        </CardSkeleton>
-
-        <GridSkeleton>
-          {[1, 2, 3, 4].map((i) => (
-            <SmallCardSkeleton key={i}>
-              <SkeletonBar style={{ width: '6rem', height: '1rem' }} />
-              <SkeletonBar style={{ width: '8rem', height: '2rem' }} />
-            </SmallCardSkeleton>
-          ))}
-        </GridSkeleton>
-
-        <CardSkeleton>
-          <SkeletonBar style={{ width: '10rem', height: '1.5rem' }} />
-          <LargeSkeleton style={{ height: '16rem' }} />
-        </CardSkeleton>
-      </SkeletonWrapper>
-    )
-  }
-
+  if (!selectedTraderData) return <SkeletonLoad />
   return (
     <TraderContainer>
       <TraderHeaderBox>
@@ -200,14 +103,14 @@ export default function TraderDetails({
           <HeaderTop>
             <h2>
               <AvatarBadge>🤖</AvatarBadge>
-              <TraderTitle>{selectedTrader.trader_name}</TraderTitle>
+              <TraderTitle>{selectedTraderData.trader_name}</TraderTitle>
             </h2>
 
             {/* Trader Selector */}
             {traders && traders.length > 0 && (
               <SelectorRow>
                 <SelectorLabel>{t('switchTrader', language)}:</SelectorLabel>
-                <Select value={selectedTraderId} onChange={(e) => onTraderSelect(e.target.value)}>
+                <Select value={selectedTraderId} onChange={(e) => setSelectedTraderId(e.target.value)}>
                   {traders.map((trader) => (
                     <option key={trader.trader_id} value={trader.trader_id}>
                       {trader.trader_name}
@@ -221,8 +124,8 @@ export default function TraderDetails({
           <HeaderBottom>
             <ModelText>
               AI Model:{' '}
-              <ModelBadge $isQwen={selectedTrader.ai_model.includes('qwen')}>
-                {getModelDisplayName(selectedTrader.ai_model.split('_').pop() || selectedTrader.ai_model)}
+              <ModelBadge $isQwen={selectedTraderData.ai_model.includes('qwen')}>
+                {getModelDisplayName(selectedTraderData.ai_model.split('_').pop() || selectedTraderData.ai_model)}
               </ModelBadge>
             </ModelText>
 
@@ -286,7 +189,7 @@ export default function TraderDetails({
           {/* Left column: chart + positions */}
           <LeftCol>
             <ChartWrap>
-              <EquityChart traderId={selectedTrader.trader_id}></EquityChart>
+              <EquityChart traderId={selectedTraderData.trader_id}></EquityChart>
             </ChartWrap>
 
             {/* Current Positions */}
@@ -383,7 +286,7 @@ export default function TraderDetails({
 
       {/* AI Learning & Performance Analysis */}
       <AILearningWrap>
-        <AILearning traderId={selectedTrader.trader_id} />
+        <AILearning traderId={selectedTraderData.trader_id} />
       </AILearningWrap>
 
       <FooterView />
@@ -575,107 +478,6 @@ const TraderHeaderBox = styled.div`
   margin-bottom: 130px;
 `
 
-/* Empty states */
-const EmptyContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 60vh;
-`
-const EmptyInner = styled.div`
-  text-align: center;
-  max-width: 28rem;
-  padding: 1.5rem;
-`
-const IconCircle = styled.div`
-  width: 96px;
-  height: 96px;
-  margin: 0 auto 1.5rem;
-  border-radius: 9999px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(240, 185, 11, 0.1);
-  border: 2px solid rgba(240, 185, 11, 0.3);
-  color: #f0b90b;
-`
-const EmptyTitle = styled.h2`
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  color: #eaecef;
-`
-const EmptyDesc = styled.p`
-  color: #848e9c;
-  margin-bottom: 1rem;
-`
-const CTAButton = styled.button`
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  background: linear-gradient(135deg, #f0b90b 0%, #fcd535 100%);
-  color: #0b0e11;
-  box-shadow: 0 4px 12px rgba(240, 185, 11, 0.3);
-  transition: transform 0.12s;
-  &:active {
-    transform: scale(0.98);
-  }
-  &:hover {
-    transform: scale(1.05);
-  }
-`
-
-/* Skeletons */
-const SkeletonWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-`
-const CardSkeleton = styled.div`
-  background: #1e2329;
-  border: 1px solid #2b3139;
-  border-radius: 12px;
-  padding: 1.25rem;
-  animation: pulse 1.2s infinite ease-in-out;
-  @keyframes pulse {
-    0% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.6;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-`
-const SkeletonBar = styled.div`
-  background: #0b0e11;
-  border-radius: 6px;
-  margin-bottom: 0.5rem;
-`
-const SkeletonRow = styled.div`
-  display: flex;
-  gap: 12px;
-`
-const GridSkeleton = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-`
-const SmallCardSkeleton = styled.div`
-  background: #1e2329;
-  border: 1px solid #2b3139;
-  border-radius: 12px;
-  padding: 1rem;
-  animation: pulse 1.2s infinite ease-in-out;
-`
-const LargeSkeleton = styled.div`
-  background: #0b0e11;
-  border-radius: 8px;
-`
-
 /* Header card */
 const HeaderCard = styled.div`
   padding: 2.5rem 1.5rem 2rem 4rem;
@@ -844,8 +646,6 @@ const ChartWrap = styled.div`
   overflow: hidden;
   /* padding: 24px; */
 `
-
-const EquityChartPlaceholder = styled.div``
 
 /* Positions card */
 const PositionsCard = styled.div`
