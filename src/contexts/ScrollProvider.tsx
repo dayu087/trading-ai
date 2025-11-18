@@ -20,10 +20,6 @@ export function ScrollProvider({ children }: { children: React.ReactNode }) {
 
   const getScrollElement = () => scrollRef.current
 
-  /* -----------------------------------------------------
-   * 🚀 惯性滚动系统（完全不会涉及 render 阶段访问 ref）
-   * ----------------------------------------------------- */
-
   const inertiaY = useRef(0)
   const velocityY = useRef(0)
   const isTicking = useRef(false)
@@ -31,62 +27,56 @@ export function ScrollProvider({ children }: { children: React.ReactNode }) {
   const damping = 0.08
   const friction = 0.92
 
-  /** TICK：使用 useRef 保存，不在渲染阶段执行 */
   const tickRef = useRef<() => void>(() => {})
 
-  useEffect(() => {
-    tickRef.current = () => {
-      const el = scrollRef.current
-      if (!el) return
+  // useEffect(() => {
+  //   tickRef.current = () => {
+  //     const el = scrollRef.current
+  //     if (!el) return
 
-      velocityY.current *= friction
-      inertiaY.current += velocityY.current
+  //     velocityY.current *= friction
+  //     inertiaY.current += velocityY.current
 
-      el.scrollTop = inertiaY.current
+  //     el.scrollTop = inertiaY.current
 
-      if (Math.abs(velocityY.current) > 0.2) {
-        requestAnimationFrame(tickRef.current)
-      } else {
-        isTicking.current = false
-      }
-    }
-  }, [])
+  //     if (Math.abs(velocityY.current) > 0.2) {
+  //       requestAnimationFrame(tickRef.current)
+  //     } else {
+  //       isTicking.current = false
+  //     }
+  //   }
+  // }, [])
 
-  /** wheel 事件逻辑 —— 也不在渲染期间触发 */
-  const onWheel = useCallback((e: WheelEvent) => {
-    const el = scrollRef.current
-    if (!el) return
+  // const onWheel = useCallback((e: WheelEvent) => {
+  //   const el = scrollRef.current
+  //   if (!el) return
 
-    if (!isTicking.current) {
-      inertiaY.current = el.scrollTop
-      isTicking.current = true
-      requestAnimationFrame(tickRef.current)
-    }
+  //   if (!isTicking.current) {
+  //     inertiaY.current = el.scrollTop
+  //     isTicking.current = true
+  //     requestAnimationFrame(tickRef.current)
+  //   }
 
-    velocityY.current += e.deltaY * damping
-  }, [])
+  //   velocityY.current += e.deltaY * damping
+  // }, [])
 
-  /** 注册 wheel 事件 */
-  useEffect(() => {
-    const el = scrollRef.current
-    if (!el) return
+  // useEffect(() => {
+  //   const el = scrollRef.current
+  //   if (!el) return
 
-    el.addEventListener('wheel', onWheel, { passive: true })
-    return () => el.removeEventListener('wheel', onWheel)
-  }, [onWheel])
+  //   el.addEventListener('wheel', onWheel, { passive: true })
+  //   return () => el.removeEventListener('wheel', onWheel)
+  // }, [onWheel])
 
-  /* -----------------------------------------------------
-   * 🔝 路由切换 ⇒ 惯性滚动到顶部
-   * ----------------------------------------------------- */
-  useEffect(() => {
-    const el = scrollRef.current
-    if (!el) return
+  // useEffect(() => {
+  //   const el = scrollRef.current
+  //   if (!el) return
 
-    inertiaY.current = el.scrollTop
-    velocityY.current = -(inertiaY.current * 0.25)
-    isTicking.current = true
-    requestAnimationFrame(tickRef.current)
-  }, [location.pathname])
+  //   inertiaY.current = el.scrollTop
+  //   velocityY.current = -(inertiaY.current * 0.25)
+  //   isTicking.current = true
+  //   requestAnimationFrame(tickRef.current)
+  // }, [location.pathname])
 
   /* ----------------------------------------------------- */
 

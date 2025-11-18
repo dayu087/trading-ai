@@ -154,10 +154,13 @@ const IconBox = styled(motion.div)<{ $isHovered: boolean }>`
 `
 
 const Title = styled.h3`
+  padding: 8px 12px;
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 12px;
   color: var(--brand-black);
+  border-radius: 8px;
+  background: #cafe36;
 `
 
 const Description = styled.p`

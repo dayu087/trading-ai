@@ -36,5 +36,9 @@ export function LandingPage() {
 }
 
 const LandingContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
   width: 100%;
+  padding-top: 6.5rem;
 `

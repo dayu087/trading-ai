@@ -12,7 +12,7 @@ interface AboutSectionProps {
 
 export default function AboutSection({ language }: AboutSectionProps) {
   return (
-    <AnimatedSection id="about" backgroundColor="#F3F3F3" borderRadius="48px">
+    <AnimatedSection id="about" backgroundColor="#ffffff" padding="100px 0 98px 0 ">
       <Wrapper>
         <Grid>
           <CodeBox>
@@ -28,7 +28,6 @@ export default function AboutSection({ language }: AboutSectionProps) {
               ]}
               typingSpeed={70}
               lineDelay={900}
-              className="text-sm font-mono"
               style={{
                 color: '#0D4751',
                 textShadow: '0 0 8px rgba(0,255,136,0.4)',
@@ -43,7 +42,7 @@ export default function AboutSection({ language }: AboutSectionProps) {
             transition={{ duration: 0.6 }}
           >
             <Tag whileHover={{ scale: 1.05 }}>
-              <Target className="w-4 h-4" style={{ color: 'var(--brand-yellow)' }} />
+              <Target className="w-4 h-4" style={{ color: 'var(--up_color)' }} />
               <span>{t('aboutNofx', language)}</span>
             </Tag>
 
@@ -59,7 +58,7 @@ export default function AboutSection({ language }: AboutSectionProps) {
 
             <InfoRow whileHover={{ x: 5 }}>
               <IconCircle>
-                <Shield className="w-6 h-6" style={{ color: 'var(--brand-yellow)' }} />
+                <Shield className="w-6 h-6" style={{ color: 'var(--up_color)' }} />
               </IconCircle>
               <div>
                 <h3>{t('youFullControl', language)}</h3>
@@ -79,6 +78,7 @@ const Wrapper = styled.div`
   border-radius: 24px;
   border: 2px solid #191a23;
   box-shadow: 4px 4px 0px 0px #191a23;
+  background: #f3f3f3;
 `
 
 const Grid = styled.div`
@@ -93,8 +93,8 @@ const Grid = styled.div`
 const AboutRight = styled(motion.div)`
   flex: 1 1 50%;
   padding: 24px;
-  background: #cafe36;
   border-radius: 24px;
+  background: #ffffff;
 `
 
 const Tag = styled(motion.div)`
@@ -151,6 +151,6 @@ const IconCircle = styled.div`
 const CodeBox = styled.div`
   position: relative;
   flex: 1 1 50%;
-  padding: 2rem;
+  padding: 7rem 2rem 2rem;
   border-radius: 1rem;
 `

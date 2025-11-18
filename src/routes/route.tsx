@@ -9,7 +9,7 @@ import { ResetPasswordPage } from '../components/ResetPasswordPage'
 import { CompetitionPage } from '../components/CompetitionPage'
 import { LandingPage } from '../pages/LandingPage'
 import { FAQPage } from '../pages/FAQPage'
-import TraderDetails from '../pages/TraderPage'
+import DashboardPage from '../pages/DashboardPage'
 import { useAuth } from '../contexts/AuthContext'
 import type { TraderInfo } from '../types'
 
@@ -62,7 +62,7 @@ export default function RouteView() {
       <Route
         path="/dashboard"
         element={
-          <TraderDetails
+          <DashboardPage
             selectedTrader={selectedTrader}
             traders={traders}
             tradersError={tradersError}

@@ -840,7 +840,7 @@ const RightCol = styled.div`
 /* Chart placeholder */
 const ChartWrap = styled.div`
   background: #f3f3f3;
-  border-radius: 16px;
+  border-radius: 24px;
   overflow: hidden;
   /* padding: 24px; */
 `

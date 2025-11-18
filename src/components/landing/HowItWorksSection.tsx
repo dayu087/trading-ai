@@ -7,25 +7,30 @@ import { t, Language } from '../../i18n/translations'
 
 function StepCard({ number, title, description, delay }: any) {
   return (
-    <StepWrapper
+    <StepWrapperBox
       initial={{ opacity: 0, x: -50 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
       transition={{ delay }}
       whileHover={{ x: 10 }}
     >
-      <NumberCircle
-        whileHover={{ scale: 1.2, rotate: 360 }}
-        transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-      >
-        0{number}
-      </NumberCircle>
+      <StepWrapper>
+        <NumberCircle
+          whileHover={{ scale: 1.2, rotate: 360 }}
+          transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+        >
+          0{number}
+        </NumberCircle>
 
-      <StepContent>
-        <StepTitle>{title}</StepTitle>
-        <StepDescription>{description}</StepDescription>
-      </StepContent>
-    </StepWrapper>
+        <StepContent>
+          <StepTitle>{title}</StepTitle>
+          <StepDescription>{description}</StepDescription>
+        </StepContent>
+      </StepWrapper>
+      <StepIcon>
+        <img src="" alt="" />
+      </StepIcon>
+    </StepWrapperBox>
   )
 }
 
@@ -36,6 +41,29 @@ interface HowItWorksSectionProps {
 }
 
 export default function HowItWorksSection({ language }: HowItWorksSectionProps) {
+  const stepDataList = [
+    {
+      number: 1,
+      title: t('step1Title', language),
+      description: t('step1Desc', language),
+    },
+    {
+      number: 2,
+      title: t('step2Title', language),
+      description: t('step2Desc', language),
+    },
+    {
+      number: 3,
+      title: t('step3Title', language),
+      description: t('step3Desc', language),
+    },
+    {
+      number: 4,
+      title: t('step4Title', language),
+      description: t('step4Desc', language),
+    },
+  ]
+
   return (
     <AnimatedSection id="how-it-works" backgroundColor="rgba(25,26,35,0.04)" borderRadius="48px">
       <Container>
@@ -45,28 +73,7 @@ export default function HowItWorksSection({ language }: HowItWorksSectionProps) 
         </TitleBlock>
 
         <StepsWrapper>
-          {[
-            {
-              number: 1,
-              title: t('step1Title', language),
-              description: t('step1Desc', language),
-            },
-            {
-              number: 2,
-              title: t('step2Title', language),
-              description: t('step2Desc', language),
-            },
-            {
-              number: 3,
-              title: t('step3Title', language),
-              description: t('step3Desc', language),
-            },
-            {
-              number: 4,
-              title: t('step4Title', language),
-              description: t('step4Desc', language),
-            },
-          ].map((step, index) => (
+          {stepDataList.map((step, index) => (
             <StepCard key={step.number} {...step} delay={index * 0.1} />
           ))}
         </StepsWrapper>
@@ -109,13 +116,14 @@ export default function HowItWorksSection({ language }: HowItWorksSectionProps) 
 /* ------------------------------ Styled Components ------------------------------ */
 const Container = styled.div`
   max-width: 76.5rem;
+  padding: 88px 0;
   margin: 0 auto;
   color: var(--brand-black);
 `
 
 const TitleBlock = styled(motion.div)`
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 40px;
 `
 
 const SectionTitle = styled.h2`
@@ -131,16 +139,32 @@ const SectionSubtitle = styled.p`
 const StepsWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  /* gap: 1rem; */
 `
 
-const StepWrapper = styled(motion.div)`
+const StepWrapperBox = styled(motion.div)`
+  display: flex;
+`
+
+const StepWrapper = styled.div`
+  flex: 1;
   display: flex;
   padding: 1rem;
   gap: 1rem;
+  margin-top: -1px;
   align-items: center;
   border-radius: 16px;
   border: 1px solid #191a23;
+`
+
+const StepIcon = styled.div`
+  padding: 19px 64px;
+  border-radius: 16px;
+  border: 1px solid #191a23;
+  img {
+    width: 5rem;
+    height: 5rem;
+  }
 `
 
 const NumberCircle = styled(motion.div)`
@@ -151,7 +175,6 @@ const NumberCircle = styled(motion.div)`
   display: flex;
   align-items: center;
   justify-content: center; */
-  font-weight: bold;
   font-size: 3rem;
   /* background: var(--binance-yellow); */
 `

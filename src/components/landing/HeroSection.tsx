@@ -46,7 +46,7 @@ export default function HeroSection({ language }: HeroSectionProps) {
                   boxShadow: '0 0 20px rgba(240, 185, 11, 0.2)',
                 }}
               >
-                <Sparkles className="w-4 h-4" style={{ color: 'var(--brand-yellow)' }} />
+                <Sparkles className="w-4 h-4" />
                 <span>
                   {isLoading ? (
                     t('githubStarsInDays', language)
@@ -75,43 +75,46 @@ export default function HeroSection({ language }: HeroSectionProps) {
             <Description variants={fadeInUp}>{t('heroDescription', language)}</Description>
 
             <ButtonsRow>
-              <motion.a
+              <ButtonsRowAnimated
                 href="https://github.com/tinkle-community/nofx"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: 'spring', stiffness: 400 }}
               >
-                <img
-                  src="https://img.shields.io/github/stars/tinkle-community/nofx?style=for-the-badge&logo=github&logoColor=white&color=F0B90B&labelColor=0A0A0A"
-                  className="h-7"
-                />
-              </motion.a>
-              <motion.a
+                <h5>7.4K</h5>
+                <ButtonsRowAvatar>
+                  <img src="" alt="" />
+                  <span>STARKS</span>
+                </ButtonsRowAvatar>
+              </ButtonsRowAnimated>
+              <ButtonsRowAnimated
                 href="https://github.com/tinkle-community/nofx/network/members"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: 'spring', stiffness: 400 }}
               >
-                <img
-                  src="https://img.shields.io/github/forks/tinkle-community/nofx?style=for-the-badge&logo=github&logoColor=white&color=F0B90B&labelColor=0A0A0A"
-                  className="h-7"
-                />
-              </motion.a>
+                <h5>7.4K</h5>
+                <ButtonsRowAvatar>
+                  <img src="" alt="" />
+                  <span>FORKS</span>
+                </ButtonsRowAvatar>
+              </ButtonsRowAnimated>
 
-              <motion.a
+              <ButtonsRowAnimated
                 href="https://github.com/tinkle-community/nofx/graphs/contributors"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: 'spring', stiffness: 400 }}
               >
-                <img
-                  src="https://img.shields.io/github/contributors/tinkle-community/nofx?style=for-the-badge&logo=github&logoColor=white&color=F0B90B&labelColor=0A0A0A"
-                  className="h-7"
-                />
-              </motion.a>
+                <h5>7.4K</h5>
+                <ButtonsRowAvatar>
+                  <img src="" alt="" />
+                  <span>CONTRIBUTORS</span>
+                </ButtonsRowAvatar>
+              </ButtonsRowAnimated>
             </ButtonsRow>
 
             <SmallNote variants={fadeInUp}>{t('poweredBy', language)}</SmallNote>
@@ -119,6 +122,7 @@ export default function HeroSection({ language }: HeroSectionProps) {
 
           {/* Right */}
           <RightWrapper
+            style={{ opacity, scale }}
             onMouseEnter={() => {
               handControls.start({
                 y: [-8, 8, -8],
@@ -141,7 +145,7 @@ export default function HeroSection({ language }: HeroSectionProps) {
               })
             }}
           >
-            <BgImage
+            {/* <BgImage
               src="/images/hand-bg.png"
               alt="NOFX Platform Background"
               style={{ opacity, scale }}
@@ -157,7 +161,7 @@ export default function HeroSection({ language }: HeroSectionProps) {
                 scale: 1.05,
                 transition: { type: 'spring', stiffness: 400 },
               }}
-            />
+            /> */}
           </RightWrapper>
         </Grid>
       </HeroContainer>
@@ -167,10 +171,7 @@ export default function HeroSection({ language }: HeroSectionProps) {
 
 const HeroBox = styled.section`
   position: relative;
-  padding-top: 8rem; /* pt-32 */
-  padding-bottom: 5rem; /* pb-20 */
-  padding-left: 1rem; /* px-4 */
-  padding-right: 1rem;
+  padding: 0 1rem;
 `
 
 const HeroContainer = styled.div`
@@ -179,8 +180,8 @@ const HeroContainer = styled.div`
 `
 
 const Grid = styled.div`
-  display: grid;
-  gap: 3rem; /* gap-12 */
+  display: flex;
+  gap: 90px;
   align-items: center;
 
   @media (min-width: 1024px) {
@@ -194,6 +195,7 @@ const LeftWrapper = styled(motion.div)`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  max-width: 532px;
 `
 
 const Badge = styled(motion.div)`
@@ -201,8 +203,8 @@ const Badge = styled(motion.div)`
   align-items: center;
   gap: 0.5rem;
   padding: 0.625rem 1rem; /* px-4 py-2 */
+  margin-bottom: 10px;
   border-radius: 9999px;
-  margin-bottom: 1.5rem;
   background: #f3f3f3;
   font-size: 0.875rem;
   font-weight: bold;
@@ -210,14 +212,10 @@ const Badge = styled(motion.div)`
 `
 
 const Title = styled.h1`
-  font-size: 3rem; /* text-5xl */
+  font-size: 4rem; /* text-5xl */
   font-weight: bold;
   line-height: 1.15;
   color: var(--brand-black);
-
-  @media (min-width: 1024px) {
-    font-size: 4.5rem; /* text-7xl */
-  }
 `
 
 const Highlight = styled.span`
@@ -244,19 +242,50 @@ const ButtonsRow = styled.div`
   gap: 0.75rem;
   flex-wrap: wrap;
   align-items: center;
-  padding-top: 0.75rem;
+  justify-content: space-between;
+  padding: 10px 0;
+`
+
+const ButtonsRowAnimated = styled(motion.a)`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  h5 {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+`
+
+const ButtonsRowAvatar = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  img {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  span {
+    font-size: 0.875rem;
+  }
 `
 
 const SmallNote = styled(motion.p)`
   font-size: 0.75rem;
-  padding-top: 0.75rem;
   color: var(--brand-black);
 `
 
-const RightWrapper = styled.div`
+const RightWrapper = styled(motion.div)`
   position: relative;
   width: 100%;
   cursor: pointer;
+  width: 600px;
+  height: 496px;
+  background: #ffffff;
+  box-shadow: 4px 4px 0px 0px #191a23;
+  border-radius: 24px;
+  border: 1px solid #191a23;
 `
 
 const BgImage = styled(motion.img)`

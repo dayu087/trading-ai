@@ -6,11 +6,13 @@ export default function AnimatedSection({
   id,
   backgroundColor = 'var(--brand-black)',
   borderRadius = '0px',
+  padding = '0px',
 }: {
   children: React.ReactNode
   id?: string
   backgroundColor?: string
   borderRadius?: string
+  padding?: string
 }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-100px' })
@@ -19,8 +21,7 @@ export default function AnimatedSection({
     <motion.section
       id={id}
       ref={ref}
-      className="py-20 px-4"
-      style={{ background: backgroundColor, borderRadius: borderRadius }}
+      style={{ background: backgroundColor, borderRadius: borderRadius, padding: padding }}
       initial={{ opacity: 0 }}
       animate={isInView ? { opacity: 1 } : { opacity: 0 }}
       transition={{ duration: 0.6 }}
