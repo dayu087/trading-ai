@@ -504,10 +504,10 @@ function formatDuration(duration: string | undefined): string {
 const AILearningWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  margin-top: -52px;
+  gap: 24px;
   padding-bottom: 80px;
-  max-width: 1220px;
+  max-width: 100%;
+  margin-top: 78px;
 `
 
 const TitleCard = styled.div`
@@ -595,7 +595,7 @@ const Card = styled.div<{ $bg?: string; $border?: string; $shadow?: string }>`
   flex: 1 1 50%;
   padding: 24px;
   overflow: hidden;
-  background: #ffffff;
+  background: #f3f3f3;
   border-radius: 24px;
 `
 
@@ -663,7 +663,7 @@ const SymbolCard = styled.div`
   flex: 1 1 50%;
   border-radius: 1.5rem;
   padding: 1.5rem;
-  background: #fff;
+  background: #f3f3f3;
 `
 
 const Panel = styled.div<{ $isTable?: boolean }>`
