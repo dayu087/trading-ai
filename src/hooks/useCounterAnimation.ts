@@ -7,12 +7,7 @@ interface UseCounterAnimationOptions {
   decimals?: number
 }
 
-export function useCounterAnimation({
-  start = 0,
-  end,
-  duration = 2000,
-  decimals = 0,
-}: UseCounterAnimationOptions): number {
+export function useCounterAnimation({ start = 0, end, duration = 2000, decimals = 0 }: UseCounterAnimationOptions): number {
   const [count, setCount] = useState(start)
 
   useEffect(() => {

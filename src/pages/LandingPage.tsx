@@ -9,27 +9,24 @@ import ReadySection from '../components/landing/ReadySection'
 import LoginModal from '../components/landing/LoginModal'
 import FooterSection from '../components/landing/FooterSection'
 import { useAuth } from '../contexts/AuthContext'
-import { useLanguage } from '../contexts/LanguageContext'
 
 export function LandingPage() {
   const [showLoginModal, setShowLoginModal] = useState(false)
   const { user } = useAuth()
-  const { language } = useLanguage()
   const isLoggedIn = !!user
 
   console.log('LandingPage - user:', user, 'isLoggedIn:', isLoggedIn)
   return (
     <>
       <LandingContainer>
-        <HeroSection language={language} />
-        <AboutSection language={language} />
-        <FeaturesSection language={language} />
-        <HowItWorksSection language={language} />
+        <HeroSection />
+        <AboutSection />
+        <FeaturesSection />
+        <HowItWorksSection />
         <CommunitySection />
-        <ReadySection language={language} setShowLoginModal={setShowLoginModal} />
-
-        {showLoginModal && <LoginModal onClose={() => setShowLoginModal(false)} language={language} />}
-        <FooterSection language={language} />
+        <ReadySection setShowLoginModal={setShowLoginModal} />
+        {showLoginModal && <LoginModal onClose={() => setShowLoginModal(false)} />}
+        <FooterSection />
       </LandingContainer>
     </>
   )

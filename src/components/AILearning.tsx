@@ -3,17 +3,7 @@ import { styled } from 'styled-components'
 import { useLanguage } from '../contexts/LanguageContext'
 import { t } from '../i18n/translations'
 import { api } from '../lib/api'
-import {
-  Brain,
-  BarChart3,
-  TrendingUp,
-  TrendingDown,
-  Sparkles,
-  Coins,
-  Trophy,
-  ScrollText,
-  Lightbulb,
-} from 'lucide-react'
+import { Brain, BarChart3, TrendingUp, TrendingDown, Sparkles, Coins, Trophy, ScrollText, Lightbulb } from 'lucide-react'
 
 interface TradeOutcome {
   symbol: string
@@ -63,15 +53,11 @@ interface AILearningProps {
 
 export default function AILearning({ traderId }: AILearningProps) {
   const { language } = useLanguage()
-  const { data: performance, error } = useSWR<PerformanceAnalysis>(
-    traderId ? `performance-${traderId}` : 'performance',
-    () => api.getPerformance(traderId),
-    {
-      refreshInterval: 30000, // 30秒刷新（AI学习分析数据更新频率较低）
-      revalidateOnFocus: false,
-      dedupingInterval: 20000,
-    }
-  )
+  const { data: performance, error } = useSWR<PerformanceAnalysis>(traderId ? `performance-${traderId}` : 'performance', () => api.getPerformance(traderId), {
+    refreshInterval: 30000, // 30秒刷新（AI学习分析数据更新频率较低）
+    revalidateOnFocus: false,
+    dedupingInterval: 20000,
+  })
 
   if (error) {
     return (
@@ -176,18 +162,10 @@ export default function AILearning({ traderId }: AILearningProps) {
           </CardHeader>
           {/* Value */}
           <CardValueBox>
-            <ValueText $value={performance.sharpe_ratio || 0}>
-              {performance.sharpe_ratio ? performance.sharpe_ratio.toFixed(2) : 'N/A'}
-            </ValueText>
+            <ValueText $value={performance.sharpe_ratio || 0}>{performance.sharpe_ratio ? performance.sharpe_ratio.toFixed(2) : 'N/A'}</ValueText>
             {performance.sharpe_ratio !== undefined && (
               <Badge $value={performance.sharpe_ratio || 0}>
-                {performance.sharpe_ratio >= 2
-                  ? '🟢 卓越表现'
-                  : performance.sharpe_ratio >= 1
-                    ? '🟢 良好表现'
-                    : performance.sharpe_ratio >= 0
-                      ? '🟡 波动较大'
-                      : '🔴 需要调整'}
+                {performance.sharpe_ratio >= 2 ? '🟢 卓越表现' : performance.sharpe_ratio >= 1 ? '🟢 良好表现' : performance.sharpe_ratio >= 0 ? '🟡 波动较大' : '🔴 需要调整'}
               </Badge>
             )}
           </CardValueBox>
@@ -196,12 +174,8 @@ export default function AILearning({ traderId }: AILearningProps) {
           {performance.sharpe_ratio !== undefined && (
             <InfoBox>
               {performance.sharpe_ratio >= 2 && '✨ AI策略非常有效！风险调整后收益优异，可适度扩大仓位但保持纪律。'}
-              {performance.sharpe_ratio >= 1 &&
-                performance.sharpe_ratio < 2 &&
-                '✅ 策略表现稳健，风险收益平衡良好，继续保持当前策略。'}
-              {performance.sharpe_ratio >= 0 &&
-                performance.sharpe_ratio < 1 &&
-                '⚠️ 收益为正但波动较大，AI正在优化策略，降低风险。'}
+              {performance.sharpe_ratio >= 1 && performance.sharpe_ratio < 2 && '✅ 策略表现稳健，风险收益平衡良好，继续保持当前策略。'}
+              {performance.sharpe_ratio >= 0 && performance.sharpe_ratio < 1 && '⚠️ 收益为正但波动较大，AI正在优化策略，降低风险。'}
               {performance.sharpe_ratio < 0 && '🚨 当前策略需要调整！AI已自动进入保守模式，减少仓位和交易频率。'}
             </InfoBox>
           )}
@@ -223,9 +197,7 @@ export default function AILearning({ traderId }: AILearningProps) {
           </CardHeader>
 
           <CardValueBox>
-            <ValueText $value={performance.profit_factor || 0}>
-              {(performance.profit_factor || 0) > 0 ? (performance.profit_factor || 0).toFixed(2) : 'N/A'}
-            </ValueText>
+            <ValueText $value={performance.profit_factor || 0}>{(performance.profit_factor || 0) > 0 ? (performance.profit_factor || 0).toFixed(2) : 'N/A'}</ValueText>
 
             <Badge $value={performance.profit_factor || 0}>
               {(performance.profit_factor || 0) >= 2 && t('excellent', language)}
@@ -236,20 +208,13 @@ export default function AILearning({ traderId }: AILearningProps) {
           </CardValueBox>
 
           <InfoBox>
-            {(performance.profit_factor || 0) >= 2 &&
-              `🔥 盈利能力出色！每亏1元能赚${(performance.profit_factor || 0).toFixed(1)}元，AI策略表现优异。`}
+            {(performance.profit_factor || 0) >= 2 && `🔥 盈利能力出色！每亏1元能赚${(performance.profit_factor || 0).toFixed(1)}元，AI策略表现优异。`}
 
-            {(performance.profit_factor || 0) >= 1.5 &&
-              (performance.profit_factor || 0) < 2 &&
-              '✓ 策略稳定盈利，盈亏比健康，继续保持纪律性交易。'}
+            {(performance.profit_factor || 0) >= 1.5 && (performance.profit_factor || 0) < 2 && '✓ 策略稳定盈利，盈亏比健康，继续保持纪律性交易。'}
 
-            {(performance.profit_factor || 0) >= 1 &&
-              (performance.profit_factor || 0) < 1.5 &&
-              '⚠️ 策略略有盈利但需优化，AI正在调整仓位和止损策略。'}
+            {(performance.profit_factor || 0) >= 1 && (performance.profit_factor || 0) < 1.5 && '⚠️ 策略略有盈利但需优化，AI正在调整仓位和止损策略。'}
 
-            {(performance.profit_factor || 0) > 0 &&
-              (performance.profit_factor || 0) < 1 &&
-              '❌ 平均亏损大于盈利，需要调整策略或降低交易频率。'}
+            {(performance.profit_factor || 0) > 0 && (performance.profit_factor || 0) < 1 && '❌ 平均亏损大于盈利，需要调整策略或降低交易频率。'}
           </InfoBox>
         </Card>
       </StatsGrid>

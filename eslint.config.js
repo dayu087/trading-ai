@@ -48,7 +48,7 @@ export default [
       ...reactHooks.configs.recommended.rules,
 
       // Prettier integration
-      'prettier/prettier': ['error', { printWidth: 120 }],
+      'prettier/prettier': ['error', { printWidth: 180 }],
 
       // React rules
       'react/react-in-jsx-scope': 'off',

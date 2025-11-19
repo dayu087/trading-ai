@@ -1,38 +1,26 @@
+import { styled } from 'styled-components'
 import { motion } from 'framer-motion'
-import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import AnimatedSection from './AnimatedSection'
 import { ArrowRight } from 'lucide-react'
-import { t, Language } from '../../i18n/translations'
 
-interface ReadySectionProps {
-  language: Language
-  setShowLoginModal: (v: boolean) => void
-}
+export default function ReadySection({ setShowLoginModal }: { setShowLoginModal: (value: boolean) => void }) {
+  const { t } = useTranslation()
 
-export default function ReadySection({ language, setShowLoginModal }: ReadySectionProps) {
   return (
     <AnimatedSection backgroundColor="#ffffff">
       <Container>
         <Title initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-          {t('readyToDefine', language)}
+          {t('readyToDefine')}
         </Title>
 
-        <Subtitle
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1 }}
-        >
-          {t('startWithCrypto', language)}
+        <Subtitle initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
+          {t('startWithCrypto')}
         </Subtitle>
 
         <ButtonRow>
-          <PrimaryButton
-            onClick={() => setShowLoginModal(true)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            {t('getStartedNow', language)}
+          <PrimaryButton onClick={() => setShowLoginModal(true)} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            {t('getStartedNow')}
             <motion.div animate={{ x: [0, 5, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
               <ArrowRight className="w-5 h-5" />
             </motion.div>
@@ -48,7 +36,7 @@ export default function ReadySection({ language, setShowLoginModal }: ReadySecti
             }}
             whileTap={{ scale: 0.95 }}
           >
-            {t('viewSourceCode', language)}
+            {t('viewSourceCode')}
           </SecondaryButton>
         </ButtonRow>
       </Container>

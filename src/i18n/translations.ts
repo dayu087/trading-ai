@@ -147,8 +147,7 @@ export const translations = {
     noTraders: 'No AI Traders',
     createFirstTrader: 'Create your first AI trader to get started',
     dashboardEmptyTitle: 'No Traders Configured',
-    dashboardEmptyDescription:
-      "You haven't created any AI traders yet. Create your first trader to start automated trading.",
+    dashboardEmptyDescription: "You haven't created any AI traders yet. Create your first trader to start automated trading.",
     goToTradersPage: 'Go to Traders Page',
     configureModelsFirst: 'Please configure AI models first',
     configureExchangesFirst: 'Please configure exchanges first',
@@ -199,11 +198,9 @@ export const translations = {
     enterPassphrase: 'Enter Passphrase (Required for OKX)',
     hyperliquidPrivateKeyDesc: 'Hyperliquid uses private key for trading authentication',
     hyperliquidWalletAddressDesc: 'Wallet address corresponding to the private key',
-    asterUserDesc:
-      'Main wallet address - The EVM wallet address you use to log in to Aster (Note: Only EVM wallets are supported, Solana wallets are not supported)',
+    asterUserDesc: 'Main wallet address - The EVM wallet address you use to log in to Aster (Note: Only EVM wallets are supported, Solana wallets are not supported)',
     asterSignerDesc: 'API wallet address - Generate from https://www.asterdex.com/en/api-wallet',
-    asterPrivateKeyDesc:
-      'API wallet private key - Get from https://www.asterdex.com/en/api-wallet (only used locally for signing, never transmitted)',
+    asterPrivateKeyDesc: 'API wallet private key - Get from https://www.asterdex.com/en/api-wallet (only used locally for signing, never transmitted)',
     asterUsdtWarning:
       'Important: Aster only tracks USDT balance. Please ensure you use USDT as margin currency to avoid P&L calculation errors caused by price fluctuations of other assets (BNB, ETH, etc.)',
 
@@ -271,21 +268,17 @@ export const translations = {
     promptTemplateNof1: 'NoF1 English Framework',
     promptTemplateTaroLong: 'Taro Long Position',
     promptDescDefault: '📊 Default Stable Strategy',
-    promptDescDefaultContent:
-      'Maximize Sharpe ratio, balanced risk-reward, suitable for beginners and stable long-term trading',
+    promptDescDefaultContent: 'Maximize Sharpe ratio, balanced risk-reward, suitable for beginners and stable long-term trading',
     promptDescAdaptive: '🛡️ Conservative Strategy (v6.0.0)',
-    promptDescAdaptiveContent:
-      'Strict risk control, BTC mandatory confirmation, high win rate priority, suitable for conservative traders',
+    promptDescAdaptiveContent: 'Strict risk control, BTC mandatory confirmation, high win rate priority, suitable for conservative traders',
     promptDescAdaptiveRelaxed: '⚡ Aggressive Strategy (v6.0.0)',
-    promptDescAdaptiveRelaxedContent:
-      'High-frequency trading, BTC optional confirmation, pursue trading opportunities, suitable for volatile markets',
+    promptDescAdaptiveRelaxedContent: 'High-frequency trading, BTC optional confirmation, pursue trading opportunities, suitable for volatile markets',
     promptDescHansen: '🎯 Hansen Strategy',
     promptDescHansenContent: 'Hansen custom strategy, maximize Sharpe ratio, for professional traders',
     promptDescNof1: '🌐 NoF1 English Framework',
     promptDescNof1Content: 'Hyperliquid exchange specialist, English prompts, maximize risk-adjusted returns',
     promptDescTaroLong: '📈 Taro Long Position Strategy',
-    promptDescTaroLongContent:
-      'Data-driven decisions, multi-dimensional validation, continuous learning evolution, long position specialist',
+    promptDescTaroLongContent: 'Data-driven decisions, multi-dimensional validation, continuous learning evolution, long position specialist',
 
     // Loading & Error
     loading: 'Loading...',
@@ -464,8 +457,7 @@ export const translations = {
     openSourceFeatures3: 'Custom AI prompts',
     openSourceFeatures4: 'Multi-model support (DeepSeek, Qwen)',
     multiAgentCompetition: 'Multi-Agent Intelligent Competition',
-    multiAgentDesc:
-      'AI strategies battle at high speed in sandbox, survival of the fittest, achieving strategy evolution.',
+    multiAgentDesc: 'AI strategies battle at high speed in sandbox, survival of the fittest, achieving strategy evolution.',
     multiAgentFeatures1: 'Multiple AI agents running in parallel',
     multiAgentFeatures2: 'Automatic strategy optimization',
     multiAgentFeatures3: 'Sandbox security testing',
@@ -483,8 +475,7 @@ export const translations = {
     nofxNotAnotherBot: "NOFX is not another trading bot, but the 'Linux' of AI trading —",
     nofxDescription1: 'a transparent, trustworthy open source OS that provides a unified',
     nofxDescription2: "'decision-risk-execution' layer, supporting all asset classes.",
-    nofxDescription3:
-      'Starting with crypto markets (24/7, high volatility perfect testing ground), future expansion to stocks, futures, forex. Core: open architecture, AI',
+    nofxDescription3: 'Starting with crypto markets (24/7, high volatility perfect testing ground), future expansion to stocks, futures, forex. Core: open architecture, AI',
     nofxDescription4: 'Darwinism (multi-agent self-competition, strategy evolution), CodeFi',
     nofxDescription5: 'flywheel (developers get point rewards for PR contributions).',
     youFullControl: 'You 100% Control',
@@ -501,13 +492,11 @@ export const translations = {
     step2Title: 'Configure Environment',
     step2Desc: 'Frontend setup for exchange APIs (like Binance, Hyperliquid), AI models and custom prompts.',
     step3Title: 'Deploy & Run',
-    step3Desc:
-      'One-click Docker deployment, start AI agents. Note: High-risk market, only test with money you can afford to lose.',
+    step3Desc: 'One-click Docker deployment, start AI agents. Note: High-risk market, only test with money you can afford to lose.',
     step4Title: 'Optimize & Contribute',
     step4Desc: 'Monitor trading, submit PRs to improve framework. Join Telegram to share strategies.',
     importantRiskWarning: 'Important Risk Warning',
-    riskWarningText:
-      'Dev branch is unstable, do not use funds you cannot afford to lose. NOFX is non-custodial, no official strategies. Trading involves risks, invest carefully.',
+    riskWarningText: 'Dev branch is unstable, do not use funds you cannot afford to lose. NOFX is non-custodial, no official strategies. Trading involves risks, invest carefully.',
 
     // Community Section (testimonials are kept as-is since they are quotes)
 
@@ -557,20 +546,16 @@ export const translations = {
 
     // FAQ Questions & Answers - General
     faqWhatIsNOFX: 'What is NOFX?',
-    faqWhatIsNOFXAnswer:
-      'NOFX is an AI-powered cryptocurrency trading bot that uses large language models (LLMs) to make trading decisions on futures markets.',
+    faqWhatIsNOFXAnswer: 'NOFX is an AI-powered cryptocurrency trading bot that uses large language models (LLMs) to make trading decisions on futures markets.',
 
     faqSupportedExchanges: 'Which exchanges are supported?',
-    faqSupportedExchangesAnswer:
-      'Binance Futures, Hyperliquid, and Aster DEX are supported. More exchanges coming soon.',
+    faqSupportedExchangesAnswer: 'Binance Futures, Hyperliquid, and Aster DEX are supported. More exchanges coming soon.',
 
     faqIsProfitable: 'Is NOFX profitable?',
-    faqIsProfitableAnswer:
-      'AI trading is experimental and not guaranteed to be profitable. Always start with small amounts and never invest more than you can afford to lose.',
+    faqIsProfitableAnswer: 'AI trading is experimental and not guaranteed to be profitable. Always start with small amounts and never invest more than you can afford to lose.',
 
     faqMultipleTraders: 'Can I run multiple traders simultaneously?',
-    faqMultipleTradersAnswer:
-      'Yes! NOFX supports running multiple traders with different configurations, AI models, and trading strategies.',
+    faqMultipleTradersAnswer: 'Yes! NOFX supports running multiple traders with different configurations, AI models, and trading strategies.',
 
     // Contributing & Community
     faqGithubProjectsTasks: 'How to use GitHub Projects and pick up tasks?',
@@ -587,8 +572,7 @@ export const translations = {
       'OS: Linux, macOS, or Windows (Docker recommended); RAM: 2GB minimum, 4GB recommended; Disk: 1GB for application + logs; Network: Stable internet connection.',
 
     faqNeedCoding: 'Do I need coding experience?',
-    faqNeedCodingAnswer:
-      'No! NOFX has a web UI for all configuration. However, basic command line knowledge helps with setup and troubleshooting.',
+    faqNeedCodingAnswer: 'No! NOFX has a web UI for all configuration. However, basic command line knowledge helps with setup and troubleshooting.',
 
     faqGetApiKeys: 'How do I get API keys?',
     faqGetApiKeysAnswer:
@@ -607,8 +591,7 @@ export const translations = {
       'Funds are likely in spot account instead of futures account, or locked in savings products. You need to manually transfer funds to futures account in Binance.',
 
     faqTestnet: 'Can I use testnet for testing?',
-    faqTestnetAnswer:
-      'Testnet is not supported at the moment. We recommend using real trading with small amounts (10-50 USDT) for testing.',
+    faqTestnetAnswer: 'Testnet is not supported at the moment. We recommend using real trading with small amounts (10-50 USDT) for testing.',
 
     // Trading Questions
     faqNoTrades: "Why isn't my trader making any trades?",
@@ -616,12 +599,10 @@ export const translations = {
       'Common reasons: AI decided to "wait" due to market conditions; Insufficient balance or margin; Position limits reached (default: max 3 positions); Check troubleshooting guide for detailed diagnostics.',
 
     faqDecisionFrequency: 'How often does the AI make decisions?',
-    faqDecisionFrequencyAnswer:
-      'Configurable! Default is every 3-5 minutes. Too frequent = overtrading, too slow = missed opportunities.',
+    faqDecisionFrequencyAnswer: 'Configurable! Default is every 3-5 minutes. Too frequent = overtrading, too slow = missed opportunities.',
 
     faqCustomStrategy: 'Can I customize the trading strategy?',
-    faqCustomStrategyAnswer:
-      'Yes! You can adjust leverage settings, modify coin selection pool, change decision intervals, and customize system prompts (advanced).',
+    faqCustomStrategyAnswer: 'Yes! You can adjust leverage settings, modify coin selection pool, change decision intervals, and customize system prompts (advanced).',
 
     faqMaxPositions: "What's the maximum number of concurrent positions?",
     faqMaxPositionsAnswer: 'Default: 3 positions. This is a soft limit defined in the AI prompt, not hard-coded.',
@@ -648,16 +629,13 @@ export const translations = {
       'Error: "Order\'s position side does not match user\'s setting". Solution: Switch to Hedge Mode (双向持仓) in Binance Futures settings. You must close all positions first before switching.',
 
     faqPortInUse: "Backend won't start / Port already in use",
-    faqPortInUseAnswer:
-      'Check what\'s using port 8080 with "lsof -i :8080" and change the port in your .env file with NOFX_BACKEND_PORT=8081.',
+    faqPortInUseAnswer: 'Check what\'s using port 8080 with "lsof -i :8080" and change the port in your .env file with NOFX_BACKEND_PORT=8081.',
 
     faqFrontendLoading: 'Frontend shows "Loading..." forever',
-    faqFrontendLoadingAnswer:
-      'Check if backend is running with "curl http://localhost:8080/api/health". Should return {"status":"ok"}. If not, check the troubleshooting guide.',
+    faqFrontendLoadingAnswer: 'Check if backend is running with "curl http://localhost:8080/api/health". Should return {"status":"ok"}. If not, check the troubleshooting guide.',
 
     faqDatabaseLocked: 'Database locked error',
-    faqDatabaseLockedAnswer:
-      'Stop all NOFX processes with "docker compose down" or "pkill nofx", then restart with "docker compose up -d".',
+    faqDatabaseLockedAnswer: 'Stop all NOFX processes with "docker compose down" or "pkill nofx", then restart with "docker compose up -d".',
 
     faqAiLearningFailed: 'AI learning data failed to load',
     faqAiLearningFailedAnswer:
@@ -680,8 +658,7 @@ export const translations = {
     faqMultipleModelsAnswer: 'Yes! Each trader can use a different AI model. You can even A/B test different models.',
 
     faqAiLearning: 'Does the AI learn from its mistakes?',
-    faqAiLearningAnswer:
-      'Yes, to some extent. NOFX provides historical performance feedback in each decision prompt, allowing the AI to adjust its strategy.',
+    faqAiLearningAnswer: 'Yes, to some extent. NOFX provides historical performance feedback in each decision prompt, allowing the AI to adjust its strategy.',
 
     faqOnlyShort: 'AI only opens short positions, no long positions',
     faqOnlyShortAnswer:
@@ -697,12 +674,10 @@ export const translations = {
       'All data is stored locally on your machine in SQLite databases: config.db (trader configurations), trading.db (trade history), and decision_logs/ (AI decision records).',
 
     faqApiKeySecurity: 'Is my API key secure?',
-    faqApiKeySecurityAnswer:
-      'API keys are stored in local databases. Never share your databases or .env files. We recommend using API keys with IP whitelist restrictions.',
+    faqApiKeySecurityAnswer: 'API keys are stored in local databases. Never share your databases or .env files. We recommend using API keys with IP whitelist restrictions.',
 
     faqExportHistory: 'Can I export my trading history?',
-    faqExportHistoryAnswer:
-      'Yes! Trading data is in SQLite format. You can query it directly with: sqlite3 trading.db "SELECT * FROM trades;"',
+    faqExportHistoryAnswer: 'Yes! Trading data is in SQLite format. You can query it directly with: sqlite3 trading.db "SELECT * FROM trades;"',
 
     faqGetHelp: 'Where can I get help?',
     faqGetHelpAnswer: 'Check GitHub Discussions, join our Telegram Community, or open an issue on GitHub.',
@@ -931,10 +906,8 @@ export const translations = {
     hyperliquidWalletAddressDesc: '与私钥对应的钱包地址',
     asterUserDesc: '主钱包地址 - 您用于登录 Aster 的 EVM 钱包地址（注意：仅支持 EVM 钱包，不支持 Solana 钱包）',
     asterSignerDesc: 'API 钱包地址 - 从 https://www.asterdex.com/zh-CN/api-wallet 生成',
-    asterPrivateKeyDesc:
-      'API 钱包私钥 - 从 https://www.asterdex.com/zh-CN/api-wallet 获取（仅在本地用于签名，不会被传输）',
-    asterUsdtWarning:
-      '重要提示：Aster 仅统计 USDT 余额。请确保您使用 USDT 作为保证金币种，避免其他资产（BNB、ETH等）的价格波动导致盈亏统计错误',
+    asterPrivateKeyDesc: 'API 钱包私钥 - 从 https://www.asterdex.com/zh-CN/api-wallet 获取（仅在本地用于签名，不会被传输）',
+    asterUsdtWarning: '重要提示：Aster 仅统计 USDT 余额。请确保您使用 USDT 作为保证金币种，避免其他资产（BNB、ETH等）的价格波动导致盈亏统计错误',
 
     // Exchange names
     hyperliquidExchangeName: 'Hyperliquid',
@@ -1257,8 +1230,7 @@ export const translations = {
     orConfigureCorrectApiUrl: '或者配置正确的币种池API地址',
     orDisableCoinPoolOptions: '或者禁用"使用币种池"和"使用OI Top"选项',
     signalSourceNotConfigured: '信号源未配置',
-    signalSourceWarningMessage:
-      '您有交易员启用了"使用币种池"或"使用OI Top"，但尚未配置信号源API地址。这将导致候选币种数量为0，交易员无法正常工作。',
+    signalSourceWarningMessage: '您有交易员启用了"使用币种池"或"使用OI Top"，但尚未配置信号源API地址。这将导致候选币种数量为0，交易员无法正常工作。',
     configureSignalSourceNow: '立即配置信号源',
 
     // FAQ Page
@@ -1300,8 +1272,7 @@ export const translations = {
 
     // Setup & Configuration
     faqSystemRequirements: '系统要求是什么？',
-    faqSystemRequirementsAnswer:
-      '操作系统：Linux、macOS 或 Windows（推荐 Docker）；内存：最低 2GB，推荐 4GB；硬盘：应用 + 日志需要 1GB；网络：稳定的互联网连接。',
+    faqSystemRequirementsAnswer: '操作系统：Linux、macOS 或 Windows（推荐 Docker）；内存：最低 2GB，推荐 4GB；硬盘：应用 + 日志需要 1GB；网络：稳定的互联网连接。',
 
     faqNeedCoding: '需要编程经验吗？',
     faqNeedCodingAnswer: '不需要！NOFX 有 Web 界面进行所有配置。但基础的命令行知识有助于安装和故障排查。',
@@ -1311,8 +1282,7 @@ export const translations = {
       '币安：账户 → API 管理 → 创建 API → 启用合约。Hyperliquid：访问 Hyperliquid App → API 设置。Aster DEX：配置主钱包地址（User）、API 钱包地址（Signer）和私钥（Private Key）。',
 
     faqUseSubaccount: '应该使用子账户吗？',
-    faqUseSubaccountAnswer:
-      '推荐：是的，使用专门的子账户运行 NOFX 可以更好地隔离风险。但请注意，某些子账户有限制（例如币安子账户最高 5 倍杠杆）。',
+    faqUseSubaccountAnswer: '推荐：是的，使用专门的子账户运行 NOFX 可以更好地隔离风险。但请注意，某些子账户有限制（例如币安子账户最高 5 倍杠杆）。',
 
     faqDockerDeployment: 'Docker 部署一直失败',
     faqDockerDeploymentAnswer:
@@ -1326,8 +1296,7 @@ export const translations = {
 
     // Trading Questions
     faqNoTrades: '为什么我的交易员不开仓？',
-    faqNoTradesAnswer:
-      '常见原因：AI 根据市场情况决定"等待"；余额或保证金不足；达到持仓上限（默认最多 3 个仓位）；查看故障排查指南了解详细诊断。',
+    faqNoTradesAnswer: '常见原因：AI 根据市场情况决定"等待"；余额或保证金不足；达到持仓上限（默认最多 3 个仓位）；查看故障排查指南了解详细诊断。',
 
     faqDecisionFrequency: 'AI 多久做一次决策？',
     faqDecisionFrequencyAnswer: '可配置！默认是每 3-5 分钟。太频繁 = 过度交易，太慢 = 错过机会。',
@@ -1339,16 +1308,13 @@ export const translations = {
     faqMaxPositionsAnswer: '默认：3 个仓位。这是 AI 提示词中的软限制，不是硬编码。',
 
     faqMarginInsufficient: '保证金不足错误 (code=-2019)',
-    faqMarginInsufficientAnswer:
-      '常见原因：资金未划转到合约账户；杠杆倍数设置过高（默认 20-50 倍）；已有持仓占用保证金；需要先从现货账户划转 USDT 到合约账户。',
+    faqMarginInsufficientAnswer: '常见原因：资金未划转到合约账户；杠杆倍数设置过高（默认 20-50 倍）；已有持仓占用保证金；需要先从现货账户划转 USDT 到合约账户。',
 
     faqHighFees: '交易手续费太高',
-    faqHighFeesAnswer:
-      'NOFX 默认 3 分钟扫描间隔会导致频繁交易。解决方案：将决策间隔增加到 5-10 分钟；优化系统提示词减少过度交易；调整杠杆降低仓位大小。',
+    faqHighFeesAnswer: 'NOFX 默认 3 分钟扫描间隔会导致频繁交易。解决方案：将决策间隔增加到 5-10 分钟；优化系统提示词减少过度交易；调整杠杆降低仓位大小。',
 
     faqNoTakeProfit: 'AI 不平掉盈利的仓位',
-    faqNoTakeProfitAnswer:
-      'AI 可能认为趋势会继续。系统目前缺少移动止盈功能。您可以手动平仓或调整系统提示词使其在获利时更保守。',
+    faqNoTakeProfitAnswer: 'AI 可能认为趋势会继续。系统目前缺少移动止盈功能。您可以手动平仓或调整系统提示词使其在获利时更保守。',
 
     // Technical Issues
     faqBinanceApiFailed: '币安 API 调用失败 (code=-2015)',
@@ -1363,25 +1329,20 @@ export const translations = {
     faqPortInUseAnswer: '使用 "lsof -i :8080" 查看占用端口的进程，在 .env 中修改端口：NOFX_BACKEND_PORT=8081。',
 
     faqFrontendLoading: '前端一直显示"加载中..."',
-    faqFrontendLoadingAnswer:
-      '使用 "curl http://localhost:8080/api/health" 检查后端是否运行。应该返回 {"status":"ok"}。如果不是，查看故障排查指南。',
+    faqFrontendLoadingAnswer: '使用 "curl http://localhost:8080/api/health" 检查后端是否运行。应该返回 {"status":"ok"}。如果不是，查看故障排查指南。',
 
     faqDatabaseLocked: '数据库锁定错误',
-    faqDatabaseLockedAnswer:
-      '使用 "docker compose down" 或 "pkill nofx" 停止所有 NOFX 进程，然后使用 "docker compose up -d" 重启。',
+    faqDatabaseLockedAnswer: '使用 "docker compose down" 或 "pkill nofx" 停止所有 NOFX 进程，然后使用 "docker compose up -d" 重启。',
 
     faqAiLearningFailed: 'AI 学习数据加载失败',
-    faqAiLearningFailedAnswer:
-      '原因：TA-Lib 库未正确安装；历史数据不足（需要完成交易）；环境配置问题。安装 TA-Lib：pip install TA-Lib 或检查系统依赖。',
+    faqAiLearningFailedAnswer: '原因：TA-Lib 库未正确安装；历史数据不足（需要完成交易）；环境配置问题。安装 TA-Lib：pip install TA-Lib 或检查系统依赖。',
 
     faqConfigNotEffective: '配置文件修改不生效',
-    faqConfigNotEffectiveAnswer:
-      'Docker 需要重新构建："docker compose down && docker compose up -d --build"。PM2 需要重启："pm2 restart all"。检查配置文件格式和路径是否正确。',
+    faqConfigNotEffectiveAnswer: 'Docker 需要重新构建："docker compose down && docker compose up -d --build"。PM2 需要重启："pm2 restart all"。检查配置文件格式和路径是否正确。',
 
     // AI & Model Questions
     faqWhichModels: '支持哪些 AI 模型？',
-    faqWhichModelsAnswer:
-      'DeepSeek（推荐性价比）、Qwen（阿里云通义千问）、自定义 OpenAI 兼容 API（可用于 OpenAI、通过代理的 Claude 或其他提供商）。',
+    faqWhichModelsAnswer: 'DeepSeek（推荐性价比）、Qwen（阿里云通义千问）、自定义 OpenAI 兼容 API（可用于 OpenAI、通过代理的 Claude 或其他提供商）。',
 
     faqApiCosts: 'API 调用成本是多少？',
     faqApiCostsAnswer:
@@ -1394,8 +1355,7 @@ export const translations = {
     faqAiLearningAnswer: '会的，在一定程度上。NOFX 在每次决策提示中提供历史表现反馈，允许 AI 调整策略。',
 
     faqOnlyShort: 'AI 只开空单，不开多单',
-    faqOnlyShortAnswer:
-      '默认系统提示词包含"不要有做多偏见！做空是你的核心工具之一"，可能导致此问题。还受 4 小时周期数据和模型训练偏向性影响。您可以修改系统提示词使其更平衡。',
+    faqOnlyShortAnswer: '默认系统提示词包含"不要有做多偏见！做空是你的核心工具之一"，可能导致此问题。还受 4 小时周期数据和模型训练偏向性影响。您可以修改系统提示词使其更平衡。',
 
     faqModelSelection: '应该使用哪个 DeepSeek 版本？',
     faqModelSelectionAnswer:
@@ -1403,12 +1363,10 @@ export const translations = {
 
     // Data & Privacy
     faqDataStorage: '我的数据存储在哪里？',
-    faqDataStorageAnswer:
-      '所有数据都本地存储在您的机器上，使用 SQLite 数据库：config.db（交易员配置）、trading.db（交易历史）、decision_logs/（AI 决策记录）。',
+    faqDataStorageAnswer: '所有数据都本地存储在您的机器上，使用 SQLite 数据库：config.db（交易员配置）、trading.db（交易历史）、decision_logs/（AI 决策记录）。',
 
     faqApiKeySecurity: 'API 密钥安全吗？',
-    faqApiKeySecurityAnswer:
-      'API 密钥存储在本地数据库中。永远不要分享您的数据库或 .env 文件。我们建议使用带 IP 白名单限制的 API 密钥。',
+    faqApiKeySecurityAnswer: 'API 密钥存储在本地数据库中。永远不要分享您的数据库或 .env 文件。我们建议使用带 IP 白名单限制的 API 密钥。',
 
     faqExportHistory: '可以导出交易历史吗？',
     faqExportHistoryAnswer: '可以！交易数据是 SQLite 格式。您可以直接查询：sqlite3 trading.db "SELECT * FROM trades;"',

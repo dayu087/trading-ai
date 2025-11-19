@@ -28,9 +28,7 @@ export default function ModelConfigModal({
   const [modelName, setModelName] = useState('')
 
   // 获取当前编辑的模型信息 - 编辑时从已配置的模型中查找，新建时从所有支持的模型中查找
-  const selectedModel = editingModelId
-    ? configuredModels?.find((m) => m.id === selectedModelId)
-    : allModels?.find((m) => m.id === selectedModelId)
+  const selectedModel = editingModelId ? configuredModels?.find((m) => m.id === selectedModelId) : allModels?.find((m) => m.id === selectedModelId)
 
   // 如果是编辑现有模型，初始化API Key、Base URL和Model Name
   useEffect(() => {
@@ -218,12 +216,7 @@ export default function ModelConfigModal({
           )}
 
           <div className="flex gap-3 mt-6">
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex-1 px-4 py-2 rounded text-sm font-semibold"
-              style={{ background: '#2B3139', color: '#848E9C' }}
-            >
+            <button type="button" onClick={onClose} className="flex-1 px-4 py-2 rounded text-sm font-semibold" style={{ background: '#2B3139', color: '#848E9C' }}>
               {t('cancel', language)}
             </button>
             <button

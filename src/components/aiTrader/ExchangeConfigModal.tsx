@@ -113,11 +113,7 @@ export default function ExchangeConfigModal({
 
   // 安全输入处理函数
   const secureInputContextLabel =
-    secureInputTarget === 'aster'
-      ? t('asterExchangeName', language)
-      : secureInputTarget === 'hyperliquid'
-        ? t('hyperliquidExchangeName', language)
-        : undefined
+    secureInputTarget === 'aster' ? t('asterExchangeName', language) : secureInputTarget === 'hyperliquid' ? t('hyperliquidExchangeName', language) : undefined
 
   const handleSecureInputCancel = () => {
     setSecureInputTarget(null)
@@ -155,16 +151,7 @@ export default function ExchangeConfigModal({
       await onSave(selectedExchangeId, apiKey.trim(), '', testnet, hyperliquidWalletAddr.trim())
     } else if (selectedExchange?.id === 'aster') {
       if (!asterUser.trim() || !asterSigner.trim() || !asterPrivateKey.trim()) return
-      await onSave(
-        selectedExchangeId,
-        '',
-        '',
-        testnet,
-        undefined,
-        asterUser.trim(),
-        asterSigner.trim(),
-        asterPrivateKey.trim()
-      )
+      await onSave(selectedExchangeId, '', '', testnet, undefined, asterUser.trim(), asterSigner.trim(), asterPrivateKey.trim())
     } else if (selectedExchange?.id === 'okx') {
       if (!apiKey.trim() || !secretKey.trim() || !passphrase.trim()) return
       await onSave(selectedExchangeId, apiKey.trim(), secretKey.trim(), testnet)
@@ -268,192 +255,190 @@ export default function ExchangeConfigModal({
           {selectedExchange && (
             <>
               {/* Binance 和其他 CEX 交易所的字段 */}
-              {(selectedExchange.id === 'binance' || selectedExchange.type === 'cex') &&
-                selectedExchange.id !== 'hyperliquid' &&
-                selectedExchange.id !== 'aster' && (
-                  <>
-                    {/* 币安用户配置提示 (D1 方案) */}
-                    {selectedExchange.id === 'binance' && (
-                      <div
-                        className="mb-4 p-3 rounded cursor-pointer transition-colors"
-                        style={{
-                          background: '#1a3a52',
-                          border: '1px solid #2b5278',
-                        }}
-                        onClick={() => setShowBinanceGuide(!showBinanceGuide)}
-                      >
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <span style={{ color: '#58a6ff' }}>ℹ️</span>
-                            <span className="text-sm font-medium" style={{ color: '#EAECEF' }}>
-                              <strong>币安用户必读：</strong>
-                              使用「现货与合约交易」API，不要用「统一账户 API」
-                            </span>
-                          </div>
-                          <span style={{ color: '#8b949e' }}>{showBinanceGuide ? '▲' : '▼'}</span>
+              {(selectedExchange.id === 'binance' || selectedExchange.type === 'cex') && selectedExchange.id !== 'hyperliquid' && selectedExchange.id !== 'aster' && (
+                <>
+                  {/* 币安用户配置提示 (D1 方案) */}
+                  {selectedExchange.id === 'binance' && (
+                    <div
+                      className="mb-4 p-3 rounded cursor-pointer transition-colors"
+                      style={{
+                        background: '#1a3a52',
+                        border: '1px solid #2b5278',
+                      }}
+                      onClick={() => setShowBinanceGuide(!showBinanceGuide)}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <span style={{ color: '#58a6ff' }}>ℹ️</span>
+                          <span className="text-sm font-medium" style={{ color: '#EAECEF' }}>
+                            <strong>币安用户必读：</strong>
+                            使用「现货与合约交易」API，不要用「统一账户 API」
+                          </span>
                         </div>
-
-                        {/* 展开的详细说明 */}
-                        {showBinanceGuide && (
-                          <div
-                            className="mt-3 pt-3"
-                            style={{
-                              borderTop: '1px solid #2b5278',
-                              fontSize: '0.875rem',
-                              color: '#c9d1d9',
-                            }}
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <p className="mb-2" style={{ color: '#8b949e' }}>
-                              <strong>原因：</strong>统一账户 API 权限结构不同，会导致订单提交失败
-                            </p>
-
-                            <p className="font-semibold mb-1" style={{ color: '#EAECEF' }}>
-                              正确配置步骤：
-                            </p>
-                            <ol className="list-decimal list-inside space-y-1 mb-3" style={{ paddingLeft: '0.5rem' }}>
-                              <li>
-                                登录币安 → 个人中心 → <strong>API 管理</strong>
-                              </li>
-                              <li>
-                                创建 API → 选择「
-                                <strong>系统生成的 API 密钥</strong>」
-                              </li>
-                              <li>
-                                勾选「<strong>现货与合约交易</strong>」（
-                                <span style={{ color: '#f85149' }}>不选统一账户</span>）
-                              </li>
-                              <li>
-                                IP 限制选「<strong>无限制</strong>」或添加服务器 IP
-                              </li>
-                            </ol>
-
-                            <p
-                              className="mb-2 p-2 rounded"
-                              style={{
-                                background: '#3d2a00',
-                                border: '1px solid #9e6a03',
-                              }}
-                            >
-                              💡 <strong>多资产模式用户注意：</strong>
-                              如果您开启了多资产模式，将强制使用全仓模式。建议关闭多资产模式以支持逐仓交易。
-                            </p>
-
-                            <a
-                              href="https://www.binance.com/zh-CN/support/faq/how-to-create-api-keys-on-binance-360002502072"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-block text-sm hover:underline"
-                              style={{ color: '#58a6ff' }}
-                            >
-                              📖 查看币安官方教程 ↗
-                            </a>
-                          </div>
-                        )}
+                        <span style={{ color: '#8b949e' }}>{showBinanceGuide ? '▲' : '▼'}</span>
                       </div>
-                    )}
 
-                    <div>
-                      <label className="block text-sm font-semibold mb-2" style={{ color: '#EAECEF' }}>
-                        {t('apiKey', language)}
-                      </label>
-                      <input
-                        type="password"
-                        value={apiKey}
-                        onChange={(e) => setApiKey(e.target.value)}
-                        placeholder={t('enterAPIKey', language)}
-                        className="w-full px-3 py-2 rounded"
-                        style={{
-                          background: '#0B0E11',
-                          border: '1px solid #2B3139',
-                          color: '#EAECEF',
-                        }}
-                        required
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-semibold mb-2" style={{ color: '#EAECEF' }}>
-                        {t('secretKey', language)}
-                      </label>
-                      <input
-                        type="password"
-                        value={secretKey}
-                        onChange={(e) => setSecretKey(e.target.value)}
-                        placeholder={t('enterSecretKey', language)}
-                        className="w-full px-3 py-2 rounded"
-                        style={{
-                          background: '#0B0E11',
-                          border: '1px solid #2B3139',
-                          color: '#EAECEF',
-                        }}
-                        required
-                      />
-                    </div>
-
-                    {selectedExchange.id === 'okx' && (
-                      <div>
-                        <label className="block text-sm font-semibold mb-2" style={{ color: '#EAECEF' }}>
-                          {t('passphrase', language)}
-                        </label>
-                        <input
-                          type="password"
-                          value={passphrase}
-                          onChange={(e) => setPassphrase(e.target.value)}
-                          placeholder={t('enterPassphrase', language)}
-                          className="w-full px-3 py-2 rounded"
+                      {/* 展开的详细说明 */}
+                      {showBinanceGuide && (
+                        <div
+                          className="mt-3 pt-3"
                           style={{
-                            background: '#0B0E11',
-                            border: '1px solid #2B3139',
-                            color: '#EAECEF',
+                            borderTop: '1px solid #2b5278',
+                            fontSize: '0.875rem',
+                            color: '#c9d1d9',
                           }}
-                          required
-                        />
-                      </div>
-                    )}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <p className="mb-2" style={{ color: '#8b949e' }}>
+                            <strong>原因：</strong>统一账户 API 权限结构不同，会导致订单提交失败
+                          </p>
 
-                    {/* Binance 白名单IP提示 */}
-                    {selectedExchange.id === 'binance' && (
-                      <div
-                        className="p-4 rounded"
+                          <p className="font-semibold mb-1" style={{ color: '#EAECEF' }}>
+                            正确配置步骤：
+                          </p>
+                          <ol className="list-decimal list-inside space-y-1 mb-3" style={{ paddingLeft: '0.5rem' }}>
+                            <li>
+                              登录币安 → 个人中心 → <strong>API 管理</strong>
+                            </li>
+                            <li>
+                              创建 API → 选择「
+                              <strong>系统生成的 API 密钥</strong>」
+                            </li>
+                            <li>
+                              勾选「<strong>现货与合约交易</strong>」（
+                              <span style={{ color: '#f85149' }}>不选统一账户</span>）
+                            </li>
+                            <li>
+                              IP 限制选「<strong>无限制</strong>」或添加服务器 IP
+                            </li>
+                          </ol>
+
+                          <p
+                            className="mb-2 p-2 rounded"
+                            style={{
+                              background: '#3d2a00',
+                              border: '1px solid #9e6a03',
+                            }}
+                          >
+                            💡 <strong>多资产模式用户注意：</strong>
+                            如果您开启了多资产模式，将强制使用全仓模式。建议关闭多资产模式以支持逐仓交易。
+                          </p>
+
+                          <a
+                            href="https://www.binance.com/zh-CN/support/faq/how-to-create-api-keys-on-binance-360002502072"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block text-sm hover:underline"
+                            style={{ color: '#58a6ff' }}
+                          >
+                            📖 查看币安官方教程 ↗
+                          </a>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  <div>
+                    <label className="block text-sm font-semibold mb-2" style={{ color: '#EAECEF' }}>
+                      {t('apiKey', language)}
+                    </label>
+                    <input
+                      type="password"
+                      value={apiKey}
+                      onChange={(e) => setApiKey(e.target.value)}
+                      placeholder={t('enterAPIKey', language)}
+                      className="w-full px-3 py-2 rounded"
+                      style={{
+                        background: '#0B0E11',
+                        border: '1px solid #2B3139',
+                        color: '#EAECEF',
+                      }}
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold mb-2" style={{ color: '#EAECEF' }}>
+                      {t('secretKey', language)}
+                    </label>
+                    <input
+                      type="password"
+                      value={secretKey}
+                      onChange={(e) => setSecretKey(e.target.value)}
+                      placeholder={t('enterSecretKey', language)}
+                      className="w-full px-3 py-2 rounded"
+                      style={{
+                        background: '#0B0E11',
+                        border: '1px solid #2B3139',
+                        color: '#EAECEF',
+                      }}
+                      required
+                    />
+                  </div>
+
+                  {selectedExchange.id === 'okx' && (
+                    <div>
+                      <label className="block text-sm font-semibold mb-2" style={{ color: '#EAECEF' }}>
+                        {t('passphrase', language)}
+                      </label>
+                      <input
+                        type="password"
+                        value={passphrase}
+                        onChange={(e) => setPassphrase(e.target.value)}
+                        placeholder={t('enterPassphrase', language)}
+                        className="w-full px-3 py-2 rounded"
                         style={{
-                          background: 'rgba(240, 185, 11, 0.1)',
-                          border: '1px solid rgba(240, 185, 11, 0.2)',
+                          background: '#0B0E11',
+                          border: '1px solid #2B3139',
+                          color: '#EAECEF',
                         }}
-                      >
-                        <div className="text-sm font-semibold mb-2" style={{ color: '#F0B90B' }}>
-                          {t('whitelistIP', language)}
-                        </div>
-                        <div className="text-xs mb-3" style={{ color: '#848E9C' }}>
-                          {t('whitelistIPDesc', language)}
-                        </div>
+                        required
+                      />
+                    </div>
+                  )}
 
-                        {loadingIP ? (
-                          <div className="text-xs" style={{ color: '#848E9C' }}>
-                            {t('loadingServerIP', language)}
-                          </div>
-                        ) : serverIP && serverIP.public_ip ? (
-                          <div className="flex items-center gap-2 p-2 rounded" style={{ background: '#0B0E11' }}>
-                            <code className="flex-1 text-sm font-mono" style={{ color: '#F0B90B' }}>
-                              {serverIP.public_ip}
-                            </code>
-                            <button
-                              type="button"
-                              onClick={() => handleCopyIP(serverIP.public_ip)}
-                              className="px-3 py-1 rounded text-xs font-semibold transition-all hover:scale-105"
-                              style={{
-                                background: 'rgba(240, 185, 11, 0.2)',
-                                color: '#F0B90B',
-                              }}
-                            >
-                              {copiedIP ? t('ipCopied', language) : t('copyIP', language)}
-                            </button>
-                          </div>
-                        ) : null}
+                  {/* Binance 白名单IP提示 */}
+                  {selectedExchange.id === 'binance' && (
+                    <div
+                      className="p-4 rounded"
+                      style={{
+                        background: 'rgba(240, 185, 11, 0.1)',
+                        border: '1px solid rgba(240, 185, 11, 0.2)',
+                      }}
+                    >
+                      <div className="text-sm font-semibold mb-2" style={{ color: '#F0B90B' }}>
+                        {t('whitelistIP', language)}
                       </div>
-                    )}
-                  </>
-                )}
+                      <div className="text-xs mb-3" style={{ color: '#848E9C' }}>
+                        {t('whitelistIPDesc', language)}
+                      </div>
+
+                      {loadingIP ? (
+                        <div className="text-xs" style={{ color: '#848E9C' }}>
+                          {t('loadingServerIP', language)}
+                        </div>
+                      ) : serverIP && serverIP.public_ip ? (
+                        <div className="flex items-center gap-2 p-2 rounded" style={{ background: '#0B0E11' }}>
+                          <code className="flex-1 text-sm font-mono" style={{ color: '#F0B90B' }}>
+                            {serverIP.public_ip}
+                          </code>
+                          <button
+                            type="button"
+                            onClick={() => handleCopyIP(serverIP.public_ip)}
+                            className="px-3 py-1 rounded text-xs font-semibold transition-all hover:scale-105"
+                            style={{
+                              background: 'rgba(240, 185, 11, 0.2)',
+                              color: '#F0B90B',
+                            }}
+                          >
+                            {copiedIP ? t('ipCopied', language) : t('copyIP', language)}
+                          </button>
+                        </div>
+                      ) : null}
+                    </div>
+                  )}
+                </>
+              )}
 
               {/* Hyperliquid 交易所的字段 */}
               {selectedExchange.id === 'hyperliquid' && (
@@ -565,10 +550,7 @@ export default function ExchangeConfigModal({
               {selectedExchange.id === 'aster' && (
                 <>
                   <div>
-                    <label
-                      className="block text-sm font-semibold mb-2 flex items-center gap-2"
-                      style={{ color: '#EAECEF' }}
-                    >
+                    <label className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: '#EAECEF' }}>
                       {t('user', language)}
                       <Tooltip content={t('asterUserDesc', language)}>
                         <HelpCircle className="w-4 h-4 cursor-help" style={{ color: '#F0B90B' }} />
@@ -590,10 +572,7 @@ export default function ExchangeConfigModal({
                   </div>
 
                   <div>
-                    <label
-                      className="block text-sm font-semibold mb-2 flex items-center gap-2"
-                      style={{ color: '#EAECEF' }}
-                    >
+                    <label className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: '#EAECEF' }}>
                       {t('signer', language)}
                       <Tooltip content={t('asterSignerDesc', language)}>
                         <HelpCircle className="w-4 h-4 cursor-help" style={{ color: '#F0B90B' }} />
@@ -615,10 +594,7 @@ export default function ExchangeConfigModal({
                   </div>
 
                   <div>
-                    <label
-                      className="block text-sm font-semibold mb-2 flex items-center gap-2"
-                      style={{ color: '#EAECEF' }}
-                    >
+                    <label className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: '#EAECEF' }}>
                       {t('privateKey', language)}
                       <Tooltip content={t('asterPrivateKeyDesc', language)}>
                         <HelpCircle className="w-4 h-4 cursor-help" style={{ color: '#F0B90B' }} />
@@ -677,13 +653,7 @@ export default function ExchangeConfigModal({
 
               <div>
                 <label className="flex items-center gap-2 text-sm">
-                  <input
-                    type="checkbox"
-                    checked={testnet}
-                    onChange={(e) => setTestnet(e.target.checked)}
-                    className="form-checkbox rounded"
-                    style={{ accentColor: '#F0B90B' }}
-                  />
+                  <input type="checkbox" checked={testnet} onChange={(e) => setTestnet(e.target.checked)} className="form-checkbox rounded" style={{ accentColor: '#F0B90B' }} />
                   <span style={{ color: '#EAECEF' }}>{t('useTestnet', language)}</span>
                 </label>
                 <div className="text-xs mt-1" style={{ color: '#848E9C' }}>
@@ -714,12 +684,7 @@ export default function ExchangeConfigModal({
           )}
 
           <div className="flex gap-3 mt-6">
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex-1 px-4 py-2 rounded text-sm font-semibold"
-              style={{ background: '#2B3139', color: '#848E9C' }}
-            >
+            <button type="button" onClick={onClose} className="flex-1 px-4 py-2 rounded text-sm font-semibold" style={{ background: '#2B3139', color: '#848E9C' }}>
               {t('cancel', language)}
             </button>
             <button
@@ -729,8 +694,7 @@ export default function ExchangeConfigModal({
                 (selectedExchange.id === 'binance' && (!apiKey.trim() || !secretKey.trim())) ||
                 (selectedExchange.id === 'okx' && (!apiKey.trim() || !secretKey.trim() || !passphrase.trim())) ||
                 (selectedExchange.id === 'hyperliquid' && (!apiKey.trim() || !hyperliquidWalletAddr.trim())) || // 验证私钥和钱包地址
-                (selectedExchange.id === 'aster' &&
-                  (!asterUser.trim() || !asterSigner.trim() || !asterPrivateKey.trim())) ||
+                (selectedExchange.id === 'aster' && (!asterUser.trim() || !asterSigner.trim() || !asterPrivateKey.trim())) ||
                 (selectedExchange.type === 'cex' &&
                   selectedExchange.id !== 'hyperliquid' &&
                   selectedExchange.id !== 'aster' &&
@@ -749,15 +713,8 @@ export default function ExchangeConfigModal({
 
       {/* Binance Setup Guide Modal */}
       {showGuide && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"
-          onClick={() => setShowGuide(false)}
-        >
-          <div
-            className="bg-gray-800 rounded-lg p-6 w-full max-w-4xl relative"
-            style={{ background: '#1E2329' }}
-            onClick={(e) => e.stopPropagation()}
-          >
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4" onClick={() => setShowGuide(false)}>
+          <div className="bg-gray-800 rounded-lg p-6 w-full max-w-4xl relative" style={{ background: '#1E2329' }} onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-xl font-bold flex items-center gap-2" style={{ color: '#EAECEF' }}>
                 <BookOpen className="w-6 h-6" style={{ color: '#F0B90B' }} />

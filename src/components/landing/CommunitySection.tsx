@@ -46,8 +46,7 @@ export default function CommunitySection() {
       delay: 0,
     },
     {
-      quote:
-        '跑了一晚上 @nofx_ai 开源的 AI 自动交易，太有意思了，就看 AI 在那一会开空一会开多，一顿操作，虽然看不懂为什么，但是一晚上帮我赚了 6% 收益',
+      quote: '跑了一晚上 @nofx_ai 开源的 AI 自动交易，太有意思了，就看 AI 在那一会开空一会开多，一顿操作，虽然看不懂为什么，但是一晚上帮我赚了 6% 收益',
       authorName: 'DIŸgöd',
       handle: '@DIYgod',
       avatarUrl: 'https://pbs.twimg.com/profile_images/1628393369029181440/r23HDDJk_400x400.jpg',

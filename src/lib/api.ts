@@ -68,11 +68,7 @@ export const api = {
   },
 
   async updateTraderPrompt(traderId: string, customPrompt: string): Promise<void> {
-    const res = await httpClient.put(
-      `${API_BASE}/traders/${traderId}/prompt`,
-      { custom_prompt: customPrompt },
-      getAuthHeaders()
-    )
+    const res = await httpClient.put(`${API_BASE}/traders/${traderId}/prompt`, { custom_prompt: customPrompt }, getAuthHeaders())
     if (!res.ok) throw new Error('更新自定义策略失败')
   },
 

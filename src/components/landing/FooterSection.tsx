@@ -1,11 +1,8 @@
-import styled from 'styled-components'
-import { t, Language } from '../../i18n/translations'
+import { styled } from 'styled-components'
+import { useTranslation } from 'react-i18next'
 
-interface FooterSectionProps {
-  language: Language
-}
-
-export default function FooterSection({ language }: FooterSectionProps) {
+export default function FooterSection() {
+  const { t } = useTranslation()
   return (
     <FooterWrapper>
       <FooterInner>
@@ -14,7 +11,7 @@ export default function FooterSection({ language }: FooterSectionProps) {
           <BrandLogo src="/icons/nofx.svg" alt="NOFX Logo" />
           <BrandInfo>
             <BrandTitle>NOFX</BrandTitle>
-            <BrandSubtitle>{t('futureStandardAI', language)}</BrandSubtitle>
+            <BrandSubtitle>{t('futureStandardAI')}</BrandSubtitle>
           </BrandInfo>
         </BrandRow>
 
@@ -22,7 +19,7 @@ export default function FooterSection({ language }: FooterSectionProps) {
         <LinksGrid>
           {/* Column 1 */}
           <Column>
-            <ColumnTitle>{t('links', language)}</ColumnTitle>
+            <ColumnTitle>{t('links')}</ColumnTitle>
             <List>
               <li>
                 <StyledLink href="https://github.com/tinkle-community/nofx" target="_blank">
@@ -44,11 +41,11 @@ export default function FooterSection({ language }: FooterSectionProps) {
 
           {/* Column 2 */}
           <Column>
-            <ColumnTitle>{t('resources', language)}</ColumnTitle>
+            <ColumnTitle>{t('resources')}</ColumnTitle>
             <List>
               <li>
                 <StyledLink href="https://github.com/tinkle-community/nofx/blob/main/README.md" target="_blank">
-                  {t('documentation', language)}
+                  {t('documentation')}
                 </StyledLink>
               </li>
               <li>
@@ -66,7 +63,7 @@ export default function FooterSection({ language }: FooterSectionProps) {
 
           {/* Column 3 */}
           <Column>
-            <ColumnTitle>{t('supporters', language)}</ColumnTitle>
+            <ColumnTitle>{t('supporters')}</ColumnTitle>
             <List>
               <li>
                 <StyledLink href="https://www.asterdex.com/en/referral/fdfc0e" target="_blank">
@@ -85,7 +82,7 @@ export default function FooterSection({ language }: FooterSectionProps) {
               </li>
               <li>
                 <StyledLink href="https://amber.ac/" target="_blank">
-                  Amber.ac <LightText>{t('strategicInvestment', language)}</LightText>
+                  Amber.ac <LightText>{t('strategicInvestment')}</LightText>
                 </StyledLink>
               </li>
             </List>
@@ -94,8 +91,8 @@ export default function FooterSection({ language }: FooterSectionProps) {
 
         {/* Bottom text */}
         <BottomNote>
-          <p>{t('footerTitle', language)}</p>
-          <p style={{ marginTop: '4px' }}>{t('footerWarning', language)}</p>
+          <p>{t('footerTitle')}</p>
+          <p style={{ marginTop: '4px' }}>{t('footerWarning')}</p>
         </BottomNote>
       </FooterInner>
     </FooterWrapper>

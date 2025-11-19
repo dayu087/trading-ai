@@ -80,11 +80,7 @@ export function FAQLayout({ language }: FAQLayoutProps) {
 
         {/* Search Bar */}
         <div className="max-w-2xl mx-auto">
-          <FAQSearchBar
-            searchTerm={searchTerm}
-            onSearchChange={setSearchTerm}
-            placeholder={language === 'zh' ? '搜索常见问题...' : 'Search FAQ...'}
-          />
+          <FAQSearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} placeholder={language === 'zh' ? '搜索常见问题...' : 'Search FAQ...'} />
         </div>
       </div>
 
@@ -92,12 +88,7 @@ export function FAQLayout({ language }: FAQLayoutProps) {
       <div className="flex gap-8">
         {/* Sidebar - Hidden on mobile, visible on desktop */}
         <aside className="hidden lg:block w-64 flex-shrink-0">
-          <FAQSidebar
-            categories={filteredCategories}
-            activeItemId={activeItemId}
-            language={language}
-            onItemClick={handleItemClick}
-          />
+          <FAQSidebar categories={filteredCategories} activeItemId={activeItemId} language={language} onItemClick={handleItemClick} />
         </aside>
 
         {/* Content Area */}

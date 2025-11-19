@@ -208,13 +208,9 @@ export function CompetitionPage() {
                       onClick={() => handleTraderClick(trader.trader_id)}
                       className="rounded p-3 transition-all duration-300 hover:translate-y-[-1px] cursor-pointer hover:shadow-lg"
                       style={{
-                        background: isLeader
-                          ? 'linear-gradient(135deg, rgba(240, 185, 11, 0.08) 0%, #0B0E11 100%)'
-                          : '#0B0E11',
+                        background: isLeader ? 'linear-gradient(135deg, rgba(240, 185, 11, 0.08) 0%, #0B0E11 100%)' : '#0B0E11',
                         border: `1px solid ${isLeader ? 'rgba(240, 185, 11, 0.4)' : '#2B3139'}`,
-                        boxShadow: isLeader
-                          ? '0 3px 15px rgba(240, 185, 11, 0.12), 0 0 0 1px rgba(240, 185, 11, 0.15)'
-                          : '0 1px 4px rgba(0, 0, 0, 0.3)',
+                        boxShadow: isLeader ? '0 3px 15px rgba(240, 185, 11, 0.12), 0 0 0 1px rgba(240, 185, 11, 0.15)' : '0 1px 4px rgba(0, 0, 0, 0.3)',
                       }}
                     >
                       <div className="flex items-center justify-between">
@@ -330,8 +326,7 @@ export function CompetitionPage() {
                       style={
                         isWinning
                           ? {
-                              background:
-                                'linear-gradient(135deg, rgba(14, 203, 129, 0.08) 0%, rgba(14, 203, 129, 0.02) 100%)',
+                              background: 'linear-gradient(135deg, rgba(14, 203, 129, 0.08) 0%, rgba(14, 203, 129, 0.02) 100%)',
                               border: '2px solid rgba(14, 203, 129, 0.3)',
                               boxShadow: '0 3px 15px rgba(14, 203, 129, 0.12)',
                             }

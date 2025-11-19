@@ -46,11 +46,7 @@ interface AuthContextType {
   }>
   verifyOTP: (userID: string, otpCode: string) => Promise<{ success: boolean; message?: string }>
   completeRegistration: (userID: string, otpCode: string) => Promise<{ success: boolean; message?: string }>
-  resetPassword: (
-    email: string,
-    newPassword: string,
-    otpCode: string
-  ) => Promise<{ success: boolean; message?: string }>
+  resetPassword: (email: string, newPassword: string, otpCode: string) => Promise<{ success: boolean; message?: string }>
   logout: () => void
   isLoading: boolean
 }
@@ -64,14 +60,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [selectedTraderId, setSelectedTraderId] = useState<string>()
   const [selectedTraderData, setSelectedTraderData] = useState<any>(null)
 
-  const { data: traders, error: tradersError } = useSWR<TraderInfo[]>(
-    user && token ? 'traders' : null,
-    api.getTraders,
-    {
-      refreshInterval: 10000,
-      shouldRetryOnError: false,
-    }
-  )
+  const { data: traders, error: tradersError } = useSWR<TraderInfo[]>(user && token ? 'traders' : null, api.getTraders, {
+    refreshInterval: 10000,
+    shouldRetryOnError: false,
+  })
 
   useEffect(() => {
     if (traders?.length && !selectedTraderId) {

@@ -31,11 +31,7 @@ export function FAQSearchBar({ searchTerm, onSearchChange, placeholder = 'Search
         }}
       />
       {searchTerm && (
-        <button
-          onClick={() => onSearchChange('')}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 hover:opacity-70 transition-opacity"
-          style={{ color: '#848E9C' }}
-        >
+        <button onClick={() => onSearchChange('')} className="absolute right-4 top-1/2 transform -translate-y-1/2 hover:opacity-70 transition-opacity" style={{ color: '#848E9C' }}>
           <X className="w-5 h-5" />
         </button>
       )}

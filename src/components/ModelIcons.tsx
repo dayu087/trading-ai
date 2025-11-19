@@ -22,14 +22,5 @@ export const getModelIcon = (modelType: string, props: IconProps = {}) => {
       return null
   }
 
-  return (
-    <img
-      src={iconPath}
-      alt={`${type} icon`}
-      width={props.width || 24}
-      height={props.height || 24}
-      className={props.className}
-      style={{ borderRadius: '50%' }}
-    />
-  )
+  return <img src={iconPath} alt={`${type} icon`} width={props.width || 24} height={props.height || 24} className={props.className} style={{ borderRadius: '50%' }} />
 }

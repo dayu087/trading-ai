@@ -37,15 +37,7 @@ interface TraderConfigModalProps {
   onSave?: (data: CreateTraderRequest) => Promise<void>
 }
 
-export function TraderConfigModal({
-  isOpen,
-  onClose,
-  traderData,
-  isEditMode = false,
-  availableModels = [],
-  availableExchanges = [],
-  onSave,
-}: TraderConfigModalProps) {
+export function TraderConfigModal({ isOpen, onClose, traderData, isEditMode = false, availableModels = [], availableExchanges = [], onSave }: TraderConfigModalProps) {
   const { language } = useLanguage()
   const [formData, setFormData] = useState<TraderConfigData>({
     trader_name: '',
@@ -243,10 +235,7 @@ export function TraderConfigModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
-      <div
-        className="bg-[#1E2329] border border-[#2B3139] rounded-xl shadow-2xl max-w-3xl w-full mx-4 max-h-[90vh] overflow-y-auto"
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="bg-[#1E2329] border border-[#2B3139] rounded-xl shadow-2xl max-w-3xl w-full mx-4 max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-[#2B3139] bg-gradient-to-r from-[#1E2329] to-[#252B35]">
           <div className="flex items-center gap-3">
@@ -258,10 +247,7 @@ export function TraderConfigModal({
               <p className="text-sm text-[#848E9C] mt-1">{isEditMode ? '修改交易员配置参数' : '配置新的AI交易员'}</p>
             </div>
           </div>
-          <button
-            onClick={onClose}
-            className="w-8 h-8 rounded-lg text-[#848E9C] hover:text-[#EAECEF] hover:bg-[#2B3139] transition-colors flex items-center justify-center"
-          >
+          <button onClick={onClose} className="w-8 h-8 rounded-lg text-[#848E9C] hover:text-[#EAECEF] hover:bg-[#2B3139] transition-colors flex items-center justify-center">
             ✕
           </button>
         </div>
@@ -327,11 +313,7 @@ export function TraderConfigModal({
                     <button
                       type="button"
                       onClick={() => handleInputChange('is_cross_margin', true)}
-                      className={`flex-1 px-3 py-2 rounded text-sm ${
-                        formData.is_cross_margin
-                          ? 'bg-[#F0B90B] text-black'
-                          : 'bg-[#0B0E11] text-[#848E9C] border border-[#2B3139]'
-                      }`}
+                      className={`flex-1 px-3 py-2 rounded text-sm ${formData.is_cross_margin ? 'bg-[#F0B90B] text-black' : 'bg-[#0B0E11] text-[#848E9C] border border-[#2B3139]'}`}
                     >
                       全仓
                     </button>
@@ -339,9 +321,7 @@ export function TraderConfigModal({
                       type="button"
                       onClick={() => handleInputChange('is_cross_margin', false)}
                       className={`flex-1 px-3 py-2 rounded text-sm ${
-                        !formData.is_cross_margin
-                          ? 'bg-[#F0B90B] text-black'
-                          : 'bg-[#0B0E11] text-[#848E9C] border border-[#2B3139]'
+                        !formData.is_cross_margin ? 'bg-[#F0B90B] text-black' : 'bg-[#0B0E11] text-[#848E9C] border border-[#2B3139]'
                       }`}
                     >
                       逐仓
@@ -399,11 +379,7 @@ export function TraderConfigModal({
                       请输入您交易所账户的当前实际余额。如果输入不准确，P&L统计将会错误。
                     </p>
                   )}
-                  {isEditMode && (
-                    <p className="text-xs text-[#848E9C] mt-1">
-                      点击"获取当前余额"按钮可自动获取您交易所账户的当前净值
-                    </p>
-                  )}
+                  {isEditMode && <p className="text-xs text-[#848E9C] mt-1">点击"获取当前余额"按钮可自动获取您交易所账户的当前净值</p>}
                   {balanceFetchError && <p className="text-xs text-red-500 mt-1">{balanceFetchError}</p>}
                 </div>
               </div>
@@ -487,9 +463,7 @@ export function TraderConfigModal({
                           type="button"
                           onClick={() => handleCoinToggle(coin)}
                           className={`px-2 py-1 text-xs rounded transition-colors ${
-                            selectedCoins.includes(coin)
-                              ? 'bg-[#F0B90B] text-black'
-                              : 'bg-[#1E2329] text-[#848E9C] border border-[#2B3139] hover:border-[#F0B90B]'
+                            selectedCoins.includes(coin) ? 'bg-[#F0B90B] text-black' : 'bg-[#1E2329] text-[#848E9C] border border-[#2B3139] hover:border-[#F0B90B]'
                           }`}
                         >
                           {coin.replace('USDT', '')}
@@ -507,21 +481,11 @@ export function TraderConfigModal({
             <h3 className="text-lg font-semibold text-[#EAECEF] mb-5 flex items-center gap-2">📡 信号源配置</h3>
             <div className="grid grid-cols-2 gap-4">
               <div className="flex items-center gap-3">
-                <input
-                  type="checkbox"
-                  checked={formData.use_coin_pool}
-                  onChange={(e) => handleInputChange('use_coin_pool', e.target.checked)}
-                  className="w-4 h-4"
-                />
+                <input type="checkbox" checked={formData.use_coin_pool} onChange={(e) => handleInputChange('use_coin_pool', e.target.checked)} className="w-4 h-4" />
                 <label className="text-sm text-[#EAECEF]">使用 Coin Pool 信号</label>
               </div>
               <div className="flex items-center gap-3">
-                <input
-                  type="checkbox"
-                  checked={formData.use_oi_top}
-                  onChange={(e) => handleInputChange('use_oi_top', e.target.checked)}
-                  className="w-4 h-4"
-                />
+                <input type="checkbox" checked={formData.use_oi_top} onChange={(e) => handleInputChange('use_oi_top', e.target.checked)} className="w-4 h-4" />
                 <label className="text-sm text-[#EAECEF]">使用 OI Top 信号</label>
               </div>
             </div>
@@ -603,12 +567,7 @@ export function TraderConfigModal({
               </div>
 
               <div className="flex items-center gap-3">
-                <input
-                  type="checkbox"
-                  checked={formData.override_base_prompt}
-                  onChange={(e) => handleInputChange('override_base_prompt', e.target.checked)}
-                  className="w-4 h-4"
-                />
+                <input type="checkbox" checked={formData.override_base_prompt} onChange={(e) => handleInputChange('override_base_prompt', e.target.checked)} className="w-4 h-4" />
                 <label className="text-sm text-[#EAECEF]">覆盖默认提示词</label>
                 <span className="text-xs text-[#F0B90B] inline-flex items-center gap-1">
                   <svg
@@ -629,16 +588,12 @@ export function TraderConfigModal({
                 </span>
               </div>
               <div>
-                <label className="text-sm text-[#EAECEF] block mb-2">
-                  {formData.override_base_prompt ? '自定义提示词' : '附加提示词'}
-                </label>
+                <label className="text-sm text-[#EAECEF] block mb-2">{formData.override_base_prompt ? '自定义提示词' : '附加提示词'}</label>
                 <textarea
                   value={formData.custom_prompt}
                   onChange={(e) => handleInputChange('custom_prompt', e.target.value)}
                   className="w-full px-3 py-2 bg-[#0B0E11] border border-[#2B3139] rounded text-[#EAECEF] focus:border-[#F0B90B] focus:outline-none h-24 resize-none"
-                  placeholder={
-                    formData.override_base_prompt ? '输入完整的交易策略提示词...' : '输入额外的交易策略提示...'
-                  }
+                  placeholder={formData.override_base_prompt ? '输入完整的交易策略提示词...' : '输入额外的交易策略提示...'}
                 />
               </div>
             </div>
@@ -647,10 +602,7 @@ export function TraderConfigModal({
 
         {/* Footer */}
         <div className="flex justify-end gap-3 p-6 border-t border-[#2B3139] bg-gradient-to-r from-[#1E2329] to-[#252B35]">
-          <button
-            onClick={onClose}
-            className="px-6 py-3 bg-[#2B3139] text-[#EAECEF] rounded-lg hover:bg-[#404750] transition-all duration-200 border border-[#404750]"
-          >
+          <button onClick={onClose} className="px-6 py-3 bg-[#2B3139] text-[#EAECEF] rounded-lg hover:bg-[#404750] transition-all duration-200 border border-[#404750]">
             取消
           </button>
           {onSave && (

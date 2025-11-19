@@ -42,23 +42,11 @@ export function TraderConfigViewModal({ isOpen, onClose, traderData }: TraderCon
     </button>
   )
 
-  const InfoRow = ({
-    label,
-    value,
-    copyable = false,
-    fieldName = '',
-  }: {
-    label: string
-    value: string | number | boolean
-    copyable?: boolean
-    fieldName?: string
-  }) => (
+  const InfoRow = ({ label, value, copyable = false, fieldName = '' }: { label: string; value: string | number | boolean; copyable?: boolean; fieldName?: string }) => (
     <div className="flex justify-between items-start py-2 border-b border-[#2B3139] last:border-b-0">
       <span className="text-sm text-[#848E9C] font-medium">{label}</span>
       <div className="flex items-center text-right">
-        <span className="text-sm text-[#EAECEF] font-mono">
-          {typeof value === 'boolean' ? (value ? '是' : '否') : value}
-        </span>
+        <span className="text-sm text-[#EAECEF] font-mono">{typeof value === 'boolean' ? (value ? '是' : '否') : value}</span>
         {copyable && typeof value === 'string' && value && <CopyButton text={value} fieldName={fieldName} />}
       </div>
     </div>
@@ -66,10 +54,7 @@ export function TraderConfigViewModal({ isOpen, onClose, traderData }: TraderCon
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
-      <div
-        className="bg-[#1E2329] border border-[#2B3139] rounded-xl shadow-2xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto"
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="bg-[#1E2329] border border-[#2B3139] rounded-xl shadow-2xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-[#2B3139] bg-gradient-to-r from-[#1E2329] to-[#252B35]">
           <div className="flex items-center gap-3">
@@ -85,19 +70,12 @@ export function TraderConfigViewModal({ isOpen, onClose, traderData }: TraderCon
             {/* Running Status */}
             <div
               className="px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1"
-              style={
-                traderData.is_running
-                  ? { background: 'rgba(14, 203, 129, 0.1)', color: '#0ECB81' }
-                  : { background: 'rgba(246, 70, 93, 0.1)', color: '#F6465D' }
-              }
+              style={traderData.is_running ? { background: 'rgba(14, 203, 129, 0.1)', color: '#0ECB81' } : { background: 'rgba(246, 70, 93, 0.1)', color: '#F6465D' }}
             >
               <span>{traderData.is_running ? '●' : '○'}</span>
               {traderData.is_running ? '运行中' : '已停止'}
             </div>
-            <button
-              onClick={onClose}
-              className="w-8 h-8 rounded-lg text-[#848E9C] hover:text-[#EAECEF] hover:bg-[#2B3139] transition-colors flex items-center justify-center"
-            >
+            <button onClick={onClose} className="w-8 h-8 rounded-lg text-[#848E9C] hover:text-[#EAECEF] hover:bg-[#2B3139] transition-colors flex items-center justify-center">
               ✕
             </button>
           </div>
@@ -124,12 +102,7 @@ export function TraderConfigViewModal({ isOpen, onClose, traderData }: TraderCon
               <InfoRow label="保证金模式" value={traderData.is_cross_margin ? '全仓' : '逐仓'} />
               <InfoRow label="BTC/ETH 杠杆" value={`${traderData.btc_eth_leverage}x`} />
               <InfoRow label="山寨币杠杆" value={`${traderData.altcoin_leverage}x`} />
-              <InfoRow
-                label="交易币种"
-                value={traderData.trading_symbols || '使用默认币种'}
-                copyable
-                fieldName="trading_symbols"
-              />
+              <InfoRow label="交易币种" value={traderData.trading_symbols || '使用默认币种'} copyable fieldName="trading_symbols" />
             </div>
           </div>
 
@@ -152,9 +125,7 @@ export function TraderConfigViewModal({ isOpen, onClose, traderData }: TraderCon
               <InfoRow label="覆盖默认提示词" value={traderData.override_base_prompt} />
               {traderData.custom_prompt ? (
                 <div>
-                  <div className="text-sm text-[#848E9C] mb-2">
-                    {traderData.override_base_prompt ? '自定义提示词' : '附加提示词'}：
-                  </div>
+                  <div className="text-sm text-[#848E9C] mb-2">{traderData.override_base_prompt ? '自定义提示词' : '附加提示词'}：</div>
                   <div
                     className="p-3 rounded border text-sm text-[#EAECEF] font-mono leading-relaxed max-h-48 overflow-y-auto"
                     style={{
@@ -167,10 +138,7 @@ export function TraderConfigViewModal({ isOpen, onClose, traderData }: TraderCon
                   </div>
                 </div>
               ) : (
-                <div
-                  className="text-sm text-[#848E9C] italic p-3 rounded border"
-                  style={{ border: '1px solid #2B3139' }}
-                >
+                <div className="text-sm text-[#848E9C] italic p-3 rounded border" style={{ border: '1px solid #2B3139' }}>
                   未设置自定义提示词，使用系统默认策略
                 </div>
               )}
@@ -180,10 +148,7 @@ export function TraderConfigViewModal({ isOpen, onClose, traderData }: TraderCon
 
         {/* Footer */}
         <div className="flex justify-end gap-3 p-6 border-t border-[#2B3139] bg-gradient-to-r from-[#1E2329] to-[#252B35]">
-          <button
-            onClick={onClose}
-            className="px-6 py-3 bg-[#2B3139] text-[#EAECEF] rounded-lg hover:bg-[#404750] transition-all duration-200 border border-[#404750]"
-          >
+          <button onClick={onClose} className="px-6 py-3 bg-[#2B3139] text-[#EAECEF] rounded-lg hover:bg-[#404750] transition-all duration-200 border border-[#404750]">
             关闭
           </button>
           <button

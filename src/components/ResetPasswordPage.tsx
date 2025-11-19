@@ -71,10 +71,7 @@ export function ResetPasswordPage() {
 
           {/* Logo */}
           <div className="text-center mb-8">
-            <div
-              className="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full"
-              style={{ background: 'rgba(240, 185, 11, 0.1)' }}
-            >
+            <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full" style={{ background: 'rgba(240, 185, 11, 0.1)' }}>
               <KeyRound className="w-8 h-8" style={{ color: '#F0B90B' }} />
             </div>
             <h1 className="text-2xl font-bold" style={{ color: '#EAECEF' }}>
@@ -103,13 +100,7 @@ export function ResetPasswordPage() {
                   <label className="block text-sm font-semibold mb-2" style={{ color: '#EAECEF' }}>
                     {t('email', language)}
                   </label>
-                  <Input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder={t('emailPlaceholder', language)}
-                    required
-                  />
+                  <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={t('emailPlaceholder', language)} required />
                 </div>
 
                 <div>

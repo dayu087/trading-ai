@@ -54,11 +54,7 @@ export function AITradersPage() {
   })
   const navigate = useNavigate()
 
-  const { data: traders, mutate: mutateTraders } = useSWR<TraderInfo[]>(
-    user && token ? 'traders' : null,
-    api.getTraders,
-    { refreshInterval: 5000 }
-  )
+  const { data: traders, mutate: mutateTraders } = useSWR<TraderInfo[]>(user && token ? 'traders' : null, api.getTraders, { refreshInterval: 5000 })
 
   // 加载AI模型和交易所配置
   useEffect(() => {
@@ -66,10 +62,7 @@ export function AITradersPage() {
       if (!user || !token) {
         // 未登录时只加载公开的支持模型和交易所
         try {
-          const [supportedModels, supportedExchanges] = await Promise.all([
-            api.getSupportedModels(),
-            api.getSupportedExchanges(),
-          ])
+          const [supportedModels, supportedExchanges] = await Promise.all([api.getSupportedModels(), api.getSupportedExchanges()])
           setSupportedModels(supportedModels)
           setSupportedExchanges(supportedExchanges)
         } catch (err) {
@@ -325,23 +318,14 @@ export function AITradersPage() {
     if (config.checkInUse(config.id)) {
       const usingTraders = config.getUsingTraders(config.id)
       const traderNames = usingTraders.map((t) => t.trader_name).join(', ')
-      alert(
-        t(config.cannotDeleteKey, language) +
-          '\n\n' +
-          t('tradersUsing', language) +
-          ': ' +
-          traderNames +
-          '\n\n' +
-          t('pleaseDeleteTradersFirst', language)
-      )
+      alert(t(config.cannotDeleteKey, language) + '\n\n' + t('tradersUsing', language) + ': ' + traderNames + '\n\n' + t('pleaseDeleteTradersFirst', language))
       return
     }
 
     if (!confirm(t(config.confirmDeleteKey, language))) return
 
     try {
-      const updatedItems =
-        config.allItems?.map((item) => (item.id === config.id ? config.clearFields(item) : item)) || []
+      const updatedItems = config.allItems?.map((item) => (item.id === config.id ? config.clearFields(item) : item)) || []
 
       const request = config.buildRequest(updatedItems)
       await config.updateApi(request)
@@ -400,12 +384,7 @@ export function AITradersPage() {
     })
   }
 
-  const handleSaveModelConfig = async (
-    modelId: string,
-    apiKey: string,
-    customApiUrl?: string,
-    customModelName?: string
-  ) => {
+  const handleSaveModelConfig = async (modelId: string, apiKey: string, customApiUrl?: string, customModelName?: string) => {
     try {
       // 创建或更新用户的模型配置
       const existingModel = allModels?.find((m) => m.id === modelId)
@@ -727,46 +706,43 @@ export function AITradersPage() {
       </div>
 
       {/* 信号源配置警告 */}
-      {traders &&
-        traders.some((t) => t.use_coin_pool || t.use_oi_top) &&
-        !userSignalSource.coinPoolUrl &&
-        !userSignalSource.oiTopUrl && (
-          <div
-            className="rounded-lg px-4 py-3 flex items-start gap-3 animate-slide-in"
-            style={{
-              background: 'rgba(246, 70, 93, 0.1)',
-              border: '1px solid rgba(246, 70, 93, 0.3)',
-            }}
-          >
-            <AlertTriangle size={20} className="flex-shrink-0 mt-0.5" style={{ color: '#F6465D' }} />
-            <div className="flex-1">
-              <div className="font-semibold mb-1" style={{ color: '#F6465D' }}>
-                ⚠️ {t('signalSourceNotConfigured', language)}
-              </div>
-              <div className="text-sm" style={{ color: '#848E9C' }}>
-                <p className="mb-2">{t('signalSourceWarningMessage', language)}</p>
-                <p>
-                  <strong>{t('solutions', language)}</strong>
-                </p>
-                <ul className="list-disc list-inside space-y-1 ml-2 mt-1">
-                  <li>点击"{t('signalSource', language)}"按钮配置API地址</li>
-                  <li>或在交易员配置中禁用"使用币种池"和"使用OI Top"</li>
-                  <li>或在交易员配置中设置自定义币种列表</li>
-                </ul>
-              </div>
-              <button
-                onClick={() => setShowSignalSourceModal(true)}
-                className="mt-3 px-3 py-1.5 rounded text-sm font-semibold transition-all hover:scale-105"
-                style={{
-                  background: '#F0B90B',
-                  color: '#000',
-                }}
-              >
-                {t('configureSignalSourceNow', language)}
-              </button>
+      {traders && traders.some((t) => t.use_coin_pool || t.use_oi_top) && !userSignalSource.coinPoolUrl && !userSignalSource.oiTopUrl && (
+        <div
+          className="rounded-lg px-4 py-3 flex items-start gap-3 animate-slide-in"
+          style={{
+            background: 'rgba(246, 70, 93, 0.1)',
+            border: '1px solid rgba(246, 70, 93, 0.3)',
+          }}
+        >
+          <AlertTriangle size={20} className="flex-shrink-0 mt-0.5" style={{ color: '#F6465D' }} />
+          <div className="flex-1">
+            <div className="font-semibold mb-1" style={{ color: '#F6465D' }}>
+              ⚠️ {t('signalSourceNotConfigured', language)}
             </div>
+            <div className="text-sm" style={{ color: '#848E9C' }}>
+              <p className="mb-2">{t('signalSourceWarningMessage', language)}</p>
+              <p>
+                <strong>{t('solutions', language)}</strong>
+              </p>
+              <ul className="list-disc list-inside space-y-1 ml-2 mt-1">
+                <li>点击"{t('signalSource', language)}"按钮配置API地址</li>
+                <li>或在交易员配置中禁用"使用币种池"和"使用OI Top"</li>
+                <li>或在交易员配置中设置自定义币种列表</li>
+              </ul>
+            </div>
+            <button
+              onClick={() => setShowSignalSourceModal(true)}
+              className="mt-3 px-3 py-1.5 rounded text-sm font-semibold transition-all hover:scale-105"
+              style={{
+                background: '#F0B90B',
+                color: '#000',
+              }}
+            >
+              {t('configureSignalSourceNow', language)}
+            </button>
           </div>
-        )}
+        </div>
+      )}
 
       {/* Configuration Status */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
@@ -782,9 +758,7 @@ export function AITradersPage() {
               return (
                 <div
                   key={model.id}
-                  className={`flex items-center justify-between p-2 md:p-3 rounded transition-all ${
-                    inUse ? 'cursor-not-allowed' : 'cursor-pointer hover:bg-gray-700'
-                  }`}
+                  className={`flex items-center justify-between p-2 md:p-3 rounded transition-all ${inUse ? 'cursor-not-allowed' : 'cursor-pointer hover:bg-gray-700'}`}
                   style={{
                     background: '#0B0E11',
                     border: '1px solid #2B3139',
@@ -813,17 +787,11 @@ export function AITradersPage() {
                         {getShortName(model.name)}
                       </div>
                       <div className="text-xs" style={{ color: '#848E9C' }}>
-                        {inUse
-                          ? t('inUse', language)
-                          : model.enabled
-                            ? t('enabled', language)
-                            : t('configured', language)}
+                        {inUse ? t('inUse', language) : model.enabled ? t('enabled', language) : t('configured', language)}
                       </div>
                     </div>
                   </div>
-                  <div
-                    className={`w-2.5 h-2.5 md:w-3 md:h-3 rounded-full flex-shrink-0 ${model.enabled ? 'bg-green-400' : 'bg-gray-500'}`}
-                  />
+                  <div className={`w-2.5 h-2.5 md:w-3 md:h-3 rounded-full flex-shrink-0 ${model.enabled ? 'bg-green-400' : 'bg-gray-500'}`} />
                 </div>
               )
             })}
@@ -848,9 +816,7 @@ export function AITradersPage() {
               return (
                 <div
                   key={exchange.id}
-                  className={`flex items-center justify-between p-2 md:p-3 rounded transition-all ${
-                    inUse ? 'cursor-not-allowed' : 'cursor-pointer hover:bg-gray-700'
-                  }`}
+                  className={`flex items-center justify-between p-2 md:p-3 rounded transition-all ${inUse ? 'cursor-not-allowed' : 'cursor-pointer hover:bg-gray-700'}`}
                   style={{
                     background: '#0B0E11',
                     border: '1px solid #2B3139',
@@ -869,18 +835,11 @@ export function AITradersPage() {
                         {getShortName(exchange.name)}
                       </div>
                       <div className="text-xs" style={{ color: '#848E9C' }}>
-                        {exchange.type.toUpperCase()} •{' '}
-                        {inUse
-                          ? t('inUse', language)
-                          : exchange.enabled
-                            ? t('enabled', language)
-                            : t('configured', language)}
+                        {exchange.type.toUpperCase()} • {inUse ? t('inUse', language) : exchange.enabled ? t('enabled', language) : t('configured', language)}
                       </div>
                     </div>
                   </div>
-                  <div
-                    className={`w-2.5 h-2.5 md:w-3 md:h-3 rounded-full flex-shrink-0 ${exchange.enabled ? 'bg-green-400' : 'bg-gray-500'}`}
-                  />
+                  <div className={`w-2.5 h-2.5 md:w-3 md:h-3 rounded-full flex-shrink-0 ${exchange.enabled ? 'bg-green-400' : 'bg-gray-500'}`} />
                 </div>
               )
             })}
@@ -934,8 +893,7 @@ export function AITradersPage() {
                         color: trader.ai_model.includes('deepseek') ? '#60a5fa' : '#c084fc',
                       }}
                     >
-                      {getModelDisplayName(trader.ai_model.split('_').pop() || trader.ai_model)} Model •{' '}
-                      {trader.exchange_id?.toUpperCase()}
+                      {getModelDisplayName(trader.ai_model.split('_').pop() || trader.ai_model)} Model • {trader.exchange_id?.toUpperCase()}
                     </div>
                   </div>
                 </div>
@@ -947,9 +905,7 @@ export function AITradersPage() {
                       {t('status', language)}
                     </div>
                     <div
-                      className={`px-2 md:px-3 py-1 rounded text-xs font-bold ${
-                        trader.is_running ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                      }`}
+                      className={`px-2 md:px-3 py-1 rounded text-xs font-bold ${trader.is_running ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}
                       style={
                         trader.is_running
                           ? {

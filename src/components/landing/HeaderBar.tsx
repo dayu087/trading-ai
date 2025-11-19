@@ -1,11 +1,10 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { Menu, X, ChevronDown } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { useLanguage } from '../../contexts/LanguageContext'
 import { useAuth } from '../../contexts/AuthContext'
-import { t } from '../../i18n/translations'
 
 export default function HeaderBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -13,40 +12,41 @@ export default function HeaderBar() {
   const [userDropdownOpen, setUserDropdownOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
   const userDropdownRef = useRef<HTMLDivElement>(null)
-  const { language, setLanguage } = useLanguage()
   const { user, logout } = useAuth()
   const { pathname } = useLocation()
   const navigate = useNavigate()
+  const { t, i18n } = useTranslation()
+
   const currentPage = pathname.replace('/', '') || ''
 
   const leftNavList = useMemo(() => {
     if (user) {
       return [
-        { key: 'competition', label: t('realtimeNav', language) },
-        { key: 'traders', label: t('configNav', language) },
-        { key: 'dashboard', label: t('dashboardNav', language) },
-        { key: 'faq', label: t('faqNav', language) },
+        { key: 'competition', label: t('realtimeNav') },
+        { key: 'traders', label: t('configNav') },
+        { key: 'dashboard', label: t('dashboardNav') },
+        { key: 'faq', label: t('faqNav') },
       ]
     } else {
       return [
-        { key: 'competition', label: t('realtimeNav', language) },
-        { key: 'faq', label: t('faqNav', language) },
+        { key: 'competition', label: t('realtimeNav') },
+        { key: 'faq', label: t('faqNav') },
       ]
     }
-  }, [user, language])
+  }, [user, i18n])
 
   const rightNavList = useMemo(() => {
     if (pathname == '/') {
       return [
-        { key: 'features', label: t('features', language) },
-        { key: 'howItWorks', label: t('howItWorks', language) },
+        { key: 'features', label: t('features') },
+        { key: 'howItWorks', label: t('howItWorks') },
         { key: 'GitHub', label: 'GitHub' },
-        { key: 'community', label: t('community', language) },
+        { key: 'community', label: t('community') },
       ]
     } else {
       return []
     }
-  }, [pathname, language])
+  }, [pathname, i18n])
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -61,6 +61,12 @@ export default function HeaderBar() {
       document.removeEventListener('scroll', handleScroll)
     }
   }, [])
+
+  const handleSwichLanguage = (lang: string) => {
+    if (i18n.language === lang || !lang) return
+    setLanguageDropdownOpen(false)
+    i18n.changeLanguage(lang)
+  }
 
   return (
     <HeaderContainer>
@@ -123,7 +129,7 @@ export default function HeaderBar() {
                           color: 'var(--text-secondary)',
                         }}
                       >
-                        {t('loggedInAs', language)}
+                        {t('loggedInAs')}
                       </div>
                       <div
                         style={{
@@ -141,7 +147,7 @@ export default function HeaderBar() {
                           setUserDropdownOpen(false)
                         }}
                       >
-                        {t('exitLogin', language)}
+                        {t('exitLogin')}
                       </UserDropdownItem>
                     )}
                   </UserDropdown>
@@ -158,7 +164,7 @@ export default function HeaderBar() {
                       fontSize: '0.875rem',
                     }}
                   >
-                    {t('signIn', language)}
+                    {t('signIn')}
                   </a>
                   <a
                     href="/register"
@@ -171,7 +177,7 @@ export default function HeaderBar() {
                       fontSize: '0.875rem',
                     }}
                   >
-                    {t('signUp', language)}
+                    {t('signUp')}
                   </a>
                 </>
               )
@@ -180,27 +186,15 @@ export default function HeaderBar() {
             {/* Language */}
             <LangDropdownContainer ref={dropdownRef}>
               <LangButton onClick={() => setLanguageDropdownOpen(!languageDropdownOpen)}>
-                <span>{language.toLocaleUpperCase()}</span>
+                <span>{i18n.language}</span>
                 <ChevronDown size={18} color="var(--brand-black)" />
               </LangButton>
               {languageDropdownOpen && (
                 <LangDropdown>
-                  <LangOption
-                    $active={language === 'zh'}
-                    onClick={() => {
-                      setLanguage('zh')
-                      setLanguageDropdownOpen(false)
-                    }}
-                  >
+                  <LangOption $active={i18n.language === 'zh'} onClick={() => handleSwichLanguage('zh')}>
                     🇨🇳 中文
                   </LangOption>
-                  <LangOption
-                    $active={language === 'en'}
-                    onClick={() => {
-                      setLanguage('en')
-                      setLanguageDropdownOpen(false)
-                    }}
-                  >
+                  <LangOption $active={i18n.language === 'en'} onClick={() => handleSwichLanguage('en')}>
                     🇺🇸 English
                   </LangOption>
                 </LangDropdown>
@@ -210,22 +204,13 @@ export default function HeaderBar() {
         </DesktopMenu>
 
         {/* Mobile Menu Button */}
-        <motion.button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden"
-          style={{ color: 'var(--brand-light-gray)' }}
-          whileTap={{ scale: 0.9 }}
-        >
+        <motion.button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden" style={{ color: 'var(--brand-light-gray)' }} whileTap={{ scale: 0.9 }}>
           {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </motion.button>
       </HeaderInner>
 
       {/* Mobile Menu */}
-      <MobileMenuContainer
-        initial={false}
-        animate={mobileMenuOpen ? { height: 'auto', opacity: 1 } : { height: 0, opacity: 0 }}
-        transition={{ duration: 0.3 }}
-      >
+      <MobileMenuContainer initial={false} animate={mobileMenuOpen ? { height: 'auto', opacity: 1 } : { height: 0, opacity: 0 }} transition={{ duration: 0.3 }}>
         <div style={{ padding: '16px' }}>
           <MobileItem
             $active={currentPage === 'competition'}
@@ -234,7 +219,7 @@ export default function HeaderBar() {
               setMobileMenuOpen(false)
             }}
           >
-            {t('realtimeNav', language)}
+            {t('realtimeNav')}
           </MobileItem>
           {user && (
             <>
@@ -245,7 +230,7 @@ export default function HeaderBar() {
                   setMobileMenuOpen(false)
                 }}
               >
-                {t('configNav', language)}
+                {t('configNav')}
               </MobileItem>
               <MobileItem
                 $active={currentPage === 'trader'}
@@ -254,7 +239,7 @@ export default function HeaderBar() {
                   setMobileMenuOpen(false)
                 }}
               >
-                {t('dashboardNav', language)}
+                {t('dashboardNav')}
               </MobileItem>
               <MobileItem
                 $active={currentPage === 'faq'}
@@ -263,7 +248,7 @@ export default function HeaderBar() {
                   setMobileMenuOpen(false)
                 }}
               >
-                {t('faqNav', language)}
+                {t('faqNav')}
               </MobileItem>
             </>
           )}

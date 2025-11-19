@@ -12,68 +12,60 @@ interface CryptoFeatureCardProps {
   delay?: number
 }
 
-export const CryptoFeatureCard = React.forwardRef<HTMLDivElement, CryptoFeatureCardProps>(
-  ({ icon, title, description, features, className, delay = 0 }, ref) => {
-    const [isHovered, setIsHovered] = React.useState(false)
+export const CryptoFeatureCard = React.forwardRef<HTMLDivElement, CryptoFeatureCardProps>(({ icon, title, description, features, className, delay = 0 }, ref) => {
+  const [isHovered, setIsHovered] = React.useState(false)
 
-    return (
-      <CardWrapper
-        ref={ref}
-        className={className}
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay }}
-        onHoverStart={() => setIsHovered(true)}
-        onHoverEnd={() => setIsHovered(false)}
-      >
-        <CardContainer $isHovered={isHovered}>
-          {/* Glow border shimmer */}
-          <GlowOverlay animate={{ opacity: isHovered ? 1 : 0 }} transition={{ duration: 0.3 }}>
-            <GlowShimmer />
-          </GlowOverlay>
+  return (
+    <CardWrapper
+      ref={ref}
+      className={className}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay }}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+    >
+      <CardContainer $isHovered={isHovered}>
+        {/* Glow border shimmer */}
+        <GlowOverlay animate={{ opacity: isHovered ? 1 : 0 }} transition={{ duration: 0.3 }}>
+          <GlowShimmer />
+        </GlowOverlay>
 
-          {/* patterned bg */}
-          <BackgroundPattern />
+        {/* patterned bg */}
+        <BackgroundPattern />
 
-          {/* Main content */}
-          <Content>
-            <IconBox
-              $isHovered={isHovered}
-              animate={{
-                scale: isHovered ? 1.1 : 1,
-                boxShadow: isHovered ? '0 0 20px rgba(240,185,11,0.4)' : '0 0 0 rgba(240,185,11,0)',
-              }}
-              transition={{ duration: 0.3 }}
-            >
-              <div style={{ color: 'var(--brand-yellow)' }}>{icon}</div>
-            </IconBox>
+        {/* Main content */}
+        <Content>
+          <IconBox
+            $isHovered={isHovered}
+            animate={{
+              scale: isHovered ? 1.1 : 1,
+              boxShadow: isHovered ? '0 0 20px rgba(240,185,11,0.4)' : '0 0 0 rgba(240,185,11,0)',
+            }}
+            transition={{ duration: 0.3 }}
+          >
+            <div style={{ color: 'var(--brand-yellow)' }}>{icon}</div>
+          </IconBox>
 
-            <Title>{title}</Title>
-            <Description>{description}</Description>
+          <Title>{title}</Title>
+          <Description>{description}</Description>
 
-            <FeatureList>
-              {features.map((feature, index) => (
-                <FeatureItem
-                  key={index}
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: delay + index * 0.1 }}
-                >
-                  <CheckCircle>
-                    <Check className="w-3 h-3" style={{ color: 'var(--brand-yellow)' }} />
-                  </CheckCircle>
-                  <FeatureText>{feature}</FeatureText>
-                </FeatureItem>
-              ))}
-            </FeatureList>
-          </Content>
-        </CardContainer>
-      </CardWrapper>
-    )
-  }
-)
+          <FeatureList>
+            {features.map((feature, index) => (
+              <FeatureItem key={index} initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: delay + index * 0.1 }}>
+                <CheckCircle>
+                  <Check className="w-3 h-3" style={{ color: 'var(--brand-yellow)' }} />
+                </CheckCircle>
+                <FeatureText>{feature}</FeatureText>
+              </FeatureItem>
+            ))}
+          </FeatureList>
+        </Content>
+      </CardContainer>
+    </CardWrapper>
+  )
+})
 
 CryptoFeatureCard.displayName = 'CryptoFeatureCard'
 

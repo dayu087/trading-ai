@@ -91,19 +91,10 @@ export default function SignalSourceModal({
           </div>
 
           <div className="flex gap-3 mt-6">
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex-1 px-4 py-2 rounded text-sm font-semibold"
-              style={{ background: '#2B3139', color: '#848E9C' }}
-            >
+            <button type="button" onClick={onClose} className="flex-1 px-4 py-2 rounded text-sm font-semibold" style={{ background: '#2B3139', color: '#848E9C' }}>
               {t('cancel', language)}
             </button>
-            <button
-              type="submit"
-              className="flex-1 px-4 py-2 rounded text-sm font-semibold"
-              style={{ background: '#F0B90B', color: '#000' }}
-            >
+            <button type="submit" className="flex-1 px-4 py-2 rounded text-sm font-semibold" style={{ background: '#F0B90B', color: '#000' }}>
               {t('save', language)}
             </button>
           </div>

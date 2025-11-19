@@ -1,15 +1,5 @@
 import { useMemo } from 'react'
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  ReferenceLine,
-  Legend,
-} from 'recharts'
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, Legend } from 'recharts'
 import useSWR from 'swr'
 import { api } from '../lib/api'
 import type { CompetitionTraderData } from '../types'
@@ -133,9 +123,7 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
 
     if (combined.length > 0) {
       const lastPoint = combined[combined.length - 1]
-      console.log(
-        `Chart: ${combined.length} data points, last time: ${lastPoint.time}, timestamp: ${lastPoint.timestamp}`
-      )
+      console.log(`Chart: ${combined.length} data points, last time: ${lastPoint.time}, timestamp: ${lastPoint.timestamp}`)
     }
 
     return combined
@@ -263,14 +251,7 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
           <LineChart data={displayData} margin={{ top: 20, right: 30, left: 20, bottom: 40 }}>
             <defs>
               {traders.map((trader) => (
-                <linearGradient
-                  key={`gradient-${trader.trader_id}`}
-                  id={`gradient-${trader.trader_id}`}
-                  x1="0"
-                  y1="0"
-                  x2="0"
-                  y2="1"
-                >
+                <linearGradient key={`gradient-${trader.trader_id}`} id={`gradient-${trader.trader_id}`} x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor={traderColor(trader.trader_id)} stopOpacity={0.9} />
                   <stop offset="95%" stopColor={traderColor(trader.trader_id)} stopOpacity={0.2} />
                 </linearGradient>
@@ -357,14 +338,8 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
       </div>
 
       {/* Stats */}
-      <div
-        className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 pt-5"
-        style={{ borderTop: '1px solid #2B3139' }}
-      >
-        <div
-          className="p-2 md:p-3 rounded transition-all hover:bg-opacity-50"
-          style={{ background: 'rgba(240, 185, 11, 0.05)' }}
-        >
+      <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 pt-5" style={{ borderTop: '1px solid #2B3139' }}>
+        <div className="p-2 md:p-3 rounded transition-all hover:bg-opacity-50" style={{ background: 'rgba(240, 185, 11, 0.05)' }}>
           <div className="text-xs mb-1 uppercase tracking-wider" style={{ color: '#848E9C' }}>
             {t('comparisonMode', language)}
           </div>
@@ -372,10 +347,7 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
             PnL %
           </div>
         </div>
-        <div
-          className="p-2 md:p-3 rounded transition-all hover:bg-opacity-50"
-          style={{ background: 'rgba(240, 185, 11, 0.05)' }}
-        >
+        <div className="p-2 md:p-3 rounded transition-all hover:bg-opacity-50" style={{ background: 'rgba(240, 185, 11, 0.05)' }}>
           <div className="text-xs mb-1 uppercase tracking-wider" style={{ color: '#848E9C' }}>
             {t('dataPoints', language)}
           </div>
@@ -383,31 +355,20 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
             {t('count', language, { count: combinedData.length })}
           </div>
         </div>
-        <div
-          className="p-2 md:p-3 rounded transition-all hover:bg-opacity-50"
-          style={{ background: 'rgba(240, 185, 11, 0.05)' }}
-        >
+        <div className="p-2 md:p-3 rounded transition-all hover:bg-opacity-50" style={{ background: 'rgba(240, 185, 11, 0.05)' }}>
           <div className="text-xs mb-1 uppercase tracking-wider" style={{ color: '#848E9C' }}>
             {t('currentGap', language)}
           </div>
-          <div
-            className="text-sm md:text-base font-bold mono"
-            style={{ color: currentGap > 1 ? '#F0B90B' : '#EAECEF' }}
-          >
+          <div className="text-sm md:text-base font-bold mono" style={{ color: currentGap > 1 ? '#F0B90B' : '#EAECEF' }}>
             {currentGap.toFixed(2)}%
           </div>
         </div>
-        <div
-          className="p-2 md:p-3 rounded transition-all hover:bg-opacity-50"
-          style={{ background: 'rgba(240, 185, 11, 0.05)' }}
-        >
+        <div className="p-2 md:p-3 rounded transition-all hover:bg-opacity-50" style={{ background: 'rgba(240, 185, 11, 0.05)' }}>
           <div className="text-xs mb-1 uppercase tracking-wider" style={{ color: '#848E9C' }}>
             {t('displayRange', language)}
           </div>
           <div className="text-sm md:text-base font-bold mono" style={{ color: '#EAECEF' }}>
-            {combinedData.length > MAX_DISPLAY_POINTS
-              ? `${t('recent', language)} ${MAX_DISPLAY_POINTS}`
-              : t('allData', language)}
+            {combinedData.length > MAX_DISPLAY_POINTS ? `${t('recent', language)} ${MAX_DISPLAY_POINTS}` : t('allData', language)}
           </div>
         </div>
       </div>

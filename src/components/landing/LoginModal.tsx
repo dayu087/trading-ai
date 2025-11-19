@@ -1,13 +1,14 @@
 import { motion } from 'framer-motion'
 import { X } from 'lucide-react'
-import { t, Language } from '../../i18n/translations'
+import { useTranslation } from 'react-i18next'
 
 interface LoginModalProps {
   onClose: () => void
-  language: Language
 }
 
-export default function LoginModal({ onClose, language }: LoginModalProps) {
+export default function LoginModal({ onClose }: LoginModalProps) {
+  const { t } = useTranslation()
+
   return (
     <motion.div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
@@ -38,10 +39,10 @@ export default function LoginModal({ onClose, language }: LoginModalProps) {
           <X className="w-6 h-6" />
         </motion.button>
         <h2 className="text-2xl font-bold mb-6" style={{ color: 'var(--brand-light-gray)' }}>
-          {t('accessNofxPlatform', language)}
+          {t('accessNofxPlatform')}
         </h2>
         <p className="text-sm mb-6" style={{ color: 'var(--text-secondary)' }}>
-          {t('loginRegisterPrompt', language)}
+          {t('loginRegisterPrompt')}
         </p>
         <div className="space-y-3">
           <motion.button
@@ -61,7 +62,7 @@ export default function LoginModal({ onClose, language }: LoginModalProps) {
             }}
             whileTap={{ scale: 0.95 }}
           >
-            {t('signIn', language)}
+            {t('signIn')}
           </motion.button>
           <motion.button
             onClick={() => {
@@ -78,7 +79,7 @@ export default function LoginModal({ onClose, language }: LoginModalProps) {
             whileHover={{ scale: 1.05, borderColor: 'var(--brand-yellow)' }}
             whileTap={{ scale: 0.95 }}
           >
-            {t('registerNewAccount', language)}
+            {t('registerNewAccount')}
           </motion.button>
         </div>
       </motion.div>

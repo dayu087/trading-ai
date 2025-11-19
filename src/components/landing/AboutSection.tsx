@@ -2,15 +2,13 @@
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import { Shield, Target } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import AnimatedSection from './AnimatedSection'
 import Typewriter from '../Typewriter'
-import { t, Language } from '../../i18n/translations'
 
-interface AboutSectionProps {
-  language: Language
-}
+export default function AboutSection() {
+  const { t } = useTranslation()
 
-export default function AboutSection({ language }: AboutSectionProps) {
   return (
     <AnimatedSection id="about" backgroundColor="#ffffff" padding="100px 0 98px 0 ">
       <Wrapper>
@@ -22,9 +20,9 @@ export default function AboutSection({ language }: AboutSectionProps) {
                 '$ cd nofx',
                 '$ chmod +x start.sh',
                 '$ ./start.sh start --build',
-                t('startupMessages1', language),
-                t('startupMessages2', language),
-                t('startupMessages3', language),
+                t('startupMessages1'),
+                t('startupMessages2'),
+                t('startupMessages3'),
               ]}
               typingSpeed={70}
               lineDelay={900}
@@ -35,25 +33,20 @@ export default function AboutSection({ language }: AboutSectionProps) {
             />
           </CodeBox>
 
-          <AboutRight
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
+          <AboutRight initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
             <Tag whileHover={{ scale: 1.05 }}>
               <Target className="w-4 h-4" style={{ color: 'var(--up_color)' }} />
-              <span>{t('aboutNofx', language)}</span>
+              <span>{t('aboutNofx')}</span>
             </Tag>
 
-            <Title>{t('whatIsNofx', language)}</Title>
+            <Title>{t('whatIsNofx')}</Title>
 
             <Paragraph>
-              {t('nofxNotAnotherBot', language)} {t('nofxDescription1', language)} {t('nofxDescription2', language)}
+              {t('nofxNotAnotherBot')} {t('nofxDescription1')} {t('nofxDescription2')}
             </Paragraph>
 
             <Paragraph>
-              {t('nofxDescription3', language)} {t('nofxDescription4', language)} {t('nofxDescription5', language)}
+              {t('nofxDescription3')} {t('nofxDescription4')} {t('nofxDescription5')}
             </Paragraph>
 
             <InfoRow whileHover={{ x: 5 }}>
@@ -61,8 +54,8 @@ export default function AboutSection({ language }: AboutSectionProps) {
                 <Shield className="w-6 h-6" style={{ color: 'var(--up_color)' }} />
               </IconCircle>
               <div>
-                <h3>{t('youFullControl', language)}</h3>
-                <p>{t('fullControlDesc', language)}</p>
+                <h3>{t('youFullControl')}</h3>
+                <p>{t('fullControlDesc')}</p>
               </div>
             </InfoRow>
           </AboutRight>

@@ -32,14 +32,7 @@ interface TwoStageKeyModalProps {
   contextLabel?: string
 }
 
-export function TwoStageKeyModal({
-  isOpen,
-  language,
-  onCancel,
-  onComplete,
-  expectedLength = DEFAULT_LENGTH,
-  contextLabel,
-}: TwoStageKeyModalProps) {
+export function TwoStageKeyModal({ isOpen, language, onCancel, onComplete, expectedLength = DEFAULT_LENGTH, contextLabel }: TwoStageKeyModalProps) {
   const [stage, setStage] = useState<1 | 2>(1)
   const [part1, setPart1] = useState('')
   const [part2, setPart2] = useState('')
@@ -89,10 +82,7 @@ export function TwoStageKeyModal({
           setObfuscationLog([...obfuscationLog, `Stage 1: ${new Date().toISOString()} - Auto copied obfuscation`])
         } catch {
           setClipboardStatus('failed')
-          setObfuscationLog([
-            ...obfuscationLog,
-            `Stage 1: ${new Date().toISOString()} - Auto copy failed, manual required`,
-          ])
+          setObfuscationLog([...obfuscationLog, `Stage 1: ${new Date().toISOString()} - Auto copy failed, manual required`])
         }
       } else {
         setClipboardStatus('failed')
@@ -170,8 +160,7 @@ export function TwoStageKeyModal({
             <div className="space-y-4">
               <div>
                 <label className="block text-gray-300 text-sm mb-2">
-                  {t('twoStageKey.stage1InputLabel', language)} ({expectedPart1Length}{' '}
-                  {t('twoStageKey.characters', language)})
+                  {t('twoStageKey.stage1InputLabel', language)} ({expectedPart1Length} {t('twoStageKey.characters', language)})
                 </label>
                 <input
                   ref={stage1Ref}
@@ -195,11 +184,7 @@ export function TwoStageKeyModal({
                 >
                   {processing ? t('twoStageKey.processing', language) : t('twoStageKey.nextButton', language)}
                 </button>
-                <button
-                  onClick={onCancel}
-                  disabled={processing}
-                  className="px-6 py-3 text-gray-300 hover:text-white border border-gray-600 rounded-lg transition-colors"
-                >
+                <button onClick={onCancel} disabled={processing} className="px-6 py-3 text-gray-300 hover:text-white border border-gray-600 rounded-lg transition-colors">
                   {t('twoStageKey.cancelButton', language)}
                 </button>
               </div>
@@ -218,9 +203,7 @@ export function TwoStageKeyModal({
               {clipboardStatus === 'failed' && manualObfuscationValue && (
                 <div className="text-yellow-300">
                   <div className="font-medium">{t('twoStageKey.obfuscationManual', language)}</div>
-                  <div className="text-xs mt-2 p-2 bg-gray-800 rounded font-mono break-all border">
-                    {manualObfuscationValue}
-                  </div>
+                  <div className="text-xs mt-2 p-2 bg-gray-800 rounded font-mono break-all border">{manualObfuscationValue}</div>
                   <div className="text-sm mt-1">{t('twoStageKey.obfuscationInstruction', language)}</div>
                 </div>
               )}
@@ -232,8 +215,7 @@ export function TwoStageKeyModal({
             <div className="space-y-4">
               <div>
                 <label className="block text-gray-300 text-sm mb-2">
-                  {t('twoStageKey.stage2InputLabel', language)} ({expectedPart2Length}{' '}
-                  {t('twoStageKey.characters', language)})
+                  {t('twoStageKey.stage2InputLabel', language)} ({expectedPart2Length} {t('twoStageKey.characters', language)})
                 </label>
                 <input
                   ref={stage2Ref}
@@ -256,10 +238,7 @@ export function TwoStageKeyModal({
                 >
                   🔒 {t('twoStageKey.encryptButton', language)}
                 </button>
-                <button
-                  onClick={handleReset}
-                  className="px-6 py-3 text-gray-300 hover:text-white border border-gray-600 rounded-lg transition-colors"
-                >
+                <button onClick={handleReset} className="px-6 py-3 text-gray-300 hover:text-white border border-gray-600 rounded-lg transition-colors">
                   {t('twoStageKey.backButton', language)}
                 </button>
               </div>

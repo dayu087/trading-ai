@@ -1,21 +1,18 @@
 import { motion, useScroll, useTransform, useAnimation } from 'framer-motion'
 import styled from 'styled-components'
 import { Sparkles } from 'lucide-react'
-import { t, Language } from '../../i18n/translations'
+import { useTranslation } from 'react-i18next'
 import { useGitHubStats } from '../../hooks/useGitHubStats'
 import { useCounterAnimation } from '../../hooks/useCounterAnimation'
 import { useScrollContext } from '../../contexts/ScrollProvider'
 
-interface HeroSectionProps {
-  language: Language
-}
-
-export default function HeroSection({ language }: HeroSectionProps) {
+export default function HeroSection() {
   const { scrollRef } = useScrollContext()
   const { scrollYProgress } = useScroll({ container: scrollRef })
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
   const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.8])
   const handControls = useAnimation()
+  const { t, i18n } = useTranslation()
 
   const { stars, daysOld, isLoading } = useGitHubStats('NoFxAiOS', 'nofx')
   const animatedStars = useCounterAnimation({
@@ -49,11 +46,10 @@ export default function HeroSection({ language }: HeroSectionProps) {
                 <Sparkles className="w-4 h-4" />
                 <span>
                   {isLoading ? (
-                    t('githubStarsInDays', language)
-                  ) : language === 'zh' ? (
+                    t('githubStarsInDays')
+                  ) : i18n.language === 'zh' ? (
                     <>
-                      {daysOld} 天内{' '}
-                      <span className="inline-block tabular-nums">{(animatedStars / 1000).toFixed(1)}</span>
+                      {daysOld} 天内 <span className="inline-block tabular-nums">{(animatedStars / 1000).toFixed(1)}</span>
                       K+ GitHub Stars
                     </>
                   ) : (
@@ -67,12 +63,12 @@ export default function HeroSection({ language }: HeroSectionProps) {
             </motion.div>
 
             <Title>
-              {t('heroTitle1', language)}
+              {t('heroTitle1')}
               <br />
-              <Highlight>{t('heroTitle2', language)}</Highlight>
+              <Highlight>{t('heroTitle2')}</Highlight>
             </Title>
 
-            <Description variants={fadeInUp}>{t('heroDescription', language)}</Description>
+            <Description variants={fadeInUp}>{t('heroDescription')}</Description>
 
             <ButtonsRow>
               <ButtonsRowAnimated
@@ -117,7 +113,7 @@ export default function HeroSection({ language }: HeroSectionProps) {
               </ButtonsRowAnimated>
             </ButtonsRow>
 
-            <SmallNote variants={fadeInUp}>{t('poweredBy', language)}</SmallNote>
+            <SmallNote variants={fadeInUp}>{t('poweredBy')}</SmallNote>
           </LeftWrapper>
 
           {/* Right */}

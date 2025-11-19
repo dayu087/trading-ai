@@ -1,24 +1,15 @@
-import styled from 'styled-components'
+import { styled } from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 import AnimatedSection from './AnimatedSection'
-import { t, Language } from '../../i18n/translations'
 
 /* ------------------------------ StepCard 组件 ------------------------------ */
 
 function StepCard({ number, title, description, delay }: any) {
   return (
-    <StepWrapperBox
-      initial={{ opacity: 0, x: -50 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay }}
-      whileHover={{ x: 10 }}
-    >
+    <StepWrapperBox initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay }} whileHover={{ x: 10 }}>
       <StepWrapper>
-        <NumberCircle
-          whileHover={{ scale: 1.2, rotate: 360 }}
-          transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-        >
+        <NumberCircle whileHover={{ scale: 1.2, rotate: 360 }} transition={{ type: 'spring', stiffness: 260, damping: 20 }}>
           0{number}
         </NumberCircle>
 
@@ -36,31 +27,29 @@ function StepCard({ number, title, description, delay }: any) {
 
 /* ------------------------------ Main Component ------------------------------ */
 
-interface HowItWorksSectionProps {
-  language: Language
-}
+export default function HowItWorksSection() {
+  const { t } = useTranslation()
 
-export default function HowItWorksSection({ language }: HowItWorksSectionProps) {
   const stepDataList = [
     {
       number: 1,
-      title: t('step1Title', language),
-      description: t('step1Desc', language),
+      title: t('step1Title'),
+      description: t('step1Desc'),
     },
     {
       number: 2,
-      title: t('step2Title', language),
-      description: t('step2Desc', language),
+      title: t('step2Title'),
+      description: t('step2Desc'),
     },
     {
       number: 3,
-      title: t('step3Title', language),
-      description: t('step3Desc', language),
+      title: t('step3Title'),
+      description: t('step3Desc'),
     },
     {
       number: 4,
-      title: t('step4Title', language),
-      description: t('step4Desc', language),
+      title: t('step4Title'),
+      description: t('step4Desc'),
     },
   ]
 
@@ -68,8 +57,8 @@ export default function HowItWorksSection({ language }: HowItWorksSectionProps) 
     <AnimatedSection id="how-it-works" backgroundColor="rgba(25,26,35,0.04)" borderRadius="48px">
       <Container>
         <TitleBlock initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-          <SectionTitle>{t('howToStart', language)}</SectionTitle>
-          <SectionSubtitle>{t('fourSimpleSteps', language)}</SectionSubtitle>
+          <SectionTitle>{t('howToStart')}</SectionTitle>
+          <SectionSubtitle>{t('fourSimpleSteps')}</SectionSubtitle>
         </TitleBlock>
 
         <StepsWrapper>
@@ -79,12 +68,7 @@ export default function HowItWorksSection({ language }: HowItWorksSectionProps) 
         </StepsWrapper>
 
         {/* Warning Box */}
-        <WarningBox
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          whileHover={{ scale: 1.02 }}
-        >
+        <WarningBox initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} whileHover={{ scale: 1.02 }}>
           <WarningIcon>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -104,8 +88,8 @@ export default function HowItWorksSection({ language }: HowItWorksSectionProps) 
           </WarningIcon>
 
           <div>
-            <WarningTitle>{t('importantRiskWarning', language)}</WarningTitle>
-            <WarningText>{t('riskWarningText', language)}</WarningText>
+            <WarningTitle>{t('importantRiskWarning')}</WarningTitle>
+            <WarningText>{t('riskWarningText')}</WarningText>
           </div>
         </WarningBox>
       </Container>

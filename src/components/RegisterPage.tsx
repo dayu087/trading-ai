@@ -140,13 +140,7 @@ export function RegisterPage() {
                   <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--brand-light-gray)' }}>
                     {t('email', language)}
                   </label>
-                  <Input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder={t('emailPlaceholder', language)}
-                    required
-                  />
+                  <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={t('emailPlaceholder', language)} required />
                 </div>
 
                 <div>
@@ -323,11 +317,7 @@ export function RegisterPage() {
                           {t('qrCodeHint', language)}
                         </p>
                         <div className="bg-white p-2 rounded text-center">
-                          <img
-                            src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(qrCodeURL)}`}
-                            alt="QR Code"
-                            className="mx-auto"
-                          />
+                          <img src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(qrCodeURL)}`} alt="QR Code" className="mx-auto" />
                         </div>
                       </div>
                     )}

@@ -1,65 +1,48 @@
 import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 import AnimatedSection from './AnimatedSection'
 import { CryptoFeatureCard } from '../CryptoFeatureCard'
 import { Code, Cpu, Lock, Rocket } from 'lucide-react'
-import { t, Language } from '../../i18n/translations'
 import styled from 'styled-components'
 
-interface FeaturesSectionProps {
-  language: Language
-}
+export default function FeaturesSection() {
+  const { t } = useTranslation()
 
-export default function FeaturesSection({ language }: FeaturesSectionProps) {
   return (
     <AnimatedSection id="features" backgroundColor="#ffffff">
       <Container>
         <HeaderWrapper initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
           <Tag whileHover={{ scale: 1.05 }}>
             <Rocket className="icon" />
-            <span>{t('coreFeatures', language)}</span>
+            <span>{t('coreFeatures')}</span>
           </Tag>
 
-          <Title>{t('whyChooseNofx', language)}</Title>
-          <Subtitle>{t('openCommunityDriven', language)}</Subtitle>
+          <Title>{t('whyChooseNofx')}</Title>
+          <Subtitle>{t('openCommunityDriven')}</Subtitle>
         </HeaderWrapper>
 
         <CardGrid>
           <CryptoFeatureCard
             icon={<Code className="w-8 h-8" />}
-            title={t('openSourceSelfHosted', language)}
-            description={t('openSourceDesc', language)}
-            features={[
-              t('openSourceFeatures1', language),
-              t('openSourceFeatures2', language),
-              t('openSourceFeatures3', language),
-              t('openSourceFeatures4', language),
-            ]}
+            title={t('openSourceSelfHosted')}
+            description={t('openSourceDesc')}
+            features={[t('openSourceFeatures1'), t('openSourceFeatures2'), t('openSourceFeatures3'), t('openSourceFeatures4')]}
             delay={0}
           />
 
           <CryptoFeatureCard
             icon={<Cpu className="w-8 h-8" />}
-            title={t('multiAgentCompetition', language)}
-            description={t('multiAgentDesc', language)}
-            features={[
-              t('multiAgentFeatures1', language),
-              t('multiAgentFeatures2', language),
-              t('multiAgentFeatures3', language),
-              t('multiAgentFeatures4', language),
-            ]}
+            title={t('multiAgentCompetition')}
+            description={t('multiAgentDesc')}
+            features={[t('multiAgentFeatures1'), t('multiAgentFeatures2'), t('multiAgentFeatures3'), t('multiAgentFeatures4')]}
             delay={0.1}
           />
 
           <CryptoFeatureCard
             icon={<Lock className="w-8 h-8" />}
-            title={t('secureReliableTrading', language)}
-            description={t('secureDesc', language)}
-            features={[
-              t('secureFeatures1', language),
-              t('secureFeatures2', language),
-              t('secureFeatures3', language),
-              t('secureFeatures4', language),
-            ]}
+            title={t('secureReliableTrading')}
+            description={t('secureDesc')}
+            features={[t('secureFeatures1'), t('secureFeatures2'), t('secureFeatures3'), t('secureFeatures4')]}
             delay={0.2}
           />
         </CardGrid>

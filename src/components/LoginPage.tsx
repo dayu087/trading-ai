@@ -140,13 +140,7 @@ export function LoginPage() {
                 <label className="block text-sm font-semibold mb-2" style={{ color: 'var(--brand-light-gray)' }}>
                   {t('email', language)}
                 </label>
-                <Input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={t('emailPlaceholder', language)}
-                  required
-                />
+                <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={t('emailPlaceholder', language)} required />
               </div>
 
               <div>

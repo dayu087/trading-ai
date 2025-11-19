@@ -5,14 +5,7 @@ import useSWR from 'swr'
 import { api } from '../lib/api'
 import { useLanguage } from '../contexts/LanguageContext'
 import { t } from '../i18n/translations'
-import {
-  AlertTriangle,
-  BarChart3,
-  DollarSign,
-  Percent,
-  TrendingUp as ArrowUp,
-  TrendingDown as ArrowDown,
-} from 'lucide-react'
+import { AlertTriangle, BarChart3, DollarSign, Percent, TrendingUp as ArrowUp, TrendingDown as ArrowDown } from 'lucide-react'
 
 interface EquityPoint {
   timestamp: string
@@ -30,15 +23,11 @@ export function EquityChart({ traderId }: EquityChartProps) {
   const { language } = useLanguage()
   const [displayMode, setDisplayMode] = useState<'dollar' | 'percent'>('dollar')
 
-  const { data: history, error } = useSWR<EquityPoint[]>(
-    traderId ? `equity-history-${traderId}` : 'equity-history',
-    () => api.getEquityHistory(traderId),
-    {
-      refreshInterval: 30000, // 30秒刷新（历史数据更新频率较低）
-      revalidateOnFocus: false,
-      dedupingInterval: 20000,
-    }
-  )
+  const { data: history, error } = useSWR<EquityPoint[]>(traderId ? `equity-history-${traderId}` : 'equity-history', () => api.getEquityHistory(traderId), {
+    refreshInterval: 30000, // 30秒刷新（历史数据更新频率较低）
+    revalidateOnFocus: false,
+    dedupingInterval: 20000,
+  })
 
   const { data: account } = useSWR(traderId ? `account-${traderId}` : 'account', () => api.getAccount(traderId), {
     refreshInterval: 15000, // 15秒刷新（配合后端缓存）
@@ -93,8 +82,7 @@ export function EquityChart({ traderId }: EquityChartProps) {
   // 限制显示最近的数据点（性能优化）
   // 如果数据超过2000个点，只显示最近2000个
   const MAX_DISPLAY_POINTS = 2000
-  const displayHistory =
-    validHistory.length > MAX_DISPLAY_POINTS ? validHistory.slice(-MAX_DISPLAY_POINTS) : validHistory
+  const displayHistory = validHistory.length > MAX_DISPLAY_POINTS ? validHistory.slice(-MAX_DISPLAY_POINTS) : validHistory
 
   // 计算初始余额（优先从 account 获取配置的初始余额，备选从历史数据反推）
   const initialBalance =
@@ -156,10 +144,7 @@ export function EquityChart({ traderId }: EquityChartProps) {
           <div className="font-bold mono" style={{ color: '#EAECEF' }}>
             {data.raw_equity.toFixed(2)} USDT
           </div>
-          <div
-            className="text-sm mono font-bold"
-            style={{ color: data.raw_pnl >= 0 ? 'var(--up_color)' : 'var(--down_color)' }}
-          >
+          <div className="text-sm mono font-bold" style={{ color: data.raw_pnl >= 0 ? 'var(--up_color)' : 'var(--down_color)' }}>
             {data.raw_pnl >= 0 ? '+' : ''}
             {data.raw_pnl.toFixed(2)} USDT ({data.raw_pnl_pct >= 0 ? '+' : ''}
             {data.raw_pnl_pct}%)
@@ -294,11 +279,7 @@ export function EquityChart({ traderId }: EquityChartProps) {
 
         <FooterItem>
           <FooterLabel>{t('displayRange', language)}</FooterLabel>
-          <FooterValue>
-            {validHistory.length > MAX_DISPLAY_POINTS
-              ? `${t('recent', language)} ${MAX_DISPLAY_POINTS}`
-              : t('allData', language)}
-          </FooterValue>
+          <FooterValue>{validHistory.length > MAX_DISPLAY_POINTS ? `${t('recent', language)} ${MAX_DISPLAY_POINTS}` : t('allData', language)}</FooterValue>
         </FooterItem>
       </FooterGrid>
     </CardWrapper>

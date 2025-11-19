@@ -35,55 +35,35 @@ export default function TraderDetails() {
   const { selectedTraderData, traders, tradersError, selectedTraderId, setSelectedTraderId } = useAuth()
 
   // 如果在trader页面，获取该trader的数据
-  const { data: status } = useSWR<SystemStatus>(
-    selectedTraderId ? `status-${selectedTraderId}` : null,
-    () => api.getStatus(selectedTraderId),
-    {
-      refreshInterval: 15000, // 15秒刷新（配合后端15秒缓存）
-      revalidateOnFocus: false, // 禁用聚焦时重新验证，减少请求
-      dedupingInterval: 10000, // 10秒去重，防止短时间内重复请求
-    }
-  )
+  const { data: status } = useSWR<SystemStatus>(selectedTraderId ? `status-${selectedTraderId}` : null, () => api.getStatus(selectedTraderId), {
+    refreshInterval: 15000, // 15秒刷新（配合后端15秒缓存）
+    revalidateOnFocus: false, // 禁用聚焦时重新验证，减少请求
+    dedupingInterval: 10000, // 10秒去重，防止短时间内重复请求
+  })
 
-  const { data: account } = useSWR<AccountInfo>(
-    selectedTraderId ? `account-${selectedTraderId}` : null,
-    () => api.getAccount(selectedTraderId),
-    {
-      refreshInterval: 15000, // 15秒刷新（配合后端15秒缓存）
-      revalidateOnFocus: false, // 禁用聚焦时重新验证，减少请求
-      dedupingInterval: 10000, // 10秒去重，防止短时间内重复请求
-    }
-  )
+  const { data: account } = useSWR<AccountInfo>(selectedTraderId ? `account-${selectedTraderId}` : null, () => api.getAccount(selectedTraderId), {
+    refreshInterval: 15000, // 15秒刷新（配合后端15秒缓存）
+    revalidateOnFocus: false, // 禁用聚焦时重新验证，减少请求
+    dedupingInterval: 10000, // 10秒去重，防止短时间内重复请求
+  })
 
-  const { data: positions } = useSWR<Position[]>(
-    selectedTraderId ? `positions-${selectedTraderId}` : null,
-    () => api.getPositions(selectedTraderId),
-    {
-      refreshInterval: 15000, // 15秒刷新（配合后端15秒缓存）
-      revalidateOnFocus: false, // 禁用聚焦时重新验证，减少请求
-      dedupingInterval: 10000, // 10秒去重，防止短时间内重复请求
-    }
-  )
+  const { data: positions } = useSWR<Position[]>(selectedTraderId ? `positions-${selectedTraderId}` : null, () => api.getPositions(selectedTraderId), {
+    refreshInterval: 15000, // 15秒刷新（配合后端15秒缓存）
+    revalidateOnFocus: false, // 禁用聚焦时重新验证，减少请求
+    dedupingInterval: 10000, // 10秒去重，防止短时间内重复请求
+  })
 
-  const { data: decisions } = useSWR<DecisionRecord[]>(
-    selectedTraderId ? `decisions/latest-${selectedTraderId}` : null,
-    () => api.getLatestDecisions(selectedTraderId),
-    {
-      refreshInterval: 30000, // 30秒刷新（决策更新频率较低）
-      revalidateOnFocus: false,
-      dedupingInterval: 20000,
-    }
-  )
+  const { data: decisions } = useSWR<DecisionRecord[]>(selectedTraderId ? `decisions/latest-${selectedTraderId}` : null, () => api.getLatestDecisions(selectedTraderId), {
+    refreshInterval: 30000, // 30秒刷新（决策更新频率较低）
+    revalidateOnFocus: false,
+    dedupingInterval: 20000,
+  })
 
-  const { data: stats } = useSWR<Statistics>(
-    selectedTraderId ? `statistics-${selectedTraderId}` : null,
-    () => api.getStatistics(selectedTraderId),
-    {
-      refreshInterval: 30000, // 30秒刷新（统计数据更新频率较低）
-      revalidateOnFocus: false,
-      dedupingInterval: 20000,
-    }
-  )
+  const { data: stats } = useSWR<Statistics>(selectedTraderId ? `statistics-${selectedTraderId}` : null, () => api.getStatistics(selectedTraderId), {
+    refreshInterval: 30000, // 30秒刷新（统计数据更新频率较低）
+    revalidateOnFocus: false,
+    dedupingInterval: 20000,
+  })
 
   useEffect(() => {
     if (account) {
@@ -143,9 +123,8 @@ export default function TraderDetails() {
       {/* Debug Info */}
       {account && (
         <DebugBar>
-          🔄 Last Update: {lastUpdate} | Total Equity: {account?.total_equity?.toFixed(2) || '0.00'} | Available:{' '}
-          {account?.available_balance?.toFixed(2) || '0.00'} | P&L: {account?.total_pnl?.toFixed(2) || '0.00'} (
-          {account?.total_pnl_pct?.toFixed(2) || '0.00'}%)
+          🔄 Last Update: {lastUpdate} | Total Equity: {account?.total_equity?.toFixed(2) || '0.00'} | Available: {account?.available_balance?.toFixed(2) || '0.00'} | P&L:{' '}
+          {account?.total_pnl?.toFixed(2) || '0.00'} ({account?.total_pnl_pct?.toFixed(2) || '0.00'}%)
         </DebugBar>
       )}
 
@@ -161,17 +140,13 @@ export default function TraderDetails() {
           title={t('availableBalance', language)}
           value={`${account?.available_balance?.toFixed(2) || '0.00'}`}
           subtitle={`${
-            account?.available_balance && account?.total_equity
-              ? ((account.available_balance / account.total_equity) * 100).toFixed(1)
-              : '0.0'
+            account?.available_balance && account?.total_equity ? ((account.available_balance / account.total_equity) * 100).toFixed(1) : '0.0'
           }% ${t('free', language)}`}
           bg="#CAFE36"
         />
         <StatCard
           title={t('totalPnL', language)}
-          value={`${
-            account?.total_pnl !== undefined && account.total_pnl >= 0 ? '+' : ''
-          }${account?.total_pnl?.toFixed(2) || '0.00'}`}
+          value={`${account?.total_pnl !== undefined && account.total_pnl >= 0 ? '+' : ''}${account?.total_pnl?.toFixed(2) || '0.00'}`}
           change={account?.total_pnl_pct || 0}
           positive={(account?.total_pnl ?? 0) >= 0}
         />
@@ -224,9 +199,7 @@ export default function TraderDetails() {
                       <tr key={i}>
                         <td className="mono">{pos.symbol}</td>
                         <td>
-                          <SideBadge side={pos.side === 'long' ? 'long' : 'short'}>
-                            {t(pos.side === 'long' ? 'long' : 'short', language)}
-                          </SideBadge>
+                          <SideBadge side={pos.side === 'long' ? 'long' : 'short'}>{t(pos.side === 'long' ? 'long' : 'short', language)}</SideBadge>
                         </td>
                         <td className="mono">{pos.entry_price.toFixed(4)}</td>
                         <td className="mono">{pos.mark_price.toFixed(4)}</td>
@@ -262,9 +235,7 @@ export default function TraderDetails() {
               <DecisionsIcon>🧠</DecisionsIcon>
               <div>
                 <DecisionsTitle>{t('recentDecisions', language)}</DecisionsTitle>
-                {decisions && decisions.length > 0 && (
-                  <DecisionsSub>{t('lastCycles', language, { count: decisions.length })}</DecisionsSub>
-                )}
+                {decisions && decisions.length > 0 && <DecisionsSub>{t('lastCycles', language, { count: decisions.length })}</DecisionsSub>}
               </div>
             </DecisionsHeader>
 
@@ -306,9 +277,7 @@ function DecisionCard({ decision, language }: { decision: DecisionRecord; langua
           <DecisionCycle>
             {t('cycle', language)} #{decision.cycle_number}
           </DecisionCycle>
-          <DecisionStatus $success={decision.success}>
-            {t(decision.success ? 'success' : 'failed', language)}
-          </DecisionStatus>
+          <DecisionStatus $success={decision.success}>{t(decision.success ? 'success' : 'failed', language)}</DecisionStatus>
         </DecisionInfo>
         <DecisionTime>{new Date(decision.timestamp).toLocaleString()}</DecisionTime>
       </DecisionHeader>

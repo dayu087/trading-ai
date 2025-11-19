@@ -34,22 +34,14 @@ export function Header({ simple = false }: HeaderProps) {
             <button
               onClick={() => setLanguage('zh')}
               className="px-3 py-1.5 rounded text-xs font-semibold transition-all"
-              style={
-                language === 'zh'
-                  ? { background: '#F0B90B', color: '#000' }
-                  : { background: 'transparent', color: '#848E9C' }
-              }
+              style={language === 'zh' ? { background: '#F0B90B', color: '#000' } : { background: 'transparent', color: '#848E9C' }}
             >
               中文
             </button>
             <button
               onClick={() => setLanguage('en')}
               className="px-3 py-1.5 rounded text-xs font-semibold transition-all"
-              style={
-                language === 'en'
-                  ? { background: '#F0B90B', color: '#000' }
-                  : { background: 'transparent', color: '#848E9C' }
-              }
+              style={language === 'en' ? { background: '#F0B90B', color: '#000' } : { background: 'transparent', color: '#848E9C' }}
             >
               EN
             </button>
