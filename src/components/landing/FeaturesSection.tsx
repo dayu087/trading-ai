@@ -1,9 +1,13 @@
 import { motion } from 'framer-motion'
+import { styled } from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import AnimatedSection from './AnimatedSection'
 import { CryptoFeatureCard } from '../CryptoFeatureCard'
-import { Code, Cpu, Lock, Rocket } from 'lucide-react'
-import styled from 'styled-components'
+
+import homeArrow from '@/assets/images/home_icon_arrow.png'
+import cryptoIcon from '@/assets/images/home_whats_icon1.png'
+import cryptoIcon2 from '@/assets/images/home_whats_icon2.png'
+import cryptoIcon3 from '@/assets/images/home_whats_icon3.png'
 
 export default function FeaturesSection() {
   const { t } = useTranslation()
@@ -13,7 +17,7 @@ export default function FeaturesSection() {
       <Container>
         <HeaderWrapper initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
           <Tag whileHover={{ scale: 1.05 }}>
-            <Rocket className="icon" />
+            <img src={homeArrow} alt="" />
             <span>{t('coreFeatures')}</span>
           </Tag>
 
@@ -23,7 +27,7 @@ export default function FeaturesSection() {
 
         <CardGrid>
           <CryptoFeatureCard
-            icon={<Code className="w-8 h-8" />}
+            icon={<CryptoImage src={cryptoIcon} />}
             title={t('openSourceSelfHosted')}
             description={t('openSourceDesc')}
             features={[t('openSourceFeatures1'), t('openSourceFeatures2'), t('openSourceFeatures3'), t('openSourceFeatures4')]}
@@ -31,7 +35,7 @@ export default function FeaturesSection() {
           />
 
           <CryptoFeatureCard
-            icon={<Cpu className="w-8 h-8" />}
+            icon={<CryptoImage src={cryptoIcon2} />}
             title={t('multiAgentCompetition')}
             description={t('multiAgentDesc')}
             features={[t('multiAgentFeatures1'), t('multiAgentFeatures2'), t('multiAgentFeatures3'), t('multiAgentFeatures4')]}
@@ -39,7 +43,7 @@ export default function FeaturesSection() {
           />
 
           <CryptoFeatureCard
-            icon={<Lock className="w-8 h-8" />}
+            icon={<CryptoImage src={cryptoIcon3} />}
             title={t('secureReliableTrading')}
             description={t('secureDesc')}
             features={[t('secureFeatures1'), t('secureFeatures2'), t('secureFeatures3'), t('secureFeatures4')]}
@@ -77,10 +81,15 @@ const Tag = styled(motion.div)`
     color: var(--brand-black);
   }
 
-  .icon {
-    width: 1rem;
-    height: 1rem;
+  img {
+    width: 24px;
+    height: 24px;
   }
+`
+
+const CryptoImage = styled.img`
+  width: 60px;
+  height: 60px;
 `
 
 const Title = styled.h2`

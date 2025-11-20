@@ -1,10 +1,12 @@
 import { motion, useScroll, useTransform, useAnimation } from 'framer-motion'
 import styled from 'styled-components'
-import { Sparkles } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useGitHubStats } from '../../hooks/useGitHubStats'
 import { useCounterAnimation } from '../../hooks/useCounterAnimation'
 import { useScrollContext } from '../../contexts/ScrollProvider'
+
+import homeArrow from '@/assets/images/home_icon_arrow.png'
+import gitHubIcon from '@/assets/images/home_icon_github.png'
 
 export default function HeroSection() {
   const { scrollRef } = useScrollContext()
@@ -43,7 +45,7 @@ export default function HeroSection() {
                   boxShadow: '0 0 20px rgba(240, 185, 11, 0.2)',
                 }}
               >
-                <Sparkles className="w-4 h-4" />
+                <img src={homeArrow} alt="" />
                 <span>
                   {isLoading ? (
                     t('githubStarsInDays')
@@ -80,7 +82,7 @@ export default function HeroSection() {
               >
                 <h5>7.4K</h5>
                 <ButtonsRowAvatar>
-                  <img src="" alt="" />
+                  <img src={gitHubIcon} alt="" />
                   <span>STARKS</span>
                 </ButtonsRowAvatar>
               </ButtonsRowAnimated>
@@ -93,7 +95,7 @@ export default function HeroSection() {
               >
                 <h5>7.4K</h5>
                 <ButtonsRowAvatar>
-                  <img src="" alt="" />
+                  <img src={gitHubIcon} alt="" />
                   <span>FORKS</span>
                 </ButtonsRowAvatar>
               </ButtonsRowAnimated>
@@ -107,7 +109,7 @@ export default function HeroSection() {
               >
                 <h5>7.4K</h5>
                 <ButtonsRowAvatar>
-                  <img src="" alt="" />
+                  <img src={gitHubIcon} alt="" />
                   <span>CONTRIBUTORS</span>
                 </ButtonsRowAvatar>
               </ButtonsRowAnimated>
@@ -205,6 +207,11 @@ const Badge = styled(motion.div)`
   font-size: 0.875rem;
   font-weight: bold;
   color: #191a23;
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
 `
 
 const Title = styled.h1`
@@ -282,16 +289,4 @@ const RightWrapper = styled(motion.div)`
   box-shadow: 4px 4px 0px 0px #191a23;
   border-radius: 24px;
   border: 1px solid #191a23;
-`
-
-const BgImage = styled(motion.img)`
-  width: 100%;
-  opacity: 0.9;
-`
-
-const HandImage = styled(motion.img)`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
 `

@@ -18,7 +18,7 @@
   "faqNav": "FAQ",
 
   "footerTitle": "NOFX - AI Trading System",
-  "footerWarning": "⚠️ Trading involves risk. Use at your own discretion.",
+  "footerWarning": "Trading involves risk. Use at your own discretion.",
 
   "totalEquity": "Total Equity",
   "availableBalance": "Available Balance",
@@ -90,13 +90,15 @@
   "pos": "Pos",
 
   "aiLearning": "AI Learning & Reflection",
-  "tradesAnalyzed": "{count} trades analyzed · Real-time evolution",
+  "tradesAnalyzed": "trades analyzed · Real-time evolution",
   "latestReflection": "Latest Reflection",
   "fullCoT": "Full Chain of Thought",
   "totalTrades": "Total Trades",
   "winRate": "Win Rate",
   "avgWin": "Avg Win",
   "avgLoss": "Avg Loss",
+  "sharpeRatio": "Sharpe Ratio",
+  "riskAdjusted": "Risk-Adjusted Return · AI Self-Evolution Indicator",
   "profitFactor": "Profit Factor",
   "avgWinDivLoss": "Avg Win ÷ Avg Loss",
   "excellent": "🔥 Excellent - Strong profitability",

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { motion } from 'framer-motion'
 import styled, { keyframes } from 'styled-components'
-import { Check } from 'lucide-react'
+import yesIcon from '@/assets/images/home_icon_yesgreen.png'
 
 interface CryptoFeatureCardProps {
   icon: React.ReactNode
@@ -54,9 +54,7 @@ export const CryptoFeatureCard = React.forwardRef<HTMLDivElement, CryptoFeatureC
           <FeatureList>
             {features.map((feature, index) => (
               <FeatureItem key={index} initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: delay + index * 0.1 }}>
-                <CheckCircle>
-                  <Check className="w-3 h-3" style={{ color: 'var(--brand-yellow)' }} />
-                </CheckCircle>
+                <CheckCircle src={yesIcon} alt="" />
                 <FeatureText>{feature}</FeatureText>
               </FeatureItem>
             ))}
@@ -174,16 +172,9 @@ const FeatureItem = styled(motion.div)`
   gap: 8px;
 `
 
-const CheckCircle = styled.div`
+const CheckCircle = styled.img`
   width: 12px;
   height: 12px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* background: rgba(240, 185, 11, 0.2); */
-  background: #000;
-  flex-shrink: 0;
 `
 
 const FeatureText = styled.span`

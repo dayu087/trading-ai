@@ -1,9 +1,14 @@
 import useSWR from 'swr'
 import { styled } from 'styled-components'
-import { useLanguage } from '../contexts/LanguageContext'
-import { t } from '../i18n/translations'
+import { useTranslation } from 'react-i18next'
 import { api } from '../lib/api'
 import { Brain, BarChart3, TrendingUp, TrendingDown, Sparkles, Coins, Trophy, ScrollText, Lightbulb } from 'lucide-react'
+
+import aiICon from '@/assets/images/dashboard_icon_ai.png'
+import sharpeIcon from '@/assets/images/dashboard_icon_sharpe.png'
+import profitIcon from '@/assets/images/dashboard_icon_profit.png'
+import bestBgIcon from '@/assets/images/dashboard_img_bestperformer.png'
+import worstBgIcon from '@/assets/images/dashboard_img_worstperformer.png'
 
 interface TradeOutcome {
   symbol: string
@@ -52,7 +57,7 @@ interface AILearningProps {
 }
 
 export default function AILearning({ traderId }: AILearningProps) {
-  const { language } = useLanguage()
+  const { t } = useTranslation()
   const { data: performance, error } = useSWR<PerformanceAnalysis>(traderId ? `performance-${traderId}` : 'performance', () => api.getPerformance(traderId), {
     refreshInterval: 30000, // 30秒刷新（AI学习分析数据更新频率较低）
     revalidateOnFocus: false,
@@ -62,7 +67,7 @@ export default function AILearning({ traderId }: AILearningProps) {
   if (error) {
     return (
       <div className="rounded p-6" style={{ background: '#1E2329', border: '1px solid #2B3139' }}>
-        <div style={{ color: '#F6465D' }}>{t('loadingError', language)}</div>
+        <div style={{ color: '#F6465D' }}>{t('loadingError')}</div>
       </div>
     )
   }
@@ -71,7 +76,7 @@ export default function AILearning({ traderId }: AILearningProps) {
     return (
       <div className="rounded p-6" style={{ background: '#1E2329', border: '1px solid #2B3139' }}>
         <div className="flex items-center gap-2" style={{ color: '#848E9C' }}>
-          <BarChart3 className="w-4 h-4" /> {t('loading', language)}
+          <BarChart3 className="w-4 h-4" /> {t('loading')}
         </div>
       </div>
     )
@@ -83,10 +88,10 @@ export default function AILearning({ traderId }: AILearningProps) {
         <div className="flex items-center gap-2 mb-2">
           <Brain className="w-5 h-5" style={{ color: '#8B5CF6' }} />
           <h2 className="text-lg font-bold" style={{ color: '#EAECEF' }}>
-            {t('aiLearning', language)}
+            {t('aiLearning')}
           </h2>
         </div>
-        <div style={{ color: '#848E9C' }}>{t('noCompleteData', language)}</div>
+        <div style={{ color: '#848E9C' }}>{t('noCompleteData')}</div>
       </div>
     )
   }
@@ -100,10 +105,13 @@ export default function AILearning({ traderId }: AILearningProps) {
     <AILearningWrapper>
       {/* 标题卡片 */}
       <TitleCard>
-        <Brain size={40} color="#191A23" />
+        <TitleCardIcon src={aiICon} alt="" />
         <TitleText>
-          <TitleMain>{t('aiLearning', language)}</TitleMain>
-          <TitleSub>{t('tradesAnalyzed', language, { count: performance.total_trades })}</TitleSub>
+          <TitleMain>{t('aiLearning')}</TitleMain>
+          <TitleSub>
+            {performance.total_trades}
+            {t('tradesAnalyzed')}
+          </TitleSub>
         </TitleText>
       </TitleCard>
 
@@ -111,7 +119,7 @@ export default function AILearning({ traderId }: AILearningProps) {
       <MetricsGrid>
         {/* 总交易数（白色卡片） */}
         <MetricCard $bg="#FFFFFF">
-          <MetricLabel>{t('totalTrades', language)}</MetricLabel>
+          <MetricLabel>{t('totalTrades')}</MetricLabel>
           <MetricValue>
             <HighlightNumber>{performance.total_trades}</HighlightNumber>
           </MetricValue>
@@ -119,8 +127,8 @@ export default function AILearning({ traderId }: AILearningProps) {
         </MetricCard>
 
         {/* 胜率（亮绿卡片） */}
-        <MetricCard $bg="#CAFE36">
-          <MetricLabel>{t('winRate', language)}</MetricLabel>
+        <MetricCard $bg="#F3F3F3">
+          <MetricLabel>{t('winRate')}</MetricLabel>
           <MetricValue>
             <HighlightNumber>{(performance.win_rate || 0).toFixed(1)}%</HighlightNumber>
           </MetricValue>
@@ -130,17 +138,17 @@ export default function AILearning({ traderId }: AILearningProps) {
         </MetricCard>
 
         {/* 平均盈利（深蓝卡片） */}
-        <MetricCard $bg="#0F2C3F">
-          <MetricLabel style={{ color: '#CAFE36' }}>{t('avgWin', language)}</MetricLabel>
-          <MetricValue style={{ color: '#CAFE36' }}>
+        <MetricCard $bg="#FFFFFF">
+          <MetricLabel>{t('avgWin')}</MetricLabel>
+          <MetricValue>
             <HighlightNumber>+{(performance.avg_win || 0).toFixed(2)}</HighlightNumber>
           </MetricValue>
-          <MetricUnit style={{ color: '#A5D8FF' }}>USDT Average</MetricUnit>
+          <MetricUnit>USDT Average</MetricUnit>
         </MetricCard>
 
         {/* 平均亏损（白色卡片） */}
-        <MetricCard $bg="#FFFFFF">
-          <MetricLabel>{t('avgLoss', language)}</MetricLabel>
+        <MetricCard $bg="#F3F3F3">
+          <MetricLabel>{t('avgLoss')}</MetricLabel>
           <MetricValue>
             <HighlightNumber>{(performance.avg_loss || 0).toFixed(2)}</HighlightNumber>
           </MetricValue>
@@ -152,12 +160,10 @@ export default function AILearning({ traderId }: AILearningProps) {
       <StatsGrid>
         <Card>
           <CardHeader>
-            <CardIcon>
-              <Sparkles className="w-6 h-6" style={{ color: '#A78BFA' }} />
-            </CardIcon>
+            <CardIcon src={sharpeIcon} alt="" />
             <div>
-              <CardTitle>夏普比率</CardTitle>
-              <CardSubTitle>风险调整后收益</CardSubTitle>
+              <CardTitle>{t('sharpeRatio')}</CardTitle>
+              <CardSubTitle>{t('riskAdjusted')} </CardSubTitle>
             </div>
           </CardHeader>
           {/* Value */}
@@ -181,18 +187,31 @@ export default function AILearning({ traderId }: AILearningProps) {
           )}
         </Card>
 
-        <Card
-          $bg="linear-gradient(135deg, rgba(240, 185, 11, 0.25) 0%, rgba(252, 213, 53, 0.15) 50%, rgba(30, 35, 41, 0.9) 100%)"
-          $border="2px solid rgba(240, 185, 11, 0.5)"
-          $shadow="0 12px 40px rgba(240, 185, 11, 0.3)"
-        >
+        {/* Best */}
+        {performance.best_symbol && (
+          <SymbolCard>
+            <SymbolCardBg src={bestBgIcon} alt="" />
+            <span> {t('bestPerformer')}</span>
+            <h6> {performance.best_symbol}</h6>
+            {symbolStats[performance.best_symbol] && (
+              <SymbolCardInfo>
+                {' '}
+                {symbolStats[performance.best_symbol].total_pn_l > 0 ? '+' : ''}
+                {symbolStats[performance.best_symbol].total_pn_l.toFixed(2)} USDT {t('pnl')}
+              </SymbolCardInfo>
+            )}
+          </SymbolCard>
+        )}
+      </StatsGrid>
+
+      {/* ================= 最佳 / 最差 币种 ================= */}
+      <StatsGrid>
+        <Card>
           <CardHeader>
-            <CardIcon>
-              <Coins className="w-6 h-6" style={{ color: '#FCD34D' }} />
-            </CardIcon>
+            <CardIcon src={profitIcon} alt="" />
             <div>
-              <CardTitle>{t('profitFactor', language)}</CardTitle>
-              <CardSubTitle> {t('avgWinDivLoss', language)}</CardSubTitle>
+              <CardTitle>{t('profitFactor')}</CardTitle>
+              <CardSubTitle> {t('avgWinDivLoss')}</CardSubTitle>
             </div>
           </CardHeader>
 
@@ -200,10 +219,10 @@ export default function AILearning({ traderId }: AILearningProps) {
             <ValueText $value={performance.profit_factor || 0}>{(performance.profit_factor || 0) > 0 ? (performance.profit_factor || 0).toFixed(2) : 'N/A'}</ValueText>
 
             <Badge $value={performance.profit_factor || 0}>
-              {(performance.profit_factor || 0) >= 2 && t('excellent', language)}
-              {(performance.profit_factor || 0) >= 1.5 && (performance.profit_factor || 0) < 2 && t('good', language)}
-              {(performance.profit_factor || 0) >= 1 && (performance.profit_factor || 0) < 1.5 && t('fair', language)}
-              {(performance.profit_factor || 0) > 0 && (performance.profit_factor || 0) < 1 && t('poor', language)}
+              {(performance.profit_factor || 0) >= 2 && t('excellent')}
+              {(performance.profit_factor || 0) >= 1.5 && (performance.profit_factor || 0) < 2 && t('good')}
+              {(performance.profit_factor || 0) >= 1 && (performance.profit_factor || 0) < 1.5 && t('fair')}
+              {(performance.profit_factor || 0) > 0 && (performance.profit_factor || 0) < 1 && t('poor')}
             </Badge>
           </CardValueBox>
 
@@ -217,61 +236,29 @@ export default function AILearning({ traderId }: AILearningProps) {
             {(performance.profit_factor || 0) > 0 && (performance.profit_factor || 0) < 1 && '❌ 平均亏损大于盈利，需要调整策略或降低交易频率。'}
           </InfoBox>
         </Card>
+
+        {/* Worst */}
+        {performance.worst_symbol && (
+          <SymbolCard>
+            <SymbolCardBg src={worstBgIcon} alt="" />
+            <span> {t('worstPerformer')}</span>
+            <h6> {performance.worst_symbol}</h6>
+            {symbolStats[performance.worst_symbol] && (
+              <SymbolCardInfo>
+                {symbolStats[performance.worst_symbol].total_pn_l > 0 ? '+' : ''}
+                {symbolStats[performance.worst_symbol].total_pn_l.toFixed(2)} USDT {t('pnl')}
+              </SymbolCardInfo>
+            )}
+          </SymbolCard>
+        )}
       </StatsGrid>
-
-      {/* ================= 最佳 / 最差 币种 ================= */}
-      {(performance.best_symbol || performance.worst_symbol) && (
-        <StatsGrid>
-          {/* Best */}
-          {performance.best_symbol && (
-            <SymbolCard>
-              <div className="flex items-center gap-2 mb-3">
-                <Trophy className="w-6 h-6" style={{ color: '#10B981' }} />
-                <span className="text-sm font-semibold" style={{ color: '#6EE7B7' }}>
-                  {t('bestPerformer', language)}
-                </span>
-              </div>
-              <div className="text-3xl font-bold mono mb-1" style={{ color: '#10B981' }}>
-                {performance.best_symbol}
-              </div>
-              {symbolStats[performance.best_symbol] && (
-                <div className="text-lg font-semibold" style={{ color: '#6EE7B7' }}>
-                  {symbolStats[performance.best_symbol].total_pn_l > 0 ? '+' : ''}
-                  {symbolStats[performance.best_symbol].total_pn_l.toFixed(2)} USDT {t('pnl', language)}
-                </div>
-              )}
-            </SymbolCard>
-          )}
-
-          {/* Worst */}
-          {performance.worst_symbol && (
-            <SymbolCard>
-              <div className="flex items-center gap-2 mb-3">
-                <TrendingDown className="w-6 h-6" style={{ color: '#F87171' }} />
-                <span className="text-sm font-semibold" style={{ color: '#FCA5A5' }}>
-                  {t('worstPerformer', language)}
-                </span>
-              </div>
-              <div className="text-3xl font-bold mono mb-1" style={{ color: '#F87171' }}>
-                {performance.worst_symbol}
-              </div>
-              {symbolStats[performance.worst_symbol] && (
-                <div className="text-lg font-semibold" style={{ color: '#FCA5A5' }}>
-                  {symbolStats[performance.worst_symbol].total_pn_l > 0 ? '+' : ''}
-                  {symbolStats[performance.worst_symbol].total_pn_l.toFixed(2)} USDT {t('pnl', language)}
-                </div>
-              )}
-            </SymbolCard>
-          )}
-        </StatsGrid>
-      )}
 
       {/* 币种表现 & 历史成交 - 左右分屏 2列布局 */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* 左侧：币种表现统计表格 */}
         {symbolStatsList.length > 0 && (
           <Panel $isTable={true}>
-            <HeaderTitle>{t('symbolPerformance', language)}</HeaderTitle>
+            <HeaderTitle>{t('symbolPerformance')}</HeaderTitle>
             <StyledTable>
               <thead>
                 <tr>
@@ -309,13 +296,13 @@ export default function AILearning({ traderId }: AILearningProps) {
         {/* 右侧：历史成交记录 */}
         <Panel>
           <TradeHistoryHeader>
-            <HeaderTitle>{t('tradeHistory', language)}</HeaderTitle>
+            <HeaderTitle>{t('tradeHistory')}</HeaderTitle>
             <HeaderDesc>
               {performance?.recent_trades && performance.recent_trades.length > 0
-                ? t('completedTrades', language, {
+                ? t('completedTrades', {
                     count: performance.recent_trades.length,
                   })
-                : t('completedTradesWillAppear', language)}
+                : t('completedTradesWillAppear')}
             </HeaderDesc>
           </TradeHistoryHeader>
 
@@ -330,7 +317,7 @@ export default function AILearning({ traderId }: AILearningProps) {
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                         <Symbol>{trade.symbol}</Symbol>
                         <SideTag $long={trade.side === 'long'}>{trade.side.toUpperCase()}</SideTag>
-                        {isRecent && <LatestTag>{t('latest', language)}</LatestTag>}
+                        {isRecent && <LatestTag>{t('latest')}</LatestTag>}
                       </div>
 
                       <ProfitText $profit={isProfitable}>
@@ -341,11 +328,11 @@ export default function AILearning({ traderId }: AILearningProps) {
 
                     <Grid2>
                       <div>
-                        <Label>{t('entry', language)}</Label>
+                        <Label>{t('entry')}</Label>
                         <Value>{trade.open_price.toFixed(4)}</Value>
                       </div>
                       <div style={{ textAlign: 'right' }}>
-                        <Label>{t('exit', language)}</Label>
+                        <Label>{t('exit')}</Label>
                         <Value>{trade.close_price.toFixed(4)}</Value>
                       </div>
                     </Grid2>
@@ -381,7 +368,7 @@ export default function AILearning({ traderId }: AILearningProps) {
 
                     <DateBox>
                       <span>⏱️ {formatDuration(trade.duration)}</span>
-                      {trade.was_stop_loss && <StopLossTag>{t('stopLoss', language)}</StopLossTag>}
+                      {trade.was_stop_loss && <StopLossTag>{t('stopLoss')}</StopLossTag>}
                     </DateBox>
 
                     <FooterMeta>
@@ -400,7 +387,7 @@ export default function AILearning({ traderId }: AILearningProps) {
                 <div style={{ marginBottom: 8, opacity: 0.5 }}>
                   <ScrollText className="w-10 h-10" style={{ color: '#94A3B8' }} />
                 </div>
-                {t('noCompletedTrades', language)}
+                {t('noCompletedTrades')}
               </EmptyBox>
             )}
           </TradeList>
@@ -416,26 +403,26 @@ export default function AILearning({ traderId }: AILearningProps) {
           </IconWrapper>
 
           <div>
-            <Title>{t('howAILearns', language)}</Title>
+            <Title>{t('howAILearns')}</Title>
             <PointsGrid>
               <PointRow>
                 <Bullet>•</Bullet>
-                <PointText>{t('aiLearningPoint1', language)}</PointText>
+                <PointText>{t('aiLearningPoint1')}</PointText>
               </PointRow>
 
               <PointRow>
                 <Bullet>•</Bullet>
-                <PointText>{t('aiLearningPoint2', language)}</PointText>
+                <PointText>{t('aiLearningPoint2')}</PointText>
               </PointRow>
 
               <PointRow>
                 <Bullet>•</Bullet>
-                <PointText>{t('aiLearningPoint3', language)}</PointText>
+                <PointText>{t('aiLearningPoint3')}</PointText>
               </PointRow>
 
               <PointRow>
                 <Bullet>•</Bullet>
-                <PointText>{t('aiLearningPoint4', language)}</PointText>
+                <PointText>{t('aiLearningPoint4')}</PointText>
               </PointRow>
             </PointsGrid>
           </div>
@@ -487,19 +474,30 @@ const TitleCard = styled.div`
   border: 2px solid #191a23;
 `
 
+const TitleCardIcon = styled.img`
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  border: 1px solid #191a23;
+`
+
 const TitleText = styled.div`
   display: flex;
   flex-direction: column;
 `
 
 const TitleMain = styled.h2`
-  font-size: 24px;
-  font-weight: 700;
+  padding: 4px 16px;
+  font-size: 20px;
+  font-weight: bold;
   margin: 0;
-  color: #191a23;
+  background: #ffffff;
+  border-radius: 24px;
+  border: 1px solid #191a23;
 `
 
 const TitleSub = styled.p`
+  padding-left: 16px;
   font-size: 14px;
   margin: 4px 0 0;
   color: #3a3c42;
@@ -538,15 +536,12 @@ const MetricValue = styled.div`
 `
 
 const MetricUnit = styled.div`
-  font-size: 12px;
+  font-size: 1rem;
   color: #3a3c42;
 `
 
 const HighlightNumber = styled.span`
-  background: #cafe36;
   color: #191a23;
-  padding: 2px 8px;
-  border-radius: 8px;
   font-weight: bold;
 `
 
@@ -554,10 +549,11 @@ const StatsGrid = styled.div`
   display: flex;
   align-items: center;
   gap: 24px;
+  height: 228px;
 `
 
-const Card = styled.div<{ $bg?: string; $border?: string; $shadow?: string }>`
-  flex: 1 1 50%;
+const Card = styled.div`
+  flex: 1;
   padding: 24px;
   overflow: hidden;
   background: #f3f3f3;
@@ -568,20 +564,19 @@ const CardHeader = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed #191a23;
 `
 
-const CardIcon = styled.div`
+const CardIcon = styled.img`
   width: 60px;
   height: 60px;
-  background: #f3f3f3;
   border-radius: 8px;
-  img {
-    width: 100%;
-    height: 100%;
-  }
+  border: 1px solid #191a23;
 `
 
 const CardTitle = styled.div`
+  width: fit-content;
   padding: 4px 12px;
   margin-bottom: 4px;
   border-radius: 8px;
@@ -606,17 +601,17 @@ const CardValueBox = styled.div`
 const ValueText = styled.div<{ $value: number }>`
   font-size: 2.5rem;
   font-weight: bold;
-  font-family: monospace;
+  /* font-family: monospace; */
   color: ${({ $value }) => ($value > 0 ? 'var(--up_color)' : 'var(--down_color)')};
 `
 
 const Badge = styled.div<{ $value: number }>`
-  font-size: 1;
+  font-size: 1rem;
   font-weight: bold;
   padding: 0.25rem 0.5rem;
   border-radius: 0.5rem;
   color: ${({ $value }) => ($value > 0 ? 'var(--up_color)' : 'var(--down_color)')};
-  background: ${({ $value }) => ($value > 0 ? 'var(--up_bg)' : 'var(--down_bg)')};
+  /* background: ${({ $value }) => ($value > 0 ? 'var(--up_bg)' : 'var(--down_bg)')}; */
 `
 
 const InfoBox = styled.div`
@@ -625,10 +620,36 @@ const InfoBox = styled.div`
 `
 
 const SymbolCard = styled.div`
-  flex: 1 1 50%;
+  position: relative;
+  flex: 1;
+  max-width: 496px;
+  height: 100%;
   border-radius: 1.5rem;
   padding: 1.5rem;
   background: #f3f3f3;
+
+  span {
+    font-size: 14px;
+  }
+
+  h6 {
+    margin: 16px 0;
+    font-size: 2rem;
+    font-weight: bold;
+  }
+`
+
+const SymbolCardBg = styled.img`
+  position: absolute;
+  right: 20px;
+  bottom: 24px;
+  width: 33%;
+  object-fit: contain;
+`
+
+const SymbolCardInfo = styled.div`
+  display: flex;
+  font-size: 1rem;
 `
 
 const Panel = styled.div<{ $isTable?: boolean }>`

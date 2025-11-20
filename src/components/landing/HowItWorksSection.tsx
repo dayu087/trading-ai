@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 import AnimatedSection from './AnimatedSection'
 
+import alarmIcon from '@/assets/images/dashboard_icon_alarm.png'
+
 /* ------------------------------ StepCard 组件 ------------------------------ */
 
 function StepCard({ number, title, description, delay }: any) {
@@ -18,9 +20,9 @@ function StepCard({ number, title, description, delay }: any) {
           <StepDescription>{description}</StepDescription>
         </StepContent>
       </StepWrapper>
-      <StepIcon>
+      {/* <StepIcon>
         <img src="" alt="" />
-      </StepIcon>
+      </StepIcon> */}
     </StepWrapperBox>
   )
 }
@@ -69,24 +71,7 @@ export default function HowItWorksSection() {
 
         {/* Warning Box */}
         <WarningBox initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} whileHover={{ scale: 1.02 }}>
-          <WarningIcon>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" />
-              <line x1="12" x2="12" y1="9" y2="13" />
-              <line x1="12" x2="12.01" y1="17" y2="17" />
-            </svg>
-          </WarningIcon>
-
+          <WarningIcon src={alarmIcon} alt="" />
           <div>
             <WarningTitle>{t('importantRiskWarning')}</WarningTitle>
             <WarningText>{t('riskWarningText')}</WarningText>
@@ -186,29 +171,21 @@ const WarningBox = styled(motion.div)`
   margin-top: 1.5rem;
   padding: 1.5rem;
   border-radius: 16px;
-  background: rgba(246, 70, 93, 0.1);
+  background: #cafe36;
   border: 1px solid rgba(246, 70, 93, 0.3);
   box-shadow: 4px 4px 0px 0px #191a23;
   border: 1px solid #000000;
 `
 
-const WarningIcon = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 9999px;
-  flex-shrink: 0;
-  background: rgba(246, 70, 93, 0.2);
-  color: #f6465d;
+const WarningIcon = styled.img`
+  width: 2.75rem;
+  height: 2.75rem;
 `
 
 const WarningTitle = styled.div`
   font-size: 0.875rem;
   font-weight: bold;
   margin-bottom: 0.25rem;
-  color: #f6465d;
 `
 
 const WarningText = styled.p`

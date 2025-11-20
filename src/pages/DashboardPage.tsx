@@ -1,10 +1,9 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useSWR from 'swr'
 import { api } from '../lib/api'
 import styled, { keyframes } from 'styled-components'
-import { AlertTriangle } from 'lucide-react'
-import { t, type Language } from '../i18n/translations'
+import { t } from '../i18n/translations'
 import { EquityChart } from '../components/EquityChart'
 import { useLanguage } from '../contexts/LanguageContext'
 import { useAuth } from '../contexts/AuthContext'
@@ -14,6 +13,10 @@ import FooterView from '../components/FooterView'
 import SkeletonLoad from '../components/dashboard/SkeletonLoad'
 import EmptySection from '../components/dashboard/EmptySection'
 import StatCard from '../components/dashboard/StatCard'
+import DecisionCard from '../components/dashboard/DecisionCard'
+
+import headLineIcon from '@/assets/images/home_icon_line.png'
+import refishIcon from '@/assets/images/Dashboard_icon_update.png'
 
 function getModelDisplayName(modelId: string): string {
   switch (modelId.toLowerCase()) {
@@ -118,12 +121,15 @@ export default function TraderDetails() {
             </StatusRow>
           )}
         </HeaderBottom>
+
+        <HeaderLineBg src={headLineIcon} alt="" />
       </HeaderCard>
 
       {/* Debug Info */}
       {account && (
         <DebugBar>
-          🔄 Last Update: {lastUpdate} | Total Equity: {account?.total_equity?.toFixed(2) || '0.00'} | Available: {account?.available_balance?.toFixed(2) || '0.00'} | P&L:{' '}
+          <img src={refishIcon} alt="" />
+          Last Update: {lastUpdate} | Total Equity: {account?.total_equity?.toFixed(2) || '0.00'} | Available: {account?.available_balance?.toFixed(2) || '0.00'} | P&L:{' '}
           {account?.total_pnl?.toFixed(2) || '0.00'} ({account?.total_pnl_pct?.toFixed(2) || '0.00'}%)
         </DebugBar>
       )}
@@ -131,12 +137,14 @@ export default function TraderDetails() {
       {/* Account Overview */}
       <StatsGrid>
         <StatCard
+          index={1}
           title={t('totalEquity', language)}
           value={`${account?.total_equity?.toFixed(2) || '0.00'}`}
           change={account?.total_pnl_pct || 0}
           positive={(account?.total_pnl ?? 0) > 0}
         />
         <StatCard
+          index={2}
           title={t('availableBalance', language)}
           value={`${account?.available_balance?.toFixed(2) || '0.00'}`}
           subtitle={`${
@@ -145,12 +153,14 @@ export default function TraderDetails() {
           bg="#CAFE36"
         />
         <StatCard
+          index={3}
           title={t('totalPnL', language)}
           value={`${account?.total_pnl !== undefined && account.total_pnl >= 0 ? '+' : ''}${account?.total_pnl?.toFixed(2) || '0.00'}`}
           change={account?.total_pnl_pct || 0}
           positive={(account?.total_pnl ?? 0) >= 0}
         />
         <StatCard
+          index={4}
           isChange={true}
           title={t('positions', language)}
           value={`${account?.position_count || 0}`}
@@ -170,7 +180,7 @@ export default function TraderDetails() {
           {/* Current Positions */}
           <PositionsCard>
             <PositionsHeader>
-              <PositionsTitle>📈 {t('currentPositions', language)}</PositionsTitle>
+              <PositionsTitle>{t('currentPositions', language)}</PositionsTitle>
               {positions && positions.length > 0 && (
                 <PositionsCount>
                   {positions.length} {t('active', language)}
@@ -232,7 +242,6 @@ export default function TraderDetails() {
         <RightCol>
           <DecisionsCard>
             <DecisionsHeader>
-              <DecisionsIcon>🧠</DecisionsIcon>
               <div>
                 <DecisionsTitle>{t('recentDecisions', language)}</DecisionsTitle>
                 {decisions && decisions.length > 0 && <DecisionsSub>{t('lastCycles', language, { count: decisions.length })}</DecisionsSub>}
@@ -241,7 +250,7 @@ export default function TraderDetails() {
 
             <DecisionsList>
               {decisions && decisions.length > 0 ? (
-                decisions.map((decision, i) => <DecisionCard key={i} decision={decision} language={language} />)
+                decisions.map((decision, i) => <DecisionCard key={i} decision={decision} />)
               ) : (
                 <EmptyDecisions>
                   <div className="emoji">🧠</div>
@@ -262,132 +271,6 @@ export default function TraderDetails() {
   )
 }
 
-/* ------------------ Internal StatCard (keeps original logic) ------------------ */
-
-/* ------------------ Internal DecisionCard (keeps original logic) ------------------ */
-function DecisionCard({ decision, language }: { decision: DecisionRecord; language: Language }) {
-  const [showInputPrompt, setShowInputPrompt] = useState(false)
-  const [showCoT, setShowCoT] = useState(false)
-
-  return (
-    <DecisionBox>
-      {/* Header */}
-      <DecisionHeader>
-        <DecisionInfo>
-          <DecisionCycle>
-            {t('cycle', language)} #{decision.cycle_number}
-          </DecisionCycle>
-          <DecisionStatus $success={decision.success}>{t(decision.success ? 'success' : 'failed', language)}</DecisionStatus>
-        </DecisionInfo>
-        <DecisionTime>{new Date(decision.timestamp).toLocaleString()}</DecisionTime>
-      </DecisionHeader>
-
-      {/* Input Prompt */}
-      {decision.input_prompt && (
-        <div>
-          <ToggleRow>
-            <ToggleButton color="#60a5fa" onClick={() => setShowInputPrompt(!showInputPrompt)}>
-              <strong>📥 {t('inputPrompt', language)}</strong>
-              <span>{showInputPrompt ? t('collapse', language) : t('expand', language)}</span>
-            </ToggleButton>
-          </ToggleRow>
-          {showInputPrompt && <CodeBlock>{decision.input_prompt}</CodeBlock>}
-        </div>
-      )}
-
-      {/* CoT */}
-      {decision.cot_trace && (
-        <div>
-          <ToggleRow>
-            <ToggleButton color="#F0B90B" onClick={() => setShowCoT(!showCoT)}>
-              <strong>📤 {t('aiThinking', language)}</strong>
-              <span>{showCoT ? t('collapse', language) : t('expand', language)}</span>
-            </ToggleButton>
-          </ToggleRow>
-          {showCoT && <CodeBlock>{decision.cot_trace}</CodeBlock>}
-        </div>
-      )}
-
-      {/* Decisions Actions */}
-      {decision.decisions && decision.decisions.length > 0 && (
-        <div style={{ marginTop: 8 }}>
-          {decision.decisions.map((action, j) => (
-            <ActionItem key={j}>
-              <ActionSymbol>{action.symbol}</ActionSymbol>
-              <ActionBadge $isOpen={action.action.includes('open')}>{action.action}</ActionBadge>
-              {action.leverage > 0 && <ActionText color="#F0B90B">{action.leverage}x</ActionText>}
-              {action.price > 0 && (
-                <ActionText className="mono" color="#848E9C">
-                  @{action.price.toFixed(4)}
-                </ActionText>
-              )}
-              <ActionText color={action.success ? '#0ECB81' : '#F6465D'}>{action.success ? '✓' : '✗'}</ActionText>
-              {action.error && <ActionText color="#F6465D">{action.error}</ActionText>}
-            </ActionItem>
-          ))}
-        </div>
-      )}
-
-      {/* Account State Summary */}
-      {decision.account_state && (
-        <AccountState>
-          <span>净值: {decision.account_state.total_balance.toFixed(2)} USDT</span>
-          <span>可用: {decision.account_state.available_balance.toFixed(2)} USDT</span>
-          <span>保证金率: {decision.account_state.margin_used_pct.toFixed(1)}%</span>
-          <span>持仓: {decision.account_state.position_count}</span>
-          <span
-            style={{
-              color: decision.candidate_coins && decision.candidate_coins.length === 0 ? '#F6465D' : '#848E9C',
-            }}
-          >
-            {t('candidateCoins', language)}: {decision.candidate_coins?.length || 0}
-          </span>
-        </AccountState>
-      )}
-
-      {/* Candidate Coins Warning */}
-      {decision.candidate_coins && decision.candidate_coins.length === 0 && (
-        <WarningRow>
-          <AlertTriangle size={16} />
-          <WarningContent>
-            <div style={{ fontWeight: 700 }}>⚠️ {t('candidateCoinsZeroWarning', language)}</div>
-            <div style={{ color: '#848E9C', fontSize: 12 }}>
-              <div>{t('possibleReasons', language)}</div>
-              <ul style={{ marginLeft: 16 }}>
-                <li>{t('coinPoolApiNotConfigured', language)}</li>
-                <li>{t('apiConnectionTimeout', language)}</li>
-                <li>{t('noCustomCoinsAndApiFailed', language)}</li>
-              </ul>
-              <div style={{ marginTop: 6, fontWeight: 700 }}>{t('solutions', language)}</div>
-              <ul style={{ marginLeft: 16 }}>
-                <li>{t('setCustomCoinsInConfig', language)}</li>
-                <li>{t('orConfigureCorrectApiUrl', language)}</li>
-                <li>{t('orDisableCoinPoolOptions', language)}</li>
-              </ul>
-            </div>
-          </WarningContent>
-        </WarningRow>
-      )}
-
-      {/* Execution Logs */}
-      {decision.execution_log && decision.execution_log.length > 0 && (
-        <div style={{ marginTop: 8 }}>
-          {decision.execution_log.map((log, k) => (
-            <LogLine key={k} $success={log.includes('✓') || log.includes('成功')}>
-              {log}
-            </LogLine>
-          ))}
-        </div>
-      )}
-
-      {/* Error Message */}
-      {decision.error_message && <ErrorBox>❌ {decision.error_message}</ErrorBox>}
-    </DecisionBox>
-  )
-}
-
-/* -------------------- styled components -------------------- */
-
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
@@ -403,6 +286,7 @@ const TraderContainer = styled.div`
 
 /* Header card */
 const HeaderCard = styled.div`
+  position: relative;
   width: 100%;
   padding: 2.5rem 1.5rem 2rem 4rem;
   background: #cafe36;
@@ -410,6 +294,14 @@ const HeaderCard = styled.div`
   border-radius: 24px 24px 24px 24px;
   border: 1px solid #191a23;
 `
+
+const HeaderLineBg = styled.img`
+  position: absolute;
+  right: 24px;
+  bottom: 32px;
+  max-width: 76px;
+`
+
 const HeaderTop = styled.div`
   display: flex;
   align-items: center;
@@ -471,9 +363,9 @@ const ModelText = styled.div`
   font-size: 1rem;
   color: #191a23;
 `
-const ModelBadge = styled.span<{ $isQwen: boolean }>`
+const ModelBadge = styled.span<{ $isQwen?: boolean }>`
   font-weight: 600;
-  color: ${({ $isQwen }) => ($isQwen ? '#c084fc' : '#60a5fa')};
+  /* color: ${({ $isQwen }) => ($isQwen ? '#c084fc' : '#60a5fa')}; */
 `
 const StatusRow = styled.div`
   display: flex;
@@ -490,6 +382,9 @@ const StatusText = styled.span`
 
 /* Debug bar */
 const DebugBar = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
   width: 100%;
   margin: 2.5rem 0;
   padding: 12px 24px;
@@ -497,7 +392,11 @@ const DebugBar = styled.div`
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Helvetica Neue', monospace;
   color: #000000;
   background: #f3f3f3;
-  border-radius: 16px 16px 16px 16px;
+  border-radius: 16px;
+  img {
+    width: 20px;
+    height: 20px;
+  }
 `
 
 /* Stats grid */
@@ -532,9 +431,9 @@ const RightCol = styled.div`
 
 /* Chart placeholder */
 const ChartWrap = styled.div`
-  background: #f3f3f3;
   border-radius: 24px;
   overflow: hidden;
+  border: 1px solid #0d4751;
   /* padding: 24px; */
 `
 
@@ -571,7 +470,6 @@ const PositionsTableWrap = styled.div`
   table {
     width: 100%;
     border-collapse: collapse;
-    color: #eaecef;
     font-size: 0.9rem;
   }
   thead {
@@ -579,8 +477,6 @@ const PositionsTableWrap = styled.div`
     th {
       text-align: left;
       padding: 0.5rem 0;
-      color: #848e9c;
-      font-weight: 700;
     }
   }
   tbody tr {
@@ -593,7 +489,6 @@ const PositionsTableWrap = styled.div`
     }
     .bold {
       font-weight: 700;
-      color: #eaecef;
     }
     .leverage {
       color: #f0b90b;
@@ -645,17 +540,7 @@ const DecisionsHeader = styled.div`
   gap: 12px;
   align-items: center;
 `
-const DecisionsIcon = styled.div`
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
-  font-size: 1.125rem;
-`
+
 const DecisionsTitle = styled.h4`
   padding: 4px 12px;
   margin-bottom: 4px;
@@ -696,143 +581,3 @@ const EmptyDecisionsTitle = styled.div`
   margin-bottom: 0.5rem;
 `
 const EmptyDecisionsDesc = styled.div``
-
-/* Decision internal */
-const DecisionBox = styled.div`
-  padding: 1rem;
-  background: #ffffff;
-  border-radius: 16px;
-  transition: transform 0.3s;
-  &:hover {
-    transform: translateY(-2px);
-  }
-`
-const DecisionHeader = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`
-const DecisionInfo = styled.div`
-  display: flex;
-  justify-content: space-between;
-  gap: 8px;
-`
-
-const DecisionCycle = styled.div`
-  padding: 4px 12px;
-  color: #cafe36;
-  font-weight: bold;
-  background: #0d4751;
-  border-radius: 8px;
-`
-const DecisionTime = styled.div`
-  padding-bottom: 16px;
-  margin-bottom: 16px;
-  font-size: 0.75rem;
-  color: #191a23;
-  border-bottom: 1px solid #f3f3f3;
-`
-const DecisionStatus = styled.div<{ $success: boolean }>`
-  padding: 4px 10px;
-  border-radius: 6px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: ${({ $success }) => ($success ? '#0ECB81' : '#F6465D')};
-  background: ${({ $success }) => ($success ? 'rgba(14,203,129,0.1)' : 'rgba(246,70,93,0.1)')};
-`
-const ToggleRow = styled.div`
-  margin-bottom: 8px;
-`
-const ToggleButton = styled.button<{ color?: string }>`
-  background: none;
-  border: none;
-  color: ${({ color }) => color || '#60a5fa'};
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.875rem;
-
-  strong {
-    color: #191a23;
-  }
-`
-const CodeBlock = styled.pre`
-  max-width: 320px;
-  border: 1px solid #2b3139;
-  border-radius: 8px;
-  padding: 0.75rem;
-  color: #191a23;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;
-  white-space: pre-wrap;
-  max-height: 24rem;
-  overflow-y: auto;
-  margin-top: 8px;
-  background: rgba(243, 243, 243, 0.7);
-`
-const ActionItem = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 4px 12px;
-  background: rgba(243, 243, 243, 0.7);
-  border-radius: 4px;
-  margin-bottom: 12px;
-`
-const ActionSymbol = styled.span`
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;
-  font-size: 14px;
-  color: #191a23;
-`
-const ActionBadge = styled.span<{ $isOpen: boolean }>`
-  margin-left: auto;
-  border-radius: 4px;
-  font-size: 14px;
-  color: ${({ $isOpen }) => ($isOpen ? '#60a5fa' : '#F0B90B')};
-`
-const ActionText = styled.span<{ color?: string }>`
-  color: ${({ color }) => color || '#848E9C'};
-  font-size: 0.85rem;
-`
-
-const AccountState = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 8px 24px;
-  background: rgba(243, 243, 243, 0.7);
-  border-radius: 4px;
-  color: #191a23;
-  margin-top: 8px;
-  font-size: 0.875rem;
-`
-
-const WarningRow = styled.div`
-  display: flex;
-  gap: 8px;
-  align-items: flex-start;
-  background: rgba(246, 70, 93, 0.1);
-  border: 1px solid rgba(246, 70, 93, 0.3);
-  padding: 8px;
-  border-radius: 6px;
-  color: #f6465d;
-  margin-top: 8px;
-`
-const WarningContent = styled.div`
-  flex: 1;
-`
-
-const LogLine = styled.div<{ $success?: boolean }>`
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;
-  color: ${({ $success }) => ($success ? '#0ECB81' : '#F6465D')};
-  font-size: 0.875rem;
-  margin-top: 4px;
-`
-
-const ErrorBox = styled.div`
-  background: rgba(246, 70, 93, 0.1);
-  color: #f6465d;
-  padding: 8px;
-  border-radius: 6px;
-  margin-top: 8px;
-`

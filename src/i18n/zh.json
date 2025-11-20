@@ -18,7 +18,7 @@
   "faqNav": "常见问题",
 
   "footerTitle": "NOFX - AI交易系统",
-  "footerWarning": "⚠️ 交易有风险，请谨慎使用。",
+  "footerWarning": "交易有风险，请谨慎使用。",
 
   "totalEquity": "总净值",
   "availableBalance": "可用余额",
@@ -90,13 +90,15 @@
   "pos": "持仓",
 
   "aiLearning": "AI学习与反思",
-  "tradesAnalyzed": "已分析 {count} 笔交易 · 实时演化",
+  "tradesAnalyzed": "笔交易 · 实时演化",
   "latestReflection": "最新反思",
   "fullCoT": "📋 完整思维链",
   "totalTrades": "总交易数",
   "winRate": "胜率",
   "avgWin": "平均盈利",
   "avgLoss": "平均亏损",
+  "sharpeRatio": "夏普比率",
+  "riskAdjusted": "风险调整后收益",
   "profitFactor": "盈亏比",
   "avgWinDivLoss": "平均盈利 ÷ 平均亏损",
   "excellent": "🔥 优秀 - 盈利能力强",

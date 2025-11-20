@@ -386,25 +386,23 @@ const ProfitTag = styled.span<{ $isProfit: boolean }>`
 
 const ToggleWrapper = styled.div`
   display: flex;
-  gap: 4px;
-  background: #0b0e11;
-  border: 1px solid #2b3139;
-  padding: 4px;
-  border-radius: 8px;
+  border: 1px solid #0d4751;
+  padding: 2px;
+  border-radius: 24px;
 `
 
 const ToggleButton = styled.button<{ $active: boolean }>`
-  padding: 6px 12px;
-  font-size: 13px;
+  padding: 2px 6px;
+  font-size: 14px;
   font-weight: bold;
-  border-radius: 6px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   gap: 4px;
   transition: all 0.2s ease;
 
-  background: ${({ $active }) => ($active ? '#F0B90B' : 'transparent')};
-  color: ${({ $active }) => ($active ? '#000' : '#848E9C')};
+  background: ${({ $active }) => ($active ? '#0D4751' : 'transparent')};
+  color: ${({ $active }) => ($active ? '#fff' : '#0D4751')};
   box-shadow: ${({ $active }) => ($active ? '0 2px 8px rgba(240,185,11,0.4)' : 'none')};
 
   .icon {
@@ -442,7 +440,7 @@ const FooterItem = styled.div`
   flex: 1;
   padding: 10px 12px;
   border-radius: 8px;
-  background: #fff;
+  background: #f3f3f3;
   transition: 0.2s ease;
 
   &:hover {

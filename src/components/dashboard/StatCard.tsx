@@ -1,6 +1,11 @@
 import { styled } from 'styled-components'
+import statIcon1 from '@/assets/images/dashboard_img_4.png'
+import statIcon2 from '@/assets/images/dashboard_img_3.png'
+import statIcon3 from '@/assets/images/dashboard_img_2.png'
+import statIcon4 from '@/assets/images/dashboard_img_1.png'
 
 interface StatCardProps {
+  index: number
   bg?: string
   title: string
   value: string
@@ -10,9 +15,13 @@ interface StatCardProps {
   isChange?: boolean
 }
 
-export default function StatCard({ title, value, change, positive, subtitle, isChange, bg }: StatCardProps) {
+export default function StatCard({ index, title, value, change, positive, subtitle, isChange, bg }: StatCardProps) {
   return (
     <StatCardBox $bg={bg}>
+      {index === 1 && <StatCardBg src={statIcon1} alt="" />}
+      {index === 2 && <StatCardBg src={statIcon2} alt="" />}
+      {index === 3 && <StatCardBg src={statIcon3} alt="" />}
+      {index === 4 && <StatCardBg src={statIcon4} alt="" />}
       <StatTitle>{title}</StatTitle>
       <StatValue>
         <StatValueCount $bg={bg}> {value}</StatValueCount>
@@ -30,6 +39,7 @@ export default function StatCard({ title, value, change, positive, subtitle, isC
 }
 
 const StatCardBox = styled.div<{ $bg?: string }>`
+  position: relative;
   flex: 1 1 25%;
   padding: 1rem;
   border-radius: 24px;
@@ -38,6 +48,14 @@ const StatCardBox = styled.div<{ $bg?: string }>`
   box-shadow: 4px 4px 0px 0px #191a23;
   background: ${({ $bg }) => $bg || '#f3f3f3'};
 `
+
+const StatCardBg = styled.img`
+  position: absolute;
+  right: 0;
+  bottom: 8px;
+  max-width: 70px;
+`
+
 const StatTitle = styled.div`
   font-size: 0.875rem;
   /* text-transform: uppercase; */

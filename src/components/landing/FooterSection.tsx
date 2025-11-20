@@ -1,6 +1,9 @@
 import { styled } from 'styled-components'
 import { useTranslation } from 'react-i18next'
 
+import homeArrow from '@/assets/images/home_icon_arrow.png'
+import frameArrow from '@/assets/images/Frame.png'
+
 export default function FooterSection() {
   const { t } = useTranslation()
   return (
@@ -8,7 +11,9 @@ export default function FooterSection() {
       <FooterInner>
         {/* BRAND */}
         <BrandRow>
-          <BrandLogo src="/icons/nofx.svg" alt="NOFX Logo" />
+          <BrandLogoBox>
+            <BrandLogo src={homeArrow} alt="NOFX Logo" />
+          </BrandLogoBox>
           <BrandInfo>
             <BrandTitle>NOFX</BrandTitle>
             <BrandSubtitle>{t('futureStandardAI')}</BrandSubtitle>
@@ -92,7 +97,10 @@ export default function FooterSection() {
         {/* Bottom text */}
         <BottomNote>
           <p>{t('footerTitle')}</p>
-          <p style={{ marginTop: '4px' }}>{t('footerWarning')}</p>
+          <BottomNoteWarning>
+            <img src={frameArrow} alt="" />
+            <span>{t('footerWarning')}</span>
+          </BottomNoteWarning>
         </BottomNote>
       </FooterInner>
     </FooterWrapper>
@@ -117,8 +125,14 @@ const BrandRow = styled.div`
 `
 
 const BrandLogo = styled.img`
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
+`
+
+const BrandLogoBox = styled.div`
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #0d4751;
 `
 
 const BrandInfo = styled.div``
@@ -177,4 +191,14 @@ const BottomNote = styled.div`
   font-size: 0.75rem;
   color: var(--text-tertiary);
   border-top: 1px solid var(--panel-border);
+`
+
+const BottomNoteWarning = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img {
+    width: 1rem;
+    height: 1rem;
+  }
 `
