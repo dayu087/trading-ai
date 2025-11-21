@@ -74,8 +74,8 @@ export default function HeaderBar() {
     <HeaderContainer>
       <HeaderInner>
         <LogoLink href="/">
-          <img src="/icons/nofx.svg" alt="NOFX Logo" />
-          <span className="brand">NOFX</span>
+          {/* <img src="/icons/nofx.svg" alt="NOFX Logo" /> */}
+          <span className="brand">Valkynor</span>
         </LogoLink>
 
         {/* Desktop Menu */}
