@@ -17,8 +17,8 @@
   "dashboardNav": "看板",
   "faqNav": "常见问题",
 
-  "footerTitle": "NOFX - AI交易系统",
-  "footerWarning": "交易有风险，请谨慎使用。",
+  "footerTitle": "Valkynor - AI交易系统",
+  "footerWarning": "交易有风险，请量力而行。",
 
   "totalEquity": "总净值",
   "availableBalance": "可用余额",
@@ -453,7 +453,7 @@
 
   "userTestimonials": "用户推荐",
 
-  "futureStandardAI": "AI 交易的未来标准",
+  "futureStandardAI": "AI 自动交易系统",
   "links": "链接",
   "resources": "资源",
   "documentation": "文档",
