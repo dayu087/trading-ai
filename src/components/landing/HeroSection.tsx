@@ -4,24 +4,18 @@ import { useTranslation } from 'react-i18next'
 import { useGitHubStats } from '../../hooks/useGitHubStats'
 import { useCounterAnimation } from '../../hooks/useCounterAnimation'
 import { useScrollContext } from '../../contexts/ScrollProvider'
+import { ArrowRight } from 'lucide-react'
 
 import homeArrow from '@/assets/images/home_icon_arrow.png'
 import gitHubIcon from '@/assets/images/home_icon_github.png'
 
-export default function HeroSection() {
+export default function HeroSection({ setShowLoginModal }: { setShowLoginModal: (value: boolean) => void }) {
   const { scrollRef } = useScrollContext()
   const { scrollYProgress } = useScroll({ container: scrollRef })
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
   const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.8])
   const handControls = useAnimation()
-  const { t, i18n } = useTranslation()
-
-  const { stars, daysOld, isLoading } = useGitHubStats('NoFxAiOS', 'nofx')
-  const animatedStars = useCounterAnimation({
-    start: 0,
-    end: stars,
-    duration: 2000,
-  })
+  const { t } = useTranslation()
 
   const fadeInUp = {
     initial: { opacity: 0, y: 60 },
@@ -38,32 +32,6 @@ export default function HeroSection() {
         <Grid>
           {/* Left */}
           <LeftWrapper style={{ opacity, scale }} initial="initial" animate="animate" variants={staggerContainer}>
-            <motion.div variants={fadeInUp}>
-              <Badge
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: '0 0 20px var(--green-shadow)',
-                }}
-              >
-                <img src={homeArrow} alt="" />
-                <span>
-                  {isLoading ? (
-                    t('githubStarsInDays')
-                  ) : i18n.language === 'zh' ? (
-                    <>
-                      {daysOld} 天内 <span className="inline-block tabular-nums">{(animatedStars / 1000).toFixed(1)}</span>
-                      K+ GitHub Stars
-                    </>
-                  ) : (
-                    <>
-                      <span className="inline-block tabular-nums">{(animatedStars / 1000).toFixed(1)}</span>
-                      K+ GitHub Stars in {daysOld} days
-                    </>
-                  )}
-                </span>
-              </Badge>
-            </motion.div>
-
             <Title>
               {t('heroTitle1')}
               <br />
@@ -72,50 +40,17 @@ export default function HeroSection() {
 
             <Description variants={fadeInUp}>{t('heroDescription')}</Description>
 
-            <ButtonsRow>
-              <ButtonsRowAnimated
-                href="https://github.com/tinkle-community/nofx"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: 'spring', stiffness: 400 }}
-              >
-                <h5>7.4K</h5>
-                <ButtonsRowAvatar>
-                  <img src={gitHubIcon} alt="" />
-                  <span>STARKS</span>
-                </ButtonsRowAvatar>
-              </ButtonsRowAnimated>
-              <ButtonsRowAnimated
-                href="https://github.com/tinkle-community/nofx/network/members"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: 'spring', stiffness: 400 }}
-              >
-                <h5>7.4K</h5>
-                <ButtonsRowAvatar>
-                  <img src={gitHubIcon} alt="" />
-                  <span>FORKS</span>
-                </ButtonsRowAvatar>
-              </ButtonsRowAnimated>
-
-              <ButtonsRowAnimated
-                href="https://github.com/tinkle-community/nofx/graphs/contributors"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: 'spring', stiffness: 400 }}
-              >
-                <h5>7.4K</h5>
-                <ButtonsRowAvatar>
-                  <img src={gitHubIcon} alt="" />
-                  <span>CONTRIBUTORS</span>
-                </ButtonsRowAvatar>
-              </ButtonsRowAnimated>
-            </ButtonsRow>
-
-            <SmallNote variants={fadeInUp}>{t('poweredBy')}</SmallNote>
+            <ButtonRow>
+              <PrimaryButton onClick={() => setShowLoginModal(true)} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                {t('getStartedNow')}
+                <motion.div animate={{ x: [0, 5, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
+                  <ArrowRight className="w-5 h-5" />
+                </motion.div>
+              </PrimaryButton>
+              <LoginButton onClick={() => setShowLoginModal(true)} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                {t('connectExchange')}
+              </LoginButton>
+            </ButtonRow>
           </LeftWrapper>
 
           {/* Right */}
@@ -187,7 +122,7 @@ const HeroContainer = styled.div`
 
 const Grid = styled.div`
   display: flex;
-  gap: 90px;
+  gap: 70px;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
@@ -202,10 +137,10 @@ const Grid = styled.div`
 const LeftWrapper = styled(motion.div)`
   position: relative;
   z-index: 10;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  max-width: 532px;
+  gap: 2rem;
 
   @media (max-width: 768px) {
     max-width: 100%;
@@ -244,7 +179,7 @@ const Badge = styled(motion.div)`
 const Title = styled.h1`
   font-size: 4rem;
   font-weight: bold;
-  line-height: 1.15;
+  line-height: 1.5;
   color: var(--brand-black);
 
   @media (max-width: 768px) {
@@ -284,79 +219,51 @@ const Description = styled(motion.p)`
   }
 `
 
-const ButtonsRow = styled.div`
+const ButtonRow = styled.div`
   display: flex;
-  gap: 0.75rem;
   flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 0;
+  justify-content: center;
+  width: 100%;
+  gap: 1.5rem;
 
   @media (max-width: 768px) {
-    width: 100%;
-    justify-content: center;
     gap: 1rem;
   }
 `
 
-const ButtonsRowAnimated = styled(motion.a)`
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-
-  h5 {
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-
-  @media (max-width: 768px) {
-    align-items: center;
-    h5 {
-      font-size: 1.2rem;
-    }
-  }
-`
-
-const ButtonsRowAvatar = styled.div`
+const PrimaryButton = styled(motion.button)`
+  flex: 1;
   display: flex;
   align-items: center;
-  gap: 0.25rem;
-
-  img {
-    width: 1rem;
-    height: 1rem;
-  }
-
-  span {
-    font-size: 0.875rem;
-  }
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 2.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background: #191a23;
+  box-shadow: 4px 4px 0px 0px #191a23;
+  border-radius: 16px;
+  border: 1px solid #ffffff;
+  cursor: pointer;
 
   @media (max-width: 768px) {
-    img {
-      width: 0.9rem;
-      height: 0.9rem;
-    }
-    span {
-      font-size: 0.75rem;
-    }
+    padding: 0.85rem 2rem;
+    font-size: 0.9rem;
   }
 `
 
-const SmallNote = styled(motion.p)`
-  font-size: 0.75rem;
+const LoginButton = styled(PrimaryButton)`
   color: var(--brand-black);
-
-  @media (max-width: 768px) {
-    text-align: center;
-    font-size: 0.7rem;
-  }
+  background: #fff;
+  border: 1px solid #000;
 `
 
 const RightWrapper = styled(motion.div)`
   position: relative;
   cursor: pointer;
-  width: 600px;
-  height: 496px;
+  width: 496px;
+  height: 362px;
   background: #ffffff;
   box-shadow: 4px 4px 0px 0px #191a23;
   border-radius: 24px;

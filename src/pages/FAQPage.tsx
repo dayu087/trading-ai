@@ -23,13 +23,11 @@ import { t } from '../i18n/translations'
  */
 export function FAQPage() {
   const { language, setLanguage } = useLanguage()
-  const { user, logout } = useAuth()
   useSystemConfig() // Load system config but don't use it
 
   return (
     <div className="min-h-screen" style={{ background: '#000000', color: '#EAECEF' }}>
-      <HeaderBar isLoggedIn={!!user} currentPage="faq" />
-
+      <HeaderBar />
       <FAQLayout language={language} />
     </div>
   )

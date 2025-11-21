@@ -7,12 +7,11 @@ interface CryptoFeatureCardProps {
   icon: React.ReactNode
   title: string
   description: string
-  features: string[]
   className?: string
   delay?: number
 }
 
-export const CryptoFeatureCard = React.forwardRef<HTMLDivElement, CryptoFeatureCardProps>(({ icon, title, description, features, className, delay = 0 }, ref) => {
+export const CryptoFeatureCard = React.forwardRef<HTMLDivElement, CryptoFeatureCardProps>(({ icon, title, description, className, delay = 0 }, ref) => {
   const [isHovered, setIsHovered] = React.useState(false)
 
   return (
@@ -40,18 +39,8 @@ export const CryptoFeatureCard = React.forwardRef<HTMLDivElement, CryptoFeatureC
           <IconBox $isHovered={isHovered} animate={{ scale: isHovered ? 1.1 : 1 }} transition={{ duration: 0.3 }}>
             {icon}
           </IconBox>
-
           <Title>{title}</Title>
           <Description>{description}</Description>
-
-          <FeatureList>
-            {features.map((feature, index) => (
-              <FeatureItem key={index} initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: delay + index * 0.1 }}>
-                <CheckCircle src={yesIcon} alt="" />
-                <FeatureText>{feature}</FeatureText>
-              </FeatureItem>
-            ))}
-          </FeatureList>
         </Content>
       </CardContainer>
     </CardWrapper>
@@ -74,7 +63,7 @@ const CardContainer = styled.div<{ $isHovered: boolean }>`
   position: relative;
   height: 100%;
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: 24px;
   background: #ffffff;
   border: 1px solid #191a23;
   transition:
@@ -113,7 +102,7 @@ const BackgroundPattern = styled.div`
 const Content = styled.div`
   position: relative;
   z-index: 10;
-  padding: 32px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -124,10 +113,10 @@ const Content = styled.div`
 `
 
 const IconBox = styled(motion.div)<{ $isHovered: boolean }>`
-  width: 64px;
-  height: 64px;
-  border-radius: 12px;
-  margin-bottom: 24px;
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  margin-bottom: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -149,30 +138,7 @@ const Title = styled.h3`
 `
 
 const Description = styled.p`
-  margin-bottom: 24px;
   font-size: 1rem;
   color: var(--brand-black);
   line-height: 1.5;
-`
-
-const FeatureList = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-`
-
-const FeatureItem = styled(motion.div)`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-`
-
-const CheckCircle = styled.img`
-  width: 12px;
-  height: 12px;
-`
-
-const FeatureText = styled.span`
-  font-size: 0.875rem;
-  color: var(--brand-black);
 `

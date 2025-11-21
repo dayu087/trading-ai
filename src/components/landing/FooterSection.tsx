@@ -12,10 +12,10 @@ export default function FooterSection() {
         {/* BRAND */}
         <BrandRow>
           <BrandLogoBox>
-            <BrandLogo src={homeArrow} alt="NOFX Logo" />
+            <BrandLogo src={homeArrow} alt="Valkynor Logo" />
           </BrandLogoBox>
           <BrandInfo>
-            <BrandTitle>NOFX</BrandTitle>
+            <BrandTitle>Valkynor</BrandTitle>
             <BrandSubtitle>{t('futureStandardAI')}</BrandSubtitle>
           </BrandInfo>
         </BrandRow>

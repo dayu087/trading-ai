@@ -45,8 +45,7 @@ export default function HowItWorksSection() {
     <AnimatedSection id="how-it-works" borderRadius="48px">
       <Container>
         <TitleBlock initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-          <SectionTitle>{t('howToStart')}</SectionTitle>
-          <SectionSubtitle>{t('fourSimpleSteps')}</SectionSubtitle>
+          <SectionTitle>{t('howItWorks')}</SectionTitle>
         </TitleBlock>
 
         <StepsWrapper>

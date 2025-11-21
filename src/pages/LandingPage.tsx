@@ -19,7 +19,7 @@ export function LandingPage() {
   return (
     <>
       <LandingContainer>
-        <HeroSection />
+        <HeroSection setShowLoginModal={setShowLoginModal} />
         <AboutSection />
         <FeaturesSection />
         <HowItWorksSection />
@@ -35,7 +35,7 @@ export function LandingPage() {
 const LandingContainer = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 8rem;
+  gap: 200px;
   width: 100%;
   padding-top: 6.5rem;
 

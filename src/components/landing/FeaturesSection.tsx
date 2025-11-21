@@ -16,38 +16,13 @@ export default function FeaturesSection() {
     <AnimatedSection id="features">
       <Container>
         <HeaderWrapper initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-          <Tag whileHover={{ scale: 1.05 }}>
-            <img src={homeArrow} alt="" />
-            <span>{t('coreFeatures')}</span>
-          </Tag>
-          <Title>{t('whyChooseNofx')}</Title>
-          <Subtitle>{t('openCommunityDriven')}</Subtitle>
+          <Title>{t('featuresTitle')}</Title>
         </HeaderWrapper>
 
         <CardGrid>
-          <CryptoFeatureCard
-            icon={<CryptoImage src={cryptoIcon} />}
-            title={t('openSourceSelfHosted')}
-            description={t('openSourceDesc')}
-            features={[t('openSourceFeatures1'), t('openSourceFeatures2'), t('openSourceFeatures3'), t('openSourceFeatures4')]}
-            delay={0}
-          />
-
-          <CryptoFeatureCard
-            icon={<CryptoImage src={cryptoIcon2} />}
-            title={t('multiAgentCompetition')}
-            description={t('multiAgentDesc')}
-            features={[t('multiAgentFeatures1'), t('multiAgentFeatures2'), t('multiAgentFeatures3'), t('multiAgentFeatures4')]}
-            delay={0.1}
-          />
-
-          <CryptoFeatureCard
-            icon={<CryptoImage src={cryptoIcon3} />}
-            title={t('secureReliableTrading')}
-            description={t('secureDesc')}
-            features={[t('secureFeatures1'), t('secureFeatures2'), t('secureFeatures3'), t('secureFeatures4')]}
-            delay={0.2}
-          />
+          <CryptoFeatureCard icon={<CryptoImage src={cryptoIcon} />} title={t('AIDrivenDecisions')} description={t('aIDrivenDecisionsDesc')} delay={0} />
+          <CryptoFeatureCard icon={<CryptoImage src={cryptoIcon2} />} title={t('automaticExecution')} description={t('automaticExecutionDesc')} delay={0.1} />
+          <CryptoFeatureCard icon={<CryptoImage src={cryptoIcon3} />} title={t('secureNonCustodial')} description={t('secureDesc')} delay={0.2} />
         </CardGrid>
       </Container>
     </AnimatedSection>
@@ -61,7 +36,7 @@ const Container = styled.div`
 
 const HeaderWrapper = styled(motion.div)`
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
 
   @media (max-width: 768px) {
     margin-bottom: 2.5rem;
@@ -115,7 +90,6 @@ const CryptoImage = styled.img`
 const Title = styled.h2`
   font-size: 3rem;
   font-weight: bold;
-  margin-bottom: 8px;
   color: var(--brand-black);
 
   @media (max-width: 768px) {

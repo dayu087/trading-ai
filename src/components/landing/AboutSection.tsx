@@ -13,7 +13,7 @@ export default function AboutSection() {
   const { t } = useTranslation()
 
   return (
-    <AnimatedSection id="about" padding="100px 1rem 98px">
+    <AnimatedSection id="about">
       <Wrapper>
         <Grid>
           <CodeBox>
@@ -39,30 +39,21 @@ export default function AboutSection() {
           </CodeBox>
 
           <AboutRight initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-            <RightLine src={lineIcon} />
-
-            <Tag whileHover={{ scale: 1.05 }}>
-              <img src={homeArrow} alt="" />
-              <span>{t('aboutNofx')}</span>
-            </Tag>
-
-            <Title>{t('whatIsNofx')}</Title>
-
+            <Title>{t('whatIsValkynor')}</Title>
             <Paragraph>
-              {t('nofxNotAnotherBot')} {t('nofxDescription1')} {t('nofxDescription2')}
+              {t('valkynorNotAnotherBot')} <br />
+              {t('valkynorDescription1')}
             </Paragraph>
+            <InfoRowBox>
+              <InfoRow whileHover={{ x: 5 }}>
+                <h3>{t('valkynorDescription2')}</h3>
+                <h3>{t('valkynorDescription3')}</h3>
+                <h3>{t('valkynorDescription4')}</h3>
+              </InfoRow>
+              <RightLine src={lineIcon} />
+            </InfoRowBox>
 
-            <Paragraph>
-              {t('nofxDescription3')} {t('nofxDescription4')} {t('nofxDescription5')}
-            </Paragraph>
-
-            <InfoRow whileHover={{ x: 5 }}>
-              <IconCircle src={homeArrow} />
-              <div>
-                <h3>{t('youFullControl')}</h3>
-                <p>{t('fullControlDesc')}</p>
-              </div>
-            </InfoRow>
+            <Paragraph>{t('valkynorDescription5')}</Paragraph>
           </AboutRight>
         </Grid>
       </Wrapper>
@@ -87,15 +78,10 @@ const Wrapper = styled.div`
 `
 
 const RightLine = styled.img`
-  position: absolute;
-  top: 24px;
-  right: 26px;
   width: 76px;
 
   @media (max-width: 768px) {
     width: 50px;
-    top: 12px;
-    right: 12px;
   }
 `
 
@@ -128,7 +114,7 @@ const Grid = styled.div`
 const AboutRight = styled(motion.div)`
   position: relative;
   flex: 1 1 50%;
-  padding: 24px;
+  padding: 56px 40px 64px;
   border-radius: 24px;
   background: #ffffff;
 
@@ -138,38 +124,25 @@ const AboutRight = styled(motion.div)`
   }
 `
 
-const Tag = styled(motion.div)`
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.325rem 1rem;
-  border-radius: 9999px;
-  background: #fff;
-  font-size: 0.875rem;
-  font-weight: bold;
-  color: #191a23;
-
-  img {
-    width: 24px;
-    height: 24px;
-  }
-
-  @media (max-width: 768px) {
-    font-size: 0.75rem;
-    padding: 0.25rem 0.8rem;
-
-    img {
-      width: 20px;
-      height: 20px;
-    }
-  }
-`
-
 const Title = styled.h2`
-  margin: 32px 0 16px 0;
+  position: relative;
+  z-index: 1;
+  width: fit-content;
+  margin-bottom: 40px;
   font-size: 3rem;
   font-weight: bold;
   color: var(--brand-black);
+
+  &::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    bottom: 4px;
+    width: 100%;
+    height: 32px;
+    background: #cafe36;
+  }
 
   @media (max-width: 768px) {
     font-size: 2.1rem;
@@ -180,7 +153,6 @@ const Title = styled.h2`
 
 const Paragraph = styled.p`
   font-size: 1rem;
-  line-height: 1.5rem;
   color: var(--brand-black);
 
   &:not(:last-child) {
@@ -194,16 +166,19 @@ const Paragraph = styled.p`
   }
 `
 
+const InfoRowBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 24px;
+`
+
 const InfoRow = styled(motion.div)`
   display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding-top: 1rem;
-  font-size: 0.875rem;
-
-  h3 {
-    font-weight: bold;
-  }
+  flex-direction: column;
+  gap: 4px;
+  padding: 1rem 0;
+  font-size: 1rem;
 
   @media (max-width: 768px) {
     flex-direction: column;

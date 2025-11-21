@@ -25,19 +25,9 @@ export default function ReadySection({ setShowLoginModal }: { setShowLoginModal:
               <ArrowRight className="w-5 h-5" />
             </motion.div>
           </PrimaryButton>
-
-          <SecondaryButton
-            href="https://github.com/tinkle-community/nofx/tree/dev"
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{
-              scale: 1.05,
-              backgroundColor: 'rgba(240, 185, 11, 0.1)',
-            }}
-            whileTap={{ scale: 0.95 }}
-          >
-            {t('viewSourceCode')}
-          </SecondaryButton>
+          <LoginButton onClick={() => setShowLoginModal(true)} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            {t('connectExchange')}
+          </LoginButton>
         </ButtonRow>
       </Container>
     </AnimatedSection>
@@ -86,18 +76,19 @@ const ButtonRow = styled.div`
 `
 
 const PrimaryButton = styled(motion.button)`
+  flex: 1;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
-
   padding: 1rem 2.5rem;
   font-size: 1rem;
   font-weight: bold;
-
-  border-radius: 1rem;
-  background: var(--brand-green);
+  color: #fff;
+  background: #191a23;
   box-shadow: 4px 4px 0px 0px #191a23;
-  border: 1px solid #000000;
+  border-radius: 16px;
+  border: 1px solid #ffffff;
   cursor: pointer;
 
   @media (max-width: 768px) {
@@ -106,24 +97,8 @@ const PrimaryButton = styled(motion.button)`
   }
 `
 
-const SecondaryButton = styled(motion.a)`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-
-  padding: 1rem 2.5rem;
-  font-size: 1rem;
-  font-weight: bold;
-
-  border-radius: 1rem;
-  box-shadow: 4px 4px 0px 0px #191a23;
-  border: 1px solid #000000;
-  cursor: pointer;
-  text-decoration: none;
-
-  @media (max-width: 768px) {
-    min-width: 210px;
-    padding: 0.85rem 2rem;
-    font-size: 0.9rem;
-  }
+const LoginButton = styled(PrimaryButton)`
+  color: var(--brand-black);
+  background: #fff;
+  border: 1px solid #000;
 `

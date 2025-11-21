@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion'
 import { styled } from 'styled-components'
+import { useTranslation } from 'react-i18next'
+
 import AnimatedSection from './AnimatedSection'
 
 interface CardProps {
@@ -30,6 +32,7 @@ function TestimonialCard({ quote, authorName, delay }: CardProps) {
 }
 
 export default function CommunitySection() {
+  const { t } = useTranslation()
   const staggerContainer = {
     animate: { transition: { staggerChildren: 0.1 } },
   }
@@ -37,8 +40,7 @@ export default function CommunitySection() {
   // 推特内容整合（保持原三列布局，超出自动换行）
   const items: CardProps[] = [
     {
-      quote:
-        '前不久非常火的 AI 量化交易系统 NOF1，在 GitHub 上有人将其复刻并开源，这就是 NOFX 项目。基于 DeepSeek、Qwen 等大语言模型，打造的通用架构 AI 交易操作系统，完成了从决策、到交易、再到复盘的闭环。GitHub: https://github.com/NoFxAiOS/nofx',
+      quote: 'I finally stopped watching charts all day.Valkynor handles everything for me.',
       authorName: 'Michael Williams',
       handle: '@MichaelWil93725',
       avatarUrl: 'https://pbs.twimg.com/profile_images/1767615411594694659/Mj8Fdt6o_400x400.jpg',
@@ -46,7 +48,7 @@ export default function CommunitySection() {
       delay: 0,
     },
     {
-      quote: '跑了一晚上 @nofx_ai 开源的 AI 自动交易，太有意思了，就看 AI 在那一会开空一会开多，一顿操作，虽然看不懂为什么，但是一晚上帮我赚了 6% 收益',
+      quote: '简单的设置，交易甚至在我睡觉的时候也在运行。',
       authorName: 'DIŸgöd',
       handle: '@DIYgod',
       avatarUrl: 'https://pbs.twimg.com/profile_images/1628393369029181440/r23HDDJk_400x400.jpg',
@@ -54,8 +56,7 @@ export default function CommunitySection() {
       delay: 0.1,
     },
     {
-      quote:
-        'Open-source NOFX revives the legendary Alpha Arena, an AI-powered crypto futures battleground. Built on DeepSeek/Qwen AI, it trades live on Binance, Hyperliquid, and Aster DEX, featuring multi-AI battles and self-learning bots',
+      quote: 'A great tool for people who want automation without complexity.',
       authorName: 'Kai',
       handle: '@hqmank',
       avatarUrl: 'https://pbs.twimg.com/profile_images/1905441261911506945/4YhLIqUm_400x400.jpg',
@@ -67,6 +68,9 @@ export default function CommunitySection() {
   return (
     <AnimatedSection>
       <CommunityContainer>
+        <TitleBlock initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+          <SectionTitle>{t('userTestimonials')}</SectionTitle>
+        </TitleBlock>
         <CommunityList variants={staggerContainer} initial="initial" whileInView="animate" viewport={{ once: true }}>
           {items.map((item, idx) => (
             <TestimonialCard key={idx} {...item} />
@@ -80,6 +84,30 @@ export default function CommunitySection() {
 const CommunityContainer = styled.div`
   max-width: 76.5rem;
   margin: 0 auto;
+`
+
+const TitleBlock = styled(motion.div)`
+  text-align: center;
+  margin-bottom: 40px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 28px;
+  }
+`
+
+const SectionTitle = styled.h2`
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: var(--brand-black);
+
+  @media (max-width: 768px) {
+    font-size: 2.25rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 2rem;
+  }
 `
 
 const CommunityList = styled(motion.div)`
