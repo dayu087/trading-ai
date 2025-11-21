@@ -397,6 +397,7 @@
   "invalidEmail": "邮箱格式不正确",
   "passwordTooShort": "密码至少需要6个字符",
 
+  "about": "关于",
   "features": "功能",
   "howItWorks": "如何使用",
   "community": "社区",

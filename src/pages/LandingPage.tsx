@@ -25,7 +25,7 @@ export function LandingPage() {
         <HowItWorksSection />
         <CommunitySection />
         <ReadySection setShowLoginModal={setShowLoginModal} />
-        {showLoginModal && <LoginModal onClose={() => setShowLoginModal(false)} />}
+        {/* {showLoginModal && <LoginModal onClose={() => setShowLoginModal(false)} />} */}
         <FooterSection />
       </LandingContainer>
     </>
