@@ -13,17 +13,17 @@ import { Header } from './components/Header'
 function AppContent() {
   const { language } = useLanguage()
   const { isLoading } = useAuth()
-  const { loading: configLoading } = useSystemConfig()
+  const { loading } = useSystemConfig()
   const location = useLocation()
 
   const currentPath = location.pathname
   const currentPage = currentPath.replace('/', '') || ''
 
   // 加载中
-  if (isLoading || configLoading) {
+  if (isLoading || loading) {
     return (
       <LoadingScreen>
-        <img src="/icons/nofx.svg" alt="NoFx Logo" className="w-16 h-16 mx-auto mb-4 animate-pulse" />
+        {/* <img src="/icons/nofx.svg" alt="NoFx Logo" className="w-16 h-16 mx-auto mb-4 animate-pulse" /> */}
         <p>{t('loading', language)}</p>
       </LoadingScreen>
     )
@@ -66,6 +66,4 @@ const LoadingScreen = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #0b0e11;
-  color: #eaecef;
 `
