@@ -27,17 +27,17 @@ export default function FooterSection() {
             <ColumnTitle>{t('links')}</ColumnTitle>
             <List>
               <li>
-                <StyledLink href="https://github.com/tinkle-community/nofx" target="_blank">
+                <StyledLink href="" target="_blank">
                   GitHub
                 </StyledLink>
               </li>
               <li>
-                <StyledLink href="https://t.me/nofx_dev_community" target="_blank">
+                <StyledLink href="" target="_blank">
                   Telegram
                 </StyledLink>
               </li>
               <li>
-                <StyledLink href="https://x.com/nofx_ai" target="_blank">
+                <StyledLink href="" target="_blank">
                   X (Twitter)
                 </StyledLink>
               </li>
@@ -49,17 +49,17 @@ export default function FooterSection() {
             <ColumnTitle>{t('resources')}</ColumnTitle>
             <List>
               <li>
-                <StyledLink href="https://github.com/tinkle-community/nofx/blob/main/README.md" target="_blank">
+                <StyledLink href="" target="_blank">
                   {t('documentation')}
                 </StyledLink>
               </li>
               <li>
-                <StyledLink href="https://github.com/tinkle-community/nofx/issues" target="_blank">
+                <StyledLink href="" target="_blank">
                   Issues
                 </StyledLink>
               </li>
               <li>
-                <StyledLink href="https://github.com/tinkle-community/nofx/pulls" target="_blank">
+                <StyledLink href="" target="_blank">
                   Pull Requests
                 </StyledLink>
               </li>
@@ -71,12 +71,12 @@ export default function FooterSection() {
             <ColumnTitle>{t('supporters')}</ColumnTitle>
             <List>
               <li>
-                <StyledLink href="https://www.asterdex.com/en/referral/fdfc0e" target="_blank">
+                <StyledLink href="" target="_blank">
                   Aster DEX
                 </StyledLink>
               </li>
               <li>
-                <StyledLink href="https://www.maxweb.red/join?ref=NOFXAI" target="_blank">
+                <StyledLink href="https://www.maxweb.red/" target="_blank">
                   Binance
                 </StyledLink>
               </li>
