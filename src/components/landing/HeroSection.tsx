@@ -7,14 +7,13 @@ import { useScrollContext } from '../../contexts/ScrollProvider'
 import { ArrowRight } from 'lucide-react'
 
 import homeArrow from '@/assets/images/home_icon_arrow.png'
-import gitHubIcon from '@/assets/images/home_icon_github.png'
+import homeVaikynorIcon from '@/assets/images/home_img_vaikynor1.png'
 
 export default function HeroSection({ setShowLoginModal }: { setShowLoginModal: (value: boolean) => void }) {
   const { scrollRef } = useScrollContext()
   const { scrollYProgress } = useScroll({ container: scrollRef })
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
   const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.8])
-  const handControls = useAnimation()
   const { t } = useTranslation()
 
   const fadeInUp = {
@@ -54,47 +53,8 @@ export default function HeroSection({ setShowLoginModal }: { setShowLoginModal: 
           </LeftWrapper>
 
           {/* Right */}
-          <RightWrapper
-            style={{ opacity, scale }}
-            onMouseEnter={() => {
-              handControls.start({
-                y: [-8, 8, -8],
-                rotate: [-3, 3, -3],
-                x: [-2, 2, -2],
-                transition: {
-                  duration: 2.5,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                  times: [0, 0.5, 1],
-                },
-              })
-            }}
-            onMouseLeave={() => {
-              handControls.start({
-                y: 0,
-                rotate: 0,
-                x: 0,
-                transition: { duration: 0.6, ease: 'easeOut' },
-              })
-            }}
-          >
-            {/* <BgImage
-              src="/images/hand-bg.png"
-              alt="NOFX Platform Background"
-              style={{ opacity, scale }}
-              whileHover={{ scale: 1.02 }}
-              transition={{ type: 'spring', stiffness: 300 }}
-            />
-
-            <HandImage
-              src="/images/hand.png"
-              animate={handControls}
-              initial={{ y: 0, rotate: 0, x: 0 }}
-              whileHover={{
-                scale: 1.05,
-                transition: { type: 'spring', stiffness: 400 },
-              }}
-            /> */}
+          <RightWrapper style={{ opacity, scale }} whileHover={{ scale: 1.02 }} transition={{ type: 'spring', stiffness: 300 }}>
+            <BgImage src={homeVaikynorIcon} alt=" Platform Background" style={{ opacity, scale }} />
           </RightWrapper>
         </Grid>
       </HeroContainer>
@@ -268,11 +228,17 @@ const RightWrapper = styled(motion.div)`
   box-shadow: 4px 4px 0px 0px #191a23;
   border-radius: 24px;
   border: 1px solid #191a23;
+  overflow: hidden;
 
   /* Mobile: 缩小比例并保持不变形 */
   @media (max-width: 768px) {
     width: 100%;
     height: auto;
-    aspect-ratio: 600 / 496;
+    aspect-ratio: 496 / 362;
   }
+`
+
+const BgImage = styled(motion.img)`
+  width: 100%;
+  height: 100%;
 `
