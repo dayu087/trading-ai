@@ -2,7 +2,7 @@ import useSWR from 'swr'
 import { styled } from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { api } from '../lib/api'
-import { Brain, BarChart3, TrendingUp, TrendingDown, Sparkles, Coins, Trophy, ScrollText, Lightbulb } from 'lucide-react'
+import { Brain, BarChart3, ScrollText, Lightbulb } from 'lucide-react'
 
 import aiICon from '@/assets/images/dashboard_icon_ai.png'
 import sharpeIcon from '@/assets/images/dashboard_icon_sharpe.png'
