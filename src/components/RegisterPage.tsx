@@ -95,19 +95,7 @@ export function RegisterPage() {
 
   return (
     <div className="min-h-screen" style={{ background: 'var(--brand-black)' }}>
-      <HeaderBar
-        isLoggedIn={false}
-        isHomePage={false}
-        currentPage="register"
-        language={language}
-        onLanguageChange={() => {}}
-        onPageChange={(page) => {
-          console.log('RegisterPage onPageChange called with:', page)
-          if (page === 'competition') {
-            window.location.href = '/competition'
-          }
-        }}
-      />
+      <HeaderBar />
 
       <div className="flex items-center justify-center pt-20" style={{ minHeight: 'calc(100vh - 80px)' }}>
         <div className="w-full max-w-md">

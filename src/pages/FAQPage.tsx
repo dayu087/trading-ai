@@ -26,7 +26,7 @@ export function FAQPage() {
   useSystemConfig() // Load system config but don't use it
 
   return (
-    <div className="min-h-screen" style={{ background: '#000000', color: '#EAECEF' }}>
+    <div>
       <HeaderBar />
       <FAQLayout language={language} />
     </div>
