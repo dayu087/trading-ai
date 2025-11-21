@@ -2,17 +2,14 @@ import { styled } from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 import AnimatedSection from './AnimatedSection'
-
 import alarmIcon from '@/assets/images/dashboard_icon_alarm.png'
 
-/* ------------------------------ StepCard 组件 ------------------------------ */
-
-function StepCard({ number, title, description, delay }: any) {
+function StepCard({ title, description, delay, index, color }: any) {
   return (
     <StepWrapperBox initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay }} whileHover={{ x: 10 }}>
       <StepWrapper>
         <NumberCircle whileHover={{ scale: 1.2, rotate: 360 }} transition={{ type: 'spring', stiffness: 260, damping: 20 }}>
-          0{number}
+          0{index + 1}
         </NumberCircle>
 
         <StepContent>
@@ -20,9 +17,15 @@ function StepCard({ number, title, description, delay }: any) {
           <StepDescription>{description}</StepDescription>
         </StepContent>
       </StepWrapper>
-      {/* <StepIcon>
-        <img src="" alt="" />
-      </StepIcon> */}
+      <StepIcon $color={color}>
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="80" height="80" transform="matrix(0 1 -1 0 80 0)" fill="white" />
+          <rect x="64.1406" y="44.2842" width="33.3333" height="6.66667" transform="rotate(135 64.1406 44.2842)" fill="currentColor" />
+          <rect x="64.1406" y="20.7141" width="33.3333" height="6.66667" transform="rotate(135 64.1406 20.7141)" fill="currentColor" />
+          <rect x="21.7144" y="39.5703" width="33.3333" height="6.66667" transform="rotate(45 21.7144 39.5703)" fill="currentColor" />
+          <rect x="21.7144" y="16" width="23.3333" height="6.66667" transform="rotate(45 21.7144 16)" fill="currentColor" />
+        </svg>
+      </StepIcon>
     </StepWrapperBox>
   )
 }
@@ -31,28 +34,11 @@ function StepCard({ number, title, description, delay }: any) {
 
 export default function HowItWorksSection() {
   const { t } = useTranslation()
-
   const stepDataList = [
-    {
-      number: 1,
-      title: t('step1Title'),
-      description: t('step1Desc'),
-    },
-    {
-      number: 2,
-      title: t('step2Title'),
-      description: t('step2Desc'),
-    },
-    {
-      number: 3,
-      title: t('step3Title'),
-      description: t('step3Desc'),
-    },
-    {
-      number: 4,
-      title: t('step4Title'),
-      description: t('step4Desc'),
-    },
+    { color: '#FF8F00', title: t('step1Title'), description: t('step1Desc') },
+    { color: '#FF5A94', title: t('step2Title'), description: t('step2Desc') },
+    { color: '#5D75FF', title: t('step3Title'), description: t('step3Desc') },
+    { color: '#55D3FF', title: t('step4Title'), description: t('step4Desc') },
   ]
 
   return (
@@ -65,7 +51,7 @@ export default function HowItWorksSection() {
 
         <StepsWrapper>
           {stepDataList.map((step, index) => (
-            <StepCard key={step.number} {...step} delay={index * 0.1} />
+            <StepCard key={index} index={index} {...step} delay={index * 0.1} />
           ))}
         </StepsWrapper>
 
@@ -130,7 +116,9 @@ const SectionSubtitle = styled.p`
 const StepsWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  @media (max-width: 768px) {
+    gap: 1rem;
+  }
 `
 
 const StepWrapperBox = styled(motion.div)`
@@ -158,27 +146,19 @@ const StepWrapper = styled.div`
   }
 `
 
-const StepIcon = styled.div`
+const StepIcon = styled.div<{ $color: string }>`
   padding: 19px 64px;
   border-radius: 16px;
   border: 1px solid #191a23;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
-  img {
-    width: 5rem;
-    height: 5rem;
+  svg {
+    color: ${({ $color }) => $color};
   }
 
   @media (max-width: 768px) {
-    padding: 16px 32px;
-
-    img {
-      width: 3.75rem;
-      height: 3.75rem;
-    }
+    display: none;
   }
 `
 
@@ -225,17 +205,15 @@ const WarningBox = styled(motion.div)`
   display: flex;
   gap: 1rem;
   align-items: flex-start;
-
   margin-top: 1.5rem;
   padding: 1.5rem;
-
   border-radius: 16px;
-
   background: #cafe36;
   border: 1px solid #000;
   box-shadow: 4px 4px 0px #191a23;
 
   @media (max-width: 768px) {
+    margin-top: 1rem;
     padding: 1rem;
     gap: 0.75rem;
   }

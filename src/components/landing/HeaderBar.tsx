@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
 import { motion } from 'framer-motion'
-import { Menu, X, ChevronDown } from 'lucide-react'
+import { Menu, X, ChevronDown, ChevronUp } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { styled } from 'styled-components'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -19,29 +19,31 @@ export default function HeaderBar() {
 
   const currentPage = pathname.replace('/', '') || ''
 
-  const leftNavList = useMemo(() => {
-    if (user) {
-      return [
-        { key: 'competition', label: t('realtimeNav') },
-        { key: 'traders', label: t('configNav') },
-        { key: 'dashboard', label: t('dashboardNav') },
-        { key: 'faq', label: t('faqNav') },
-      ]
-    } else {
-      return [
-        { key: 'competition', label: t('realtimeNav') },
-        { key: 'faq', label: t('faqNav') },
-      ]
-    }
+  const leftNavList = useMemo<any | []>(() => {
+    return []
+    // if (user) {
+    //   return [
+    //     { key: 'competition', label: t('realtimeNav') },
+    //     { key: 'traders', label: t('configNav') },
+    //     { key: 'dashboard', label: t('dashboardNav') },
+    //     { key: 'faq', label: t('faqNav') },
+    //   ]
+    // } else {
+    //   return [
+    //     { key: 'competition', label: t('realtimeNav') },
+    //     { key: 'faq', label: t('faqNav') },
+    //   ]
+    // }
   }, [user, i18n])
 
   const rightNavList = useMemo(() => {
     if (pathname == '/') {
       return [
+        { key: 'about', label: t('about') },
         { key: 'features', label: t('features') },
         { key: 'howItWorks', label: t('howItWorks') },
-        { key: 'GitHub', label: 'GitHub' },
-        { key: 'community', label: t('community') },
+        // { key: 'GitHub', label: 'GitHub' },
+        // { key: 'community', label: t('community') },
       ]
     } else {
       return []
@@ -79,7 +81,7 @@ export default function HeaderBar() {
         {/* Desktop Menu */}
         <DesktopMenu>
           <NavGroup>
-            {leftNavList.map((it) => (
+            {leftNavList.map((it: any) => (
               <NavButton key={it.key} $active={currentPage === it.key} onClick={() => navigate(`/${it.key}`)}>
                 {it.label}
               </NavButton>
@@ -112,7 +114,7 @@ export default function HeaderBar() {
                 <UserButton onClick={() => setUserDropdownOpen(!userDropdownOpen)}>
                   <UserIcon>{user.email[0].toUpperCase()}</UserIcon>
                   <span>{user.email}</span>
-                  <ChevronDown size={18} color="var(--brand-black)" />
+                  {userDropdownOpen ? <ChevronUp size={18} color="var(--brand-black)" /> : <ChevronDown size={18} color="var(--brand-black)" />}
                 </UserButton>
 
                 {userDropdownOpen && (
@@ -187,7 +189,7 @@ export default function HeaderBar() {
             <LangDropdownContainer ref={dropdownRef}>
               <LangButton onClick={() => setLanguageDropdownOpen(!languageDropdownOpen)}>
                 <span>{i18n.language}</span>
-                <ChevronDown size={18} color="var(--brand-black)" />
+                {languageDropdownOpen ? <ChevronUp size={18} color="var(--brand-black)" /> : <ChevronDown size={18} color="var(--brand-black)" />}
               </LangButton>
               {languageDropdownOpen && (
                 <LangDropdown>
@@ -214,7 +216,7 @@ export default function HeaderBar() {
         <div style={{ padding: '16px' }}>
           {user && (
             <>
-              {leftNavList.map((it) => (
+              {leftNavList.map((it: any) => (
                 <MobileItem
                   key={it.key}
                   $active={currentPage === it.key}
@@ -253,10 +255,7 @@ const HeaderInner = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  @media (max-width: 768px) {
-    padding: 0 1rem;
-  }
+  padding: 0 1rem;
 `
 
 const LogoLink = styled.a`
