@@ -109,7 +109,7 @@ export default function HeaderBar() {
 
           <RIghtGroup>
             {/* User */}
-            {user ? (
+            {/* {user ? (
               <UserDropdownContainer ref={userDropdownRef}>
                 <UserButton onClick={() => setUserDropdownOpen(!userDropdownOpen)}>
                   <UserIcon>{user.email[0].toUpperCase()}</UserIcon>
@@ -183,12 +183,12 @@ export default function HeaderBar() {
                   </a>
                 </>
               )
-            )}
+            )} */}
 
             {/* Language */}
             <LangDropdownContainer ref={dropdownRef}>
               <LangButton onClick={() => setLanguageDropdownOpen(!languageDropdownOpen)}>
-                <span>{i18n.language}</span>
+                <span>{i18n.language.toLocaleUpperCase()}</span>
                 {languageDropdownOpen ? <ChevronUp size={18} color="var(--brand-black)" /> : <ChevronDown size={18} color="var(--brand-black)" />}
               </LangButton>
               {languageDropdownOpen && (
@@ -464,11 +464,15 @@ const LangDropdown = styled.div`
   position: absolute;
   right: 0;
   top: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   margin-top: 0.5rem;
   width: 8rem;
+  padding: 0.5rem;
   border-radius: 0.5rem;
-  background: var(--brand-dark-gray);
-  border: 1px solid var(--panel-border);
+  background: #fff;
+  border: 1px solid #000;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   overflow: hidden;
   z-index: 50;
@@ -481,12 +485,13 @@ const LangOption = styled.button<{ $active?: boolean }>`
   width: 100%;
   padding: 8px 12px;
   font-size: 0.875rem;
-  color: var(--brand-light-gray);
-  background: ${({ $active }) => ($active ? 'rgba(240, 185, 11, 0.1)' : 'transparent')};
-  transition: opacity 0.2s;
+  border-radius: 6px;
+  background: ${({ $active }) => ($active ? 'var(--brand-green)' : 'transparent')};
+  transition: background 0.2s;
 
   &:hover {
-    opacity: ${({ $active }) => ($active ? 1 : 0.8)};
+    transform: none !important;
+    background: var(--brand-green);
   }
 `
 
