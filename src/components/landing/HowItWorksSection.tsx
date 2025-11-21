@@ -56,7 +56,7 @@ export default function HowItWorksSection() {
   ]
 
   return (
-    <AnimatedSection id="how-it-works" backgroundColor="rgba(25,26,35,0.04)" borderRadius="48px">
+    <AnimatedSection id="how-it-works" borderRadius="48px">
       <Container>
         <TitleBlock initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
           <SectionTitle>{t('howToStart')}</SectionTitle>
@@ -82,37 +82,64 @@ export default function HowItWorksSection() {
   )
 }
 
-/* ------------------------------ Styled Components ------------------------------ */
 const Container = styled.div`
   max-width: 76.5rem;
   padding: 88px 0;
   margin: 0 auto;
   color: var(--brand-black);
+
+  @media (max-width: 768px) {
+    padding: 0;
+  }
 `
 
 const TitleBlock = styled(motion.div)`
   text-align: center;
   margin-bottom: 40px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 28px;
+  }
 `
 
 const SectionTitle = styled.h2`
   font-size: 3rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
+  color: var(--brand-black);
+
+  @media (max-width: 768px) {
+    font-size: 2.25rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 2rem;
+  }
 `
 
 const SectionSubtitle = styled.p`
   font-size: 1rem;
+  color: var(--brand-black);
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+  }
 `
 
+/* Steps */
 const StepsWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  /* gap: 1rem; */
+  gap: 1rem;
 `
 
 const StepWrapperBox = styled(motion.div)`
   display: flex;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `
 
 const StepWrapper = styled.div`
@@ -120,74 +147,132 @@ const StepWrapper = styled.div`
   display: flex;
   padding: 1rem;
   gap: 1rem;
-  margin-top: -1px;
   align-items: center;
   border-radius: 16px;
   border: 1px solid #191a23;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem 0.75rem;
+  }
 `
 
 const StepIcon = styled.div`
   padding: 19px 64px;
   border-radius: 16px;
   border: 1px solid #191a23;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   img {
     width: 5rem;
     height: 5rem;
+  }
+
+  @media (max-width: 768px) {
+    padding: 16px 32px;
+
+    img {
+      width: 3.75rem;
+      height: 3.75rem;
+    }
   }
 `
 
 const NumberCircle = styled(motion.div)`
   flex-shrink: 0;
-  /* width: 3.5rem;
-  height: 3.5rem;
-  border-radius: 9999px;
-  display: flex;
-  align-items: center;
-  justify-content: center; */
   font-size: 3rem;
-  /* background: var(--binance-yellow); */
+  font-weight: bold;
+  color: var(--brand-black);
+
+  @media (max-width: 768px) {
+    font-size: 2.25rem;
+  }
 `
 
-const StepContent = styled.div``
+const StepContent = styled.div`
+  @media (max-width: 768px) {
+    margin-top: 0.5rem;
+  }
+`
 
 const StepTitle = styled.h3`
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
   color: var(--brand-black);
+
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
+  }
 `
 
 const StepDescription = styled.p`
   font-size: 1rem;
   line-height: 1.5;
   color: var(--brand-black);
+
+  @media (max-width: 768px) {
+    font-size: 0.95rem;
+  }
 `
 
-/* ---- Warning Box ---- */
+/* Warning Box */
 const WarningBox = styled(motion.div)`
   display: flex;
   gap: 1rem;
-  align-items: center;
+  align-items: flex-start;
+
   margin-top: 1.5rem;
   padding: 1.5rem;
+
   border-radius: 16px;
+
   background: #cafe36;
-  border: 1px solid rgba(246, 70, 93, 0.3);
-  box-shadow: 4px 4px 0px 0px #191a23;
-  border: 1px solid #000000;
+  border: 1px solid #000;
+  box-shadow: 4px 4px 0px #191a23;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
 `
 
 const WarningIcon = styled.img`
   width: 2.75rem;
   height: 2.75rem;
+
+  @media (max-width: 768px) {
+    width: 2.2rem;
+    height: 2.2rem;
+  }
 `
 
 const WarningTitle = styled.div`
   font-size: 0.875rem;
   font-weight: bold;
   margin-bottom: 0.25rem;
+  color: var(--brand-black);
+
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+  }
 `
 
 const WarningText = styled.p`
   font-size: 0.875rem;
+  color: var(--brand-black);
+
+  @media (max-width: 768px) {
+    font-size: 0.8rem;
+  }
 `

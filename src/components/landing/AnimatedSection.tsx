@@ -1,16 +1,15 @@
 import { useRef } from 'react'
+import { styled } from 'styled-components'
 import { motion, useInView } from 'framer-motion'
 
 export default function AnimatedSection({
   children,
   id,
-  backgroundColor = 'var(--brand-black)',
   borderRadius = '0px',
   padding = '0px',
 }: {
   children: React.ReactNode
   id?: string
-  backgroundColor?: string
   borderRadius?: string
   padding?: string
 }) {
@@ -18,15 +17,24 @@ export default function AnimatedSection({
   const isInView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <motion.section
+    <AnimatedBox
       id={id}
       ref={ref}
-      style={{ background: backgroundColor, borderRadius: borderRadius, padding: padding }}
+      $padding={padding}
+      style={{ borderRadius: borderRadius }}
       initial={{ opacity: 0 }}
       animate={isInView ? { opacity: 1 } : { opacity: 0 }}
       transition={{ duration: 0.6 }}
     >
       {children}
-    </motion.section>
+    </AnimatedBox>
   )
 }
+
+const AnimatedBox = styled(motion.div)<{ $padding: string }>`
+  background: #fff;
+  padding: ${({ $padding }) => $padding};
+  @media (max-width: 768px) {
+    padding: 0 1rem !important;
+  }
+`

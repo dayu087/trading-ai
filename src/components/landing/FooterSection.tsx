@@ -176,7 +176,8 @@ const StyledLink = styled.a`
   transition: color 0.2s;
 
   &:hover {
-    color: var(--brand-green);
+    font-weight: bold;
+    /* color: var(--brand-green); */
   }
 `
 

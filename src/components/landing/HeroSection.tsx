@@ -42,7 +42,7 @@ export default function HeroSection() {
               <Badge
                 whileHover={{
                   scale: 1.05,
-                  boxShadow: '0 0 20px rgba(240, 185, 11, 0.2)',
+                  boxShadow: '0 0 20px var(--green-shadow)',
                 }}
               >
                 <img src={homeArrow} alt="" />
@@ -170,20 +170,32 @@ export default function HeroSection() {
 const HeroBox = styled.section`
   position: relative;
   padding: 0 1rem;
+
+  @media (max-width: 768px) {
+    padding: 0 1rem;
+  }
 `
 
 const HeroContainer = styled.div`
-  max-width: 76.5rem; /* max-w-7xl */
+  max-width: 76.5rem;
   margin: 0 auto;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
 `
 
 const Grid = styled.div`
   display: flex;
   gap: 90px;
   align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
 
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(2, 1fr);
+  /* Mobile: 改为垂直布局、减小间距 */
+  @media (max-width: 768px) {
+    flex-direction: column-reverse;
+    gap: 40px;
   }
 `
 
@@ -194,13 +206,20 @@ const LeftWrapper = styled(motion.div)`
   flex-direction: column;
   gap: 1.5rem;
   max-width: 532px;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    text-align: center;
+    align-items: center;
+    gap: 1rem;
+  }
 `
 
 const Badge = styled(motion.div)`
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.625rem 1rem; /* px-4 py-2 */
+  padding: 0.625rem 1rem;
   margin-bottom: 10px;
   border-radius: 9999px;
   background: #f3f3f3;
@@ -212,13 +231,26 @@ const Badge = styled(motion.div)`
     width: 24px;
     height: 24px;
   }
+
+  @media (max-width: 768px) {
+    font-size: 0.75rem;
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
 `
 
 const Title = styled.h1`
-  font-size: 4rem; /* text-5xl */
+  font-size: 4rem;
   font-weight: bold;
   line-height: 1.15;
   color: var(--brand-black);
+
+  @media (max-width: 768px) {
+    font-size: 2.4rem;
+    line-height: 1.2;
+  }
 `
 
 const Highlight = styled.span`
@@ -232,12 +264,24 @@ const Highlight = styled.span`
     height: 40px;
     background: #cafe36;
   }
+
+  @media (max-width: 768px) {
+    &::before {
+      height: 24px;
+      bottom: -2px;
+    }
+  }
 `
 
 const Description = styled(motion.p)`
   font-size: 1rem;
   line-height: 1.5;
   color: var(--brand-black);
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+    max-width: 90%;
+  }
 `
 
 const ButtonsRow = styled.div`
@@ -247,6 +291,12 @@ const ButtonsRow = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 10px 0;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: center;
+    gap: 1rem;
+  }
 `
 
 const ButtonsRowAnimated = styled(motion.a)`
@@ -258,12 +308,20 @@ const ButtonsRowAnimated = styled(motion.a)`
     font-size: 1.5rem;
     font-weight: bold;
   }
+
+  @media (max-width: 768px) {
+    align-items: center;
+    h5 {
+      font-size: 1.2rem;
+    }
+  }
 `
 
 const ButtonsRowAvatar = styled.div`
   display: flex;
   align-items: center;
   gap: 0.25rem;
+
   img {
     width: 1rem;
     height: 1rem;
@@ -272,16 +330,30 @@ const ButtonsRowAvatar = styled.div`
   span {
     font-size: 0.875rem;
   }
+
+  @media (max-width: 768px) {
+    img {
+      width: 0.9rem;
+      height: 0.9rem;
+    }
+    span {
+      font-size: 0.75rem;
+    }
+  }
 `
 
 const SmallNote = styled(motion.p)`
   font-size: 0.75rem;
   color: var(--brand-black);
+
+  @media (max-width: 768px) {
+    text-align: center;
+    font-size: 0.7rem;
+  }
 `
 
 const RightWrapper = styled(motion.div)`
   position: relative;
-  width: 100%;
   cursor: pointer;
   width: 600px;
   height: 496px;
@@ -289,4 +361,11 @@ const RightWrapper = styled(motion.div)`
   box-shadow: 4px 4px 0px 0px #191a23;
   border-radius: 24px;
   border: 1px solid #191a23;
+
+  /* Mobile: 缩小比例并保持不变形 */
+  @media (max-width: 768px) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 600 / 496;
+  }
 `

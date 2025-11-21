@@ -20,6 +20,7 @@ html {
   --foreground: #191a23;
   --brand-green: #cafe36;
   --panel-border: #f3f3f3;
+  --green-shadow: rgba(202, 254, 54, 0.2);
 
   /* Binance Brand Colors */
   --brand-yellow: #f0b90b;

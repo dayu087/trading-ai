@@ -110,7 +110,8 @@ const ProgressBar = styled(motion.div)`
   left: 0;
   height: 3px;
   width: 100%;
-  background: linear-gradient(90deg, #8854ff, #a46dff);
+  /* background: linear-gradient(90deg, #8854ff, #a46dff); */
+  background: var(--brand-green);
   transform-origin: 0% 0%;
   z-index: 99999;
 `
@@ -128,7 +129,8 @@ const ScrollContainer = styled.div`
     width: 6px;
   }
   &::-webkit-scrollbar-thumb {
-    background: rgba(136, 84, 255, 0.65);
+    /* background: rgba(136, 84, 255, 0.65); */
+    background: #f3f3f3;
     border-radius: 4px;
   }
 `

@@ -65,7 +65,7 @@ export default function CommunitySection() {
   ]
 
   return (
-    <AnimatedSection backgroundColor="#ffffff">
+    <AnimatedSection>
       <CommunityContainer>
         <CommunityList variants={staggerContainer} initial="initial" whileInView="animate" viewport={{ once: true }}>
           {items.map((item, idx) => (
@@ -85,6 +85,9 @@ const CommunityContainer = styled.div`
 const CommunityList = styled(motion.div)`
   display: flex;
   gap: 1rem;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `
 
 const CommunityItem = styled(motion.div)`

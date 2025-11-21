@@ -13,14 +13,13 @@ export default function FeaturesSection() {
   const { t } = useTranslation()
 
   return (
-    <AnimatedSection id="features" backgroundColor="#ffffff">
+    <AnimatedSection id="features">
       <Container>
         <HeaderWrapper initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
           <Tag whileHover={{ scale: 1.05 }}>
             <img src={homeArrow} alt="" />
             <span>{t('coreFeatures')}</span>
           </Tag>
-
           <Title>{t('whyChooseNofx')}</Title>
           <Subtitle>{t('openCommunityDriven')}</Subtitle>
         </HeaderWrapper>
@@ -55,7 +54,6 @@ export default function FeaturesSection() {
   )
 }
 
-/* ---------------- Styled Components ---------------- */
 const Container = styled.div`
   max-width: 76.5rem;
   margin: 0 auto;
@@ -64,6 +62,10 @@ const Container = styled.div`
 const HeaderWrapper = styled(motion.div)`
   text-align: center;
   margin-bottom: 4rem;
+
+  @media (max-width: 768px) {
+    margin-bottom: 2.5rem;
+  }
 `
 
 const Tag = styled(motion.div)`
@@ -72,7 +74,7 @@ const Tag = styled(motion.div)`
   gap: 0.5rem;
   padding: 0.325rem 1rem;
   border-radius: 9999px;
-  margin-bottom: 0%.5;
+  margin-bottom: 0.5rem;
   background: #f3f3f3;
 
   span {
@@ -85,11 +87,29 @@ const Tag = styled(motion.div)`
     width: 24px;
     height: 24px;
   }
+
+  @media (max-width: 768px) {
+    padding: 0.25rem 0.8rem;
+
+    span {
+      font-size: 0.75rem;
+    }
+
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
 `
 
 const CryptoImage = styled.img`
   width: 60px;
   height: 60px;
+
+  @media (max-width: 768px) {
+    width: 48px;
+    height: 48px;
+  }
 `
 
 const Title = styled.h2`
@@ -97,11 +117,21 @@ const Title = styled.h2`
   font-weight: bold;
   margin-bottom: 8px;
   color: var(--brand-black);
+
+  @media (max-width: 768px) {
+    font-size: 2.1rem;
+    margin-bottom: 6px;
+  }
 `
 
 const Subtitle = styled.p`
   font-size: 1rem;
   color: var(--brand-black);
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+    padding: 0 1rem;
+  }
 `
 
 const CardGrid = styled.div`
@@ -110,11 +140,12 @@ const CardGrid = styled.div`
   max-width: 80rem;
   margin: 0 auto;
 
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
+  @media (max-width: 1024px) {
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(3, 1fr);
+  @media (max-width: 768px) {
+    gap: 1.25rem;
   }
 `

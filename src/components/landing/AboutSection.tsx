@@ -13,7 +13,7 @@ export default function AboutSection() {
   const { t } = useTranslation()
 
   return (
-    <AnimatedSection id="about" backgroundColor="#ffffff" padding="100px 0 98px 0 ">
+    <AnimatedSection id="about" padding="100px 1rem 98px">
       <Wrapper>
         <Grid>
           <CodeBox>
@@ -77,6 +77,13 @@ const Wrapper = styled.div`
   border: 2px solid #191a23;
   box-shadow: 4px 4px 0px 0px #191a23;
   background: #f3f3f3;
+
+  @media (max-width: 768px) {
+    border-width: 1.5px;
+    box-shadow: 3px 3px 0 0 #191a23;
+    border-radius: 20px;
+    padding: 1rem;
+  }
 `
 
 const RightLine = styled.img`
@@ -84,6 +91,12 @@ const RightLine = styled.img`
   top: 24px;
   right: 26px;
   width: 76px;
+
+  @media (max-width: 768px) {
+    width: 50px;
+    top: 12px;
+    right: 12px;
+  }
 `
 
 const LeftWhatsIcon = styled.img`
@@ -91,6 +104,12 @@ const LeftWhatsIcon = styled.img`
   bottom: 0;
   left: 20px;
   max-width: 80%;
+
+  @media (max-width: 768px) {
+    left: 10px;
+    max-width: 60%;
+    bottom: -6px; /* 避免压到内容 */
+  }
 `
 
 const Grid = styled.div`
@@ -100,6 +119,10 @@ const Grid = styled.div`
   @media (max-width: 1024px) {
     flex-direction: column;
   }
+
+  @media (max-width: 768px) {
+    gap: 1.5rem;
+  }
 `
 
 const AboutRight = styled(motion.div)`
@@ -108,6 +131,11 @@ const AboutRight = styled(motion.div)`
   padding: 24px;
   border-radius: 24px;
   background: #ffffff;
+
+  @media (max-width: 768px) {
+    padding: 16px;
+    border-radius: 18px;
+  }
 `
 
 const Tag = styled(motion.div)`
@@ -125,6 +153,16 @@ const Tag = styled(motion.div)`
     width: 24px;
     height: 24px;
   }
+
+  @media (max-width: 768px) {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.8rem;
+
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
 `
 
 const Title = styled.h2`
@@ -132,6 +170,12 @@ const Title = styled.h2`
   font-size: 3rem;
   font-weight: bold;
   color: var(--brand-black);
+
+  @media (max-width: 768px) {
+    font-size: 2.1rem;
+    margin: 24px 0 12px;
+    text-align: center;
+  }
 `
 
 const Paragraph = styled.p`
@@ -141,6 +185,12 @@ const Paragraph = styled.p`
 
   &:not(:last-child) {
     margin-bottom: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+    line-height: 1.4rem;
+    text-align: center;
   }
 `
 
@@ -154,11 +204,23 @@ const InfoRow = styled(motion.div)`
   h3 {
     font-weight: bold;
   }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+  }
 `
 
 const IconCircle = styled.img`
   width: 2.5rem;
   height: 2.5rem;
+
+  @media (max-width: 768px) {
+    width: 2rem;
+    height: 2rem;
+  }
 `
 
 const CodeBox = styled.div`
@@ -166,4 +228,11 @@ const CodeBox = styled.div`
   flex: 1 1 50%;
   padding: 7rem 2rem 2rem;
   border-radius: 1rem;
+
+  @media (max-width: 768px) {
+    padding: 3rem 1rem 1rem;
+    border-radius: 0.75rem;
+    width: 100%;
+    height: auto;
+  }
 `

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { Menu, X, ChevronDown } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 
@@ -204,7 +204,7 @@ export default function HeaderBar() {
         </DesktopMenu>
 
         {/* Mobile Menu Button */}
-        <motion.button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden" style={{ color: 'var(--brand-light-gray)' }} whileTap={{ scale: 0.9 }}>
+        <motion.button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden" style={{ color: 'var(--brand-black)' }} whileTap={{ scale: 0.9 }}>
           {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </motion.button>
       </HeaderInner>
@@ -212,44 +212,20 @@ export default function HeaderBar() {
       {/* Mobile Menu */}
       <MobileMenuContainer initial={false} animate={mobileMenuOpen ? { height: 'auto', opacity: 1 } : { height: 0, opacity: 0 }} transition={{ duration: 0.3 }}>
         <div style={{ padding: '16px' }}>
-          <MobileItem
-            $active={currentPage === 'competition'}
-            onClick={() => {
-              navigate(`/competition`)
-              setMobileMenuOpen(false)
-            }}
-          >
-            {t('realtimeNav')}
-          </MobileItem>
           {user && (
             <>
-              <MobileItem
-                $active={currentPage === 'traders'}
-                onClick={() => {
-                  navigate(`/traders`)
-                  setMobileMenuOpen(false)
-                }}
-              >
-                {t('configNav')}
-              </MobileItem>
-              <MobileItem
-                $active={currentPage === 'trader'}
-                onClick={() => {
-                  navigate(`/trader`)
-                  setMobileMenuOpen(false)
-                }}
-              >
-                {t('dashboardNav')}
-              </MobileItem>
-              <MobileItem
-                $active={currentPage === 'faq'}
-                onClick={() => {
-                  navigate(`/faq`)
-                  setMobileMenuOpen(false)
-                }}
-              >
-                {t('faqNav')}
-              </MobileItem>
+              {leftNavList.map((it) => (
+                <MobileItem
+                  key={it.key}
+                  $active={currentPage === it.key}
+                  onClick={() => {
+                    setMobileMenuOpen(false)
+                    navigate(`/${it.key}`)
+                  }}
+                >
+                  {it.label}
+                </MobileItem>
+              ))}
             </>
           )}
         </div>
@@ -278,12 +254,9 @@ const HeaderInner = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  /* @media (min-width: 640px) {
-    padding: 0 1.5rem;
+  @media (max-width: 768px) {
+    padding: 0 1rem;
   }
-  @media (min-width: 1024px) {
-    padding: 0 2rem;
-  } */
 `
 
 const LogoLink = styled.a`
@@ -383,9 +356,6 @@ const TextLink = styled.a`
   color: var(--brand-black);
   position: relative;
   transition: color 0.3s;
-  &:hover {
-    color: var(--brand-yellow);
-  }
 
   &::after {
     content: '';
@@ -394,7 +364,7 @@ const TextLink = styled.a`
     left: 0;
     width: 0;
     height: 2px;
-    background: var(--brand-yellow);
+    background: var(--brand-black);
     transition: width 0.3s;
   }
 
@@ -522,7 +492,6 @@ const LangOption = styled.button<{ $active?: boolean }>`
 `
 
 const MobileMenuContainer = styled(motion.div)`
-  background: var(--brand-dark-gray);
   border-top: 1px solid rgba(240, 185, 11, 0.1);
   overflow: hidden;
 `
@@ -532,11 +501,11 @@ const MobileItem = styled.button<{ $active?: boolean }>`
   width: 100%;
   text-align: left;
   font-size: 0.875rem;
-  font-weight: bold;
   padding: 12px 16px;
   border-radius: 8px;
   position: relative;
-  color: ${({ $active }) => ($active ? 'var(--brand-yellow)' : 'var(--brand-light-gray)')};
+  color: var(--brand-black);
+  font-weight: ${({ $active }) => ($active ? 'bold' : 'normal')};
   transition: color 0.3s;
 
   &:hover {
@@ -551,7 +520,7 @@ const MobileItem = styled.button<{ $active?: boolean }>`
       position: absolute;
       inset: 0;
       border-radius: 8px;
-      background: rgba(240, 185, 11, 0.15);
+      background: #f3f3f3;
       z-index: -1;
     }
   `}

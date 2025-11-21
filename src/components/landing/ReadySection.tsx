@@ -8,7 +8,7 @@ export default function ReadySection({ setShowLoginModal }: { setShowLoginModal:
   const { t } = useTranslation()
 
   return (
-    <AnimatedSection backgroundColor="#ffffff">
+    <AnimatedSection>
       <Container>
         <Title initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
           {t('readyToDefine')}
@@ -48,17 +48,30 @@ const Container = styled.div`
   max-width: 64rem; /* max-w-4xl */
   margin: 0 auto;
   text-align: center;
+
+  @media (max-width: 768px) {
+    max-width: 90%;
+  }
 `
 
 const Title = styled(motion.h2)`
   font-size: 3rem; /* text-5xl */
   font-weight: bold;
   margin-bottom: 1rem;
+
+  @media (max-width: 768px) {
+    font-size: 2.25rem;
+  }
 `
 
 const Subtitle = styled(motion.p)`
-  font-size: 1rem; /* text-xl */
+  font-size: 1rem;
   margin-bottom: 2.5rem;
+
+  @media (max-width: 768px) {
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+  }
 `
 
 const ButtonRow = styled.div`
@@ -66,32 +79,51 @@ const ButtonRow = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   gap: 1.5rem;
+
+  @media (max-width: 768px) {
+    gap: 1rem;
+  }
 `
 
 const PrimaryButton = styled(motion.button)`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+
   padding: 1rem 2.5rem;
   font-size: 1rem;
   font-weight: bold;
+
   border-radius: 1rem;
   background: var(--brand-green);
   box-shadow: 4px 4px 0px 0px #191a23;
   border: 1px solid #000000;
   cursor: pointer;
+
+  @media (max-width: 768px) {
+    padding: 0.85rem 2rem;
+    font-size: 0.9rem;
+  }
 `
 
 const SecondaryButton = styled(motion.a)`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+
   padding: 1rem 2.5rem;
   font-size: 1rem;
   font-weight: bold;
+
   border-radius: 1rem;
   box-shadow: 4px 4px 0px 0px #191a23;
   border: 1px solid #000000;
   cursor: pointer;
   text-decoration: none;
+
+  @media (max-width: 768px) {
+    min-width: 210px;
+    padding: 0.85rem 2rem;
+    font-size: 0.9rem;
+  }
 `

@@ -37,15 +37,8 @@ export const CryptoFeatureCard = React.forwardRef<HTMLDivElement, CryptoFeatureC
 
         {/* Main content */}
         <Content>
-          <IconBox
-            $isHovered={isHovered}
-            animate={{
-              scale: isHovered ? 1.1 : 1,
-              boxShadow: isHovered ? '0 0 20px rgba(240,185,11,0.4)' : '0 0 0 rgba(240,185,11,0)',
-            }}
-            transition={{ duration: 0.3 }}
-          >
-            <div style={{ color: 'var(--brand-yellow)' }}>{icon}</div>
+          <IconBox $isHovered={isHovered} animate={{ scale: isHovered ? 1.1 : 1 }} transition={{ duration: 0.3 }}>
+            {icon}
           </IconBox>
 
           <Title>{title}</Title>
@@ -105,7 +98,7 @@ const GlowOverlay = styled(motion.div)`
 const GlowShimmer = styled.div`
   position: absolute;
   inset: 0;
-  background: linear-gradient(to right, transparent, #cafe36, transparent);
+  background: linear-gradient(to right, transparent, var(--green-shadow), transparent);
   animation: ${shimmer} 2s infinite;
 `
 
@@ -124,6 +117,10 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
 `
 
 const IconBox = styled(motion.div)<{ $isHovered: boolean }>`
@@ -134,9 +131,7 @@ const IconBox = styled(motion.div)<{ $isHovered: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #0d4751;
-  border: 1px solid rgba(240, 185, 11, 0.3);
-  box-shadow: ${({ $isHovered }) => ($isHovered ? '0 0 20px rgba(240,185,11,0.4)' : '0 0 0 rgba(240,185,11,0)')};
+  /* box-shadow: ${({ $isHovered }) => ($isHovered ? '0 0 20px rgba(240,185,11,0.4)' : '0 0 0 rgba(240,185,11,0)')}; */
 
   svg {
     color: #cafe36;
