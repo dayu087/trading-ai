@@ -60,16 +60,6 @@ const PageWrapper = styled.div`
   align-items: center;
 `
 
-const MainWrapper = styled.main`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  padding-top: 40px;
-  max-height: calc(100vh - 64px);
-  overflow-y: scroll;
-`
-
 const LoadingScreen = styled.div`
   min-height: 100vh;
   display: flex;
