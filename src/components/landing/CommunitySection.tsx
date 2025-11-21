@@ -48,7 +48,7 @@ export default function CommunitySection() {
       delay: 0,
     },
     {
-      quote: '简单的设置，交易甚至在我睡觉的时候也在运行。',
+      quote: 'Simple setup, and trades run even while I sleep.',
       authorName: 'DIŸgöd',
       handle: '@DIYgod',
       avatarUrl: 'https://pbs.twimg.com/profile_images/1628393369029181440/r23HDDJk_400x400.jpg',
