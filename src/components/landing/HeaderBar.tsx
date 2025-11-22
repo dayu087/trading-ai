@@ -2,9 +2,11 @@ import { useState, useEffect, useRef, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { Menu, X, ChevronDown, ChevronUp } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { styled } from 'styled-components'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { styled, keyframes } from 'styled-components'
+import { useLocation, useNavigate, NavLink } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
+
+import logoIcon from '@/assets/images/home_nav_logo.png'
 
 export default function HeaderBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -50,6 +52,16 @@ export default function HeaderBar() {
     }
   }, [pathname, i18n])
 
+  const languageList = useMemo(() => {
+    if (!i18n.options.supportedLngs) return []
+    return (i18n.options.supportedLngs as string[])?.filter((lang: any) => lang !== 'cimode' && lang !== 'dev')
+  }, [i18n.options.supportedLngs])
+
+  const mapLanguage: Record<string, string> = {
+    en: 'English',
+    zh: '中文',
+  }
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) setLanguageDropdownOpen(false)
@@ -70,12 +82,32 @@ export default function HeaderBar() {
     i18n.changeLanguage(lang)
   }
 
+  const handlePositioning = (key: string) => {
+    switch (key) {
+      case 'GitHub':
+        return window.open('https://github.com/tinkle-community/nofx', '_blank')
+
+      case 'community':
+        return window.open('https://t.me/nofx_dev_community', '_blank')
+      case 'about':
+        return window.location.assign('#about')
+
+      case 'features':
+        return window.location.assign('#features')
+
+      case 'howItWorks':
+        return window.location.assign('#howItWorks')
+
+      default:
+        break
+    }
+  }
+
   return (
     <HeaderContainer>
       <HeaderInner>
         <LogoLink href="/">
-          {/* <img src="/icons/nofx.svg" alt="NOFX Logo" /> */}
-          <span className="brand">Valkynor</span>
+          <img src={logoIcon} alt="Valkynor Logo" />
         </LogoLink>
 
         {/* Desktop Menu */}
@@ -211,27 +243,63 @@ export default function HeaderBar() {
         </motion.button>
       </HeaderInner>
 
-      {/* Mobile Menu */}
-      <MobileMenuContainer initial={false} animate={mobileMenuOpen ? { height: 'auto', opacity: 1 } : { height: 0, opacity: 0 }} transition={{ duration: 0.3 }}>
-        <div style={{ padding: '16px' }}>
-          {user && (
-            <>
-              {leftNavList.map((it: any) => (
-                <MobileItem
-                  key={it.key}
-                  $active={currentPage === it.key}
+      {/* 遮罩层 + 侧边抽屉 */}
+      {mobileMenuOpen && (
+        <>
+          <Overlay onClick={() => setMobileMenuOpen(false)} />
+          <MobileMenu>
+            <MobileMenuHeader>
+              <LogoLink href="/">
+                <img src={logoIcon} alt="Valkynor Logo" />
+              </LogoLink>
+              <CloseButton onClick={() => setMobileMenuOpen(false)}>{/* <img src={Close} alt="" /> */}</CloseButton>
+            </MobileMenuHeader>
+            <MobileNav>
+              {leftNavList.map((n: any) => (
+                <MobileNavItem to={n.key} key={n.key} onClick={() => setMobileMenuOpen(false)}>
+                  {n.label}
+                </MobileNavItem>
+              ))}
+            </MobileNav>
+
+            <MobileNav>
+              {rightNavList.map((n: any) => (
+                <MobileNavBtn
+                  key={n.key}
                   onClick={() => {
                     setMobileMenuOpen(false)
-                    navigate(`/${it.key}`)
+                    handlePositioning(n.key)
                   }}
                 >
-                  {it.label}
-                </MobileItem>
+                  {n.label}
+                </MobileNavBtn>
               ))}
-            </>
-          )}
-        </div>
-      </MobileMenuContainer>
+            </MobileNav>
+
+            {/* 移动端 语言 设置 */}
+            <MobileSection>
+              <MobileSectionTitle>
+                {/* <img src={SettingIcon} alt="" style={{ width: 16, marginRight: 6 }} /> */}
+                Language Setting:
+              </MobileSectionTitle>
+              <MobileRPCList>
+                {languageList.map((lang) => (
+                  <MobileRPCItem
+                    key={lang}
+                    $active={i18n.language === lang}
+                    onClick={() => {
+                      handleSwichLanguage(lang)
+                      setMobileMenuOpen(false)
+                    }}
+                  >
+                    {mapLanguage[lang]}
+                  </MobileRPCItem>
+                ))}
+              </MobileRPCList>
+            </MobileSection>
+          </MobileMenu>
+        </>
+      )}
     </HeaderContainer>
   )
 }
@@ -270,14 +338,7 @@ const LogoLink = styled.a`
   }
 
   img {
-    width: 2rem;
-    height: 2rem;
-  }
-
-  .brand {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--brand-black);
+    width: 142px;
   }
 `
 
@@ -495,37 +556,112 @@ const LangOption = styled.button<{ $active?: boolean }>`
   }
 `
 
-const MobileMenuContainer = styled(motion.div)`
-  border-top: 1px solid rgba(240, 185, 11, 0.1);
-  overflow: hidden;
+/* 遮罩层动画 */
+const fadeIn = keyframes`
+	from { opacity: 0; }
+	to { opacity: 1; }
 `
 
-const MobileItem = styled.button<{ $active?: boolean }>`
-  display: block;
-  width: 100%;
-  text-align: left;
-  font-size: 0.875rem;
-  padding: 12px 16px;
-  border-radius: 8px;
+/* 菜单滑入动画 */
+const slideIn = keyframes`
+	from { transform: translateX(-100%); }
+	to { transform: translateX(0); }
+`
+
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 40;
+  animation: ${fadeIn} 0.3s ease forwards;
+`
+
+const MobileMenu = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 85%;
+  /* max-width: 280px; */
+  height: 100vh;
+  background: #f3f3f3;
+  box-shadow: 4px 4px 8px 0px rgba(0, 1, 13, 0.1);
+  backdrop-filter: blur(4px);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  z-index: 50;
+  animation: ${slideIn} 0.3s ease forwards;
+`
+
+const MobileMenuHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
+const CloseButton = styled.div`
   position: relative;
-  color: var(--brand-black);
-  font-weight: ${({ $active }) => ($active ? 'bold' : 'normal')};
-  transition: color 0.3s;
-
-  &:hover {
-    color: var(--brand-yellow);
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  img {
+    width: 100%;
+    height: 100%;
   }
+`
 
-  ${({ $active }) =>
-    $active &&
-    `
-    &::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 8px;
-      background: #f3f3f3;
-      z-index: -1;
-    }
-  `}
+const MobileNav = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 48px;
+  gap: 24px;
+`
+
+const MobileNavItem = styled(NavLink)`
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 300;
+  padding: 8px 0;
+
+  &[aria-current='page'] {
+    font-weight: 700;
+  }
+`
+
+const MobileNavBtn = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+`
+
+const MobileSection = styled.div`
+  margin-top: 40px;
+`
+
+const MobileSectionTitle = styled.div`
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 16px;
+`
+
+const MobileRPCList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`
+
+const MobileRPCItem = styled.div<{ $active?: boolean }>`
+  font-size: 14px;
+  font-weight: ${({ $active }) => ($active ? '700' : '400')};
+  cursor: pointer;
+  padding: 8px 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 `

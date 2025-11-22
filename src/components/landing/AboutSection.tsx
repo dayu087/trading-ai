@@ -8,6 +8,7 @@ import Typewriter from '../Typewriter'
 import homeArrow from '@/assets/images/home_icon_arrow.png'
 import lineIcon from '@/assets/images/home_icon_line.png'
 import WhatsIcon from '@/assets/images/home_img_whats.png'
+import vaikynorIcon from '@/assets/images/home_img_vaikynor2.png'
 
 export default function AboutSection() {
   const { t } = useTranslation()
@@ -17,7 +18,8 @@ export default function AboutSection() {
       <Wrapper>
         <Grid>
           <CodeBox>
-            <Typewriter
+            <IconCircle initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.6 }} src={vaikynorIcon} alt="" />
+            {/* <Typewriter
               lines={[
                 '$ git clone https://github.com/tinkle-community/nofx.git',
                 '$ cd nofx',
@@ -35,7 +37,7 @@ export default function AboutSection() {
               }}
             />
 
-            <LeftWhatsIcon src={WhatsIcon} />
+            <LeftWhatsIcon src={WhatsIcon} /> */}
           </CodeBox>
 
           <AboutRight initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
@@ -188,18 +190,16 @@ const InfoRow = styled(motion.div)`
   }
 `
 
-const IconCircle = styled.img`
-  width: 2.5rem;
-  height: 2.5rem;
-
-  @media (max-width: 768px) {
-    width: 2rem;
-    height: 2rem;
-  }
+const IconCircle = styled(motion.img)`
+  width: 420px;
+  height: 320px;
 `
 
 const CodeBox = styled.div`
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   flex: 1 1 50%;
   padding: 7rem 2rem 2rem;
   border-radius: 1rem;
