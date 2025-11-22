@@ -40,7 +40,7 @@ const Container = styled.div`
   text-align: center;
 
   @media (max-width: 768px) {
-    max-width: 90%;
+    max-width: 100%;
   }
 `
 
@@ -92,7 +92,7 @@ const PrimaryButton = styled(motion.button)`
   cursor: pointer;
 
   @media (max-width: 768px) {
-    padding: 0.85rem 2rem;
+    padding: 0.85rem 0;
     font-size: 0.9rem;
   }
 `

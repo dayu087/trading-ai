@@ -75,7 +75,6 @@ const Wrapper = styled.div`
     border-width: 1.5px;
     box-shadow: 3px 3px 0 0 #191a23;
     border-radius: 20px;
-    padding: 1rem;
   }
 `
 
@@ -109,7 +108,7 @@ const Grid = styled.div`
   }
 
   @media (max-width: 768px) {
-    gap: 1.5rem;
+    gap: 0;
   }
 `
 
@@ -164,7 +163,6 @@ const Paragraph = styled.p`
   @media (max-width: 768px) {
     font-size: 0.9rem;
     line-height: 1.4rem;
-    text-align: center;
   }
 `
 
@@ -173,6 +171,10 @@ const InfoRowBox = styled.div`
   justify-content: space-between;
   align-items: center;
   padding-right: 24px;
+
+  @media (max-width: 768px) {
+    padding-right: 12px;
+  }
 `
 
 const InfoRow = styled(motion.div)`
@@ -181,6 +183,9 @@ const InfoRow = styled(motion.div)`
   gap: 4px;
   padding: 1rem 0;
   font-size: 1rem;
+  h3 {
+    text-align: start;
+  }
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -201,11 +206,11 @@ const CodeBox = styled.div`
   justify-content: center;
   align-items: center;
   flex: 1 1 50%;
-  padding: 7rem 2rem 2rem;
+  padding: 2rem;
   border-radius: 1rem;
 
   @media (max-width: 768px) {
-    padding: 3rem 1rem 1rem;
+    padding: 1rem;
     border-radius: 0.75rem;
     width: 100%;
     height: auto;
