@@ -140,6 +140,7 @@ const Title = styled.h1`
   font-weight: bold;
   line-height: 1.5;
   color: var(--brand-black);
+  white-space: nowrap;
 
   @media (max-width: 768px) {
     font-size: 2rem;
