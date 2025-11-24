@@ -60,6 +60,7 @@ const SectionSubTitle = styled.h3`
   color: var(--brand-black);
 
   @media (max-width: 768px) {
+    margin-bottom: 1rem;
     font-size: 0.75rem;
   }
 `
