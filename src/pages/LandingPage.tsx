@@ -6,6 +6,7 @@ import FeaturesSection from '../components/landing/FeaturesSection'
 import HowItWorksSection from '../components/landing/HowItWorksSection'
 import CommunitySection from '../components/landing/CommunitySection'
 import ReadySection from '../components/landing/ReadySection'
+import PreviewSection from '../components/landing/PreviewSection'
 import LoginModal from '../components/landing/LoginModal'
 import FooterSection from '../components/landing/FooterSection'
 import { useAuth } from '../contexts/AuthContext'
@@ -23,6 +24,7 @@ export function LandingPage() {
         <AboutSection />
         <FeaturesSection />
         <HowItWorksSection />
+        {/* <PreviewSection /> */}
         <CommunitySection />
         <ReadySection setShowLoginModal={setShowLoginModal} />
         {/* {showLoginModal && <LoginModal onClose={() => setShowLoginModal(false)} />} */}

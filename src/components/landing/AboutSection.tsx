@@ -133,6 +133,7 @@ const Title = styled.h2`
   font-size: 3rem;
   font-weight: bold;
   color: var(--brand-black);
+  white-space: nowrap;
 
   &::before {
     content: '';
@@ -146,8 +147,8 @@ const Title = styled.h2`
   }
 
   @media (max-width: 768px) {
-    font-size: 2.1rem;
-    margin: 24px 0 12px;
+    margin-bottom: 12px;
+    font-size: 1.5rem;
     text-align: center;
   }
 `
@@ -161,8 +162,10 @@ const Paragraph = styled.p`
   }
 
   @media (max-width: 768px) {
-    font-size: 0.9rem;
-    line-height: 1.4rem;
+    font-size: 0.75rem;
+    &:not(:last-child) {
+      margin-bottom: 0.5rem;
+    }
   }
 `
 
@@ -188,10 +191,9 @@ const InfoRow = styled(motion.div)`
   }
 
   @media (max-width: 768px) {
-    flex-direction: column;
+    padding: 0.5rem 0;
     text-align: center;
-    gap: 0.5rem;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
 `
 

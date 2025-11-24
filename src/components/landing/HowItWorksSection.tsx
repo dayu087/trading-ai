@@ -83,22 +83,17 @@ const TitleBlock = styled(motion.div)`
   margin-bottom: 40px;
 
   @media (max-width: 768px) {
-    margin-bottom: 28px;
+    margin-bottom: 16px;
   }
 `
 
 const SectionTitle = styled.h2`
   font-size: 3rem;
   font-weight: bold;
-  margin-bottom: 0.5rem;
   color: var(--brand-black);
 
   @media (max-width: 768px) {
-    font-size: 2.25rem;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 `
 
@@ -139,9 +134,10 @@ const StepWrapper = styled.div`
   border: 1px solid #191a23;
 
   @media (max-width: 768px) {
+    gap: 0rem;
     flex-direction: column;
     text-align: center;
-    padding: 1rem 0.75rem;
+    padding: 1rem;
   }
 `
 
@@ -168,15 +164,11 @@ const NumberCircle = styled(motion.div)`
   color: var(--brand-black);
 
   @media (max-width: 768px) {
-    font-size: 2.25rem;
+    font-size: 1.5rem;
   }
 `
 
-const StepContent = styled.div`
-  @media (max-width: 768px) {
-    margin-top: 0.5rem;
-  }
-`
+const StepContent = styled.div``
 
 const StepTitle = styled.h3`
   font-size: 1.5rem;
@@ -185,7 +177,8 @@ const StepTitle = styled.h3`
   color: var(--brand-black);
 
   @media (max-width: 768px) {
-    font-size: 1.25rem;
+    margin-bottom: 0;
+    font-size: 1rem;
   }
 `
 
@@ -195,7 +188,7 @@ const StepDescription = styled.p`
   color: var(--brand-black);
 
   @media (max-width: 768px) {
-    font-size: 0.95rem;
+    font-size: 0.75rem;
   }
 `
 
@@ -214,7 +207,7 @@ const WarningBox = styled(motion.div)`
   @media (max-width: 768px) {
     margin-top: 1rem;
     padding: 1rem;
-    gap: 0.75rem;
+    gap: 0.5rem;
   }
 
   @media (max-width: 480px) {
@@ -241,7 +234,8 @@ const WarningTitle = styled.div`
   color: var(--brand-black);
 
   @media (max-width: 768px) {
-    font-size: 0.8rem;
+    margin-bottom: 0;
+    font-size: 0.75rem;
   }
 `
 
@@ -250,6 +244,6 @@ const WarningText = styled.p`
   color: var(--brand-black);
 
   @media (max-width: 768px) {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
 `

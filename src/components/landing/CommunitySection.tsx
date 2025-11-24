@@ -91,22 +91,17 @@ const TitleBlock = styled(motion.div)`
   margin-bottom: 40px;
 
   @media (max-width: 768px) {
-    margin-bottom: 28px;
+    margin-bottom: 16px;
   }
 `
 
 const SectionTitle = styled.h2`
   font-size: 3rem;
   font-weight: bold;
-  margin-bottom: 0.5rem;
   color: var(--brand-black);
 
   @media (max-width: 768px) {
-    font-size: 2.25rem;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 `
 
@@ -133,7 +128,15 @@ const CommunityItem = styled(motion.div)`
 
   p {
     font-size: 1rem;
-    line-height: 1.5;
+  }
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+    gap: 0.5rem;
+
+    p {
+      font-size: 0.75rem;
+    }
   }
 `
 
@@ -151,5 +154,11 @@ const CommunityAuthor = styled.div`
 
   span {
     font-size: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    span {
+      font-size: 0.75rem;
+    }
   }
 `

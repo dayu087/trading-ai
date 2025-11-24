@@ -6,7 +6,6 @@ import { useCounterAnimation } from '../../hooks/useCounterAnimation'
 import { useScrollContext } from '../../contexts/ScrollProvider'
 import { ArrowRight } from 'lucide-react'
 
-import homeArrow from '@/assets/images/home_icon_arrow.png'
 import homeVaikynorIcon from '@/assets/images/home_img_vaikynor1.png'
 
 export default function HeroSection({ setShowLoginModal }: { setShowLoginModal: (value: boolean) => void }) {
@@ -143,7 +142,7 @@ const Title = styled.h1`
   color: var(--brand-black);
 
   @media (max-width: 768px) {
-    font-size: 2.4rem;
+    font-size: 2rem;
     line-height: 1.2;
   }
 `
@@ -174,7 +173,7 @@ const Description = styled(motion.p)`
   color: var(--brand-black);
 
   @media (max-width: 768px) {
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     max-width: 90%;
   }
 `
@@ -208,8 +207,8 @@ const PrimaryButton = styled(motion.button)`
   cursor: pointer;
 
   @media (max-width: 768px) {
-    padding: 0.85rem 0;
-    font-size: 0.9rem;
+    padding: 0.75rem 0;
+    font-size: 0.75rem;
   }
 `
 

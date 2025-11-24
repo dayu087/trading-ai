@@ -47,20 +47,21 @@ const Container = styled.div`
 const Title = styled(motion.h2)`
   font-size: 3rem; /* text-5xl */
   font-weight: bold;
-  margin-bottom: 1rem;
+  white-space: nowrap;
 
   @media (max-width: 768px) {
-    font-size: 2.25rem;
+    font-size: 1.5rem;
   }
 `
 
 const Subtitle = styled(motion.p)`
   font-size: 1rem;
   margin-bottom: 2.5rem;
+  margin-top: 1rem 0 2.5rem 0;
 
   @media (max-width: 768px) {
-    font-size: 0.95rem;
-    margin-bottom: 2rem;
+    font-size: 0.75rem;
+    margin: 0.25rem 0 1rem 0;
   }
 `
 
@@ -92,8 +93,8 @@ const PrimaryButton = styled(motion.button)`
   cursor: pointer;
 
   @media (max-width: 768px) {
-    padding: 0.85rem 0;
-    font-size: 0.9rem;
+    padding: 0.75rem 0;
+    font-size: 0.75rem;
   }
 `
 

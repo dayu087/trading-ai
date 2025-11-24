@@ -36,10 +36,12 @@ export const CryptoFeatureCard = React.forwardRef<HTMLDivElement, CryptoFeatureC
 
         {/* Main content */}
         <Content>
-          <IconBox $isHovered={isHovered} animate={{ scale: isHovered ? 1.1 : 1 }} transition={{ duration: 0.3 }}>
-            {icon}
-          </IconBox>
-          <Title>{title}</Title>
+          <TitleBox>
+            <IconBox animate={{ scale: isHovered ? 1.1 : 1 }} transition={{ duration: 0.3 }}>
+              {icon}
+            </IconBox>
+            <Title>{title}</Title>
+          </TitleBox>
           <Description>{description}</Description>
         </Content>
       </CardContainer>
@@ -57,6 +59,10 @@ const shimmer = keyframes`
 const CardWrapper = styled(motion.div)`
   flex: 1 1 30%;
   position: relative;
+
+  @media (max-width: 768px) {
+    flex: 1 1 100%;
+  }
 `
 
 const CardContainer = styled.div<{ $isHovered: boolean }>`
@@ -112,15 +118,23 @@ const Content = styled.div`
   }
 `
 
-const IconBox = styled(motion.div)<{ $isHovered: boolean }>`
-  width: 60px;
-  height: 60px;
-  border-radius: 8px;
-  margin-bottom: 12px;
+const TitleBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  @media (max-width: 768px) {
+    flex-direction: row;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+`
+
+const IconBox = styled(motion.div)`
   display: flex;
   align-items: center;
   justify-content: center;
-  /* box-shadow: ${({ $isHovered }) => ($isHovered ? '0 0 20px rgba(240,185,11,0.4)' : '0 0 0 rgba(240,185,11,0)')}; */
+  width: fit-content;
 
   svg {
     color: #cafe36;
@@ -135,10 +149,19 @@ const Title = styled.h3`
   color: var(--brand-black);
   border-radius: 8px;
   background: #cafe36;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+    padding: 4px 6px;
+    margin-bottom: 0;
+  }
 `
 
 const Description = styled.p`
   font-size: 1rem;
   color: var(--brand-black);
-  line-height: 1.5;
+
+  @media (max-width: 768px) {
+    font-size: 0.75rem;
+  }
 `

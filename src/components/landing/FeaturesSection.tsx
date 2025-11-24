@@ -39,7 +39,7 @@ const HeaderWrapper = styled(motion.div)`
   margin-bottom: 3rem;
 
   @media (max-width: 768px) {
-    margin-bottom: 2.5rem;
+    margin-bottom: 1rem;
   }
 `
 
@@ -82,8 +82,8 @@ const CryptoImage = styled.img`
   height: 60px;
 
   @media (max-width: 768px) {
-    width: 48px;
-    height: 48px;
+    width: 36px;
+    height: 36px;
   }
 `
 
@@ -93,8 +93,7 @@ const Title = styled.h2`
   color: var(--brand-black);
 
   @media (max-width: 768px) {
-    font-size: 2.1rem;
-    margin-bottom: 6px;
+    font-size: 1.5rem;
   }
 `
 
