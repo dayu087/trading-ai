@@ -3,6 +3,8 @@ import { styled } from 'styled-components'
 import { useTranslation } from 'react-i18next'
 
 import AnimatedSection from './AnimatedSection'
+import homeDashboardIcon1 from '@/assets/images/home_img_dashboard1.png'
+import homeDashboardIcon2 from '@/assets/images/home_img_dashboard2.png'
 
 export default function CommunitySection() {
   const { t } = useTranslation()
@@ -19,8 +21,8 @@ export default function CommunitySection() {
         </TitleBlock>
 
         <PreviewImageBox initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-          <PreviewImage src="/images/dashboard.png" alt="Dashboard Preview" />
-          <PreviewImage src="/images/dashboard.png" alt="Dashboard Preview" />
+          <PreviewImage src={homeDashboardIcon1} alt="Dashboard Preview" />
+          <PreviewImage src={homeDashboardIcon2} alt="Dashboard Preview" />
         </PreviewImageBox>
       </PreviewContainer>
     </AnimatedSection>
@@ -65,7 +67,6 @@ const SectionSubTitle = styled.h3`
 const PreviewImageBox = styled(motion.div)`
   display: flex;
   width: 100%;
-  max-height: 370px;
   gap: 24px;
   @media (max-width: 768px) {
     flex-direction: column;
@@ -76,6 +77,7 @@ const PreviewImageBox = styled(motion.div)`
 
 const PreviewImage = styled.img`
   flex: 1 1 50%;
+  max-width: 600px;
   height: auto;
   border-radius: 16px;
   @media (max-width: 768px) {

@@ -24,7 +24,7 @@ export function LandingPage() {
         <AboutSection />
         <FeaturesSection />
         <HowItWorksSection />
-        {/* <PreviewSection /> */}
+        <PreviewSection />
         <CommunitySection />
         <ReadySection setShowLoginModal={setShowLoginModal} />
         {/* {showLoginModal && <LoginModal onClose={() => setShowLoginModal(false)} />} */}
