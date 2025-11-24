@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
 import { motion } from 'framer-motion'
-import { Menu, X, ChevronDown, ChevronUp } from 'lucide-react'
+import { Menu, X, ChevronDown, ChevronUp, Bolt } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { styled, keyframes } from 'styled-components'
 import { useLocation, useNavigate, NavLink } from 'react-router-dom'
@@ -279,6 +279,7 @@ export default function HeaderBar() {
             {/* 移动端 语言 设置 */}
             <MobileSection>
               <MobileSectionTitle>
+                <Bolt size={16} color="var(--brand-black)" />
                 {/* <img src={SettingIcon} alt="" style={{ width: 16, marginRight: 6 }} /> */}
                 Language Setting:
               </MobileSectionTitle>
@@ -645,6 +646,7 @@ const MobileSection = styled.div`
 const MobileSectionTitle = styled.div`
   display: flex;
   align-items: center;
+  gap: 4px;
   font-size: 14px;
   font-weight: 700;
   margin-bottom: 16px;
