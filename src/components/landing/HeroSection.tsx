@@ -41,7 +41,7 @@ export default function HeroSection({ setShowLoginModal }: { setShowLoginModal: 
             <ButtonRow>
               <PrimaryButton onClick={() => setShowLoginModal(true)} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 {t('getStartedNow')}
-                <motion.div animate={{ x: [0, 5, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
+                <motion.div>
                   <ArrowIcon src={homeArrowIcon} alt="" />
                 </motion.div>
               </PrimaryButton>
@@ -193,6 +193,10 @@ const ButtonRow = styled.div`
 const ArrowIcon = styled.img`
   width: 20px;
   height: 20px;
+  @media (max-width: 768px) {
+    width: 14px;
+    height: 14px;
+  }
 `
 
 const PrimaryButton = styled(motion.button)`
@@ -213,6 +217,7 @@ const PrimaryButton = styled(motion.button)`
   cursor: pointer;
 
   @media (max-width: 768px) {
+    gap: 0.25rem;
     padding: 0.75rem 0;
     font-size: 0.75rem;
   }

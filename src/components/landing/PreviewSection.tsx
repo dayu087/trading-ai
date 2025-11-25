@@ -100,7 +100,7 @@ const PreviewImageItem = styled.div`
   height: auto;
   box-shadow: 4px 4px 0px 0px #191a23;
   border-radius: 24px;
-  border: 2px solid #000000;
+  border: 1px solid #000000;
   overflow: hidden;
   @media (max-width: 768px) {
     flex: 1 1 100%;

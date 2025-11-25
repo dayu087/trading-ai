@@ -2,7 +2,8 @@ import { styled } from 'styled-components'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import AnimatedSection from './AnimatedSection'
-import { ArrowRight } from 'lucide-react'
+
+import homeArrowIcon from '@/assets/images/home_arrow_incline.png'
 
 export default function ReadySection({ setShowLoginModal }: { setShowLoginModal: (value: boolean) => void }) {
   const { t } = useTranslation()
@@ -21,8 +22,8 @@ export default function ReadySection({ setShowLoginModal }: { setShowLoginModal:
         <ButtonRow>
           <PrimaryButton onClick={() => setShowLoginModal(true)} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             {t('getStartedNow')}
-            <motion.div animate={{ x: [0, 5, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
-              <ArrowRight className="w-5 h-5" />
+            <motion.div>
+              <ArrowIcon src={homeArrowIcon} alt="Arrow Icon" />
             </motion.div>
           </PrimaryButton>
           <LoginButton onClick={() => setShowLoginModal(true)} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
@@ -93,6 +94,7 @@ const PrimaryButton = styled(motion.button)`
   cursor: pointer;
 
   @media (max-width: 768px) {
+    gap: 0.25rem;
     padding: 0.75rem 0;
     font-size: 0.75rem;
   }
@@ -102,4 +104,14 @@ const LoginButton = styled(PrimaryButton)`
   color: var(--brand-black);
   background: #fff;
   border: 1px solid #000;
+`
+
+const ArrowIcon = styled.img`
+  width: 20px;
+  height: 20px;
+
+  @media (max-width: 768px) {
+    width: 14px;
+    height: 14px;
+  }
 `
