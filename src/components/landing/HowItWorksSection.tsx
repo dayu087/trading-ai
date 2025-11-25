@@ -7,7 +7,7 @@ import alarmIcon from '@/assets/images/dashboard_icon_alarm.png'
 function StepCard({ title, description, delay, index, color }: any) {
   return (
     <StepWrapperBox initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay }} whileHover={{ x: 10 }}>
-      <StepWrapper>
+      <StepWrapper $index={index}>
         <NumberCircle whileHover={{ scale: 1.2, rotate: 360 }} transition={{ type: 'spring', stiffness: 260, damping: 20 }}>
           0{index + 1}
         </NumberCircle>
@@ -17,7 +17,7 @@ function StepCard({ title, description, delay, index, color }: any) {
           <StepDescription>{description}</StepDescription>
         </StepContent>
       </StepWrapper>
-      <StepIcon $color={color}>
+      <StepIcon $color={color} $index={index}>
         <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect width="80" height="80" transform="matrix(0 1 -1 0 80 0)" fill="white" />
           <rect x="64.1406" y="44.2842" width="33.3333" height="6.66667" transform="rotate(135 64.1406 44.2842)" fill="currentColor" />
@@ -124,30 +124,37 @@ const StepWrapperBox = styled(motion.div)`
   }
 `
 
-const StepWrapper = styled.div`
+const StepWrapper = styled.div<{ $index: number }>`
   flex: 1;
   display: flex;
   padding: 1rem;
+  margin: 0 -1px -1px 0;
   gap: 1rem;
   align-items: center;
   border-radius: 16px;
   border: 1px solid #191a23;
+  box-shadow: ${({ $index }) => ($index == 3 ? '0px 4px 0px 0px #191a23' : '')};
 
   @media (max-width: 768px) {
     gap: 0rem;
     flex-direction: column;
     text-align: center;
     padding: 1rem;
+    box-shadow: 4px 4px 0px 0px #191a23;
   }
 `
 
-const StepIcon = styled.div<{ $color: string }>`
-  padding: 19px 64px;
-  border-radius: 16px;
-  border: 1px solid #191a23;
+const StepIcon = styled.div<{ $color: string; $index: number }>`
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 19px 64px;
+  margin-bottom: -1px;
+
+  border-radius: 16px;
+  border: 1px solid #191a23;
+  box-shadow: ${({ $index }) => ($index == 3 ? '4px 4px 0px 0px #191a23' : '4px 0px 0px 0px #191a23')};
+
   svg {
     color: ${({ $color }) => $color};
   }
@@ -160,7 +167,7 @@ const StepIcon = styled.div<{ $color: string }>`
 const NumberCircle = styled(motion.div)`
   flex-shrink: 0;
   font-size: 3rem;
-  font-weight: bold;
+  font-weight: 400;
   color: var(--brand-black);
 
   @media (max-width: 768px) {
@@ -220,6 +227,8 @@ const WarningBox = styled(motion.div)`
 const WarningIcon = styled.img`
   width: 2.75rem;
   height: 2.75rem;
+  background-color: #fff;
+  border-radius: 8px;
 
   @media (max-width: 768px) {
     width: 2.2rem;

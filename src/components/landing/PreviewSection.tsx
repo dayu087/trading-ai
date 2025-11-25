@@ -18,11 +18,16 @@ export default function CommunitySection() {
         <TitleBlock initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
           <SectionTitle>{t('dashboardPreview')}</SectionTitle>
           <SectionSubTitle>{t('dashboardPreviewDescription')}</SectionSubTitle>
+          <SectionAiTitle>{t('aIReasoning')}</SectionAiTitle>
         </TitleBlock>
 
         <PreviewImageBox initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-          <PreviewImage src={homeDashboardIcon1} alt="Dashboard Preview" />
-          <PreviewImage src={homeDashboardIcon2} alt="Dashboard Preview" />
+          <PreviewImageItem>
+            <PreviewImage src={homeDashboardIcon1} alt="Dashboard Preview" />
+          </PreviewImageItem>
+          <PreviewImageItem>
+            <PreviewImage src={homeDashboardIcon2} alt="Dashboard Preview" />
+          </PreviewImageItem>
         </PreviewImageBox>
       </PreviewContainer>
     </AnimatedSection>
@@ -36,10 +41,10 @@ const PreviewContainer = styled.div`
 
 const TitleBlock = styled(motion.div)`
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 48px;
 
   @media (max-width: 768px) {
-    margin-bottom: 28px;
+    margin-bottom: 16px;
   }
 `
 
@@ -56,11 +61,24 @@ const SectionTitle = styled.h2`
 
 const SectionSubTitle = styled.h3`
   font-size: 1rem;
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
   color: var(--brand-black);
 
   @media (max-width: 768px) {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+  }
+`
+
+const SectionAiTitle = styled.h3`
+  width: fit-content;
+  margin: 0 auto;
+  padding: 8px 24px;
+  font-size: 1.5rem;
+  border-radius: 48px;
+  border: 1px solid #191a23;
+  @media (max-width: 768px) {
+    padding: 4px 12px;
     font-size: 0.75rem;
   }
 `
@@ -76,12 +94,20 @@ const PreviewImageBox = styled(motion.div)`
   }
 `
 
-const PreviewImage = styled.img`
+const PreviewImageItem = styled.div`
   flex: 1 1 50%;
   max-width: 600px;
   height: auto;
-  border-radius: 16px;
+  box-shadow: 4px 4px 0px 0px #191a23;
+  border-radius: 24px;
+  border: 2px solid #000000;
+  overflow: hidden;
   @media (max-width: 768px) {
     flex: 1 1 100%;
   }
+`
+
+const PreviewImage = styled.img`
+  width: 100%;
+  height: 100%;
 `

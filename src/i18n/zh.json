@@ -14,8 +14,11 @@
 
   "realtimeNav": "实时",
   "configNav": "配置",
-  "dashboardNav": "看板",
+  "dashboardNav": "仪表盘",
   "faqNav": "常见问题",
+  "security": "安全中心",
+  "terms": "服务条款",
+  "privacy": "隐私政策",
 
   "footerTitle": "Valkynor - AI交易系统",
   "footerWarning": "交易有风险，请量力而行。",
@@ -454,6 +457,7 @@
 
   "dashboardPreview": "仪表板预览",
   "dashboardPreviewDescription": "一个干净、现代的仪表板，为您提供完全的透明度",
+  "aIReasoning": "AI 推理",
 
   "userTestimonials": "用户评价",
 
@@ -463,6 +467,9 @@
   "documentation": "文档",
   "supporters": "支持方",
   "strategicInvestment": "(战略投资)",
+  "Community": "社区",
+  "helpCenter": "帮助中心",
+  "APIStatus": "API 状态",
 
   "accessNofxPlatform": "访问 NOFX 平台",
   "loginRegisterPrompt": "请选择登录或注册以访问完整的 AI 交易平台",

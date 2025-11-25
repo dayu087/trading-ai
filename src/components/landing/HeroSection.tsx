@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { useGitHubStats } from '../../hooks/useGitHubStats'
 import { useCounterAnimation } from '../../hooks/useCounterAnimation'
 import { useScrollContext } from '../../contexts/ScrollProvider'
-import { ArrowRight } from 'lucide-react'
 
 import homeVaikynorIcon from '@/assets/images/home_img_vaikynor1.png'
+import homeArrowIcon from '@/assets/images/home_arrow_incline.png'
 
 export default function HeroSection({ setShowLoginModal }: { setShowLoginModal: (value: boolean) => void }) {
   const { scrollRef } = useScrollContext()
@@ -42,7 +42,7 @@ export default function HeroSection({ setShowLoginModal }: { setShowLoginModal: 
               <PrimaryButton onClick={() => setShowLoginModal(true)} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 {t('getStartedNow')}
                 <motion.div animate={{ x: [0, 5, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
-                  <ArrowRight className="w-5 h-5" />
+                  <ArrowIcon src={homeArrowIcon} alt="" />
                 </motion.div>
               </PrimaryButton>
               <LoginButton onClick={() => setShowLoginModal(true)} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
@@ -137,7 +137,7 @@ const Badge = styled(motion.div)`
 
 const Title = styled.h1`
   font-size: 4rem;
-  font-weight: bold;
+  font-weight: 900;
   line-height: 1.5;
   color: var(--brand-black);
   white-space: nowrap;
@@ -182,7 +182,6 @@ const Description = styled(motion.p)`
 const ButtonRow = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   width: 100%;
   gap: 1.5rem;
 
@@ -191,12 +190,18 @@ const ButtonRow = styled.div`
   }
 `
 
+const ArrowIcon = styled.img`
+  width: 20px;
+  height: 20px;
+`
+
 const PrimaryButton = styled(motion.button)`
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  max-width: 288px;
   padding: 1rem 2.5rem;
   font-size: 1rem;
   font-weight: bold;

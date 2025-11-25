@@ -1,7 +1,7 @@
 import { styled } from 'styled-components'
 import { useTranslation } from 'react-i18next'
 
-import homeArrow from '@/assets/images/home_icon_arrow.png'
+import logo from '@/assets/images/home_logo_1.png'
 import frameArrow from '@/assets/images/Frame.png'
 
 export default function FooterSection() {
@@ -12,7 +12,7 @@ export default function FooterSection() {
         {/* BRAND */}
         <BrandRow>
           <BrandLogoBox>
-            <BrandLogo src={homeArrow} alt="Valkynor Logo" />
+            <BrandLogo src={logo} alt="Valkynor Logo" />
           </BrandLogoBox>
           <BrandInfo>
             <BrandTitle>Valkynor</BrandTitle>
@@ -28,17 +28,27 @@ export default function FooterSection() {
             <List>
               <li>
                 <StyledLink href="" target="_blank">
-                  GitHub
+                  {t('dashboardNav')}
                 </StyledLink>
               </li>
               <li>
                 <StyledLink href="" target="_blank">
-                  Telegram
+                  {t('security')}
                 </StyledLink>
               </li>
               <li>
                 <StyledLink href="" target="_blank">
-                  X (Twitter)
+                  {t('faqNav')}
+                </StyledLink>
+              </li>
+              <li>
+                <StyledLink href="" target="_blank">
+                  {t('terms')}
+                </StyledLink>
+              </li>
+              <li>
+                <StyledLink href="" target="_blank">
+                  {t('privacy')}
                 </StyledLink>
               </li>
             </List>
@@ -55,12 +65,12 @@ export default function FooterSection() {
               </li>
               <li>
                 <StyledLink href="" target="_blank">
-                  Issues
+                  {t('helpCenter')}
                 </StyledLink>
               </li>
               <li>
                 <StyledLink href="" target="_blank">
-                  Pull Requests
+                  {t('APIStatus')}
                 </StyledLink>
               </li>
             </List>
@@ -68,26 +78,16 @@ export default function FooterSection() {
 
           {/* Column 3 */}
           <Column>
-            <ColumnTitle>{t('supporters')}</ColumnTitle>
+            <ColumnTitle>{t('Community')}</ColumnTitle>
             <List>
               <li>
                 <StyledLink href="" target="_blank">
-                  Aster DEX
+                  Telegram
                 </StyledLink>
               </li>
               <li>
-                <StyledLink href="https://www.maxweb.red/" target="_blank">
-                  Binance
-                </StyledLink>
-              </li>
-              <li>
-                <StyledLink href="https://hyperliquid.xyz/" target="_blank">
-                  Hyperliquid
-                </StyledLink>
-              </li>
-              <li>
-                <StyledLink href="https://amber.ac/" target="_blank">
-                  Amber.ac <LightText>{t('strategicInvestment')}</LightText>
+                <StyledLink href="" target="_blank">
+                  Twitter
                 </StyledLink>
               </li>
             </List>

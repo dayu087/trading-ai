@@ -16,6 +16,9 @@
   "configNav": "Config",
   "dashboardNav": "Dashboard",
   "faqNav": "FAQ",
+  "security": "Security",
+  "terms": "Terms",
+  "privacy": "Privacy",
 
   "footerTitle": "Valkynor - AI Trading System",
   "footerWarning": "Trading involves risk. Use at your own discretion.",
@@ -454,6 +457,7 @@
 
   "dashboardPreview": "Dashboard Preview",
   "dashboardPreviewDescription": "A clean, modern dashboard that gives you complete transparency.",
+  "aIReasoning": "AI Reasoning",
 
   "userTestimonials": "User Testimonials",
 
@@ -463,6 +467,9 @@
   "documentation": "Documentation",
   "supporters": "Supporters",
   "strategicInvestment": "(Strategic Investment)",
+  "Community": "Community",
+  "helpCenter": "Help Center",
+  "APIStatus": "API Status",
 
   "accessNofxPlatform": "Access NOFX Platform",
   "loginRegisterPrompt": "Please login or register to access the full AI trading platform",

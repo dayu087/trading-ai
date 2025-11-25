@@ -56,8 +56,7 @@ const Title = styled(motion.h2)`
 
 const Subtitle = styled(motion.p)`
   font-size: 1rem;
-  margin-bottom: 2.5rem;
-  margin-top: 1rem 0 2.5rem 0;
+  margin: 1rem 0 2.5rem 0;
 
   @media (max-width: 768px) {
     font-size: 0.75rem;
@@ -82,6 +81,7 @@ const PrimaryButton = styled(motion.button)`
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  max-width: 288px;
   padding: 1rem 2.5rem;
   font-size: 1rem;
   font-weight: bold;

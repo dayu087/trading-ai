@@ -3,6 +3,9 @@ import { styled } from 'styled-components'
 import { useTranslation } from 'react-i18next'
 
 import AnimatedSection from './AnimatedSection'
+import avatar1 from '@/assets/images/home_avatar_1.png'
+import avatar2 from '@/assets/images/home_avatar_2.png'
+import avatar3 from '@/assets/images/home_avatar_3.png'
 
 interface CardProps {
   quote: string
@@ -13,7 +16,7 @@ interface CardProps {
   delay: number
 }
 
-function TestimonialCard({ quote, authorName, delay }: CardProps) {
+function TestimonialCard({ quote, authorName, delay, avatarUrl }: CardProps) {
   return (
     <CommunityItem
       initial={{ opacity: 0, y: 20 }}
@@ -24,7 +27,7 @@ function TestimonialCard({ quote, authorName, delay }: CardProps) {
     >
       <p>"{quote}"</p>
       <CommunityAuthor>
-        <img src="" alt="" />
+        <img src={avatarUrl} alt="" />
         <span>{authorName}</span>
       </CommunityAuthor>
     </CommunityItem>
@@ -43,7 +46,7 @@ export default function CommunitySection() {
       quote: 'I finally stopped watching charts all day.Valkynor handles everything for me.',
       authorName: 'Michael Williams',
       handle: '@MichaelWil93725',
-      avatarUrl: 'https://pbs.twimg.com/profile_images/1767615411594694659/Mj8Fdt6o_400x400.jpg',
+      avatarUrl: avatar1,
       tweetUrl: 'https://twitter.com/MichaelWil93725/status/1984980920395604008',
       delay: 0,
     },
@@ -51,7 +54,7 @@ export default function CommunitySection() {
       quote: 'Simple setup, and trades run even while I sleep.',
       authorName: 'DIŸgöd',
       handle: '@DIYgod',
-      avatarUrl: 'https://pbs.twimg.com/profile_images/1628393369029181440/r23HDDJk_400x400.jpg',
+      avatarUrl: avatar2,
       tweetUrl: 'https://twitter.com/DIYgod/status/1984442354515017923',
       delay: 0.1,
     },
@@ -59,7 +62,7 @@ export default function CommunitySection() {
       quote: 'A great tool for people who want automation without complexity.',
       authorName: 'Kai',
       handle: '@hqmank',
-      avatarUrl: 'https://pbs.twimg.com/profile_images/1905441261911506945/4YhLIqUm_400x400.jpg',
+      avatarUrl: avatar3,
       tweetUrl: 'https://twitter.com/hqmank/status/1984227431994290340',
       delay: 0.15,
     },
