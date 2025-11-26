@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import useSWR from 'swr'
 import { getSystemConfig } from '../lib/config'
-import { reset401Flag } from '../lib/httpClient'
+import { reset401Flag, httpClient } from '../lib/httpClient'
 import { api } from '../lib/api'
 import type { TraderInfo } from '../types'
 
@@ -13,13 +13,6 @@ interface User {
 interface AuthContextType {
   user: User | null
   token: string | null
-  selectedTraderId: string | undefined
-  traders: TraderInfo[] | undefined
-  tradersError: Error | undefined
-  selectedTraderData: TraderInfo
-  setSelectedTraderId: (id: string | undefined) => void
-  setSelectedTraderData: (data: any) => void
-
   login: (
     email: string,
     password: string
@@ -74,23 +67,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [traders, selectedTraderId])
 
   useEffect(() => {
+    // Reset 401 flag on page load to allow fresh 401 handling
     reset401Flag()
+
     // 先检查是否为管理员模式（使用带缓存的系统配置获取）
     getSystemConfig()
-      .then((data: any) => {
-        if (data?.admin_mode) {
-          // 管理员模式，模拟登录
-          const adminUser = { id: 'admin', email: 'admin@localhost' }
-          setToken('admin_token')
-          setUser(adminUser)
+      .then(() => {
+        // 不再在管理员模式下模拟登录；统一检查本地存储
+        const savedToken = localStorage.getItem('auth_token')
+        const savedUser = localStorage.getItem('auth_user')
+        if (savedToken && savedUser) {
+          setToken(savedToken)
+          setUser(JSON.parse(savedUser))
         }
-        // // 不再在管理员模式下模拟登录；统一检查本地存储
-        // const savedToken = localStorage.getItem('auth_token')
-        // const savedUser = localStorage.getItem('auth_user')
-        // if (savedToken && savedUser) {
-        //   setToken(savedToken)
-        //   setUser(JSON.parse(savedUser))
-        // }
+
         setIsLoading(false)
       })
       .catch((err) => {
@@ -107,13 +97,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       })
   }, [])
 
+  // Listen for unauthorized events from httpClient (401 responses)
   useEffect(() => {
     const handleUnauthorized = () => {
       console.log('Unauthorized event received - clearing auth state')
+      // Clear auth state when 401 is detected
       setUser(null)
       setToken(null)
+      // Note: localStorage cleanup is already done in httpClient
     }
+
     window.addEventListener('unauthorized', handleUnauthorized)
+
     return () => {
       window.removeEventListener('unauthorized', handleUnauthorized)
     }
@@ -192,39 +187,36 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const register = async (email: string, password: string, betaCode?: string) => {
-    try {
-      const requestBody: {
-        email: string
-        password: string
-        beta_code?: string
-      } = { email, password }
-      if (betaCode) {
-        requestBody.beta_code = betaCode
+    const requestBody: {
+      email: string
+      password: string
+      beta_code?: string
+    } = { email, password }
+    if (betaCode) {
+      requestBody.beta_code = betaCode
+    }
+
+    const result = await httpClient.post<{
+      user_id: string
+      otp_secret: string
+      qr_code_url: string
+      message: string
+    }>('/api/register', requestBody)
+
+    if (result.success && result.data) {
+      return {
+        success: true,
+        userID: result.data.user_id,
+        otpSecret: result.data.otp_secret,
+        qrCodeURL: result.data.qr_code_url,
+        message: result.message || result.data.message,
       }
+    }
 
-      const response = await fetch('/api/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestBody),
-      })
-
-      const data = await response.json()
-
-      if (response.ok) {
-        return {
-          success: true,
-          userID: data.user_id,
-          otpSecret: data.otp_secret,
-          qrCodeURL: data.qr_code_url,
-          message: data.message,
-        }
-      } else {
-        return { success: false, message: data.error }
-      }
-    } catch (error) {
-      return { success: false, message: '注册失败，请重试' }
+    // Only business errors reach here (system/network errors were intercepted)
+    return {
+      success: false,
+      message: result.message || 'Registration failed',
     }
   }
 
@@ -358,26 +350,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.removeItem('auth_user')
   }
 
-  const AuthData = {
-    user,
-    token,
-    login,
-    loginAdmin,
-    register,
-    verifyOTP,
-    completeRegistration,
-    resetPassword,
-    logout,
-    isLoading,
-    selectedTraderId,
-    setSelectedTraderId,
-    selectedTraderData,
-    setSelectedTraderData,
-    traders,
-    tradersError,
-  }
-
-  return <AuthContext.Provider value={AuthData}>{children}</AuthContext.Provider>
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        token,
+        login,
+        loginAdmin,
+        register,
+        verifyOTP,
+        completeRegistration,
+        resetPassword,
+        logout,
+        isLoading,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  )
 }
 
 export function useAuth() {

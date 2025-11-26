@@ -1,10 +1,20 @@
 import { useState } from 'react'
 
-export default function Tooltip({ content, children }: { content: string; children: React.ReactNode }) {
+interface TooltipProps {
+  content: string
+  children: React.ReactNode
+}
+
+export function Tooltip({ content, children }: TooltipProps) {
   const [show, setShow] = useState(false)
+
   return (
     <div className="relative inline-block">
-      <div onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)} onClick={() => setShow(!show)}>
+      <div
+        onMouseEnter={() => setShow(true)}
+        onMouseLeave={() => setShow(false)}
+        onClick={() => setShow(!show)}
+      >
         {children}
       </div>
       {show && (

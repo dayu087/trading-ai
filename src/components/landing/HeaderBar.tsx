@@ -22,20 +22,19 @@ export default function HeaderBar() {
   const currentPage = pathname.replace('/', '') || ''
 
   const leftNavList = useMemo<any | []>(() => {
-    return []
-    // if (user) {
-    //   return [
-    //     { key: 'competition', label: t('realtimeNav') },
-    //     { key: 'traders', label: t('configNav') },
-    //     { key: 'dashboard', label: t('dashboardNav') },
-    //     { key: 'faq', label: t('faqNav') },
-    //   ]
-    // } else {
-    //   return [
-    //     { key: 'competition', label: t('realtimeNav') },
-    //     { key: 'faq', label: t('faqNav') },
-    //   ]
-    // }
+    if (user) {
+      return [
+        { key: 'competition', label: t('realtimeNav') },
+        { key: 'traders', label: t('configNav') },
+        { key: 'dashboard', label: t('dashboardNav') },
+        { key: 'faq', label: t('faqNav') },
+      ]
+    } else {
+      return [
+        { key: 'competition', label: t('realtimeNav') },
+        { key: 'faq', label: t('faqNav') },
+      ]
+    }
   }, [user, i18n])
 
   const rightNavList = useMemo(() => {
@@ -141,7 +140,7 @@ export default function HeaderBar() {
 
           <RIghtGroup>
             {/* User */}
-            {/* {user ? (
+            {user ? (
               <UserDropdownContainer ref={userDropdownRef}>
                 <UserButton onClick={() => setUserDropdownOpen(!userDropdownOpen)}>
                   <UserIcon>{user.email[0].toUpperCase()}</UserIcon>
@@ -215,7 +214,7 @@ export default function HeaderBar() {
                   </a>
                 </>
               )
-            )} */}
+            )}
 
             {/* Language */}
             <LangDropdownContainer ref={dropdownRef}>

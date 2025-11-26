@@ -10,7 +10,7 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: 'https://nofx.squant.xyz',
+        target: 'https://api.valkynor.ai',
         changeOrigin: true,
       },
     },
