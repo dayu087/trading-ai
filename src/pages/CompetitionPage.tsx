@@ -10,7 +10,6 @@ import { TraderConfigViewModal } from '@/components/TraderConfigViewModal'
 import { getTraderColor } from '../utils/traderColors'
 import NoDataSection from '@/components/competition/NoData'
 import SkeletonBox from '@/components/competition/SkeletonBox'
-import { log } from 'console'
 
 export function CompetitionPage() {
   const [selectedTrader, setSelectedTrader] = useState<any>(null)
@@ -58,22 +57,17 @@ export function CompetitionPage() {
   const leader = sortedTraders[0]
 
   return (
-    <Wrapper>
+    <CompetitionWrapper>
       {/* Competition Header - 精简版 */}
       <Header>
         <LeftHeader>
-          <IconCircle>
-            <Trophy className="w-6 h-6 md:w-7 md:h-7" style={{ color: '#000' }} />
-          </IconCircle>
-
+          <IconCircle></IconCircle>
           <TitleBlock>
             <TitleRow>
-              <TitleText>
-                {t('aiCompetition')}
-                <CountBadge>
-                  {competition.count} {t('traders')}
-                </CountBadge>
-              </TitleText>
+              <TitleText>{t('aiCompetition')}</TitleText>
+              <CountBadge>
+                {competition.count} {t('traders')}
+              </CountBadge>
             </TitleRow>
             <Subtitle>{t('liveBattle')}</Subtitle>
           </TitleBlock>
@@ -106,26 +100,13 @@ export function CompetitionPage() {
         <Card delayMs={100}>
           <CardHeader>
             <CardTitle>{t('leaderboard')}</CardTitle>
-            <div
-              style={{
-                fontSize: '0.75rem',
-                padding: '0.25rem 0.5rem',
-                borderRadius: '0.375rem',
-                background: 'rgba(240, 185, 11, 0.1)',
-                color: '#F0B90B',
-                border: '1px solid rgba(240, 185, 11, 0.2)',
-                fontWeight: 700,
-              }}
-            >
-              {t('live')}
-            </div>
+            <LiveTag>{t('live')}</LiveTag>
           </CardHeader>
 
           <LeaderboardList>
             {sortedTraders.map((trader, index) => {
               const isLeader = index === 0
               const traderColor = getTraderColor(sortedTraders, trader.trader_id)
-
               return (
                 <TraderRow key={trader.trader_id} isLeader={isLeader} onClick={() => handleTraderClick(trader.trader_id)}>
                   <TraderRowInner>
@@ -133,9 +114,9 @@ export function CompetitionPage() {
                     <RankName>
                       <RankIcon>
                         <Medal
-                          className="w-5 h-5"
+                          className="w-3 h-3"
                           style={{
-                            color: index === 0 ? '#F0B90B' : index === 1 ? '#C0C0C0' : '#CD7F32',
+                            color: ' #000',
                           }}
                         />
                       </RankIcon>
@@ -177,9 +158,9 @@ export function CompetitionPage() {
                       </StatBlock>
 
                       {/* Status */}
-                      <div>
+                      <StatusBadgeBox>
                         <StatusBadge running={!!trader.is_running}>{trader.is_running ? '●' : '○'}</StatusBadge>
-                      </div>
+                      </StatusBadgeBox>
                     </StatsGroup>
                   </TraderRowInner>
                 </TraderRow>
@@ -225,7 +206,7 @@ export function CompetitionPage() {
 
       {/* Trader Config View Modal */}
       <TraderConfigViewModal isOpen={isModalOpen} onClose={closeModal} traderData={selectedTrader} />
-    </Wrapper>
+    </CompetitionWrapper>
   )
 }
 
@@ -239,11 +220,12 @@ const slideIn = keyframes`
   to { opacity: 1; transform: translateX(0); }
 `
 
-const Wrapper = styled.div`
+const CompetitionWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.25rem; /* space-y-5 */
+  gap: 1.25rem;
   width: 100%;
+  max-width: 1220px;
   animation: ${fadeIn} 360ms ease both;
   width: 100%;
 `
@@ -274,16 +256,11 @@ const LeftHeader = styled.div`
 `
 
 const IconCircle = styled.div`
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 0.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #f0b90b 0%, #fcd535 100%);
-  box-shadow: 0 4px 14px rgba(240, 185, 11, 0.4);
-
-  @media (min-width: 768px) {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  border: 1px solid #191a23;
+  @media (max-width: 768px) {
     width: 3rem;
     height: 3rem;
   }
@@ -292,95 +269,90 @@ const IconCircle = styled.div`
 const TitleBlock = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 4px;
 `
 
 const TitleRow = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 24px;
 
-  @media (min-width: 768px) {
+  @media (max-width: 768px) {
     gap: 0.5rem;
   }
 `
 
 const TitleText = styled.h1`
+  padding: 4px 12px;
+  font-size: 20px;
   font-weight: 700;
-  font-size: 1.125rem; /* text-xl */
-  color: #eaecef;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  background: #cafe36;
+  border-radius: 8px;
 
-  @media (min-width: 768px) {
-    font-size: 1.25rem; /* md:text-2xl */
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
   }
 `
 
 const CountBadge = styled.span`
-  font-size: 0.75rem;
+  font-size: 14px;
   font-weight: 400;
-  padding: 0.125rem 0.5rem;
-  border-radius: 0.375rem;
-  background: rgba(240, 185, 11, 0.15);
-  color: #f0b90b;
+  padding: 8px 12px;
+  border-radius: 4px;
+  background: #f3f3f3;
 `
 
 const Subtitle = styled.p`
-  font-size: 0.75rem;
-  color: #848e9c;
+  font-size: 14px;
 `
 
 /* Leader section (right header) */
 const LeaderSection = styled.div`
-  text-align: left;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
+  gap: 6px;
+  width: auto;
 
-  @media (min-width: 768px) {
-    text-align: right;
-    width: auto;
+  @media (max-width: 768px) {
+    justify-content: left;
+    width: 100%;
   }
 `
 
 const LeaderLabel = styled.div`
-  font-size: 0.75rem;
-  margin-bottom: 0.25rem;
-  color: #848e9c;
+  font-size: 14px;
 `
 
 const LeaderName = styled.div`
   font-size: 1rem;
   font-weight: 700;
-  color: #f0b90b;
-
-  @media (min-width: 768px) {
-    font-size: 1.125rem;
-  }
 `
 
 const LeaderPnl = styled.div<{ positive?: boolean }>`
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: ${(p) => (p.positive ? '#0ECB81' : '#F6465D')};
+  font-size: 14px;
+  font-weight: 700;
+  color: ${(p) => (p.positive ? 'var(--up_color)' : 'var(--down_color)')};
 `
 
 /* Grid for main content */
 const SplitGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+
   gap: 1.25rem;
 
-  @media (min-width: 1024px) {
-    grid-template-columns: 1fr 1fr;
+  @media (max-width: 1024px) {
+    flex-direction: column;
   }
 `
 
 const Card = styled.div<{ delayMs?: number }>`
-  background: #0b0e11;
-  border-radius: 0.75rem;
+  flex: 1 1 50%;
   padding: 1.25rem;
   animation: ${slideIn} 360ms ease both;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  box-shadow: 4px 4px 0px 0px #191a23;
+  border-radius: 24px;
+  border: 1px solid #000;
   ${(p) =>
     p.delayMs &&
     css`
@@ -396,17 +368,23 @@ const CardHeader = styled.div`
 `
 
 const CardTitle = styled.h2`
-  font-size: 1.125rem;
+  padding: 4px 12px;
+  font-size: 20px;
   font-weight: 700;
-  color: #eaecef;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  border-radius: 8px;
+  background: #cafe36;
+`
+
+const LiveTag = styled.span`
+  padding: 4px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 24px;
+  border: 1px solid #000;
 `
 
 const CardMeta = styled.div`
-  font-size: 0.75rem;
-  color: #848e9c;
+  font-size: 14px;
 `
 
 /* Leaderboard list */
@@ -423,7 +401,8 @@ const TraderRow = styled.div<{ isLeader?: boolean }>`
   border-radius: 0.5rem;
   transition: all 300ms ease;
   cursor: pointer;
-  ${(p) =>
+  border-top: 1px solid #f3f3f3;
+  /* ${(p) =>
     p.isLeader
       ? css`
           background: linear-gradient(135deg, rgba(240, 185, 11, 0.08) 0%, #0b0e11 100%);
@@ -436,7 +415,7 @@ const TraderRow = styled.div<{ isLeader?: boolean }>`
           background: #0b0e11;
           border: 1px solid #2b3139;
           box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
-        `}
+        `} */
 
   &:hover {
     transform: translateY(-4px);
@@ -478,15 +457,14 @@ const NameBlock = styled.div`
 
 const TraderName = styled.div`
   font-weight: 700;
-  font-size: 0.875rem;
-  color: #eaecef;
+  font-size: 16px;
 `
 
 const TraderMeta = styled.div<{ color?: string }>`
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 400;
   font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Segoe UI Mono', monospace;
-  color: ${(p) => p.color || '#848E9C'};
+  /* color: ${(p) => p.color || '#848E9C'}; */
 `
 
 /* Stats group */
@@ -503,21 +481,23 @@ const StatBlock = styled.div`
 `
 
 const StatLabel = styled.div`
-  font-size: 0.75rem;
-  color: #848e9c;
+  font-size: 14px;
 `
 
 const StatValue = styled.div<{ prominent?: boolean; colorOverride?: string }>`
-  font-size: 1rem;
+  font-size: 14px;
   font-weight: 700;
   font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
-  color: ${(p) => p.colorOverride || '#EAECEF'};
+  color: ${(p) => p.colorOverride || '#000'};
 `
 
 const SmallMono = styled.div`
-  font-size: 0.75rem;
+  font-size: 14px;
   font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
-  color: #848e9c;
+`
+
+const StatusBadgeBox = styled.div`
+  margin-left: 1rem;
 `
 
 /* Status badge */
@@ -529,12 +509,12 @@ const StatusBadge = styled.div<{ running?: boolean }>`
   ${(p) =>
     p.running
       ? css`
-          background: rgba(14, 203, 129, 0.1);
-          color: #0ecb81;
+          background: var(--up_bg);
+          color: var(--up_color);
         `
       : css`
-          background: rgba(246, 70, 93, 0.1);
-          color: #f6465d;
+          background: var(--down_bg);
+          color: var(--down_color);
         `}
 `
 

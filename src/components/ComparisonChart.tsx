@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import styled from 'styled-components'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, Legend } from 'recharts'
 import useSWR from 'swr'
 import { api } from '../lib/api'
@@ -218,6 +219,7 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
       ? (() => {
           const lastPoint = displayData[displayData.length - 1]
           const values = traders.map((t) => lastPoint[`${t.trader_id}_pnl_pct`] || 0)
+          if (values.length !== 2) return 0
           return Math.abs(values[0] - values[1])
         })()
       : 0
@@ -231,24 +233,8 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
           position: 'relative',
         }}
       >
-        {/* NOFX Watermark */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '20px',
-            right: '20px',
-            fontSize: '24px',
-            fontWeight: 'bold',
-            color: 'rgba(240, 185, 11, 0.15)',
-            zIndex: 10,
-            pointerEvents: 'none',
-            fontFamily: 'monospace',
-          }}
-        >
-          NOFX
-        </div>
         <ResponsiveContainer width="100%" height={520}>
-          <LineChart data={displayData} margin={{ top: 20, right: 30, left: 20, bottom: 40 }}>
+          <LineChart data={displayData} margin={{ top: 10, right: 5, left: 5, bottom: 24 }}>
             <defs>
               {traders.map((trader) => (
                 <linearGradient key={`gradient-${trader.trader_id}`} id={`gradient-${trader.trader_id}`} x1="0" y1="0" x2="0" y2="1">
@@ -258,23 +244,22 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
               ))}
             </defs>
 
-            <CartesianGrid strokeDasharray="3 3" stroke="#2B3139" />
+            <CartesianGrid vertical={false} horizontal={true} stroke="#ccc" strokeDasharray="0" strokeWidth={1} />
 
             <XAxis
               dataKey="time"
-              stroke="#5E6673"
-              tick={{ fill: '#848E9C', fontSize: 11 }}
-              tickLine={{ stroke: '#2B3139' }}
+              stroke="#191A23"
+              tick={{ fill: '#191A23', fontSize: 12 }}
+              tickLine={{ stroke: '#F3F3F3' }}
               interval={Math.floor(displayData.length / 12)}
-              angle={-15}
               textAnchor="end"
-              height={60}
+              height={20}
             />
 
             <YAxis
-              stroke="#5E6673"
-              tick={{ fill: '#848E9C', fontSize: 12 }}
-              tickLine={{ stroke: '#2B3139' }}
+              stroke="#fff"
+              tick={{ fill: '#191A23', fontSize: 12 }}
+              tickLine={{ stroke: '#fff' }}
               domain={calculateYDomain()}
               tickFormatter={(value) => `${value.toFixed(1)}%`}
               width={60}
@@ -285,13 +270,12 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
             <ReferenceLine
               y={0}
               stroke="#474D57"
-              strokeDasharray="5 5"
+              strokeDasharray="3 3"
               strokeWidth={1.5}
               label={{
-                value: 'Break Even',
+                value: '',
                 fill: '#848E9C',
-                fontSize: 11,
-                position: 'right',
+                fontSize: 12,
               }}
             />
 
@@ -302,9 +286,9 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
                 dataKey={`${trader.trader_id}_pnl_pct`}
                 stroke={traderColor(trader.trader_id)}
                 strokeWidth={3}
-                dot={displayData.length < 50 ? { fill: traderColor(trader.trader_id), r: 3 } : false}
+                dot={displayData.length < 50 ? { fill: traderColor(trader.trader_id), r: 0 } : false}
                 activeDot={{
-                  r: 6,
+                  r: 4,
                   fill: traderColor(trader.trader_id),
                   stroke: '#fff',
                   strokeWidth: 2,
@@ -315,7 +299,7 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
             ))}
 
             <Legend
-              wrapperStyle={{ paddingTop: '20px' }}
+              wrapperStyle={{ paddingTop: '16px' }}
               iconType="line"
               formatter={(value, entry: any) => {
                 const traderId = traders.find((t) => value === t.trader_name)?.trader_id
@@ -338,40 +322,60 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
       </div>
 
       {/* Stats */}
-      <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 pt-5" style={{ borderTop: '1px solid #2B3139' }}>
-        <div className="p-2 md:p-3 rounded transition-all hover:bg-opacity-50" style={{ background: 'rgba(240, 185, 11, 0.05)' }}>
-          <div className="text-xs mb-1 uppercase tracking-wider" style={{ color: '#848E9C' }}>
-            {t('comparisonMode', language)}
-          </div>
-          <div className="text-sm md:text-base font-bold" style={{ color: '#EAECEF' }}>
-            PnL %
-          </div>
-        </div>
-        <div className="p-2 md:p-3 rounded transition-all hover:bg-opacity-50" style={{ background: 'rgba(240, 185, 11, 0.05)' }}>
-          <div className="text-xs mb-1 uppercase tracking-wider" style={{ color: '#848E9C' }}>
-            {t('dataPoints', language)}
-          </div>
-          <div className="text-sm md:text-base font-bold mono" style={{ color: '#EAECEF' }}>
-            {t('count', language, { count: combinedData.length })}
-          </div>
-        </div>
-        <div className="p-2 md:p-3 rounded transition-all hover:bg-opacity-50" style={{ background: 'rgba(240, 185, 11, 0.05)' }}>
-          <div className="text-xs mb-1 uppercase tracking-wider" style={{ color: '#848E9C' }}>
-            {t('currentGap', language)}
-          </div>
-          <div className="text-sm md:text-base font-bold mono" style={{ color: currentGap > 1 ? '#F0B90B' : '#EAECEF' }}>
-            {currentGap.toFixed(2)}%
-          </div>
-        </div>
-        <div className="p-2 md:p-3 rounded transition-all hover:bg-opacity-50" style={{ background: 'rgba(240, 185, 11, 0.05)' }}>
-          <div className="text-xs mb-1 uppercase tracking-wider" style={{ color: '#848E9C' }}>
-            {t('displayRange', language)}
-          </div>
-          <div className="text-sm md:text-base font-bold mono" style={{ color: '#EAECEF' }}>
-            {combinedData.length > MAX_DISPLAY_POINTS ? `${t('recent', language)} ${MAX_DISPLAY_POINTS}` : t('allData', language)}
-          </div>
-        </div>
-      </div>
+      <StatsGrid>
+        <StatBox>
+          <StatLabel>{t('comparisonMode', language)}</StatLabel>
+          <StatValue>PnL %</StatValue>
+        </StatBox>
+
+        <StatBox>
+          <StatLabel>{t('dataPoints', language)}</StatLabel>
+          <StatValue className="mono">{t('count', language, { count: combinedData.length })}</StatValue>
+        </StatBox>
+
+        <StatBox>
+          <StatLabel>{t('currentGap', language)}</StatLabel>
+          <StatValue className="mono">{currentGap.toFixed(2)}%</StatValue>
+        </StatBox>
+
+        <StatBox>
+          <StatLabel>{t('displayRange', language)}</StatLabel>
+          <StatValue className="mono">{combinedData.length > MAX_DISPLAY_POINTS ? `${t('recent', language)} ${MAX_DISPLAY_POINTS}` : t('allData', language)}</StatValue>
+        </StatBox>
+      </StatsGrid>
     </div>
   )
 }
+
+const StatsGrid = styled.div`
+  display: flex;
+  gap: 1rem;
+  padding-top: 1.25rem;
+`
+
+const StatBox = styled.div`
+  flex: 1 1 23%;
+  padding: 0.5rem;
+  border-radius: 8px;
+  background: #f3f3f3;
+  transition: background 0.2s;
+  &:nth-child(1) {
+    flex: 1 1 28%;
+  }
+  &:hover {
+    background: rgba(240, 185, 11, 0.1);
+  }
+`
+
+const StatLabel = styled.div`
+  font-size: 12px;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+`
+
+const StatValue = styled.div<{ $color?: string }>`
+  font-weight: bold;
+  font-size: 0.875rem;
+  color: ${(p) => p.$color || '#000'};
+`

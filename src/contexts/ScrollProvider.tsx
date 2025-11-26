@@ -122,7 +122,7 @@ const ScrollContainer = styled.div`
   align-items: center;
   width: 100%;
   padding-top: 40px;
-  max-height: calc(100vh - 64px);
+  height: calc(100vh - 64px);
   overflow-y: scroll;
 
   &::-webkit-scrollbar {
