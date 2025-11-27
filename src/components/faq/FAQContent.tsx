@@ -1,16 +1,17 @@
 import { useEffect, useRef } from 'react'
-import { t, type Language } from '../../i18n/translations'
 import type { FAQCategory } from '../../data/faqData'
+import { useTranslation } from 'react-i18next'
+
 // RoadmapWidget 移除动态嵌入，按需仅展示外部链接
 
 interface FAQContentProps {
   categories: FAQCategory[]
-  language: Language
   onActiveItemChange: (itemId: string) => void
 }
 
-export function FAQContent({ categories, language, onActiveItemChange }: FAQContentProps) {
+export function FAQContent({ categories, onActiveItemChange }: FAQContentProps) {
   const sectionRefs = useRef<Map<string, HTMLElement>>(new Map())
+  const { t, i18n } = useTranslation()
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -57,7 +58,7 @@ export function FAQContent({ categories, language, onActiveItemChange }: FAQCont
           <div className="flex items-center gap-3 mb-6 pb-3" style={{ borderBottom: '2px solid #2B3139' }}>
             <category.icon className="w-7 h-7" style={{ color: '#F0B90B' }} />
             <h2 className="text-2xl font-bold" style={{ color: '#EAECEF' }}>
-              {t(category.titleKey, language)}
+              {t(category.titleKey)}
             </h2>
           </div>
 
@@ -67,7 +68,7 @@ export function FAQContent({ categories, language, onActiveItemChange }: FAQCont
               <section key={item.id} id={item.id} data-item-id={item.id} ref={(el) => setRef(item.id, el)} className="scroll-mt-24">
                 {/* Question */}
                 <h3 className="text-xl font-semibold mb-3" style={{ color: '#EAECEF' }}>
-                  {t(item.questionKey, language)}
+                  {t(item.questionKey)}
                 </h3>
 
                 {/* Answer */}
@@ -81,17 +82,17 @@ export function FAQContent({ categories, language, onActiveItemChange }: FAQCont
                   {item.id === 'github-projects-tasks' ? (
                     <div className="space-y-3">
                       <div className="text-base">
-                        {language === 'zh' ? '链接：' : 'Links:'}{' '}
+                        {i18n.language === 'zh' ? '链接：' : 'Links:'}{' '}
                         <a href="https://github.com/orgs/NoFxAiOS/projects/3" target="_blank" rel="noreferrer" style={{ color: '#F0B90B' }}>
-                          {language === 'zh' ? '路线图' : 'Roadmap'}
+                          {i18n.language === 'zh' ? '路线图' : 'Roadmap'}
                         </a>
                         {'  |  '}
                         <a href="https://github.com/orgs/NoFxAiOS/projects/5" target="_blank" rel="noreferrer" style={{ color: '#F0B90B' }}>
-                          {language === 'zh' ? '任务看板' : 'Task Dashboard'}
+                          {i18n.language === 'zh' ? '任务看板' : 'Task Dashboard'}
                         </a>
                       </div>
                       <ol className="list-decimal pl-5 space-y-1 text-base">
-                        {language === 'zh' ? (
+                        {i18n.language === 'zh' ? (
                           <>
                             <li>打开以上链接，按标签筛选（good first issue / help wanted / frontend / backend）。</li>
                             <li>打开任务，阅读描述与验收标准（Acceptance Criteria）。</li>
@@ -169,7 +170,7 @@ export function FAQContent({ categories, language, onActiveItemChange }: FAQCont
                           border: '1px solid rgba(240, 185, 11, 0.25)',
                         }}
                       >
-                        {language === 'zh' ? (
+                        {i18n.language === 'zh' ? (
                           <div className="text-sm">
                             <strong style={{ color: '#F0B90B' }}>提示：</strong> 参与贡献将享有激励制度（如 Bounty/奖金、荣誉徽章与鸣谢、优先 Review/合并与内测资格 等）。
                             可在任务中优先选择带
@@ -211,7 +212,7 @@ export function FAQContent({ categories, language, onActiveItemChange }: FAQCont
                   ) : item.id === 'contribute-pr-guidelines' ? (
                     <div className="space-y-3">
                       <div className="text-base">
-                        {language === 'zh' ? '参考文档：' : 'References:'}{' '}
+                        {i18n.language === 'zh' ? '参考文档：' : 'References:'}{' '}
                         <a href="https://github.com/NoFxAiOS/nofx/blob/dev/CONTRIBUTING.md" target="_blank" rel="noreferrer" style={{ color: '#F0B90B' }}>
                           CONTRIBUTING.md
                         </a>
@@ -221,7 +222,7 @@ export function FAQContent({ categories, language, onActiveItemChange }: FAQCont
                         </a>
                       </div>
                       <ol className="list-decimal pl-5 space-y-1 text-base">
-                        {language === 'zh' ? (
+                        {i18n.language === 'zh' ? (
                           <>
                             <li>
                               Fork 仓库后，从你的 fork 的 <code>dev</code> 分支创建特性分支；避免直接向上游 <code>main</code> 提交。
@@ -270,7 +271,7 @@ export function FAQContent({ categories, language, onActiveItemChange }: FAQCont
                           border: '1px solid rgba(240, 185, 11, 0.25)',
                         }}
                       >
-                        {language === 'zh' ? (
+                        {i18n.language === 'zh' ? (
                           <div className="text-sm">
                             <strong style={{ color: '#F0B90B' }}>提示：</strong> 我们为高质量贡献提供激励（Bounty/奖金、荣誉徽章与鸣谢、优先 Review/合并与内测资格 等）。
                             详情可关注带
@@ -310,7 +311,7 @@ export function FAQContent({ categories, language, onActiveItemChange }: FAQCont
                       </div>
                     </div>
                   ) : (
-                    <p className="text-base">{t(item.answerKey, language)}</p>
+                    <p className="text-base">{t(item.answerKey)}</p>
                   )}
                 </div>
 

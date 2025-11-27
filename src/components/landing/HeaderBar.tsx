@@ -187,33 +187,7 @@ export default function HeaderBar() {
                 )}
               </UserDropdownContainer>
             ) : (
-              currentPage !== 'login' &&
-              currentPage !== 'register' && (
-                <>
-                  <a
-                    href="/login"
-                    style={{
-                      color: 'var(--brand-light-gray)',
-                      fontSize: '0.875rem',
-                    }}
-                  >
-                    {t('signIn')}
-                  </a>
-                  <a
-                    href="/register"
-                    style={{
-                      background: 'var(--brand-yellow)',
-                      color: 'var(--brand-black)',
-                      padding: '8px 16px',
-                      borderRadius: '8px',
-                      fontWeight: 600,
-                      fontSize: '0.875rem',
-                    }}
-                  >
-                    {t('signUp')}
-                  </a>
-                </>
-              )
+              currentPage !== 'login' && <LoginBtn onClick={() => navigate('/login')}> {t('signIn')}</LoginBtn>
             )}
 
             {/* Language */}
@@ -665,4 +639,11 @@ const MobileRPCItem = styled.div<{ $active?: boolean }>`
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+`
+
+const LoginBtn = styled.button`
+  padding: 8px 16px;
+  color: #fff;
+  border-radius: 8px;
+  background: #000;
 `

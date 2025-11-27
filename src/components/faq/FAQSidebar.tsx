@@ -1,14 +1,14 @@
-import { t, type Language } from '../../i18n/translations'
 import type { FAQCategory } from '../../data/faqData'
+import { useTranslation } from 'react-i18next'
 
 interface FAQSidebarProps {
   categories: FAQCategory[]
   activeItemId: string | null
-  language: Language
   onItemClick: (categoryId: string, itemId: string) => void
 }
 
-export function FAQSidebar({ categories, activeItemId, language, onItemClick }: FAQSidebarProps) {
+export function FAQSidebar({ categories, activeItemId, onItemClick }: FAQSidebarProps) {
+  const { t } = useTranslation()
   return (
     <nav
       className="sticky top-24 h-[calc(100vh-120px)] overflow-y-auto pr-4"
@@ -24,7 +24,7 @@ export function FAQSidebar({ categories, activeItemId, language, onItemClick }: 
             <div className="flex items-center gap-2 mb-3 px-3">
               <category.icon className="w-5 h-5" style={{ color: '#F0B90B' }} />
               <h3 className="text-sm font-bold uppercase tracking-wide" style={{ color: '#F0B90B' }}>
-                {t(category.titleKey, language)}
+                {t(category.titleKey)}
               </h3>
             </div>
 
@@ -56,7 +56,7 @@ export function FAQSidebar({ categories, activeItemId, language, onItemClick }: 
                         }
                       }}
                     >
-                      {t(item.questionKey, language)}
+                      {t(item.questionKey)}
                     </button>
                   </li>
                 )

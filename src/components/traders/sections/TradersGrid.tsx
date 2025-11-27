@@ -4,6 +4,8 @@ import { Bot, BarChart3, Trash2, Pencil } from 'lucide-react'
 import { getModelDisplayName } from '../index'
 import type { TraderInfo } from '../../../types'
 
+import botIcon from '@/assets/images/config_logo_bot.png'
+
 interface TradersGridProps {
   traders: TraderInfo[] | undefined
   onTraderSelect: (traderId: string) => void
@@ -33,18 +35,16 @@ export function TradersGrid({ traders, onTraderSelect, onEditTrader, onDeleteTra
       <GridWrapper>
         {traders.map((trader) => {
           const isDeepseek = trader.ai_model.includes('deepseek')
-          const avatarBg = isDeepseek ? '#60a5fa' : '#c084fc'
 
           return (
             <TraderCard key={trader.trader_id}>
               <TraderLeft>
-                <Avatar bg={avatarBg}>
-                  <Bot className="w-5 h-5" />
+                <Avatar>
+                  <img src={botIcon} alt="" />
                 </Avatar>
-
                 <Info>
                   <div className="name">{trader.trader_name}</div>
-                  <div className="model" style={{ color: avatarBg }}>
+                  <div className="model">
                     {getModelDisplayName(trader.ai_model.split('_').pop() || trader.ai_model)} Model • {trader.exchange_id?.toUpperCase()}
                   </div>
                 </Info>
@@ -201,16 +201,17 @@ const TraderLeft = styled.div`
   }
 `
 
-const Avatar = styled.div<{ bg: string }>`
+const Avatar = styled.div`
   width: 3rem;
   height: 3rem;
-  border-radius: 9999px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  color: #fff;
-  background: ${(p) => p.bg};
+  padding: 8px;
+  border-radius: 50%;
+  border: 1px solid #000;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
 
   @media (max-width: 768px) {
     width: 2.5rem;
@@ -222,18 +223,16 @@ const Info = styled.div`
   min-width: 0;
 
   .name {
-    font-size: 1.125rem;
+    font-size: 1rem;
     font-weight: 700;
     margin-bottom: 2px;
-
     @media (max-width: 768px) {
-      font-size: 1rem;
+      font-size: 0.875rem;
     }
   }
 
   .model {
     font-size: 0.875rem;
-    color: #60a5fa;
 
     @media (max-width: 768px) {
       font-size: 0.75rem;

@@ -2,6 +2,8 @@ import { styled } from 'styled-components'
 import { Bot, Plus, Radio } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
+import aiLogo from '@/assets/images/home_whats_icon1.png'
+
 interface PageHeaderProps {
   tradersCount: number
   configuredModelsCount: number
@@ -19,9 +21,7 @@ export function PageHeader({ tradersCount, configuredModelsCount, configuredExch
   return (
     <Wrapper>
       <Left>
-        <IconWrapper>
-          <Bot style={{ width: '24px', height: '24px', color: '#000' }} />
-        </IconWrapper>
+        <IconWrapper src={aiLogo} alt="logo" />
         <div>
           <TitleWrap>
             <Title>{t('aiTraders')}</Title>
@@ -82,13 +82,10 @@ const Left = styled.div`
   }
 `
 
-const IconWrapper = styled.div`
+const IconWrapper = styled.img`
   width: 60px;
   height: 60px;
   border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   border: 1px solid #000;
 
   @media (max-width: 768px) {

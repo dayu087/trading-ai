@@ -1,34 +1,159 @@
-import HeaderBar from '../components/landing/HeaderBar'
-import { FAQLayout } from '../components/faq/FAQLayout'
-import { useLanguage } from '../contexts/LanguageContext'
-import { useAuth } from '../contexts/AuthContext'
-import { useSystemConfig } from '../hooks/useSystemConfig'
-import { t } from '../i18n/translations'
+import { useState, useMemo } from 'react'
+import { HelpCircle } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { FAQSearchBar } from '@/components/faq/FAQSearchBar'
+import { FAQSidebar } from '@/components/faq/FAQSidebar'
+import { FAQContent } from '@/components/faq/FAQContent'
+import { faqCategories } from '../data/faqData'
+import type { FAQCategory } from '../data/faqData'
 
-/**
- * FAQ 页面
- *
- * 这个页面只是组件的集合，负责：
- * - 组装 HeaderBar 和 FAQLayout
- * - 提供全局状态（语言、用户、系统配置）
- * - 处理页面级别的导航
- *
- * 所有 FAQ 相关的逻辑都在子组件中：
- * - FAQLayout: 整体布局和搜索逻辑
- * - FAQSearchBar: 搜索框
- * - FAQSidebar: 左侧目录
- * - FAQContent: 右侧内容区
- *
- * FAQ 数据配置在 data/faqData.ts
- */
 export function FAQPage() {
-  const { language, setLanguage } = useLanguage()
-  useSystemConfig() // Load system config but don't use it
+  const [searchTerm, setSearchTerm] = useState('')
+  const [activeItemId, setActiveItemId] = useState<string | null>(null)
+  const { t, i18n } = useTranslation()
+
+  // Filter categories based on search term
+  const filteredCategories = useMemo(() => {
+    if (!searchTerm.trim()) {
+      return faqCategories
+    }
+
+    const term = searchTerm.toLowerCase()
+    const filtered: FAQCategory[] = []
+
+    faqCategories.forEach((category) => {
+      const matchingItems = category.items.filter((item) => {
+        const question = t(item.questionKey).toLowerCase()
+        const answer = t(item.answerKey).toLowerCase()
+        return question.includes(term) || answer.includes(term)
+      })
+
+      if (matchingItems.length > 0) {
+        filtered.push({
+          ...category,
+          items: matchingItems,
+        })
+      }
+    })
+
+    return filtered
+  }, [searchTerm])
+
+  const handleItemClick = (_categoryId: string, itemId: string) => {
+    const element = document.getElementById(itemId)
+    if (element) {
+      const offset = 100
+      const elementPosition = element.getBoundingClientRect().top
+      const offsetPosition = elementPosition + window.pageYOffset - offset
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      })
+    }
+  }
 
   return (
-    <div>
-      <HeaderBar />
-      <FAQLayout language={language} />
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pt-24">
+      {/* Page Header */}
+      <div className="text-center mb-12">
+        <div className="flex items-center justify-center gap-3 mb-4">
+          <div
+            className="w-16 h-16 rounded-full flex items-center justify-center"
+            style={{
+              background: 'linear-gradient(135deg, #F0B90B 0%, #FCD535 100%)',
+              boxShadow: '0 8px 24px rgba(240, 185, 11, 0.4)',
+            }}
+          >
+            <HelpCircle className="w-8 h-8" style={{ color: '#0B0E11' }} />
+          </div>
+        </div>
+        <h1 className="text-4xl font-bold mb-4" style={{ color: '#EAECEF' }}>
+          {t('faqTitle')}
+        </h1>
+        <p className="text-lg mb-8" style={{ color: '#848E9C' }}>
+          {t('faqSubtitle')}
+        </p>
+
+        {/* Search Bar */}
+        <div className="max-w-2xl mx-auto">
+          <FAQSearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} placeholder={i18n.language === 'zh' ? '搜索常见问题...' : 'Search FAQ...'} />
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="flex gap-8">
+        {/* Sidebar - Hidden on mobile, visible on desktop */}
+        <aside className="hidden lg:block w-64 flex-shrink-0">
+          <FAQSidebar categories={filteredCategories} activeItemId={activeItemId} onItemClick={handleItemClick} />
+        </aside>
+
+        {/* Content Area */}
+        <main className="flex-1 min-w-0">
+          {filteredCategories.length > 0 ? (
+            <FAQContent categories={filteredCategories} onActiveItemChange={setActiveItemId} />
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-lg" style={{ color: '#848E9C' }}>
+                {i18n.language === 'zh' ? '没有找到匹配的问题' : 'No matching questions found'}
+              </p>
+              <button
+                onClick={() => setSearchTerm('')}
+                className="mt-4 px-6 py-2 rounded-lg font-semibold transition-all hover:opacity-90"
+                style={{
+                  background: 'linear-gradient(135deg, #F0B90B 0%, #FCD535 100%)',
+                  color: '#0B0E11',
+                }}
+              >
+                {i18n.language === 'zh' ? '清除搜索' : 'Clear Search'}
+              </button>
+            </div>
+          )}
+        </main>
+      </div>
+
+      {/* Contact Section */}
+      <div
+        className="mt-16 p-8 rounded-lg text-center"
+        style={{
+          background: 'linear-gradient(135deg, rgba(240, 185, 11, 0.1) 0%, rgba(252, 213, 53, 0.05) 100%)',
+          border: '1px solid rgba(240, 185, 11, 0.2)',
+        }}
+      >
+        <h3 className="text-xl font-bold mb-3" style={{ color: '#EAECEF' }}>
+          {t('faqStillHaveQuestions')}
+        </h3>
+        <p className="mb-6" style={{ color: '#848E9C' }}>
+          {t('faqContactUs')}
+        </p>
+        <div className="flex items-center justify-center gap-4">
+          <a
+            href="https://github.com/tinkle-community/nofx"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-6 py-3 rounded-lg font-semibold transition-all hover:scale-105"
+            style={{
+              background: '#1E2329',
+              color: '#EAECEF',
+              border: '1px solid #2B3139',
+            }}
+          >
+            GitHub
+          </a>
+          <a
+            href="https://t.me/nofx_dev_community"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-6 py-3 rounded-lg font-semibold transition-all hover:scale-105"
+            style={{
+              background: 'linear-gradient(135deg, #F0B90B 0%, #FCD535 100%)',
+              color: '#0B0E11',
+            }}
+          >
+            {t('community')}
+          </a>
+        </div>
+      </div>
     </div>
   )
 }

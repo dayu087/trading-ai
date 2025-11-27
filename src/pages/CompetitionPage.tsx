@@ -11,6 +11,9 @@ import { getTraderColor } from '../utils/traderColors'
 import NoDataSection from '@/components/competition/NoData'
 import SkeletonBox from '@/components/competition/SkeletonBox'
 
+import liveLogo from '@/assets/images/live_logo_ai.png'
+import botIcon from '@/assets/images/config_logo_bot.png'
+
 export function CompetitionPage() {
   const [selectedTrader, setSelectedTrader] = useState<any>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -60,7 +63,7 @@ export function CompetitionPage() {
       {/* Competition Header - 精简版 */}
       <Header>
         <LeftHeader>
-          <IconCircle></IconCircle>
+          <IconCircle src={liveLogo} alt="live logo" />
           <TitleBlock>
             <TitleRow>
               <TitleText>{t('aiCompetition')}</TitleText>
@@ -108,12 +111,7 @@ export function CompetitionPage() {
                     {/* Rank & Name */}
                     <RankName>
                       <RankIcon>
-                        <Medal
-                          className="w-3 h-3"
-                          style={{
-                            color: ' #000',
-                          }}
-                        />
+                        <img src={botIcon} alt="bot" />
                       </RankIcon>
 
                       <NameBlock>
@@ -133,7 +131,7 @@ export function CompetitionPage() {
                       </StatBlock>
 
                       {/* P&L */}
-                      <StatBlock style={{ minWidth: 90 }}>
+                      <StatBlock>
                         <StatLabel>{t('pnl')}</StatLabel>
                         <StatValue colorOverride={(trader.total_pnl ?? 0) >= 0 ? '#0ECB81' : '#F6465D'} prominent>
                           {(trader.total_pnl ?? 0) >= 0 ? '+' : ''}
@@ -236,11 +234,10 @@ const LeftHeader = styled.div`
   }
 `
 
-const IconCircle = styled.div`
+const IconCircle = styled.img`
   width: 60px;
   height: 60px;
-  border-radius: 8px;
-  border: 1px solid #191a23;
+
   @media (max-width: 768px) {
     width: 3rem;
     height: 3rem;
@@ -416,14 +413,13 @@ const RankName = styled.div`
 `
 
 const RankIcon = styled.div`
-  width: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 8px;
+  border-radius: 50%;
+  border: 1px solid #000;
 
-  svg {
-    width: 1.25rem;
-    height: 1.25rem;
+  img {
+    width: 48px;
+    height: 48px;
   }
 `
 
@@ -440,7 +436,7 @@ const TraderName = styled.div`
 const TraderMeta = styled.div<{ color?: string }>`
   font-size: 14px;
   font-weight: 400;
-  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Segoe UI Mono', monospace;
+  /* font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Segoe UI Mono', monospace; */
   /* color: ${(p) => p.color || '#848E9C'}; */
 `
 
@@ -448,8 +444,8 @@ const TraderMeta = styled.div<{ color?: string }>`
 const StatsGroup = styled.div`
   display: flex;
   gap: 0.5rem;
-  align-items: center;
-  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-around;
 `
 
 const StatBlock = styled.div`
@@ -464,17 +460,15 @@ const StatLabel = styled.div`
 const StatValue = styled.div<{ prominent?: boolean; colorOverride?: string }>`
   font-size: 14px;
   font-weight: 700;
-  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
   color: ${(p) => p.colorOverride || '#000'};
 `
 
 const SmallMono = styled.div`
   font-size: 14px;
-  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
 `
 
 const StatusBadgeBox = styled.div`
-  margin-left: 1rem;
+  margin-top: 20px;
 `
 
 /* Status badge */
