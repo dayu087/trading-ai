@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { styled } from 'styled-components'
 import useSWR from 'swr'
 import { api } from '../lib/api'
 import { useLanguage } from '../contexts/LanguageContext'
@@ -132,10 +133,9 @@ export function AITradersPage({ onTraderSelect }: AITradersPageProps) {
   }
 
   return (
-    <div className="space-y-4 md:space-y-6 animate-fade-in">
+    <AITradersSection>
       {/* Header */}
       <PageHeader
-        language={language}
         tradersCount={traders?.length || 0}
         configuredModelsCount={configuredModels.length}
         configuredExchangesCount={configuredExchanges.length}
@@ -149,21 +149,13 @@ export function AITradersPage({ onTraderSelect }: AITradersPageProps) {
       {showSignalWarning && <SignalSourceWarning language={language} onConfigure={() => setShowSignalSourceModal(true)} />}
 
       {/* Configuration Status */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
-        <AIModelsSection language={language} configuredModels={configuredModels} isModelInUse={isModelInUse} onModelClick={handleModelClick} />
-
-        <ExchangesSection language={language} configuredExchanges={configuredExchanges} isExchangeInUse={isExchangeInUse} onExchangeClick={handleExchangeClick} />
-      </div>
+      <ConfigurationSection>
+        <AIModelsSection configuredModels={configuredModels} isModelInUse={isModelInUse} onModelClick={handleModelClick} />
+        <ExchangesSection configuredExchanges={configuredExchanges} isExchangeInUse={isExchangeInUse} onExchangeClick={handleExchangeClick} />
+      </ConfigurationSection>
 
       {/* Traders Grid */}
-      <TradersGrid
-        language={language}
-        traders={traders}
-        onTraderSelect={handleTraderSelect}
-        onEditTrader={handleEditTrader}
-        onDeleteTrader={handleDeleteTrader}
-        onToggleTrader={handleToggleTrader}
-      />
+      <TradersGrid traders={traders} onTraderSelect={handleTraderSelect} onEditTrader={handleEditTrader} onDeleteTrader={handleDeleteTrader} onToggleTrader={handleToggleTrader} />
 
       {/* Modals */}
       <TraderConfigModal
@@ -217,6 +209,29 @@ export function AITradersPage({ onTraderSelect }: AITradersPageProps) {
           language={language}
         />
       )}
-    </div>
+    </AITradersSection>
   )
 }
+
+const AITradersSection = styled.div`
+  width: 100%;
+  max-width: 1220px;
+  animation: fadeIn 0.25s ease;
+
+  @media (max-width: 768px) {
+    padding: 0 1rem 1rem;
+  }
+`
+
+const ConfigurationSection = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  margin-bottom: 32px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+`

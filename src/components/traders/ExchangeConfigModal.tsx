@@ -3,14 +3,8 @@ import type { Exchange } from '../../types'
 import { t, type Language } from '../../i18n/translations'
 import { api } from '../../lib/api'
 import { getExchangeIcon } from '../ExchangeIcons'
-import {
-  TwoStageKeyModal,
-  type TwoStageKeyModalResult,
-} from '../TwoStageKeyModal'
-import {
-  WebCryptoEnvironmentCheck,
-  type WebCryptoCheckStatus,
-} from '../WebCryptoEnvironmentCheck'
+import { TwoStageKeyModal, type TwoStageKeyModalResult } from '../TwoStageKeyModal'
+import { WebCryptoEnvironmentCheck, type WebCryptoCheckStatus } from '../WebCryptoEnvironmentCheck'
 import { BookOpen, Trash2, HelpCircle } from 'lucide-react'
 import { toast } from 'sonner'
 import { Tooltip } from './Tooltip'
@@ -37,17 +31,8 @@ interface ExchangeConfigModalProps {
   language: Language
 }
 
-export function ExchangeConfigModal({
-  allExchanges,
-  editingExchangeId,
-  onSave,
-  onDelete,
-  onClose,
-  language,
-}: ExchangeConfigModalProps) {
-  const [selectedExchangeId, setSelectedExchangeId] = useState(
-    editingExchangeId || ''
-  )
+export function ExchangeConfigModal({ allExchanges, editingExchangeId, onSave, onDelete, onClose, language }: ExchangeConfigModalProps) {
+  const [selectedExchangeId, setSelectedExchangeId] = useState(editingExchangeId || '')
   const [apiKey, setApiKey] = useState('')
   const [secretKey, setSecretKey] = useState('')
   const [passphrase, setPassphrase] = useState('')
@@ -59,8 +44,7 @@ export function ExchangeConfigModal({
   } | null>(null)
   const [loadingIP, setLoadingIP] = useState(false)
   const [copiedIP, setCopiedIP] = useState(false)
-  const [webCryptoStatus, setWebCryptoStatus] =
-    useState<WebCryptoCheckStatus>('idle')
+  const [webCryptoStatus, setWebCryptoStatus] = useState<WebCryptoCheckStatus>('idle')
 
   // 币安配置指南展开状态
   const [showBinanceGuide, setShowBinanceGuide] = useState(false)
@@ -79,14 +63,10 @@ export function ExchangeConfigModal({
   const [lighterApiKeyPrivateKey, setLighterApiKeyPrivateKey] = useState('')
 
   // 安全输入状态
-  const [secureInputTarget, setSecureInputTarget] = useState<
-    null | 'hyperliquid' | 'aster' | 'lighter'
-  >(null)
+  const [secureInputTarget, setSecureInputTarget] = useState<null | 'hyperliquid' | 'aster' | 'lighter'>(null)
 
   // 获取当前编辑的交易所信息
-  const selectedExchange = allExchanges?.find(
-    (e) => e.id === selectedExchangeId
-  )
+  const selectedExchange = allExchanges?.find((e) => e.id === selectedExchangeId)
 
   // 如果是编辑现有交易所，初始化表单数据
   useEffect(() => {
@@ -164,28 +144,19 @@ export function ExchangeConfigModal({
     } catch (err) {
       console.error('复制失败:', err)
       // 显示错误提示
-      toast.error(
-        t('copyIPFailed', language) || `复制失败: ${ip}\n请手动复制此IP地址`
-      )
+      toast.error(t('copyIPFailed', language) || `复制失败: ${ip}\n请手动复制此IP地址`)
     }
   }
 
   // 安全输入处理函数
   const secureInputContextLabel =
-    secureInputTarget === 'aster'
-      ? t('asterExchangeName', language)
-      : secureInputTarget === 'hyperliquid'
-        ? t('hyperliquidExchangeName', language)
-        : undefined
+    secureInputTarget === 'aster' ? t('asterExchangeName', language) : secureInputTarget === 'hyperliquid' ? t('hyperliquidExchangeName', language) : undefined
 
   const handleSecureInputCancel = () => {
     setSecureInputTarget(null)
   }
 
-  const handleSecureInputComplete = ({
-    value,
-    obfuscationLog,
-  }: TwoStageKeyModalResult) => {
+  const handleSecureInputComplete = ({ value, obfuscationLog }: TwoStageKeyModalResult) => {
     const trimmed = value.trim()
     if (secureInputTarget === 'hyperliquid') {
       setApiKey(trimmed)
@@ -208,11 +179,7 @@ export function ExchangeConfigModal({
   const maskSecret = (secret: string) => {
     if (!secret || secret.length === 0) return ''
     if (secret.length <= 8) return '*'.repeat(secret.length)
-    return (
-      secret.slice(0, 4) +
-      '*'.repeat(Math.max(secret.length - 8, 4)) +
-      secret.slice(-4)
-    )
+    return secret.slice(0, 4) + '*'.repeat(Math.max(secret.length - 8, 4)) + secret.slice(-4)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -225,26 +192,10 @@ export function ExchangeConfigModal({
       await onSave(selectedExchangeId, apiKey.trim(), secretKey.trim(), testnet)
     } else if (selectedExchange?.id === 'hyperliquid') {
       if (!apiKey.trim() || !hyperliquidWalletAddr.trim()) return // 验证私钥和钱包地址
-      await onSave(
-        selectedExchangeId,
-        apiKey.trim(),
-        '',
-        testnet,
-        hyperliquidWalletAddr.trim()
-      )
+      await onSave(selectedExchangeId, apiKey.trim(), '', testnet, hyperliquidWalletAddr.trim())
     } else if (selectedExchange?.id === 'aster') {
-      if (!asterUser.trim() || !asterSigner.trim() || !asterPrivateKey.trim())
-        return
-      await onSave(
-        selectedExchangeId,
-        '',
-        '',
-        testnet,
-        undefined,
-        asterUser.trim(),
-        asterSigner.trim(),
-        asterPrivateKey.trim()
-      )
+      if (!asterUser.trim() || !asterSigner.trim() || !asterPrivateKey.trim()) return
+      await onSave(selectedExchangeId, '', '', testnet, undefined, asterUser.trim(), asterSigner.trim(), asterPrivateKey.trim())
     } else if (selectedExchange?.id === 'lighter') {
       if (!lighterWalletAddr.trim() || !lighterPrivateKey.trim()) return
       await onSave(
@@ -282,14 +233,9 @@ export function ExchangeConfigModal({
           maxHeight: 'calc(100vh - 4rem)',
         }}
       >
-        <div
-          className="flex items-center justify-between p-6 pb-4 sticky top-0 z-10"
-          style={{ background: '#1E2329' }}
-        >
+        <div className="flex items-center justify-between p-6 pb-4 sticky top-0 z-10" style={{ background: '#1E2329' }}>
           <h3 className="text-xl font-bold" style={{ color: '#EAECEF' }}>
-            {editingExchangeId
-              ? t('editExchange', language)
-              : t('addExchange', language)}
+            {editingExchangeId ? t('editExchange', language) : t('addExchange', language)}
           </h3>
           <div className="flex items-center gap-2">
             {selectedExchange?.id === 'binance' && (
@@ -324,30 +270,17 @@ export function ExchangeConfigModal({
         </div>
 
         <form onSubmit={handleSubmit} className="px-6 pb-6">
-          <div
-            className="space-y-4 overflow-y-auto"
-            style={{ maxHeight: 'calc(100vh - 16rem)' }}
-          >
+          <div className="space-y-4 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 16rem)' }}>
             {!editingExchangeId && (
               <div className="space-y-3">
                 <div className="space-y-2">
-                  <div
-                    className="text-xs font-semibold uppercase tracking-wide"
-                    style={{ color: '#F0B90B' }}
-                  >
+                  <div className="text-xs font-semibold uppercase tracking-wide" style={{ color: '#F0B90B' }}>
                     {t('environmentSteps.checkTitle', language)}
                   </div>
-                  <WebCryptoEnvironmentCheck
-                    language={language}
-                    variant="card"
-                    onStatusChange={setWebCryptoStatus}
-                  />
+                  <WebCryptoEnvironmentCheck language={language} variant="card" onStatusChange={setWebCryptoStatus} />
                 </div>
                 <div className="space-y-2">
-                  <div
-                    className="text-xs font-semibold uppercase tracking-wide"
-                    style={{ color: '#F0B90B' }}
-                  >
+                  <div className="text-xs font-semibold uppercase tracking-wide" style={{ color: '#F0B90B' }}>
                     {t('environmentSteps.selectTitle', language)}
                   </div>
                   <select
@@ -363,13 +296,10 @@ export function ExchangeConfigModal({
                     disabled={webCryptoStatus !== 'secure'}
                     required
                   >
-                    <option value="">
-                      {t('pleaseSelectExchange', language)}
-                    </option>
+                    <option value="">{t('pleaseSelectExchange', language)}</option>
                     {availableExchanges.map((exchange) => (
                       <option key={exchange.id} value={exchange.id}>
-                        {getShortName(exchange.name)} (
-                        {exchange.type.toUpperCase()})
+                        {getShortName(exchange.name)} ({exchange.type.toUpperCase()})
                       </option>
                     ))}
                   </select>
@@ -378,10 +308,7 @@ export function ExchangeConfigModal({
             )}
 
             {selectedExchange && (
-              <div
-                className="p-4 rounded"
-                style={{ background: '#0B0E11', border: '1px solid #2B3139' }}
-              >
+              <div className="p-4 rounded" style={{ background: '#0B0E11', border: '1px solid #2B3139' }}>
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-8 h-8 flex items-center justify-center">
                     {getExchangeIcon(selectedExchange.id, {
@@ -394,8 +321,7 @@ export function ExchangeConfigModal({
                       {getShortName(selectedExchange.name)}
                     </div>
                     <div className="text-xs" style={{ color: '#848E9C' }}>
-                      {selectedExchange.type.toUpperCase()} •{' '}
-                      {selectedExchange.id}
+                      {selectedExchange.type.toUpperCase()} • {selectedExchange.id}
                     </div>
                   </div>
                 </div>
@@ -405,9 +331,7 @@ export function ExchangeConfigModal({
             {selectedExchange && (
               <>
                 {/* Binance/Bybit 和其他 CEX 交易所的字段 */}
-                {(selectedExchange.id === 'binance' ||
-                  selectedExchange.id === 'bybit' ||
-                  selectedExchange.type === 'cex') &&
+                {(selectedExchange.id === 'binance' || selectedExchange.id === 'bybit' || selectedExchange.type === 'cex') &&
                   selectedExchange.id !== 'hyperliquid' &&
                   selectedExchange.id !== 'aster' && (
                     <>
@@ -424,18 +348,12 @@ export function ExchangeConfigModal({
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
                               <span style={{ color: '#58a6ff' }}>ℹ️</span>
-                              <span
-                                className="text-sm font-medium"
-                                style={{ color: '#EAECEF' }}
-                              >
+                              <span className="text-sm font-medium" style={{ color: '#EAECEF' }}>
                                 <strong>币安用户必读：</strong>
-                                使用「现货与合约交易」API，不要用「统一账户
-                                API」
+                                使用「现货与合约交易」API，不要用「统一账户 API」
                               </span>
                             </div>
-                            <span style={{ color: '#8b949e' }}>
-                              {showBinanceGuide ? '▲' : '▼'}
-                            </span>
+                            <span style={{ color: '#8b949e' }}>{showBinanceGuide ? '▲' : '▼'}</span>
                           </div>
 
                           {/* 展开的详细说明 */}
@@ -450,23 +368,15 @@ export function ExchangeConfigModal({
                               onClick={(e) => e.stopPropagation()}
                             >
                               <p className="mb-2" style={{ color: '#8b949e' }}>
-                                <strong>原因：</strong>统一账户 API
-                                权限结构不同，会导致订单提交失败
+                                <strong>原因：</strong>统一账户 API 权限结构不同，会导致订单提交失败
                               </p>
 
-                              <p
-                                className="font-semibold mb-1"
-                                style={{ color: '#EAECEF' }}
-                              >
+                              <p className="font-semibold mb-1" style={{ color: '#EAECEF' }}>
                                 正确配置步骤：
                               </p>
-                              <ol
-                                className="list-decimal list-inside space-y-1 mb-3"
-                                style={{ paddingLeft: '0.5rem' }}
-                              >
+                              <ol className="list-decimal list-inside space-y-1 mb-3" style={{ paddingLeft: '0.5rem' }}>
                                 <li>
-                                  登录币安 → 个人中心 →{' '}
-                                  <strong>API 管理</strong>
+                                  登录币安 → 个人中心 → <strong>API 管理</strong>
                                 </li>
                                 <li>
                                   创建 API → 选择「
@@ -474,10 +384,7 @@ export function ExchangeConfigModal({
                                 </li>
                                 <li>
                                   勾选「<strong>现货与合约交易</strong>」（
-                                  <span style={{ color: '#f85149' }}>
-                                    不选统一账户
-                                  </span>
-                                  ）
+                                  <span style={{ color: '#f85149' }}>不选统一账户</span>）
                                 </li>
                                 <li>
                                   IP 限制选「<strong>无限制</strong>
@@ -511,10 +418,7 @@ export function ExchangeConfigModal({
                       )}
 
                       <div>
-                        <label
-                          className="block text-sm font-semibold mb-2"
-                          style={{ color: '#EAECEF' }}
-                        >
+                        <label className="block text-sm font-semibold mb-2" style={{ color: '#EAECEF' }}>
                           {t('apiKey', language)}
                         </label>
                         <input
@@ -533,10 +437,7 @@ export function ExchangeConfigModal({
                       </div>
 
                       <div>
-                        <label
-                          className="block text-sm font-semibold mb-2"
-                          style={{ color: '#EAECEF' }}
-                        >
+                        <label className="block text-sm font-semibold mb-2" style={{ color: '#EAECEF' }}>
                           {t('secretKey', language)}
                         </label>
                         <input
@@ -556,10 +457,7 @@ export function ExchangeConfigModal({
 
                       {selectedExchange.id === 'okx' && (
                         <div>
-                          <label
-                            className="block text-sm font-semibold mb-2"
-                            style={{ color: '#EAECEF' }}
-                          >
+                          <label className="block text-sm font-semibold mb-2" style={{ color: '#EAECEF' }}>
                             {t('passphrase', language)}
                           </label>
                           <input
@@ -587,35 +485,20 @@ export function ExchangeConfigModal({
                             border: '1px solid rgba(240, 185, 11, 0.2)',
                           }}
                         >
-                          <div
-                            className="text-sm font-semibold mb-2"
-                            style={{ color: '#F0B90B' }}
-                          >
+                          <div className="text-sm font-semibold mb-2" style={{ color: '#F0B90B' }}>
                             {t('whitelistIP', language)}
                           </div>
-                          <div
-                            className="text-xs mb-3"
-                            style={{ color: '#848E9C' }}
-                          >
+                          <div className="text-xs mb-3" style={{ color: '#848E9C' }}>
                             {t('whitelistIPDesc', language)}
                           </div>
 
                           {loadingIP ? (
-                            <div
-                              className="text-xs"
-                              style={{ color: '#848E9C' }}
-                            >
+                            <div className="text-xs" style={{ color: '#848E9C' }}>
                               {t('loadingServerIP', language)}
                             </div>
                           ) : serverIP && serverIP.public_ip ? (
-                            <div
-                              className="flex items-center gap-2 p-2 rounded"
-                              style={{ background: '#0B0E11' }}
-                            >
-                              <code
-                                className="flex-1 text-sm font-mono"
-                                style={{ color: '#F0B90B' }}
-                              >
+                            <div className="flex items-center gap-2 p-2 rounded" style={{ background: '#0B0E11' }}>
+                              <code className="flex-1 text-sm font-mono" style={{ color: '#F0B90B' }}>
                                 {serverIP.public_ip}
                               </code>
                               <button
@@ -627,9 +510,7 @@ export function ExchangeConfigModal({
                                   color: '#F0B90B',
                                 }}
                               >
-                                {copiedIP
-                                  ? t('ipCopied', language)
-                                  : t('copyIP', language)}
+                                {copiedIP ? t('ipCopied', language) : t('copyIP', language)}
                               </button>
                             </div>
                           ) : null}
@@ -642,16 +523,10 @@ export function ExchangeConfigModal({
                 {selectedExchange.id === 'aster' && (
                   <>
                     <div>
-                      <label
-                        className="block text-sm font-semibold mb-2 flex items-center gap-2"
-                        style={{ color: '#EAECEF' }}
-                      >
+                      <label className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: '#EAECEF' }}>
                         {t('user', language)}
                         <Tooltip content={t('asterUserDesc', language)}>
-                          <HelpCircle
-                            className="w-4 h-4 cursor-help"
-                            style={{ color: '#F0B90B' }}
-                          />
+                          <HelpCircle className="w-4 h-4 cursor-help" style={{ color: '#F0B90B' }} />
                         </Tooltip>
                       </label>
                       <input
@@ -670,16 +545,10 @@ export function ExchangeConfigModal({
                     </div>
 
                     <div>
-                      <label
-                        className="block text-sm font-semibold mb-2 flex items-center gap-2"
-                        style={{ color: '#EAECEF' }}
-                      >
+                      <label className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: '#EAECEF' }}>
                         {t('signer', language)}
                         <Tooltip content={t('asterSignerDesc', language)}>
-                          <HelpCircle
-                            className="w-4 h-4 cursor-help"
-                            style={{ color: '#F0B90B' }}
-                          />
+                          <HelpCircle className="w-4 h-4 cursor-help" style={{ color: '#F0B90B' }} />
                         </Tooltip>
                       </label>
                       <input
@@ -698,16 +567,10 @@ export function ExchangeConfigModal({
                     </div>
 
                     <div>
-                      <label
-                        className="block text-sm font-semibold mb-2 flex items-center gap-2"
-                        style={{ color: '#EAECEF' }}
-                      >
+                      <label className="block text-sm font-semibold mb-2 flex items-center gap-2" style={{ color: '#EAECEF' }}>
                         {t('privateKey', language)}
                         <Tooltip content={t('asterPrivateKeyDesc', language)}>
-                          <HelpCircle
-                            className="w-4 h-4 cursor-help"
-                            style={{ color: '#F0B90B' }}
-                          />
+                          <HelpCircle className="w-4 h-4 cursor-help" style={{ color: '#F0B90B' }} />
                         </Tooltip>
                       </label>
                       <input
@@ -739,20 +602,12 @@ export function ExchangeConfigModal({
                       }}
                     >
                       <div className="flex items-start gap-2">
-                        <span style={{ color: '#F0B90B', fontSize: '16px' }}>
-                          🔐
-                        </span>
+                        <span style={{ color: '#F0B90B', fontSize: '16px' }}>🔐</span>
                         <div className="flex-1">
-                          <div
-                            className="text-sm font-semibold mb-1"
-                            style={{ color: '#F0B90B' }}
-                          >
+                          <div className="text-sm font-semibold mb-1" style={{ color: '#F0B90B' }}>
                             {t('hyperliquidAgentWalletTitle', language)}
                           </div>
-                          <div
-                            className="text-xs"
-                            style={{ color: '#848E9C', lineHeight: '1.5' }}
-                          >
+                          <div className="text-xs" style={{ color: '#848E9C', lineHeight: '1.5' }}>
                             {t('hyperliquidAgentWalletDesc', language)}
                           </div>
                         </div>
@@ -761,10 +616,7 @@ export function ExchangeConfigModal({
 
                     {/* Agent Private Key 字段 */}
                     <div>
-                      <label
-                        className="block text-sm font-semibold mb-2"
-                        style={{ color: '#EAECEF' }}
-                      >
+                      <label className="block text-sm font-semibold mb-2" style={{ color: '#EAECEF' }}>
                         {t('hyperliquidAgentPrivateKey', language)}
                       </label>
                       <div className="flex flex-col gap-2">
@@ -773,10 +625,7 @@ export function ExchangeConfigModal({
                             type="text"
                             value={maskSecret(apiKey)}
                             readOnly
-                            placeholder={t(
-                              'enterHyperliquidAgentPrivateKey',
-                              language
-                            )}
+                            placeholder={t('enterHyperliquidAgentPrivateKey', language)}
                             className="w-full px-3 py-2 rounded"
                             style={{
                               background: '#0B0E11',
@@ -794,9 +643,7 @@ export function ExchangeConfigModal({
                               whiteSpace: 'nowrap',
                             }}
                           >
-                            {apiKey
-                              ? t('secureInputReenter', language)
-                              : t('secureInputButton', language)}
+                            {apiKey ? t('secureInputReenter', language) : t('secureInputButton', language)}
                           </button>
                           {apiKey && (
                             <button
@@ -819,32 +666,21 @@ export function ExchangeConfigModal({
                           </div>
                         )}
                       </div>
-                      <div
-                        className="text-xs mt-1"
-                        style={{ color: '#848E9C' }}
-                      >
+                      <div className="text-xs mt-1" style={{ color: '#848E9C' }}>
                         {t('hyperliquidAgentPrivateKeyDesc', language)}
                       </div>
                     </div>
 
                     {/* Main Wallet Address 字段 */}
                     <div>
-                      <label
-                        className="block text-sm font-semibold mb-2"
-                        style={{ color: '#EAECEF' }}
-                      >
+                      <label className="block text-sm font-semibold mb-2" style={{ color: '#EAECEF' }}>
                         {t('hyperliquidMainWalletAddress', language)}
                       </label>
                       <input
                         type="text"
                         value={hyperliquidWalletAddr}
-                        onChange={(e) =>
-                          setHyperliquidWalletAddr(e.target.value)
-                        }
-                        placeholder={t(
-                          'enterHyperliquidMainWalletAddress',
-                          language
-                        )}
+                        onChange={(e) => setHyperliquidWalletAddr(e.target.value)}
+                        placeholder={t('enterHyperliquidMainWalletAddress', language)}
                         className="w-full px-3 py-2 rounded"
                         style={{
                           background: '#0B0E11',
@@ -853,10 +689,7 @@ export function ExchangeConfigModal({
                         }}
                         required
                       />
-                      <div
-                        className="text-xs mt-1"
-                        style={{ color: '#848E9C' }}
-                      >
+                      <div className="text-xs mt-1" style={{ color: '#848E9C' }}>
                         {t('hyperliquidMainWalletAddressDesc', language)}
                       </div>
                     </div>
@@ -868,10 +701,7 @@ export function ExchangeConfigModal({
                   <>
                     {/* L1 Wallet Address */}
                     <div className="mb-4">
-                      <label
-                        className="block text-sm font-semibold mb-2"
-                        style={{ color: '#EAECEF' }}
-                      >
+                      <label className="block text-sm font-semibold mb-2" style={{ color: '#EAECEF' }}>
                         {t('lighterWalletAddress', language)}
                       </label>
                       <input
@@ -894,17 +724,9 @@ export function ExchangeConfigModal({
 
                     {/* L1 Private Key */}
                     <div className="mb-4">
-                      <label
-                        className="block text-sm font-semibold mb-2"
-                        style={{ color: '#EAECEF' }}
-                      >
+                      <label className="block text-sm font-semibold mb-2" style={{ color: '#EAECEF' }}>
                         {t('lighterPrivateKey', language)}
-                        <button
-                          type="button"
-                          onClick={() => setSecureInputTarget('lighter')}
-                          className="ml-2 text-xs underline"
-                          style={{ color: '#F0B90B' }}
-                        >
+                        <button type="button" onClick={() => setSecureInputTarget('lighter')} className="ml-2 text-xs underline" style={{ color: '#F0B90B' }}>
                           {t('secureInputButton', language)}
                         </button>
                       </label>
@@ -928,10 +750,7 @@ export function ExchangeConfigModal({
 
                     {/* API Key Private Key */}
                     <div className="mb-4">
-                      <label
-                        className="block text-sm font-semibold mb-2"
-                        style={{ color: '#EAECEF' }}
-                      >
+                      <label className="block text-sm font-semibold mb-2" style={{ color: '#EAECEF' }}>
                         {t('lighterApiKeyPrivateKey', language)} ⭐
                       </label>
                       <input
@@ -949,32 +768,38 @@ export function ExchangeConfigModal({
                       <div className="text-xs mt-1" style={{ color: '#848E9C' }}>
                         {t('lighterApiKeyPrivateKeyDesc', language)}
                       </div>
-                      <div className="text-xs mt-2 p-2 rounded" style={{
-                        background: '#1E2329',
-                        border: '1px solid #2B3139',
-                        color: '#F0B90B'
-                      }}>
+                      <div
+                        className="text-xs mt-2 p-2 rounded"
+                        style={{
+                          background: '#1E2329',
+                          border: '1px solid #2B3139',
+                          color: '#F0B90B',
+                        }}
+                      >
                         💡 {t('lighterApiKeyOptionalNote', language)}
                       </div>
                     </div>
 
                     {/* V1/V2 Status Display */}
-                    <div className="mb-4 p-3 rounded" style={{
-                      background: lighterApiKeyPrivateKey ? '#0F3F2E' : '#3F2E0F',
-                      border: '1px solid ' + (lighterApiKeyPrivateKey ? '#10B981' : '#F59E0B')
-                    }}>
+                    <div
+                      className="mb-4 p-3 rounded"
+                      style={{
+                        background: lighterApiKeyPrivateKey ? '#0F3F2E' : '#3F2E0F',
+                        border: '1px solid ' + (lighterApiKeyPrivateKey ? '#10B981' : '#F59E0B'),
+                      }}
+                    >
                       <div className="flex items-center gap-2">
-                        <div className="text-sm font-semibold" style={{
-                          color: lighterApiKeyPrivateKey ? '#10B981' : '#F59E0B'
-                        }}>
+                        <div
+                          className="text-sm font-semibold"
+                          style={{
+                            color: lighterApiKeyPrivateKey ? '#10B981' : '#F59E0B',
+                          }}
+                        >
                           {lighterApiKeyPrivateKey ? '✅ LIGHTER V2' : '⚠️ LIGHTER V1'}
                         </div>
                       </div>
                       <div className="text-xs mt-1" style={{ color: '#848E9C' }}>
-                        {lighterApiKeyPrivateKey
-                          ? t('lighterV2Description', language)
-                          : t('lighterV1Description', language)
-                        }
+                        {lighterApiKeyPrivateKey ? t('lighterV2Description', language) : t('lighterV1Description', language)}
                       </div>
                     </div>
                   </>
@@ -983,38 +808,20 @@ export function ExchangeConfigModal({
             )}
           </div>
 
-          <div
-            className="flex gap-3 mt-6 pt-4 sticky bottom-0"
-            style={{ background: '#1E2329' }}
-          >
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex-1 px-4 py-2 rounded text-sm font-semibold"
-              style={{ background: '#2B3139', color: '#848E9C' }}
-            >
+          <div className="flex gap-3 mt-6 pt-4 sticky bottom-0" style={{ background: '#1E2329' }}>
+            <button type="button" onClick={onClose} className="flex-1 px-4 py-2 rounded text-sm font-semibold" style={{ background: '#2B3139', color: '#848E9C' }}>
               {t('cancel', language)}
             </button>
             <button
               type="submit"
               disabled={
                 !selectedExchange ||
-                (selectedExchange.id === 'binance' &&
-                  (!apiKey.trim() || !secretKey.trim())) ||
-                (selectedExchange.id === 'okx' &&
-                  (!apiKey.trim() ||
-                    !secretKey.trim() ||
-                    !passphrase.trim())) ||
-                (selectedExchange.id === 'hyperliquid' &&
-                  (!apiKey.trim() || !hyperliquidWalletAddr.trim())) || // 验证私钥和钱包地址
-                (selectedExchange.id === 'aster' &&
-                  (!asterUser.trim() ||
-                    !asterSigner.trim() ||
-                    !asterPrivateKey.trim())) ||
-                (selectedExchange.id === 'lighter' &&
-                  (!lighterWalletAddr.trim() || !lighterPrivateKey.trim())) ||
-                (selectedExchange.id === 'bybit' &&
-                  (!apiKey.trim() || !secretKey.trim())) ||
+                (selectedExchange.id === 'binance' && (!apiKey.trim() || !secretKey.trim())) ||
+                (selectedExchange.id === 'okx' && (!apiKey.trim() || !secretKey.trim() || !passphrase.trim())) ||
+                (selectedExchange.id === 'hyperliquid' && (!apiKey.trim() || !hyperliquidWalletAddr.trim())) || // 验证私钥和钱包地址
+                (selectedExchange.id === 'aster' && (!asterUser.trim() || !asterSigner.trim() || !asterPrivateKey.trim())) ||
+                (selectedExchange.id === 'lighter' && (!lighterWalletAddr.trim() || !lighterPrivateKey.trim())) ||
+                (selectedExchange.id === 'bybit' && (!apiKey.trim() || !secretKey.trim())) ||
                 (selectedExchange.type === 'cex' &&
                   selectedExchange.id !== 'hyperliquid' &&
                   selectedExchange.id !== 'aster' &&
@@ -1035,20 +842,10 @@ export function ExchangeConfigModal({
 
       {/* Binance Setup Guide Modal */}
       {showGuide && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"
-          onClick={() => setShowGuide(false)}
-        >
-          <div
-            className="bg-gray-800 rounded-lg p-6 w-full max-w-4xl relative"
-            style={{ background: '#1E2329' }}
-            onClick={(e) => e.stopPropagation()}
-          >
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4" onClick={() => setShowGuide(false)}>
+          <div className="bg-gray-800 rounded-lg p-6 w-full max-w-4xl relative" style={{ background: '#1E2329' }} onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
-              <h3
-                className="text-xl font-bold flex items-center gap-2"
-                style={{ color: '#EAECEF' }}
-              >
+              <h3 className="text-xl font-bold flex items-center gap-2" style={{ color: '#EAECEF' }}>
                 <BookOpen className="w-6 h-6" style={{ color: '#F0B90B' }} />
                 {t('binanceSetupGuide', language)}
               </h3>
@@ -1061,11 +858,7 @@ export function ExchangeConfigModal({
               </button>
             </div>
             <div className="overflow-y-auto max-h-[80vh]">
-              <img
-                src="/images/guide.png"
-                alt={t('binanceSetupGuide', language)}
-                className="w-full h-auto rounded"
-              />
+              <img src="/images/guide.png" alt={t('binanceSetupGuide', language)} className="w-full h-auto rounded" />
             </div>
           </div>
         </div>

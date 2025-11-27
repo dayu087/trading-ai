@@ -1,8 +1,8 @@
+import { styled } from 'styled-components'
 import { Bot, Plus, Radio } from 'lucide-react'
-import { t, type Language } from '../../../i18n/translations'
+import { useTranslation } from 'react-i18next'
 
 interface PageHeaderProps {
-  language: Language
   tradersCount: number
   configuredModelsCount: number
   configuredExchangesCount: number
@@ -12,106 +12,161 @@ interface PageHeaderProps {
   onCreateTrader: () => void
 }
 
-export function PageHeader({
-  language,
-  tradersCount,
-  configuredModelsCount,
-  configuredExchangesCount,
-  onAddModel,
-  onAddExchange,
-  onConfigureSignalSource,
-  onCreateTrader,
-}: PageHeaderProps) {
-  const canCreateTrader =
-    configuredModelsCount > 0 && configuredExchangesCount > 0
+export function PageHeader({ tradersCount, configuredModelsCount, configuredExchangesCount, onAddModel, onAddExchange, onConfigureSignalSource, onCreateTrader }: PageHeaderProps) {
+  const canCreateTrader = configuredModelsCount > 0 && configuredExchangesCount > 0
+  const { t } = useTranslation()
 
   return (
-    <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-0">
-      <div className="flex items-center gap-3 md:gap-4">
-        <div
-          className="w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center"
-          style={{
-            background: 'linear-gradient(135deg, #F0B90B 0%, #FCD535 100%)',
-            boxShadow: '0 4px 14px rgba(240, 185, 11, 0.4)',
-          }}
-        >
-          <Bot className="w-5 h-5 md:w-6 md:h-6" style={{ color: '#000' }} />
-        </div>
+    <Wrapper>
+      <Left>
+        <IconWrapper>
+          <Bot style={{ width: '24px', height: '24px', color: '#000' }} />
+        </IconWrapper>
         <div>
-          <h1
-            className="text-xl md:text-2xl font-bold flex items-center gap-2"
-            style={{ color: '#EAECEF' }}
-          >
-            {t('aiTraders', language)}
-            <span
-              className="text-xs font-normal px-2 py-1 rounded"
-              style={{
-                background: 'rgba(240, 185, 11, 0.15)',
-                color: '#F0B90B',
-              }}
-            >
-              {tradersCount} {t('active', language)}
-            </span>
-          </h1>
-          <p className="text-xs" style={{ color: '#848E9C' }}>
-            {t('manageAITraders', language)}
-          </p>
+          <TitleWrap>
+            <Title>{t('aiTraders')}</Title>
+            <ActiveTag>
+              {tradersCount} {t('active')}
+            </ActiveTag>
+          </TitleWrap>
+          <SubText>{t('manageAITraders')}</SubText>
         </div>
-      </div>
+      </Left>
 
-      <div className="flex gap-2 md:gap-3 w-full md:w-auto overflow-hidden flex-wrap md:flex-nowrap">
-        <button
-          onClick={onAddModel}
-          className="px-3 md:px-4 py-2 rounded text-xs md:text-sm font-semibold transition-all hover:scale-105 flex items-center gap-1 md:gap-2 whitespace-nowrap"
-          style={{
-            background: '#2B3139',
-            color: '#EAECEF',
-            border: '1px solid #474D57',
-          }}
-        >
-          <Plus className="w-3 h-3 md:w-4 md:h-4" />
-          {t('aiModels', language)}
-        </button>
+      <Buttons>
+        <ActionButton onClick={onAddModel}>
+          <Plus style={{ width: '16px', height: '16px' }} />
+          {t('aiModels')}
+        </ActionButton>
 
-        <button
-          onClick={onAddExchange}
-          className="px-3 md:px-4 py-2 rounded text-xs md:text-sm font-semibold transition-all hover:scale-105 flex items-center gap-1 md:gap-2 whitespace-nowrap"
-          style={{
-            background: '#2B3139',
-            color: '#EAECEF',
-            border: '1px solid #474D57',
-          }}
-        >
-          <Plus className="w-3 h-3 md:w-4 md:h-4" />
-          {t('exchanges', language)}
-        </button>
+        <ActionButton onClick={onAddExchange}>
+          <Plus style={{ width: '16px', height: '16px' }} />
+          {t('exchanges')}
+        </ActionButton>
 
-        <button
-          onClick={onConfigureSignalSource}
-          className="px-3 md:px-4 py-2 rounded text-xs md:text-sm font-semibold transition-all hover:scale-105 flex items-center gap-1 md:gap-2 whitespace-nowrap"
-          style={{
-            background: '#2B3139',
-            color: '#EAECEF',
-            border: '1px solid #474D57',
-          }}
-        >
-          <Radio className="w-3 h-3 md:w-4 md:h-4" />
-          {t('signalSource', language)}
-        </button>
+        <ActionButton onClick={onConfigureSignalSource}>
+          <Radio style={{ width: '16px', height: '16px' }} />
+          {t('signalSource')}
+        </ActionButton>
 
-        <button
-          onClick={onCreateTrader}
-          disabled={!canCreateTrader}
-          className="px-3 md:px-4 py-2 rounded text-xs md:text-sm font-semibold transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 md:gap-2 whitespace-nowrap"
-          style={{
-            background: canCreateTrader ? '#F0B90B' : '#2B3139',
-            color: canCreateTrader ? '#000' : '#848E9C',
-          }}
-        >
-          <Plus className="w-4 h-4" />
-          {t('createTrader', language)}
-        </button>
-      </div>
-    </div>
+        <ActionButton onClick={onCreateTrader} disabled={!canCreateTrader} highlight={canCreateTrader}>
+          <Plus style={{ width: '18px', height: '18px' }} />
+          {t('createTrader')}
+        </ActionButton>
+      </Buttons>
+    </Wrapper>
   )
 }
+
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 36px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 24px;
+    gap: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+`
+
+const Left = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  @media (max-width: 768px) {
+    gap: 12px;
+  }
+`
+
+const IconWrapper = styled.div`
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #000;
+
+  @media (max-width: 768px) {
+    width: 48px;
+    height: 48px;
+  }
+`
+
+const TitleWrap = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 4px;
+
+  @media (max-width: 768px) {
+    gap: 8px;
+  }
+`
+
+const Title = styled.h1`
+  padding: 4px 12px;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 8px;
+  background: #cafe36;
+`
+
+const ActiveTag = styled.span`
+  height: 100%;
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #f3f3f3;
+`
+
+const SubText = styled.p`
+  font-size: 14px;
+`
+
+const Buttons = styled.div`
+  display: flex;
+  gap: 16px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+`
+
+const ActionButton = styled.button<{ disabled?: boolean; highlight?: boolean }>`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 6px;
+  transition: all 0.2s;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 1px solid #191a23;
+  background: ${(p) => (p.highlight ? '#000' : '#fff')};
+  color: ${(p) => (p.highlight ? '#fff' : '#000')};
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #2b3139;
+    color: #848e9c;
+  }
+
+  @media (min-width: 768px) {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+`

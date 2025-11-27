@@ -39,8 +39,6 @@ export function CompetitionPage() {
     setSelectedTrader(null)
   }
 
-  console.log(competition, 'competition')
-
   if (!competition) {
     return <SkeletonBox />
   }
@@ -49,6 +47,7 @@ export function CompetitionPage() {
   if (!competition.traders || competition.traders.length === 0) {
     return <NoDataSection />
   }
+  console.log(competition, 'competition')
 
   // 按收益率排序
   const sortedTraders = [...competition.traders].sort((a, b) => b.total_pnl_pct - a.total_pnl_pct)
@@ -83,20 +82,16 @@ export function CompetitionPage() {
         </LeaderSection>
       </Header>
 
-      {/* Left/Right Split: Performance Chart + Leaderboard */}
       <SplitGrid>
-        {/* Left: Performance Comparison Chart */}
         <Card delayMs={100}>
           <CardHeader>
             <CardTitle>{t('performanceComparison')}</CardTitle>
             <CardMeta>{t('realTimePnL')}</CardMeta>
           </CardHeader>
 
-          {/* Keep the original Chart component and pass top 5 */}
           <ComparisonChart traders={sortedTraders.slice(0, 5)} />
         </Card>
 
-        {/* Right: Leaderboard */}
         <Card delayMs={100}>
           <CardHeader>
             <CardTitle>{t('leaderboard')}</CardTitle>
@@ -170,7 +165,6 @@ export function CompetitionPage() {
         </Card>
       </SplitGrid>
 
-      {/* Head-to-Head Stats */}
       {competition.traders.length === 2 && (
         <HeadToHeadCard delayMs={300}>
           <H2>{t('headToHead')}</H2>
@@ -178,11 +172,8 @@ export function CompetitionPage() {
             {sortedTraders.map((trader, index) => {
               const isWinning = index === 0
               const opponent = sortedTraders[1 - index]
-
               const hasValidData = trader.total_pnl_pct != null && opponent.total_pnl_pct != null && !isNaN(trader.total_pnl_pct) && !isNaN(opponent.total_pnl_pct)
-
               const gap = hasValidData ? trader.total_pnl_pct - opponent.total_pnl_pct : NaN
-
               return (
                 <H2Column key={trader.trader_id} winning={isWinning}>
                   <div>
@@ -204,21 +195,10 @@ export function CompetitionPage() {
         </HeadToHeadCard>
       )}
 
-      {/* Trader Config View Modal */}
       <TraderConfigViewModal isOpen={isModalOpen} onClose={closeModal} traderData={selectedTrader} />
     </CompetitionWrapper>
   )
 }
-
-const fadeIn = keyframes`
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-`
-
-const slideIn = keyframes`
-  from { opacity: 0; transform: translateX(8px); }
-  to { opacity: 1; transform: translateX(0); }
-`
 
 const CompetitionWrapper = styled.div`
   display: flex;
@@ -226,7 +206,8 @@ const CompetitionWrapper = styled.div`
   gap: 1.25rem;
   width: 100%;
   max-width: 1220px;
-  animation: ${fadeIn} 360ms ease both;
+  animation: fadeIn 0.25s ease;
+
   width: 100%;
 `
 
@@ -310,12 +291,10 @@ const Subtitle = styled.p`
 const LeaderSection = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: right;
   gap: 6px;
-  width: auto;
+  align-items: flex-end;
 
   @media (max-width: 768px) {
-    justify-content: left;
     width: 100%;
   }
 `
@@ -338,8 +317,7 @@ const LeaderPnl = styled.div<{ positive?: boolean }>`
 /* Grid for main content */
 const SplitGrid = styled.div`
   display: flex;
-
-  gap: 1.25rem;
+  gap: 32px;
 
   @media (max-width: 1024px) {
     flex-direction: column;
@@ -348,8 +326,7 @@ const SplitGrid = styled.div`
 
 const Card = styled.div<{ delayMs?: number }>`
   flex: 1 1 50%;
-  padding: 1.25rem;
-  animation: ${slideIn} 360ms ease both;
+  animation: slideIn 360ms ease both;
   box-shadow: 4px 4px 0px 0px #191a23;
   border-radius: 24px;
   border: 1px solid #000;
@@ -364,7 +341,7 @@ const CardHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  padding: 24px;
 `
 
 const CardTitle = styled.h2`
@@ -397,7 +374,7 @@ const LeaderboardList = styled.div`
 const TraderRow = styled.div<{ isLeader?: boolean }>`
   display: flex;
   flex-direction: column;
-  padding: 0.75rem;
+  padding: 20px;
   border-radius: 0.5rem;
   transition: all 300ms ease;
   cursor: pointer;
@@ -476,7 +453,7 @@ const StatsGroup = styled.div`
 `
 
 const StatBlock = styled.div`
-  text-align: right;
+  text-align: left;
   min-width: 70px;
 `
 

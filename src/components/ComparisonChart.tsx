@@ -191,13 +191,12 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
             const pnlPct = data[`${trader.trader_id}_pnl_pct`]
             const equity = data[`${trader.trader_id}_equity`]
             if (pnlPct === undefined) return null
-
             return (
               <div key={trader.trader_id} className="mb-1.5 last:mb-0">
-                <div className="text-xs font-semibold mb-0.5" style={{ color: traderColor(trader.trader_id) }}>
+                <div className="text-xs font-semibold mb-0.5" style={{ color: '#0D4751' }}>
                   {trader.trader_name}
                 </div>
-                <div className="text-sm mono font-bold" style={{ color: pnlPct >= 0 ? '#0ECB81' : '#F6465D' }}>
+                <div className="text-sm mono font-bold" style={{ color: pnlPct >= 0 ? 'var(--up_color)' : 'var(--down_color)' }}>
                   {pnlPct >= 0 ? '+' : ''}
                   {pnlPct.toFixed(2)}%
                   <span className="text-xs ml-2 font-normal" style={{ color: '#848E9C' }}>
@@ -225,101 +224,88 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
       : 0
 
   return (
-    <div>
-      <div
-        style={{
-          borderRadius: '8px',
-          overflow: 'hidden',
-          position: 'relative',
-        }}
-      >
-        <ResponsiveContainer width="100%" height={520}>
-          <LineChart data={displayData} margin={{ top: 10, right: 5, left: 5, bottom: 24 }}>
-            <defs>
-              {traders.map((trader) => (
-                <linearGradient key={`gradient-${trader.trader_id}`} id={`gradient-${trader.trader_id}`} x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor={traderColor(trader.trader_id)} stopOpacity={0.9} />
-                  <stop offset="95%" stopColor={traderColor(trader.trader_id)} stopOpacity={0.2} />
-                </linearGradient>
-              ))}
-            </defs>
-
-            <CartesianGrid vertical={false} horizontal={true} stroke="#ccc" strokeDasharray="0" strokeWidth={1} />
-
-            <XAxis
-              dataKey="time"
-              stroke="#191A23"
-              tick={{ fill: '#191A23', fontSize: 12 }}
-              tickLine={{ stroke: '#F3F3F3' }}
-              interval={Math.floor(displayData.length / 12)}
-              textAnchor="end"
-              height={20}
-            />
-
-            <YAxis
-              stroke="#fff"
-              tick={{ fill: '#191A23', fontSize: 12 }}
-              tickLine={{ stroke: '#fff' }}
-              domain={calculateYDomain()}
-              tickFormatter={(value) => `${value.toFixed(1)}%`}
-              width={60}
-            />
-
-            <Tooltip content={<CustomTooltip />} />
-
-            <ReferenceLine
-              y={0}
-              stroke="#474D57"
-              strokeDasharray="3 3"
-              strokeWidth={1.5}
-              label={{
-                value: '',
-                fill: '#848E9C',
-                fontSize: 12,
-              }}
-            />
-
+    <ComparisonChartContainer>
+      <ResponsiveContainer width="100%" height={456}>
+        <LineChart data={displayData} margin={{ top: 10, right: 5, left: 5, bottom: 24 }}>
+          <defs>
             {traders.map((trader) => (
-              <Line
-                key={trader.trader_id}
-                type="monotone"
-                dataKey={`${trader.trader_id}_pnl_pct`}
-                stroke={traderColor(trader.trader_id)}
-                strokeWidth={3}
-                dot={displayData.length < 50 ? { fill: traderColor(trader.trader_id), r: 0 } : false}
-                activeDot={{
-                  r: 4,
-                  fill: traderColor(trader.trader_id),
-                  stroke: '#fff',
-                  strokeWidth: 2,
-                }}
-                name={trader.trader_name}
-                connectNulls
-              />
+              <linearGradient key={`gradient-${trader.trader_id}`} id={`gradient-${trader.trader_id}`} x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor={traderColor(trader.trader_id)} stopOpacity={0.9} />
+                <stop offset="95%" stopColor={traderColor(trader.trader_id)} stopOpacity={0.2} />
+              </linearGradient>
             ))}
+          </defs>
 
-            <Legend
-              wrapperStyle={{ paddingTop: '16px' }}
-              iconType="line"
-              formatter={(value, entry: any) => {
-                const traderId = traders.find((t) => value === t.trader_name)?.trader_id
-                const trader = traders.find((t) => t.trader_id === traderId)
-                return (
-                  <span
-                    style={{
-                      color: entry.color,
-                      fontWeight: 600,
-                      fontSize: '14px',
-                    }}
-                  >
-                    {trader?.trader_name} ({trader?.ai_model.toUpperCase()})
-                  </span>
-                )
+          <CartesianGrid vertical={false} horizontal={true} stroke="#ccc" strokeDasharray="0" strokeWidth={1} />
+
+          <XAxis
+            dataKey="time"
+            stroke="#191A23"
+            tick={{ fill: '#191A23', fontSize: 12, dy: 6 }}
+            tickLine={{ stroke: '#F3F3F3' }}
+            interval={Math.floor(displayData.length / 12)}
+            textAnchor="start"
+            height={20}
+          />
+
+          <YAxis
+            stroke="#fff"
+            tick={{ fill: '#191A23', fontSize: 12 }}
+            tickLine={{ stroke: '#fff' }}
+            domain={calculateYDomain()}
+            tickFormatter={(value) => `${value.toFixed(1)}%`}
+            width={60}
+          />
+
+          <Tooltip content={<CustomTooltip />} />
+
+          <ReferenceLine
+            y={0}
+            stroke="#474D57"
+            strokeDasharray="3 3"
+            strokeWidth={1.5}
+            label={{
+              value: '',
+              fill: '#848E9C',
+              fontSize: 12,
+            }}
+          />
+
+          {traders.map((trader) => (
+            <Line
+              key={trader.trader_id}
+              type="monotone"
+              dataKey={`${trader.trader_id}_pnl_pct`}
+              stroke="#0D4751"
+              strokeWidth={3}
+              dot={displayData.length < 50 ? { fill: traderColor(trader.trader_id), r: 0 } : false}
+              activeDot={{
+                r: 4,
+                fill: traderColor(trader.trader_id),
+                stroke: '#fff',
+                strokeWidth: 2,
               }}
+              name={trader.trader_name}
+              connectNulls
             />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
+          ))}
+
+          <Legend
+            wrapperStyle={{ paddingTop: '24px' }}
+            iconSize={0}
+            iconType="line"
+            formatter={(value, entry: any) => {
+              const traderId = traders.find((t) => value === t.trader_name)?.trader_id
+              const trader = traders.find((t) => t.trader_id === traderId)
+              return (
+                <LegendText $color={entry.color}>
+                  {trader?.trader_name} ({trader?.ai_model.toUpperCase()})
+                </LegendText>
+              )
+            }}
+          />
+        </LineChart>
+      </ResponsiveContainer>
 
       {/* Stats */}
       <StatsGrid>
@@ -343,14 +329,17 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
           <StatValue className="mono">{combinedData.length > MAX_DISPLAY_POINTS ? `${t('recent', language)} ${MAX_DISPLAY_POINTS}` : t('allData', language)}</StatValue>
         </StatBox>
       </StatsGrid>
-    </div>
+    </ComparisonChartContainer>
   )
 }
+
+const ComparisonChartContainer = styled.div`
+  padding: 0 24px 16px 16px;
+`
 
 const StatsGrid = styled.div`
   display: flex;
   gap: 1rem;
-  padding-top: 1.25rem;
 `
 
 const StatBox = styled.div`
@@ -378,4 +367,10 @@ const StatValue = styled.div<{ $color?: string }>`
   font-weight: bold;
   font-size: 0.875rem;
   color: ${(p) => p.$color || '#000'};
+`
+
+const LegendText = styled.span<{ $color: string }>`
+  font-weight: 600;
+  font-size: 14px;
+  color: ${(p) => p.$color};
 `

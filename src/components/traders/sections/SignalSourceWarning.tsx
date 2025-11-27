@@ -6,23 +6,16 @@ interface SignalSourceWarningProps {
   onConfigure: () => void
 }
 
-export function SignalSourceWarning({
-  language,
-  onConfigure,
-}: SignalSourceWarningProps) {
+export function SignalSourceWarning({ language, onConfigure }: SignalSourceWarningProps) {
   return (
     <div
-      className="rounded-lg px-4 py-3 flex items-start gap-3 animate-slide-in"
+      className="rounded-lg px-4 py-3 flex items-start gap-3 animate-slide-in mb-8"
       style={{
         background: 'rgba(246, 70, 93, 0.1)',
         border: '1px solid rgba(246, 70, 93, 0.3)',
       }}
     >
-      <AlertTriangle
-        size={20}
-        className="flex-shrink-0 mt-0.5"
-        style={{ color: '#F6465D' }}
-      />
+      <AlertTriangle size={20} className="flex-shrink-0 mt-0.5" style={{ color: '#F6465D' }} />
       <div className="flex-1">
         <div className="font-semibold mb-1" style={{ color: '#F6465D' }}>
           ⚠️ {t('signalSourceNotConfigured', language)}
