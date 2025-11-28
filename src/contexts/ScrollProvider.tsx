@@ -83,7 +83,7 @@ export function ScrollProvider({ children }: { children: React.ReactNode }) {
   return (
     <ScrollContext.Provider value={{ scrollRef, getScrollElement }}>
       <Wrapper>
-        <ProgressBar style={{ scaleX: scrollYProgress }} />
+        {/* <ProgressBar style={{ scaleX: scrollYProgress }} /> */}
         <ScrollContainer ref={scrollRef}>{children}</ScrollContainer>
       </Wrapper>
     </ScrollContext.Provider>
@@ -108,9 +108,8 @@ const ProgressBar = styled(motion.div)`
   position: fixed;
   top: 0;
   left: 0;
-  height: 3px;
+  height: 2px;
   width: 100%;
-  /* background: linear-gradient(90deg, #8854ff, #a46dff); */
   background: var(--brand-green);
   transform-origin: 0% 0%;
   z-index: 99999;

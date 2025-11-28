@@ -307,6 +307,11 @@ const PageWrapper = styled.div`
   width: 1440px;
   min-height: calc(100vh - 104px);
   overflow: hidden;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    padding: 0 16px;
+  }
 `
 
 const PageBgIcon = styled.div`
@@ -318,6 +323,10 @@ const PageBgIcon = styled.div`
   img {
     max-width: 582px;
   }
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
 `
 
 const PageContent = styled.div`
@@ -326,6 +335,10 @@ const PageContent = styled.div`
   justify-content: center;
   width: 100%;
   padding-top: 7rem;
+
+  @media (max-width: 768px) {
+    padding-top: 3rem;
+  }
 `
 
 const PageContentContainer = styled.div`

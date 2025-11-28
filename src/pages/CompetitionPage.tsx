@@ -327,6 +327,7 @@ const Card = styled.div<{ delayMs?: number }>`
   box-shadow: 4px 4px 0px 0px #191a23;
   border-radius: 24px;
   border: 1px solid #000;
+  overflow: hidden;
   ${(p) =>
     p.delayMs &&
     css`
@@ -366,12 +367,15 @@ const LeaderboardList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  padding: 0 8px;
+  max-height: 58vh;
+  overflow-y: auto;
 `
 
 const TraderRow = styled.div<{ isLeader?: boolean }>`
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 20px 12px;
   border-radius: 0.5rem;
   transition: all 300ms ease;
   cursor: pointer;
@@ -393,7 +397,7 @@ const TraderRow = styled.div<{ isLeader?: boolean }>`
 
   &:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
   }
 `
 

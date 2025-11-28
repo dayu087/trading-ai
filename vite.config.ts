@@ -11,6 +11,7 @@ export default defineConfig({
     proxy: {
       '/api': {
         target: 'https://api.valkynor.ai',
+        // target: 'https://nofxai.com',
         changeOrigin: true,
       },
     },

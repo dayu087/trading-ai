@@ -189,6 +189,11 @@ const PageWrapper = styled.div`
   justify-content: center;
   width: 1440px;
   min-height: calc(100vh - 104px);
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    padding: 0 16px;
+  }
 `
 
 const PageBgIcon = styled.div`
@@ -200,6 +205,10 @@ const PageBgIcon = styled.div`
   img {
     max-width: 582px;
   }
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
 `
 
 const PageContent = styled.div`
@@ -208,10 +217,15 @@ const PageContent = styled.div`
   justify-content: center;
   width: 100%;
   padding-top: 7rem;
+
+  @media (max-width: 1024px) {
+    padding-top: 3rem;
+  }
 `
 
 const Container = styled.div`
-  min-width: 424px;
+  max-width: 424px;
+  width: 100%;
 `
 
 const LogoSection = styled.div`
