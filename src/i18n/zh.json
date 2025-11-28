@@ -191,6 +191,20 @@
   "asterPrivateKeyDesc": "API 钱包私钥 - 从 https://www.asterdex.com/zh-CN/api-wallet 获取（仅在本地用于签名，不会被传输）",
   "asterUsdtWarning": "重要提示：Aster 仅统计 USDT 余额。请确保您使用 USDT 作为保证金币种，避免其他资产（BNB、ETH等）的价格波动导致盈亏统计错误",
 
+  "lighterWalletAddress": "L1 钱包地址",
+  "lighterPrivateKey": "L1 私钥",
+  "lighterApiKeyPrivateKey": "API Key 私钥",
+  "enterLighterWalletAddress": "请输入以太坊钱包地址（0x...）",
+  "enterLighterPrivateKey": "请输入 L1 私钥（32 字节）",
+  "enterLighterApiKeyPrivateKey": "请输入 API Key 私钥（40 字節，可選）",
+  "lighterWalletAddressDesc": "您的以太坊錢包地址，用於識別賬戶",
+  "lighterPrivateKeyDesc": "L1 私钥用賬戶識別（32 字节 ECDSA 私钥）",
+  "lighterApiKeyPrivateKeyDesc": "API Key 私鑰用於簽名交易（40 字节 Poseidon2 私钥）",
+  "lighterApiKeyOptionalNote": "如果不提供 API Key，系統將使用功能受限的 V1 模式",
+  "lighterV1Description": "基本模式 - 功能受限，僅用於測試框架",
+  "lighterV2Description": "完整模式 - 支持 Poseidon2 签名和真实交易",
+  "lighterPrivateKeyImported": "LIGHTER 私钥已导入",
+
   "hyperliquidExchangeName": "Hyperliquid",
   "asterExchangeName": "Aster DEX",
 
@@ -612,6 +626,28 @@
 
   "faqGetHelp": "在哪里可以获得帮助？",
   "faqGetHelpAnswer": "查看 GitHub Discussions、加入 Telegram 社区或在 GitHub 上提出 issue。",
+
+  "environmentCheck": {
+    "button": "一键检测环境",
+    "checking": "正在检测...",
+    "description": "系统将自动检测当前浏览器是否允许使用 Web Crypto。",
+    "secureTitle": "环境安全，已启用 Web Crypto",
+    "secureDesc": "页面处于安全上下文，可继续输入敏感信息并使用加密传输。",
+    "insecureTitle": "检测到非安全环境",
+    "insecureDesc": "当前访问未通过 HTTPS 或可信 localhost，浏览器会阻止 Web Crypto 调用。",
+    "tipsTitle": "修改建议：",
+    "tipHTTPS": "通过 HTTPS 访问（即使是 IP 也需证书），或部署到支持 TLS 的域名。",
+    "tipLocalhost": "开发阶段请使用 http://localhost 或 127.0.0.1。",
+    "tipIframe": "避免把应用嵌入在不安全的 HTTP iframe 或会降级协议的反向代理中。",
+    "unsupportedTitle": "浏览器未提供 Web Crypto",
+    "unsupportedDesc": "请通过 HTTPS 或本机 localhost 访问 NOFX，并避免嵌入不安全 iframe/反向代理，以符合浏览器的 Web Crypto 规则。",
+    "summary": "当前来源：{origin} · 协议：{protocol}"
+  },
+
+  "environmentSteps": {
+    "checkTitle": "1. 环境检测",
+    "selectTitle": "2. 选择交易所"
+  },
 
   "twoStageKey": {
     "title": "两阶段私钥输入",

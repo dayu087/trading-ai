@@ -14,9 +14,10 @@ import SkeletonLoad from '../components/dashboard/SkeletonLoad'
 import EmptySection from '../components/dashboard/EmptySection'
 import StatCard from '../components/dashboard/StatCard'
 import DecisionCard from '../components/dashboard/DecisionCard'
+import DebugBar from '../components/dashboard/DebugBar'
+import PositionsTable from '../components/dashboard/PositionsTable'
 
 import headLineIcon from '@/assets/images/home_icon_line.png'
-import refishIcon from '@/assets/images/Dashboard_icon_update.png'
 
 function getModelDisplayName(modelId: string): string {
   switch (modelId.toLowerCase()) {
@@ -126,13 +127,7 @@ export default function TraderDetails() {
       </HeaderCard>
 
       {/* Debug Info */}
-      {account && (
-        <DebugBar>
-          <img src={refishIcon} alt="" />
-          Last Update: {lastUpdate} | Total Equity: {account?.total_equity?.toFixed(2) || '0.00'} | Available: {account?.available_balance?.toFixed(2) || '0.00'} | P&L:{' '}
-          {account?.total_pnl?.toFixed(2) || '0.00'} ({account?.total_pnl_pct?.toFixed(2) || '0.00'}%)
-        </DebugBar>
-      )}
+      {account && <DebugBar account={account} lastUpdate={lastUpdate} />}
 
       {/* Account Overview */}
       <StatsGrid>
@@ -169,7 +164,6 @@ export default function TraderDetails() {
         />
       </StatsGrid>
 
-      {/* Main two-column layout */}
       <TwoCol>
         {/* Left column: chart + positions */}
         <LeftCol>
@@ -187,54 +181,7 @@ export default function TraderDetails() {
                 </PositionsCount>
               )}
             </PositionsHeader>
-
-            {positions && positions.length > 0 ? (
-              <PositionsTableWrap>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>{t('symbol', language)}</th>
-                      <th>{t('side', language)}</th>
-                      <th>{t('entryPrice', language)}</th>
-                      <th>{t('markPrice', language)}</th>
-                      <th>{t('quantity', language)}</th>
-                      <th>{t('positionValue', language)}</th>
-                      <th>{t('leverage', language)}</th>
-                      <th>{t('unrealizedPnL', language)}</th>
-                      <th>{t('liqPrice', language)}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {positions.map((pos, i) => (
-                      <tr key={i}>
-                        <td className="mono">{pos.symbol}</td>
-                        <td>
-                          <SideBadge side={pos.side === 'long' ? 'long' : 'short'}>{t(pos.side === 'long' ? 'long' : 'short', language)}</SideBadge>
-                        </td>
-                        <td className="mono">{pos.entry_price.toFixed(4)}</td>
-                        <td className="mono">{pos.mark_price.toFixed(4)}</td>
-                        <td className="mono">{pos.quantity.toFixed(4)}</td>
-                        <td className="mono bold">{(pos.quantity * pos.mark_price).toFixed(2)} USDT</td>
-                        <td className="mono leverage">{pos.leverage}x</td>
-                        <td className="mono">
-                          <PnLText positive={pos.unrealized_pnl >= 0}>
-                            {pos.unrealized_pnl >= 0 ? '+' : ''}
-                            {pos.unrealized_pnl.toFixed(2)} ({pos.unrealized_pnl_pct.toFixed(2)}%)
-                          </PnLText>
-                        </td>
-                        <td className="mono liq">{pos.liquidation_price.toFixed(4)}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </PositionsTableWrap>
-            ) : (
-              <NoPositions>
-                <div className="emoji">📊</div>
-                <NoPositionsTitle>{t('noPositions', language)}</NoPositionsTitle>
-                <NoPositionsDesc>{t('noActivePositions', language)}</NoPositionsDesc>
-              </NoPositions>
-            )}
+            <PositionsTable positions={positions} />
           </PositionsCard>
         </LeftCol>
 
@@ -265,7 +212,6 @@ export default function TraderDetails() {
 
       {/* AI Learning & Performance Analysis */}
       <AILearning traderId={selectedTraderData.trader_id} />
-
       <FooterView />
     </TraderContainer>
   )
@@ -288,6 +234,7 @@ const TraderContainer = styled.div`
 const HeaderCard = styled.div`
   position: relative;
   width: 100%;
+  margin-bottom: 2.5rem;
   padding: 2.5rem 1.5rem 2rem 4rem;
   background: #cafe36;
   box-shadow: 4px 4px 0px 0px #191a23;
@@ -380,25 +327,6 @@ const StatusText = styled.span`
   color: #191a23;
 `
 
-/* Debug bar */
-const DebugBar = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  margin: 2.5rem 0;
-  padding: 12px 24px;
-  font-size: 1rem;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Helvetica Neue', monospace;
-  color: #000000;
-  background: #f3f3f3;
-  border-radius: 16px;
-  img {
-    width: 20px;
-    height: 20px;
-  }
-`
-
 /* Stats grid */
 const StatsGrid = styled.div`
   display: flex;
@@ -412,6 +340,7 @@ const TwoCol = styled.div`
   display: flex;
   gap: 24px;
   width: 100%;
+  margin-bottom: 78px;
   @media (min-width: 1024px) {
   }
 `

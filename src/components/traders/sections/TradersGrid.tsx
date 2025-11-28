@@ -25,7 +25,6 @@ export function TradersGrid({ traders, onTraderSelect, onEditTrader, onDeleteTra
       </EmptyWrapper>
     )
   }
-
   return (
     <GridSection>
       <GridHeader>
@@ -34,8 +33,6 @@ export function TradersGrid({ traders, onTraderSelect, onEditTrader, onDeleteTra
       </GridHeader>
       <GridWrapper>
         {traders.map((trader) => {
-          const isDeepseek = trader.ai_model.includes('deepseek')
-
           return (
             <TraderCard key={trader.trader_id}>
               <TraderLeft>

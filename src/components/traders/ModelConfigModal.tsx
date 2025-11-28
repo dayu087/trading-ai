@@ -1,43 +1,34 @@
 import { useState, useEffect } from 'react'
 import { Trash2 } from 'lucide-react'
-import { t, type Language } from '../../i18n/translations'
+import { useTranslation } from 'react-i18next'
+import { styled, keyframes } from 'styled-components'
 import type { AIModel } from '../../types'
 import { getModelIcon } from '../ModelIcons'
 import { getShortName } from './utils'
+
+import lessIcon from '@/assets/images/dashboard_icon_arrowless.png'
+import moreIcon from '@/assets/images/dashboard_icon_arrowmore.png'
+import yesIcon from '@/assets/images/home_icon_yesgreen.png'
 
 interface ModelConfigModalProps {
   allModels: AIModel[]
   configuredModels: AIModel[]
   editingModelId: string | null
-  onSave: (
-    modelId: string,
-    apiKey: string,
-    baseUrl?: string,
-    modelName?: string
-  ) => void
+  onSave: (modelId: string, apiKey: string, baseUrl?: string, modelName?: string) => void
   onDelete: (modelId: string) => void
   onClose: () => void
-  language: Language
 }
 
-export function ModelConfigModal({
-  allModels,
-  configuredModels,
-  editingModelId,
-  onSave,
-  onDelete,
-  onClose,
-  language,
-}: ModelConfigModalProps) {
+export function ModelConfigModal({ allModels, configuredModels, editingModelId, onSave, onDelete, onClose }: ModelConfigModalProps) {
   const [selectedModelId, setSelectedModelId] = useState(editingModelId || '')
   const [apiKey, setApiKey] = useState('')
   const [baseUrl, setBaseUrl] = useState('')
   const [modelName, setModelName] = useState('')
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const { t } = useTranslation()
 
   // 获取当前编辑的模型信息 - 编辑时从已配置的模型中查找,新建时从所有支持的模型中查找
-  const selectedModel = editingModelId
-    ? configuredModels?.find((m) => m.id === selectedModelId)
-    : allModels?.find((m) => m.id === selectedModelId)
+  const selectedModel = editingModelId ? configuredModels?.find((m) => m.id === selectedModelId) : allModels?.find((m) => m.id === selectedModelId)
 
   // 如果是编辑现有模型,初始化API Key、Base URL和Model Name
   useEffect(() => {
@@ -52,240 +43,364 @@ export function ModelConfigModal({
     e.preventDefault()
     if (!selectedModelId || !apiKey.trim()) return
 
-    onSave(
-      selectedModelId,
-      apiKey.trim(),
-      baseUrl.trim() || undefined,
-      modelName.trim() || undefined
-    )
+    onSave(selectedModelId, apiKey.trim(), baseUrl.trim() || undefined, modelName.trim() || undefined)
   }
 
   // 可选择的模型列表(所有支持的模型)
   const availableModels = allModels || []
 
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
-      <div
-        className="bg-gray-800 rounded-lg w-full max-w-lg relative my-8"
-        style={{
-          background: '#1E2329',
-          maxHeight: 'calc(100vh - 4rem)',
-        }}
-      >
-        <div
-          className="flex items-center justify-between p-6 pb-4 sticky top-0 z-10"
-          style={{ background: '#1E2329' }}
-        >
-          <h3 className="text-xl font-bold" style={{ color: '#EAECEF' }}>
-            {editingModelId
-              ? t('editAIModel', language)
-              : t('addAIModel', language)}
-          </h3>
-          {editingModelId && (
-            <button
-              type="button"
-              onClick={() => onDelete(editingModelId)}
-              className="p-2 rounded hover:bg-red-100 transition-colors"
-              style={{ background: 'rgba(246, 70, 93, 0.1)', color: '#F6465D' }}
-              title={t('delete', language)}
-            >
-              <Trash2 className="w-4 h-4" />
-            </button>
-          )}
-        </div>
+  console.log(availableModels, 'availableModels')
 
-        <form onSubmit={handleSubmit} className="px-6 pb-6">
-          <div
-            className="space-y-4 overflow-y-auto"
-            style={{ maxHeight: 'calc(100vh - 16rem)' }}
-          >
+  return (
+    <Backdrop>
+      <ModalWrapper>
+        <ModalHeader>
+          <ModalTitle>{editingModelId ? t('editAIModel') : t('addAIModel')}</ModalTitle>
+          {editingModelId && (
+            <DeleteButton type="button" onClick={() => onDelete(editingModelId)} title={t('delete')}>
+              <Trash2 className="w-4 h-4" />
+            </DeleteButton>
+          )}
+        </ModalHeader>
+
+        <Form onSubmit={handleSubmit}>
+          <ScrollArea>
             {!editingModelId && (
               <div>
-                <label
-                  className="block text-sm font-semibold mb-2"
-                  style={{ color: '#EAECEF' }}
-                >
-                  {t('selectModel', language)}
-                </label>
-                <select
-                  value={selectedModelId}
-                  onChange={(e) => setSelectedModelId(e.target.value)}
-                  className="w-full px-3 py-2 rounded"
-                  style={{
-                    background: '#0B0E11',
-                    border: '1px solid #2B3139',
-                    color: '#EAECEF',
-                  }}
-                  required
-                >
-                  <option value="">{t('pleaseSelectModel', language)}</option>
-                  {availableModels.map((model) => (
-                    <option key={model.id} value={model.id}>
-                      {getShortName(model.name)} ({model.provider})
-                    </option>
-                  ))}
-                </select>
+                <Label>{t('selectModel')}</Label>
+                <Dropdown>
+                  <DropdownHeader onClick={() => setDropdownOpen(!dropdownOpen)} $open={dropdownOpen}>
+                    {selectedModelId ? selectedModelId : t('pleaseSelectModel')}
+                    <DropdownIcon src={dropdownOpen ? lessIcon : moreIcon} />
+                  </DropdownHeader>
+                  {dropdownOpen && (
+                    <DropdownContent>
+                      <Option
+                        $active={!selectedModelId}
+                        onClick={() => {
+                          setSelectedModelId('')
+                          setDropdownOpen(false)
+                        }}
+                      >
+                        {t('pleaseSelectModel')}
+                      </Option>
+                      {availableModels.map((model: any) => (
+                        <Option
+                          key={model.id}
+                          $active={model.id === selectedModelId}
+                          onClick={() => {
+                            setSelectedModelId(model.id)
+                            setDropdownOpen(false)
+                          }}
+                        >
+                          {getShortName(model.name)} ({model.provider}){model.id === selectedModelId && <img src={yesIcon} alt="" />}
+                        </Option>
+                      ))}
+                    </DropdownContent>
+                  )}
+                </Dropdown>
               </div>
             )}
 
             {selectedModel && (
-              <div
-                className="p-4 rounded"
-                style={{ background: '#0B0E11', border: '1px solid #2B3139' }}
-              >
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-8 h-8 flex items-center justify-center">
+              <ModelCard>
+                <ModelInfoRow>
+                  <ModelIconWrapper>
                     {getModelIcon(selectedModel.provider || selectedModel.id, {
                       width: 32,
                       height: 32,
-                    }) || (
-                      <div
-                        className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold"
-                        style={{
-                          background:
-                            selectedModel.id === 'deepseek'
-                              ? '#60a5fa'
-                              : '#c084fc',
-                          color: '#fff',
-                        }}
-                      >
-                        {selectedModel.name[0]}
-                      </div>
-                    )}
-                  </div>
+                    }) || <ModelFallbackIcon isDeepseek={selectedModel.id === 'deepseek'}>{selectedModel.name[0]}</ModelFallbackIcon>}
+                  </ModelIconWrapper>
+
                   <div>
-                    <div className="font-semibold" style={{ color: '#EAECEF' }}>
-                      {getShortName(selectedModel.name)}
-                    </div>
-                    <div className="text-xs" style={{ color: '#848E9C' }}>
+                    <ModelName>{getShortName(selectedModel.name)}</ModelName>
+                    <ModelMeta>
                       {selectedModel.provider} • {selectedModel.id}
-                    </div>
+                    </ModelMeta>
                   </div>
-                </div>
-              </div>
+                </ModelInfoRow>
+              </ModelCard>
             )}
 
             {selectedModel && (
               <>
                 <div>
-                  <label
-                    className="block text-sm font-semibold mb-2"
-                    style={{ color: '#EAECEF' }}
-                  >
-                    API Key
-                  </label>
-                  <input
-                    type="password"
-                    value={apiKey}
-                    onChange={(e) => setApiKey(e.target.value)}
-                    placeholder={t('enterAPIKey', language)}
-                    className="w-full px-3 py-2 rounded"
-                    style={{
-                      background: '#0B0E11',
-                      border: '1px solid #2B3139',
-                      color: '#EAECEF',
-                    }}
-                    required
-                  />
+                  <Label>API Key</Label>
+                  <Input type="password" value={apiKey} onChange={(e) => setApiKey(e.target.value)} placeholder={t('enterAPIKey')} required />
                 </div>
 
                 <div>
-                  <label
-                    className="block text-sm font-semibold mb-2"
-                    style={{ color: '#EAECEF' }}
-                  >
-                    {t('customBaseURL', language)}
-                  </label>
-                  <input
-                    type="url"
-                    value={baseUrl}
-                    onChange={(e) => setBaseUrl(e.target.value)}
-                    placeholder={t('customBaseURLPlaceholder', language)}
-                    className="w-full px-3 py-2 rounded"
-                    style={{
-                      background: '#0B0E11',
-                      border: '1px solid #2B3139',
-                      color: '#EAECEF',
-                    }}
-                  />
-                  <div className="text-xs mt-1" style={{ color: '#848E9C' }}>
-                    {t('leaveBlankForDefault', language)}
-                  </div>
+                  <Label>{t('customBaseURL')}</Label>
+                  <Input type="url" value={baseUrl} onChange={(e) => setBaseUrl(e.target.value)} placeholder={t('customBaseURLPlaceholder')} />
+                  <InfoText>{t('leaveBlankForDefault')}</InfoText>
                 </div>
 
                 <div>
-                  <label
-                    className="block text-sm font-semibold mb-2"
-                    style={{ color: '#EAECEF' }}
-                  >
-                    Model Name (可选)
-                  </label>
-                  <input
-                    type="text"
-                    value={modelName}
-                    onChange={(e) => setModelName(e.target.value)}
-                    placeholder="例如: deepseek-chat, qwen3-max, gpt-5"
-                    className="w-full px-3 py-2 rounded"
-                    style={{
-                      background: '#0B0E11',
-                      border: '1px solid #2B3139',
-                      color: '#EAECEF',
-                    }}
-                  />
-                  <div className="text-xs mt-1" style={{ color: '#848E9C' }}>
-                    留空使用默认模型名称
-                  </div>
+                  <Label> Model Name (可选)</Label>
+                  <Input type="text" value={modelName} onChange={(e) => setModelName(e.target.value)} placeholder="例如: deepseek-chat, qwen3-max, gpt-5" />
+                  <InfoText>留空使用默认模型名称</InfoText>
                 </div>
 
-                <div
-                  className="p-4 rounded"
-                  style={{
-                    background: 'rgba(240, 185, 11, 0.1)',
-                    border: '1px solid rgba(240, 185, 11, 0.2)',
-                  }}
-                >
-                  <div
-                    className="text-sm font-semibold mb-2"
-                    style={{ color: '#F0B90B' }}
-                  >
-                    ℹ️ {t('information', language)}
-                  </div>
-                  <div
-                    className="text-xs space-y-1"
-                    style={{ color: '#848E9C' }}
-                  >
-                    <div>{t('modelConfigInfo1', language)}</div>
-                    <div>{t('modelConfigInfo2', language)}</div>
-                    <div>{t('modelConfigInfo3', language)}</div>
-                  </div>
-                </div>
+                <InfoBox>
+                  <InfoTitle>{t('information')}</InfoTitle>
+                  <InfoText>{t('modelConfigInfo1')}</InfoText>
+                  <InfoText>{t('modelConfigInfo2')}</InfoText>
+                  <InfoText>{t('modelConfigInfo3')}</InfoText>
+                </InfoBox>
               </>
             )}
-          </div>
+          </ScrollArea>
 
-          <div
-            className="flex gap-3 mt-6 pt-4 sticky bottom-0"
-            style={{ background: '#1E2329' }}
-          >
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex-1 px-4 py-2 rounded text-sm font-semibold"
-              style={{ background: '#2B3139', color: '#848E9C' }}
-            >
-              {t('cancel', language)}
-            </button>
-            <button
-              type="submit"
-              disabled={!selectedModel || !apiKey.trim()}
-              className="flex-1 px-4 py-2 rounded text-sm font-semibold disabled:opacity-50"
-              style={{ background: '#F0B90B', color: '#000' }}
-            >
-              {t('saveConfig', language)}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+          <Footer>
+            <CancelButton type="button" onClick={onClose}>
+              {t('cancel')}
+            </CancelButton>
+
+            <SaveButton type="submit" disabled={!selectedModel || !apiKey.trim()}>
+              {t('saveConfig')}
+            </SaveButton>
+          </Footer>
+        </Form>
+      </ModalWrapper>
+    </Backdrop>
   )
 }
+
+const slideDown = keyframes`
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+`
+
+const Backdrop = styled.div`
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  padding: 16px;
+  overflow-y: auto;
+`
+
+const ModalWrapper = styled.div`
+  width: 100%;
+  max-width: 800px;
+  position: relative;
+  margin: 2rem 0;
+  max-height: calc(100vh - 4rem);
+  background: #ffffff;
+  box-shadow: 4px 4px 0px 0px #191a23;
+  border-radius: 24px;
+  border: 1px solid #000000;
+`
+
+const ModalHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 24px 16px 24px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+`
+
+const ModalTitle = styled.h3`
+  padding: 4px 12px;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 8px;
+  background: var(--brand-green);
+`
+
+const DeleteButton = styled.button`
+  padding: 8px;
+  border-radius: 6px;
+  transition: 0.2s;
+  background: rgba(246, 70, 93, 0.1);
+  color: #f6465d;
+
+  &:hover {
+    background: rgba(246, 70, 93, 0.2);
+  }
+`
+
+const Form = styled.form`
+  padding-bottom: 24px;
+`
+
+const ScrollArea = styled.div`
+  margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+  max-height: calc(100vh - 20rem);
+  padding: 0 24px;
+`
+
+const Label = styled.label`
+  display: block;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+`
+
+const Select = styled.select`
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: #0b0e11;
+  border: 1px solid #2b3139;
+  color: #eaecef;
+`
+
+const Input = styled.input`
+  width: 100%;
+  padding: 12px 24px;
+  border-radius: 9px;
+  font-size: 14px;
+  background: #fff;
+  border: 1px solid #191a23;
+`
+
+const ModelCard = styled.div`
+  padding: 16px;
+  border-radius: 8px;
+  background: #f3f3f3;
+`
+
+const ModelInfoRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+`
+
+const ModelIconWrapper = styled.div`
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+const ModelFallbackIcon = styled.div<{ isDeepseek: boolean }>`
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  background: ${({ isDeepseek }) => (isDeepseek ? '#60a5fa' : '#c084fc')};
+`
+
+const ModelName = styled.div`
+  font-weight: 600;
+`
+
+const ModelMeta = styled.div`
+  font-size: 0.75rem;
+  color: #848e9c;
+`
+
+const InfoBox = styled.div`
+  padding: 16px;
+  border-radius: 16px;
+  background: #f3f3f3;
+`
+
+const InfoTitle = styled.div`
+  font-size: 0.875rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+`
+
+const InfoText = styled.div`
+  font-size: 0.75rem;
+  margin-top: 8px;
+`
+
+const Footer = styled.div`
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  padding: 24px 24px 0;
+  position: sticky;
+  bottom: 0;
+`
+
+const CancelButton = styled.button`
+  flex: 1;
+  padding: 16px 24px;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: bold;
+  border: 1px solid #191a23;
+`
+
+const SaveButton = styled(CancelButton)`
+  flex: 1;
+  color: #fff;
+  background: #000;
+
+  &:disabled {
+    opacity: 0.5;
+  }
+`
+
+const DropdownHeader = styled.div<{ $open: boolean }>`
+  display: ${(p) => (p.$open ? 'none' : 'flex')};
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  color: #1a1a1a;
+`
+
+const DropdownIcon = styled.img`
+  width: 16px;
+  height: 16px;
+`
+
+const Dropdown = styled.div`
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-radius: 8px;
+  border: 1px solid #191a23;
+`
+
+const DropdownContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px;
+  animation: ${slideDown} 0.25s ease forwards;
+`
+
+const Option = styled.div<{ $active?: boolean }>`
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 15px;
+  cursor: pointer;
+  color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.3s ease-in-out;
+
+  background: ${(p) => (p.$active ? '#f3f3f3' : 'transparent')};
+
+  &:hover {
+    background: #f3f3f3;
+  }
+
+  img {
+    width: 12px;
+    height: 12px;
+  }
+`

@@ -4,6 +4,10 @@ import { useTranslation } from 'react-i18next'
 import { AlertTriangle } from 'lucide-react'
 import type { DecisionRecord } from '@/types'
 import yesIcon from '@/assets/images/home_icon_yesgreen.png'
+import noIcon from '@/assets/images/home_icon_nogreen.png'
+
+import moreIcon from '@/assets/images/dashboard_icon_arrowmore.png'
+import lessIcon from '@/assets/images/dashboard_icon_arrowless.png'
 
 export default function DecisionCard({ decision }: { decision: DecisionRecord }) {
   const [showInputPrompt, setShowInputPrompt] = useState(false)
@@ -28,8 +32,10 @@ export default function DecisionCard({ decision }: { decision: DecisionRecord })
         <div>
           <ToggleRow>
             <ToggleButton color="#60a5fa" onClick={() => setShowInputPrompt(!showInputPrompt)}>
-              <strong>📥 {t('inputPrompt')}</strong>
-              <span>{showInputPrompt ? t('collapse') : t('expand')}</span>
+              <strong>{t('inputPrompt')}</strong>
+              <ArrowBox>
+                <img src={showInputPrompt ? lessIcon : moreIcon} alt="Arrow" />
+              </ArrowBox>
             </ToggleButton>
           </ToggleRow>
           {showInputPrompt && <CodeBlock>{decision.input_prompt}</CodeBlock>}
@@ -41,8 +47,10 @@ export default function DecisionCard({ decision }: { decision: DecisionRecord })
         <div>
           <ToggleRow>
             <ToggleButton color="#F0B90B" onClick={() => setShowCoT(!showCoT)}>
-              <strong>📤 {t('aiThinking')}</strong>
-              <span>{showCoT ? t('collapse') : t('expand')}</span>
+              <strong> {t('aiThinking')}</strong>
+              <ArrowBox>
+                <img src={showCoT ? lessIcon : moreIcon} alt="Arrow" />
+              </ArrowBox>
             </ToggleButton>
           </ToggleRow>
           {showCoT && <CodeBlock>{decision.cot_trace}</CodeBlock>}
@@ -62,7 +70,9 @@ export default function DecisionCard({ decision }: { decision: DecisionRecord })
                   @{action.price.toFixed(4)}
                 </ActionText>
               )}
-              <ActionText color={action.success ? '#0ECB81' : '#F6465D'}>{action.success ? '✓' : '✗'}</ActionText>
+              <ActionText color={action.success ? '#0ECB81' : '#F6465D'}>
+                <img src={action.success ? yesIcon : noIcon} alt="" />
+              </ActionText>
               {action.error && <ActionText color="#F6465D">{action.error}</ActionText>}
             </ActionItem>
           ))}
@@ -191,11 +201,23 @@ const ToggleButton = styled.button<{ color?: string }>`
   align-items: center;
   gap: 8px;
   font-size: 0.875rem;
+  transform: none !important;
 
   strong {
     color: #191a23;
   }
 `
+const ArrowBox = styled.div`
+  padding: 4px;
+  border-radius: 50%;
+  background: #f3f3f3;
+
+  img {
+    width: 12px;
+    height: 12px;
+  }
+`
+
 const CodeBlock = styled.pre`
   max-width: 320px;
   border: 1px solid #2b3139;
@@ -232,6 +254,11 @@ const ActionBadge = styled.span<{ $isOpen: boolean }>`
 const ActionText = styled.div<{ color?: string }>`
   /* color: ${({ color }) => color || '#848E9C'}; */
   font-size: 0.85rem;
+
+  img {
+    width: 12px;
+    height: 12px;
+  }
 `
 
 const ActionIcon = styled.img`

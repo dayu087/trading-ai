@@ -72,27 +72,15 @@ export default function AILearning({ traderId }: AILearningProps) {
     )
   }
 
-  if (!performance) {
-    return (
-      <div className="rounded p-6" style={{ background: '#1E2329', border: '1px solid #2B3139' }}>
-        <div className="flex items-center gap-2" style={{ color: '#848E9C' }}>
-          <BarChart3 className="w-4 h-4" /> {t('loading')}
-        </div>
-      </div>
-    )
-  }
-
   if (!performance || performance.total_trades === 0) {
     return (
-      <div className="rounded p-6" style={{ background: '#1E2329', border: '1px solid #2B3139' }}>
-        <div className="flex items-center gap-2 mb-2">
-          <Brain className="w-5 h-5" style={{ color: '#8B5CF6' }} />
-          <h2 className="text-lg font-bold" style={{ color: '#EAECEF' }}>
-            {t('aiLearning')}
-          </h2>
-        </div>
-        <div style={{ color: '#848E9C' }}>{t('noCompleteData')}</div>
-      </div>
+      <NoDataCard>
+        <NoDataBrainIcon src={aiICon} />
+        <NoDataHeader>
+          <Title>{t('aiLearning')}</Title>
+          <NoDataDesc>{t('noCompleteData')}</NoDataDesc>
+        </NoDataHeader>
+      </NoDataCard>
     )
   }
 
@@ -228,11 +216,8 @@ export default function AILearning({ traderId }: AILearningProps) {
 
           <InfoBox>
             {(performance.profit_factor || 0) >= 2 && `🔥 盈利能力出色！每亏1元能赚${(performance.profit_factor || 0).toFixed(1)}元，AI策略表现优异。`}
-
             {(performance.profit_factor || 0) >= 1.5 && (performance.profit_factor || 0) < 2 && '✓ 策略稳定盈利，盈亏比健康，继续保持纪律性交易。'}
-
             {(performance.profit_factor || 0) >= 1 && (performance.profit_factor || 0) < 1.5 && '⚠️ 策略略有盈利但需优化，AI正在调整仓位和止损策略。'}
-
             {(performance.profit_factor || 0) > 0 && (performance.profit_factor || 0) < 1 && '❌ 平均亏损大于盈利，需要调整策略或降低交易频率。'}
           </InfoBox>
         </Card>
@@ -459,7 +444,6 @@ const AILearningWrapper = styled.div`
   gap: 24px;
   padding-bottom: 80px;
   max-width: 100%;
-  margin-top: 78px;
 `
 
 const TitleCard = styled.div`
@@ -945,4 +929,34 @@ const Bullet = styled.span`
 
 const PointText = styled.span`
   color: #191a23;
+`
+
+const NoDataCard = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 1.5rem;
+  border-radius: 24px;
+  border: 1px solid #191a23;
+`
+
+const NoDataHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+const NoDataBrainIcon = styled.img`
+  width: 60px;
+  height: 60px;
+`
+
+const NoDataTitle = styled.h2`
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #eaecef;
+`
+
+const NoDataDesc = styled.div`
+  color: #848e9c;
 `

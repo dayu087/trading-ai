@@ -42,6 +42,12 @@ interface AuthContextType {
   resetPassword: (email: string, newPassword: string, otpCode: string) => Promise<{ success: boolean; message?: string }>
   logout: () => void
   isLoading: boolean
+  traders: TraderInfo[] | undefined
+  selectedTraderId: string | undefined
+  setSelectedTraderId: (id: string | undefined) => void
+  selectedTraderData: any | null
+  setSelectedTraderData: (data: any | null) => void
+  tradersError: any | null
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -363,6 +369,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         resetPassword,
         logout,
         isLoading,
+        selectedTraderId,
+        setSelectedTraderId,
+        selectedTraderData,
+        setSelectedTraderData,
+        traders,
+        tradersError,
       }}
     >
       {children}

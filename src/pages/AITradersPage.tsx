@@ -185,7 +185,6 @@ export function AITradersPage({ onTraderSelect }: AITradersPageProps) {
           onSave={handleSaveModel}
           onDelete={handleDeleteModel}
           onClose={() => setShowModelModal(false)}
-          language={language}
         />
       )}
 
@@ -196,7 +195,6 @@ export function AITradersPage({ onTraderSelect }: AITradersPageProps) {
           onSave={handleSaveExchange}
           onDelete={handleDeleteExchange}
           onClose={() => setShowExchangeModal(false)}
-          language={language}
         />
       )}
 

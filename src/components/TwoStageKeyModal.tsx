@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { t, type Language } from '../i18n/translations'
+
+import { useTranslation } from 'react-i18next'
 
 const DEFAULT_LENGTH = 64
 
@@ -25,14 +26,13 @@ export interface TwoStageKeyModalResult {
 
 interface TwoStageKeyModalProps {
   isOpen: boolean
-  language: Language
   onCancel: () => void
   onComplete: (result: TwoStageKeyModalResult) => void
   expectedLength?: number
   contextLabel?: string
 }
 
-export function TwoStageKeyModal({ isOpen, language, onCancel, onComplete, expectedLength = DEFAULT_LENGTH, contextLabel }: TwoStageKeyModalProps) {
+export function TwoStageKeyModal({ isOpen, onCancel, onComplete, expectedLength = DEFAULT_LENGTH, contextLabel }: TwoStageKeyModalProps) {
   const [stage, setStage] = useState<1 | 2>(1)
   const [part1, setPart1] = useState('')
   const [part2, setPart2] = useState('')
@@ -41,6 +41,8 @@ export function TwoStageKeyModal({ isOpen, language, onCancel, onComplete, expec
   const [obfuscationLog, setObfuscationLog] = useState<string[]>([])
   const [processing, setProcessing] = useState(false)
   const [manualObfuscationValue, setManualObfuscationValue] = useState<string | null>(null)
+
+  const { t } = useTranslation()
 
   const stage1Ref = useRef<HTMLInputElement>(null)
   const stage2Ref = useRef<HTMLInputElement>(null)
@@ -59,7 +61,7 @@ export function TwoStageKeyModal({ isOpen, language, onCancel, onComplete, expec
   const handleStage1Next = async () => {
     if (part1.length < expectedPart1Length) {
       setError(
-        t('errors.privatekeyIncomplete', language, {
+        t('errors.privatekeyIncomplete', {
           expected: expectedPart1Length,
         })
       )
@@ -94,7 +96,7 @@ export function TwoStageKeyModal({ isOpen, language, onCancel, onComplete, expec
         setProcessing(false)
       }, 2000)
     } catch (err) {
-      setError(t('errors.privatekeyObfuscationFailed', language))
+      setError(t('errors.privatekeyObfuscationFailed'))
       setProcessing(false)
     }
   }
@@ -102,7 +104,7 @@ export function TwoStageKeyModal({ isOpen, language, onCancel, onComplete, expec
   const handleStage2Complete = () => {
     if (part2.length < expectedPart2Length) {
       setError(
-        t('errors.privatekeyIncomplete', language, {
+        t('errors.privatekeyIncomplete', {
           expected: expectedPart2Length,
         })
       )
@@ -111,7 +113,7 @@ export function TwoStageKeyModal({ isOpen, language, onCancel, onComplete, expec
 
     const fullKey = part1 + part2
     if (!validatePrivateKeyFormat(fullKey, expectedLength)) {
-      setError(t('errors.privatekeyInvalidFormat', language))
+      setError(t('errors.privatekeyInvalidFormat'))
       return
     }
 
@@ -141,15 +143,15 @@ export function TwoStageKeyModal({ isOpen, language, onCancel, onComplete, expec
         <div className="bg-gray-900 p-8 rounded-xl max-w-lg w-full mx-4 border border-gray-700">
           <div className="text-center mb-6">
             <h2 className="text-xl font-bold text-white mb-2">
-              🔐 {t('twoStageKey.title', language)}
+              🔐 {t('twoStageKey.title')}
               {contextLabel && <span className="text-gray-300 text-base font-normal ml-2">({contextLabel})</span>}
             </h2>
             <p className="text-gray-300 text-sm">
               {stage === 1
-                ? t('twoStageKey.stage1Description', language, {
+                ? t('twoStageKey.stage1Description', {
                     length: expectedPart1Length,
                   })
-                : t('twoStageKey.stage2Description', language, {
+                : t('twoStageKey.stage2Description', {
                     length: expectedPart2Length,
                   })}
             </p>
@@ -160,7 +162,7 @@ export function TwoStageKeyModal({ isOpen, language, onCancel, onComplete, expec
             <div className="space-y-4">
               <div>
                 <label className="block text-gray-300 text-sm mb-2">
-                  {t('twoStageKey.stage1InputLabel', language)} ({expectedPart1Length} {t('twoStageKey.characters', language)})
+                  {t('twoStageKey.stage1InputLabel')} ({expectedPart1Length} {t('twoStageKey.characters')})
                 </label>
                 <input
                   ref={stage1Ref}
@@ -182,10 +184,10 @@ export function TwoStageKeyModal({ isOpen, language, onCancel, onComplete, expec
                   disabled={part1.length < expectedPart1Length || processing}
                   className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white font-medium py-3 px-4 rounded-lg transition-colors"
                 >
-                  {processing ? t('twoStageKey.processing', language) : t('twoStageKey.nextButton', language)}
+                  {processing ? t('twoStageKey.processing') : t('twoStageKey.nextButton')}
                 </button>
                 <button onClick={onCancel} disabled={processing} className="px-6 py-3 text-gray-300 hover:text-white border border-gray-600 rounded-lg transition-colors">
-                  {t('twoStageKey.cancelButton', language)}
+                  {t('twoStageKey.cancelButton')}
                 </button>
               </div>
             </div>
@@ -196,15 +198,15 @@ export function TwoStageKeyModal({ isOpen, language, onCancel, onComplete, expec
             <div className="mb-4 p-4 rounded-lg bg-blue-900/50 border border-blue-600">
               {clipboardStatus === 'copied' && (
                 <div className="text-blue-300">
-                  <div className="font-medium">{t('twoStageKey.obfuscationCopied', language)}</div>
-                  <div className="text-sm mt-1">{t('twoStageKey.obfuscationInstruction', language)}</div>
+                  <div className="font-medium">{t('twoStageKey.obfuscationCopied')}</div>
+                  <div className="text-sm mt-1">{t('twoStageKey.obfuscationInstruction')}</div>
                 </div>
               )}
               {clipboardStatus === 'failed' && manualObfuscationValue && (
                 <div className="text-yellow-300">
-                  <div className="font-medium">{t('twoStageKey.obfuscationManual', language)}</div>
+                  <div className="font-medium">{t('twoStageKey.obfuscationManual')}</div>
                   <div className="text-xs mt-2 p-2 bg-gray-800 rounded font-mono break-all border">{manualObfuscationValue}</div>
-                  <div className="text-sm mt-1">{t('twoStageKey.obfuscationInstruction', language)}</div>
+                  <div className="text-sm mt-1">{t('twoStageKey.obfuscationInstruction')}</div>
                 </div>
               )}
             </div>
@@ -215,7 +217,7 @@ export function TwoStageKeyModal({ isOpen, language, onCancel, onComplete, expec
             <div className="space-y-4">
               <div>
                 <label className="block text-gray-300 text-sm mb-2">
-                  {t('twoStageKey.stage2InputLabel', language)} ({expectedPart2Length} {t('twoStageKey.characters', language)})
+                  {t('twoStageKey.stage2InputLabel')} ({expectedPart2Length} {t('twoStageKey.characters')})
                 </label>
                 <input
                   ref={stage2Ref}
@@ -236,10 +238,10 @@ export function TwoStageKeyModal({ isOpen, language, onCancel, onComplete, expec
                   disabled={part2.length < expectedPart2Length}
                   className="flex-1 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white font-medium py-3 px-4 rounded-lg transition-colors"
                 >
-                  🔒 {t('twoStageKey.encryptButton', language)}
+                  🔒 {t('twoStageKey.encryptButton')}
                 </button>
                 <button onClick={handleReset} className="px-6 py-3 text-gray-300 hover:text-white border border-gray-600 rounded-lg transition-colors">
-                  {t('twoStageKey.backButton', language)}
+                  {t('twoStageKey.backButton')}
                 </button>
               </div>
             </div>
@@ -256,7 +258,6 @@ export function TwoStageKeyModal({ isOpen, language, onCancel, onComplete, expec
     processing,
     clipboardStatus,
     manualObfuscationValue,
-    language,
     expectedPart1Length,
     expectedPart2Length,
     contextLabel,

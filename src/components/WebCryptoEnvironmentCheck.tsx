@@ -1,19 +1,21 @@
 import { useCallback, useEffect, useState, type ReactNode } from 'react'
 import { Loader2, ShieldAlert, ShieldCheck } from 'lucide-react'
 import { diagnoseWebCryptoEnvironment } from '../lib/crypto'
-import { t, type Language } from '../i18n/translations'
+
+import { useTranslation } from 'react-i18next'
 
 export type WebCryptoCheckStatus = 'idle' | 'checking' | 'secure' | 'insecure' | 'unsupported'
 
 interface WebCryptoEnvironmentCheckProps {
-  language: Language
   variant?: 'card' | 'compact'
   onStatusChange?: (status: WebCryptoCheckStatus) => void
 }
 
-export function WebCryptoEnvironmentCheck({ language, variant = 'card', onStatusChange }: WebCryptoEnvironmentCheckProps) {
+export function WebCryptoEnvironmentCheck({ variant = 'card', onStatusChange }: WebCryptoEnvironmentCheckProps) {
   const [status, setStatus] = useState<WebCryptoCheckStatus>('idle')
   const [summary, setSummary] = useState<string | null>(null)
+
+  const { t } = useTranslation()
 
   useEffect(() => {
     onStatusChange?.(status)
@@ -26,7 +28,7 @@ export function WebCryptoEnvironmentCheck({ language, variant = 'card', onStatus
     setTimeout(() => {
       const result = diagnoseWebCryptoEnvironment()
       setSummary(
-        t('environmentCheck.summary', language, {
+        t('environmentCheck.summary', {
           origin: result.origin || 'N/A',
           protocol: result.protocol || 'unknown',
         })
@@ -44,7 +46,7 @@ export function WebCryptoEnvironmentCheck({ language, variant = 'card', onStatus
 
       setStatus('secure')
     }, 0)
-  }, [language, t])
+  }, [t])
 
   useEffect(() => {
     runCheck()
@@ -61,8 +63,8 @@ export function WebCryptoEnvironmentCheck({ language, variant = 'card', onStatus
       <div className="flex items-start gap-2 text-green-400 text-xs">
         <ShieldCheck className="w-4 h-4 flex-shrink-0" />
         <div>
-          <div className="font-semibold">{t('environmentCheck.secureTitle', language)}</div>
-          <div>{t('environmentCheck.secureDesc', language)}</div>
+          <div className="font-semibold">{t('environmentCheck.secureTitle')}</div>
+          <div>{t('environmentCheck.secureDesc')}</div>
         </div>
       </div>
     ),
@@ -70,14 +72,14 @@ export function WebCryptoEnvironmentCheck({ language, variant = 'card', onStatus
       <div className="text-xs" style={{ color: '#F59E0B' }}>
         <div className="flex items-start gap-2 mb-1">
           <ShieldAlert className="w-4 h-4 flex-shrink-0" />
-          <div className="font-semibold">{t('environmentCheck.insecureTitle', language)}</div>
+          <div className="font-semibold">{t('environmentCheck.insecureTitle')}</div>
         </div>
-        <div>{t('environmentCheck.insecureDesc', language)}</div>
-        <div className="mt-2 font-semibold">{t('environmentCheck.tipsTitle', language)}</div>
+        <div>{t('environmentCheck.insecureDesc')}</div>
+        <div className="mt-2 font-semibold">{t('environmentCheck.tipsTitle')}</div>
         <ul className="list-disc pl-5 space-y-1 mt-1">
-          <li>{t('environmentCheck.tipHTTPS', language)}</li>
-          <li>{t('environmentCheck.tipLocalhost', language)}</li>
-          <li>{t('environmentCheck.tipIframe', language)}</li>
+          <li>{t('environmentCheck.tipHTTPS')}</li>
+          <li>{t('environmentCheck.tipLocalhost')}</li>
+          <li>{t('environmentCheck.tipIframe')}</li>
         </ul>
       </div>
     ),
@@ -85,15 +87,15 @@ export function WebCryptoEnvironmentCheck({ language, variant = 'card', onStatus
       <div className="text-xs" style={{ color: '#F87171' }}>
         <div className="flex items-start gap-2 mb-1">
           <ShieldAlert className="w-4 h-4 flex-shrink-0" />
-          <div className="font-semibold">{t('environmentCheck.unsupportedTitle', language)}</div>
+          <div className="font-semibold">{t('environmentCheck.unsupportedTitle')}</div>
         </div>
-        <div>{t('environmentCheck.unsupportedDesc', language)}</div>
+        <div>{t('environmentCheck.unsupportedDesc')}</div>
       </div>
     ),
     checking: () => (
       <div className="flex items-center gap-2 text-xs" style={{ color: '#EAECEF' }}>
         <Loader2 className="w-4 h-4 animate-spin" />
-        <span>{t('environmentCheck.checking', language)}</span>
+        <span>{t('environmentCheck.checking')}</span>
       </div>
     ),
     idle: () => null,
@@ -106,7 +108,7 @@ export function WebCryptoEnvironmentCheck({ language, variant = 'card', onStatus
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         {showInfo && (
           <div className="text-xs" style={{ color: descriptionColor }}>
-            {summary ?? t('environmentCheck.description', language)}
+            {summary ?? t('environmentCheck.description')}
           </div>
         )}
       </div>

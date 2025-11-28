@@ -191,6 +191,20 @@
   "asterPrivateKeyDesc": "API wallet private key - Get from https://www.asterdex.com/en/api-wallet (only used locally for signing, never transmitted)",
   "asterUsdtWarning": "Important: Aster only tracks USDT balance. Please ensure you use USDT as margin currency to avoid P&L calculation errors caused by price fluctuations of other assets (BNB, ETH, etc.)",
 
+  "lighterWalletAddress": "L1 Wallet Address",
+  "lighterPrivateKey": "L1 Private Key",
+  "lighterApiKeyPrivateKey": "API Key Private Key",
+  "enterLighterWalletAddress": "Enter Ethereum wallet address (0x...)",
+  "enterLighterPrivateKey": "Enter L1 private key (32 bytes)",
+  "enterLighterApiKeyPrivateKey": "Enter API Key private key (40 bytes, optional)",
+  "lighterWalletAddressDesc": "Your Ethereum wallet address for account identification",
+  "lighterPrivateKeyDesc": "L1 private key for account identification (32-byte ECDSA key)",
+  "lighterApiKeyPrivateKeyDesc": "API Key private key for transaction signing (40-byte Poseidon2 key)",
+  "lighterApiKeyOptionalNote": "Without API Key, system will use limited V1 mode",
+  "lighterV1Description": "Basic Mode - Limited functionality, testing framework only",
+  "lighterV2Description": "Full Mode - Supports Poseidon2 signing and real trading",
+  "lighterPrivateKeyImported": "LIGHTER private key imported",
+
   "hyperliquidExchangeName": "Hyperliquid",
   "asterExchangeName": "Aster DEX",
 
@@ -612,6 +626,28 @@
 
   "faqGetHelp": "Where can I get help?",
   "faqGetHelpAnswer": "Check GitHub Discussions, join our Telegram Community, or open an issue on GitHub.",
+
+  "environmentCheck": {
+    "button": "Check Secure Environment",
+    "checking": "Checking...",
+    "description": "Automatically verifying whether this browser context allows Web Crypto before entering sensitive keys.",
+    "secureTitle": "Secure context detected",
+    "secureDesc": "Web Crypto API is available. You can continue entering secrets with encryption enabled.",
+    "insecureTitle": "Insecure context detected",
+    "insecureDesc": "This page is not running over HTTPS or a trusted localhost origin, so browsers block Web Crypto calls.",
+    "tipsTitle": "How to fix:",
+    "tipHTTPS": "Serve the dashboard over HTTPS with a valid certificate (IP origins also need TLS).",
+    "tipLocalhost": "During development, open the app via http://localhost or 127.0.0.1.",
+    "tipIframe": "Avoid embedding the app in insecure HTTP iframes or reverse proxies that strip HTTPS.",
+    "unsupportedTitle": "Browser does not expose Web Crypto",
+    "unsupportedDesc": "Open NOFX over HTTPS (or http://localhost during development) and avoid insecure iframes/reverse proxies so the browser can enable Web Crypto.",
+    "summary": "Current origin: {origin} • Protocol: {protocol}"
+  },
+
+  "environmentSteps": {
+    "checkTitle": "1. Environment check",
+    "selectTitle": "2. Select exchange"
+  },
 
   "twoStageKey": {
     "title": "Two-Stage Private Key Input",
