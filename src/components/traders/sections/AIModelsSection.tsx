@@ -19,7 +19,6 @@ export function AIModelsSection({ configuredModels, isModelInUse, onModelClick }
         {configuredModels.map((model) => {
           const inUse = isModelInUse(model.id)
           const icon = getModelIcon(model.provider || model.id, { width: 28, height: 28 })
-
           return (
             <Item key={model.id} $inUse={inUse} onClick={() => onModelClick(model.id)}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -92,7 +91,7 @@ const Item = styled.div<{ $inUse: boolean }>`
   cursor: ${(p) => (p.$inUse ? 'not-allowed' : 'pointer')};
 
   &:hover {
-    background: ${(p) => (p.$inUse ? '#fff' : 'var(--brand-green)')};
+    border-color: ${(p) => (p.$inUse ? '#f3f3f3' : '#000')};
   }
 
   @media (max-width: 768px) {

@@ -93,7 +93,7 @@ const Item = styled.div<{ $inUse: boolean }>`
   cursor: ${(p) => (p.$inUse ? 'not-allowed' : 'pointer')};
 
   &:hover {
-    background: ${(p) => (p.$inUse ? '#fff' : 'var(--brand-green)')};
+    border-color: ${(p) => (p.$inUse ? '#f3f3f3' : '#000')};
   }
 
   @media (max-width: 768px) {

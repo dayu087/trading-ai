@@ -1,12 +1,11 @@
 import { useMemo } from 'react'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, Legend } from 'recharts'
 import useSWR from 'swr'
 import { api } from '../lib/api'
 import type { CompetitionTraderData } from '../types'
 import { getTraderColor } from '../utils/traderColors'
-import { useLanguage } from '../contexts/LanguageContext'
-import { t } from '../i18n/translations'
 import { BarChart3 } from 'lucide-react'
 
 interface ComparisonChartProps {
@@ -14,7 +13,7 @@ interface ComparisonChartProps {
 }
 
 export function ComparisonChart({ traders }: ComparisonChartProps) {
-  const { language } = useLanguage()
+  const { t } = useTranslation()
   // 获取所有trader的历史数据 - 使用单个useSWR并发请求所有trader数据
   // 生成唯一的key，当traders变化时会触发重新请求
   const tradersKey = traders
@@ -71,7 +70,6 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
     traderHistories.forEach((history, index) => {
       const trader = traders[index]
       if (!history.data) return
-
       console.log(`Trader ${trader.trader_id}: ${history.data.length} data points`)
 
       history.data.forEach((point: any) => {
@@ -143,8 +141,8 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
     return (
       <div className="text-center py-16" style={{ color: '#848E9C' }}>
         <BarChart3 className="w-12 h-12 mx-auto mb-4 opacity-60" />
-        <div className="text-lg font-semibold mb-2">{t('noHistoricalData', language)}</div>
-        <div className="text-sm">{t('dataWillAppear', language)}</div>
+        <div className="text-lg font-semibold mb-2">{t('noHistoricalData')}</div>
+        <div className="text-sm">{t('dataWillAppear')}</div>
       </div>
     )
   }
@@ -177,6 +175,7 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
 
   // 使用统一的颜色分配逻辑（与Leaderboard保持一致）
   const traderColor = (traderId: string) => getTraderColor(traders, traderId)
+  const viewWidth = window.innerWidth
 
   // 自定义Tooltip - Binance Style
   const CustomTooltip = ({ active, payload }: any) => {
@@ -193,7 +192,7 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
             if (pnlPct === undefined) return null
             return (
               <div key={trader.trader_id} className="mb-1.5 last:mb-0">
-                <div className="text-xs font-semibold mb-0.5" style={{ color: '#0D4751' }}>
+                <div className="text-xs font-semibold mb-0.5" style={{ color: traderColor(trader.trader_id) }}>
                   {trader.trader_name}
                 </div>
                 <div className="text-sm mono font-bold" style={{ color: pnlPct >= 0 ? 'var(--up_color)' : 'var(--down_color)' }}>
@@ -225,7 +224,7 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
 
   return (
     <ComparisonChartContainer>
-      <ResponsiveContainer width="100%" height={456}>
+      <ResponsiveContainer width="100%" height={viewWidth > 768 ? 456 : 300}>
         <LineChart data={displayData} margin={{ top: 10, right: 5, left: 5, bottom: 24 }}>
           <defs>
             {traders.map((trader) => (
@@ -243,7 +242,7 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
             stroke="#191A23"
             tick={{ fill: '#191A23', fontSize: 12, dy: 6 }}
             tickLine={{ stroke: '#F3F3F3' }}
-            interval={Math.floor(displayData.length / 12)}
+            interval={Math.floor(displayData.length / (viewWidth > 768 ? 12 : 6))}
             textAnchor="start"
             height={20}
           />
@@ -254,7 +253,6 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
             tickLine={{ stroke: '#fff' }}
             domain={calculateYDomain()}
             tickFormatter={(value) => `${value.toFixed(1)}%`}
-            width={60}
           />
 
           <Tooltip content={<CustomTooltip />} />
@@ -276,7 +274,7 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
               key={trader.trader_id}
               type="monotone"
               dataKey={`${trader.trader_id}_pnl_pct`}
-              stroke="#0D4751"
+              stroke={traderColor(trader.trader_id)}
               strokeWidth={3}
               dot={displayData.length < 50 ? { fill: traderColor(trader.trader_id), r: 0 } : false}
               activeDot={{
@@ -310,23 +308,25 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
       {/* Stats */}
       <StatsGrid>
         <StatBox>
-          <StatLabel>{t('comparisonMode', language)}</StatLabel>
+          <StatLabel>{t('comparisonMode')}</StatLabel>
           <StatValue>PnL %</StatValue>
         </StatBox>
 
         <StatBox>
-          <StatLabel>{t('dataPoints', language)}</StatLabel>
-          <StatValue className="mono">{t('count', language, { count: combinedData.length })}</StatValue>
+          <StatLabel>{t('dataPoints')}</StatLabel>
+          <StatValue className="mono">
+            {combinedData.length} {t('count')}
+          </StatValue>
         </StatBox>
 
         <StatBox>
-          <StatLabel>{t('currentGap', language)}</StatLabel>
+          <StatLabel>{t('currentGap')}</StatLabel>
           <StatValue className="mono">{currentGap.toFixed(2)}%</StatValue>
         </StatBox>
 
         <StatBox>
-          <StatLabel>{t('displayRange', language)}</StatLabel>
-          <StatValue className="mono">{combinedData.length > MAX_DISPLAY_POINTS ? `${t('recent', language)} ${MAX_DISPLAY_POINTS}` : t('allData', language)}</StatValue>
+          <StatLabel>{t('displayRange')}</StatLabel>
+          <StatValue className="mono">{combinedData.length > MAX_DISPLAY_POINTS ? `${t('recent')} ${MAX_DISPLAY_POINTS}` : t('allData')}</StatValue>
         </StatBox>
       </StatsGrid>
     </ComparisonChartContainer>
@@ -334,12 +334,19 @@ export function ComparisonChart({ traders }: ComparisonChartProps) {
 }
 
 const ComparisonChartContainer = styled.div`
-  padding: 0 24px 16px 16px;
+  padding: 0 16px 16px;
+  @media (max-width: 768px) {
+    padding: 0 12px 12px;
+  }
 `
 
 const StatsGrid = styled.div`
   display: flex;
   gap: 1rem;
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
 `
 
 const StatBox = styled.div`
@@ -353,6 +360,10 @@ const StatBox = styled.div`
   }
   &:hover {
     background: rgba(240, 185, 11, 0.1);
+  }
+
+  @media (max-width: 768px) {
+    flex: 1 1 48% !important;
   }
 `
 

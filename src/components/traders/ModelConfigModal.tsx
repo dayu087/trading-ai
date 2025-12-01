@@ -185,7 +185,7 @@ const Backdrop = styled.div`
 
 const ModalWrapper = styled.div`
   width: 100%;
-  max-width: 800px;
+  max-width: 36rem;
   position: relative;
   margin: 2rem 0;
   max-height: calc(100vh - 4rem);
@@ -261,7 +261,7 @@ const Input = styled.input`
   border-radius: 9px;
   font-size: 14px;
   background: #fff;
-  border: 1px solid #191a23;
+  border: 1px solid #a3a3a7;
 `
 
 const ModelCard = styled.div`
@@ -371,7 +371,7 @@ const Dropdown = styled.div`
   flex-direction: column;
   gap: 8px;
   border-radius: 8px;
-  border: 1px solid #191a23;
+  border: 1px solid #a3a3a7;
 `
 
 const DropdownContent = styled.div`

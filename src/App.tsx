@@ -6,10 +6,9 @@ import { AuthProvider, useAuth } from './contexts/AuthContext'
 import { ScrollProvider } from './contexts/ScrollProvider'
 import { useSystemConfig } from './hooks/useSystemConfig'
 import { t } from './i18n/translations'
-import HeaderBar from './components/landing/HeaderBar'
-import { Header } from './components/Header'
+import HeaderBar from '@/components/HeaderBar'
+import { Header } from '@/components/Header'
 
-/* ------------------------- 页面主体 ------------------------- */
 function AppContent() {
   const { language } = useLanguage()
   const { isLoading } = useAuth()
@@ -39,7 +38,6 @@ function AppContent() {
   )
 }
 
-/* ------------------------- Provider 封装 ------------------------- */
 export default function AppWithProviders() {
   return (
     <LanguageProvider>
@@ -52,7 +50,6 @@ export default function AppWithProviders() {
   )
 }
 
-/* ------------------------- 样式 ------------------------- */
 const PageWrapper = styled.div`
   min-height: 100vh;
   display: flex;

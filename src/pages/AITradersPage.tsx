@@ -204,7 +204,6 @@ export function AITradersPage({ onTraderSelect }: AITradersPageProps) {
           oiTopUrl={userSignalSource.oiTopUrl}
           onSave={handleSaveSignalSource}
           onClose={() => setShowSignalSourceModal(false)}
-          language={language}
         />
       )}
     </AITradersSection>

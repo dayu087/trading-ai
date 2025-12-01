@@ -4,7 +4,7 @@ import { Menu, X, ChevronDown, ChevronUp, Bolt } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { styled, keyframes } from 'styled-components'
 import { useLocation, useNavigate, NavLink } from 'react-router-dom'
-import { useAuth } from '../../contexts/AuthContext'
+import { useAuth } from '@/contexts/AuthContext'
 
 import logoIcon from '@/assets/images/home_nav_logo.png'
 
@@ -334,20 +334,20 @@ const NavGroup = styled.div`
 `
 
 const NavButton = styled.button<{ $active?: boolean }>`
-  font-size: 0.875rem;
-  font-weight: bold;
   position: relative;
   padding: 8px;
   border-radius: 8px;
   transition: color 0.3s;
   color: var(--brand-black);
+  font-size: 0.875rem;
   font-weight: ${({ $active }) => ($active ? 'bold' : 'normal')};
   transition: all 0.1s ease-in-out;
   cursor: pointer;
 
   &:hover {
-    transform: translateY(-4px);
-    font-weight: bold;
+    &::before {
+      content: '';
+    }
   }
 
   &::before {

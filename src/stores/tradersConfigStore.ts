@@ -79,10 +79,7 @@ export const useTradersConfigStore = create<TradersConfigState>((set, get) => ({
     if (!user || !token) {
       // 未登录时只加载公开的支持模型和交易所
       try {
-        const [supportedModels, supportedExchanges] = await Promise.all([
-          api.getSupportedModels(),
-          api.getSupportedExchanges(),
-        ])
+        const [supportedModels, supportedExchanges] = await Promise.all([api.getSupportedModels(), api.getSupportedExchanges()])
         get().setSupportedModels(supportedModels)
         get().setSupportedExchanges(supportedExchanges)
       } catch (err) {
@@ -92,12 +89,7 @@ export const useTradersConfigStore = create<TradersConfigState>((set, get) => ({
     }
 
     try {
-      const [
-        modelConfigs,
-        exchangeConfigs,
-        supportedModels,
-        supportedExchanges,
-      ] = await Promise.all([
+      const [modelConfigs, exchangeConfigs, supportedModels, supportedExchanges] = await Promise.all([
         api.getModelConfigs(),
         api.getExchangeConfigs(),
         api.getSupportedModels(),

@@ -527,7 +527,7 @@ const Backdrop = styled.div`
 
 const ModalWrapper = styled.div`
   width: 100%;
-  max-width: 800px;
+  max-width: 36rem;
   position: relative;
   margin: 2rem 0;
   max-height: calc(100vh - 4rem);
@@ -655,7 +655,7 @@ const Input = styled.input`
   border-radius: 8px;
   font-size: 14px;
   background: #fff;
-  border: 1px solid #191a23;
+  border: 1px solid #a3a3a7;
 
   &::placeholder {
     color: #848e9c;
