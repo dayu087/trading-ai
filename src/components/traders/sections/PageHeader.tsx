@@ -49,7 +49,7 @@ export function PageHeader({ tradersCount, configuredModelsCount, configuredExch
           {t('signalSource')}
         </ActionButton>
 
-        <ActionButton onClick={onCreateTrader} disabled={!canCreateTrader} highlight={canCreateTrader}>
+        <ActionButton onClick={onCreateTrader} disabled={!canCreateTrader} $highlight={canCreateTrader}>
           <Plus style={{ width: '18px', height: '18px' }} />
           {t('createTrader')}
         </ActionButton>
@@ -78,7 +78,7 @@ const Left = styled.div`
   gap: 16px;
 
   @media (max-width: 768px) {
-    gap: 12px;
+    gap: 8px;
   }
 `
 
@@ -111,6 +111,9 @@ const Title = styled.h1`
   font-weight: bold;
   border-radius: 8px;
   background: #cafe36;
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
 `
 
 const ActiveTag = styled.span`
@@ -119,10 +122,16 @@ const ActiveTag = styled.span`
   padding: 8px 12px;
   border-radius: 8px;
   background: #f3f3f3;
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `
 
 const SubText = styled.p`
   font-size: 14px;
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `
 
 const Buttons = styled.div`
@@ -131,12 +140,12 @@ const Buttons = styled.div`
 
   @media (max-width: 768px) {
     width: 100%;
-    gap: 12px;
+    gap: 8px;
     flex-wrap: wrap;
   }
 `
 
-const ActionButton = styled.button<{ disabled?: boolean; highlight?: boolean }>`
+const ActionButton = styled.button<{ $highlight?: boolean }>`
   display: flex;
   align-items: center;
   gap: 6px;
@@ -148,8 +157,8 @@ const ActionButton = styled.button<{ disabled?: boolean; highlight?: boolean }>`
   white-space: nowrap;
   cursor: pointer;
   border: 1px solid #191a23;
-  background: ${(p) => (p.highlight ? '#000' : '#fff')};
-  color: ${(p) => (p.highlight ? '#fff' : '#000')};
+  background: ${(p) => (p.$highlight ? '#000' : '#fff')};
+  color: ${(p) => (p.$highlight ? '#fff' : '#000')};
 
   &:hover {
     transform: scale(1.05);
@@ -162,8 +171,9 @@ const ActionButton = styled.button<{ disabled?: boolean; highlight?: boolean }>`
     color: #848e9c;
   }
 
-  @media (min-width: 768px) {
-    padding: 8px 12px;
+  @media (max-width: 768px) {
+    flex: 1 1 46%;
+    padding: 4px 8px;
     font-size: 12px;
   }
 `

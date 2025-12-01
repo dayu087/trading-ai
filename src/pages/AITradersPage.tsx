@@ -228,7 +228,7 @@ const ConfigurationSection = styled.div`
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
-    gap: 24px;
-    margin-bottom: 24px;
+    gap: 16px;
+    margin-bottom: 16px;
   }
 `

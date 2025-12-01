@@ -28,7 +28,7 @@ export function AIModelsSection({ configuredModels, isModelInUse, onModelClick }
                   <Status>{inUse ? t('inUse') : model.enabled ? t('enabled') : t('configured')}</Status>
                 </Info>
               </div>
-              <Dot enabled={model.enabled} />
+              <Dot $enabled={model.enabled} />
             </Item>
           )
         })}
@@ -51,6 +51,7 @@ const Card = styled.div`
 
   @media (max-width: 768px) {
     padding: 12px;
+    border-radius: 16px;
   }
 `
 
@@ -160,12 +161,12 @@ const Status = styled.div`
   }
 `
 
-const Dot = styled.div<{ enabled: boolean }>`
+const Dot = styled.div<{ $enabled: boolean }>`
   width: 12px;
   height: 12px;
   border-radius: 50%;
   flex-shrink: 0;
-  background: ${(p) => (p.enabled ? '#2EE434' : '#6b7280')};
+  background: ${(p) => (p.$enabled ? '#2EE434' : '#6b7280')};
 
   @media (max-width: 768px) {
     width: 10px;

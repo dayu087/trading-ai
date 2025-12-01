@@ -27,12 +27,12 @@ export default function HeaderBar() {
         { key: 'competition', label: t('realtimeNav') },
         { key: 'traders', label: t('configNav') },
         { key: 'dashboard', label: t('dashboardNav') },
-        { key: 'faq', label: t('faqNav') },
+        // { key: 'faq', label: t('faqNav') },
       ]
     } else {
       return [
         { key: 'competition', label: t('realtimeNav') },
-        { key: 'faq', label: t('faqNav') },
+        // { key: 'faq', label: t('faqNav') },
       ]
     }
   }, [user, i18n])

@@ -30,7 +30,7 @@ export function ExchangesSection({ configuredExchanges, isExchangeInUse, onExcha
                   </Status>
                 </Info>
               </div>
-              <Dot enabled={exchange.enabled} />
+              <Dot $enabled={exchange.enabled} />
             </Item>
           )
         })}
@@ -53,6 +53,7 @@ const Card = styled.div`
 
   @media (max-width: 768px) {
     padding: 12px;
+    border-radius: 16px;
   }
 `
 
@@ -144,12 +145,12 @@ const Status = styled.div`
   }
 `
 
-const Dot = styled.div<{ enabled: boolean }>`
+const Dot = styled.div<{ $enabled: boolean }>`
   width: 12px;
   height: 12px;
   border-radius: 50%;
   flex-shrink: 0;
-  background: ${(p) => (p.enabled ? '#2EE434' : '#6b7280')};
+  background: ${(p) => (p.$enabled ? '#2EE434' : '#6b7280')};
 
   @media (max-width: 768px) {
     width: 10px;

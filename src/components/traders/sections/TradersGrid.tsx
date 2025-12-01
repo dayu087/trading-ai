@@ -52,7 +52,7 @@ export function TradersGrid({ traders, onTraderSelect, onEditTrader, onDeleteTra
 
                 <ActionGroup>
                   {/* View */}
-                  <ActionButton onClick={() => onTraderSelect(trader.trader_id)} bg="rgba(99,102,241,0.1)" color="#6366F1">
+                  <ActionButton onClick={() => onTraderSelect(trader.trader_id)} $bg="rgba(99,102,241,0.1)" $color="#6366F1">
                     <BarChart3 className="w-4 h-4" />
                     {t('view')}
                   </ActionButton>
@@ -60,9 +60,9 @@ export function TradersGrid({ traders, onTraderSelect, onEditTrader, onDeleteTra
                   {/* Edit */}
                   <ActionButton
                     onClick={() => !trader.is_running && onEditTrader(trader.trader_id)}
-                    bg={trader.is_running ? 'rgba(132,142,156,0.1)' : 'rgba(255,193,7,0.1)'}
-                    color={trader.is_running ? '#848E9C' : '#FFC107'}
-                    disabledStyle={trader.is_running}
+                    $bg={trader.is_running ? 'rgba(132,142,156,0.1)' : 'rgba(255,193,7,0.1)'}
+                    $color={trader.is_running ? '#848E9C' : '#FFC107'}
+                    $disabledStyle={trader.is_running}
                   >
                     <Pencil className="w-4 h-4" />
                     {t('edit')}
@@ -71,14 +71,14 @@ export function TradersGrid({ traders, onTraderSelect, onEditTrader, onDeleteTra
                   {/* Start / Stop */}
                   <ActionButton
                     onClick={() => onToggleTrader(trader.trader_id, trader.is_running || false)}
-                    bg={trader.is_running ? 'rgba(246,70,93,0.1)' : 'rgba(14,203,129,0.1)'}
-                    color={trader.is_running ? '#F6465D' : '#0ECB81'}
+                    $bg={trader.is_running ? 'rgba(246,70,93,0.1)' : 'rgba(14,203,129,0.1)'}
+                    $color={trader.is_running ? '#F6465D' : '#0ECB81'}
                   >
                     {trader.is_running ? t('stop') : t('start')}
                   </ActionButton>
 
                   {/* Delete */}
-                  <ActionButton onClick={() => onDeleteTrader(trader.trader_id)} bg="rgba(246,70,93,0.1)" color="#F6465D">
+                  <ActionButton onClick={() => onDeleteTrader(trader.trader_id)} $bg="rgba(246,70,93,0.1)" $color="#F6465D">
                     <Trash2 className="w-4 h-4" />
                   </ActionButton>
                 </ActionGroup>
@@ -130,6 +130,10 @@ const GridSection = styled.div`
   box-shadow: 4px 4px 0px 0px #191a23;
   border-radius: 24px;
   border: 1px solid #000000;
+  @media (max-width: 768px) {
+    padding: 12px;
+    border-radius: 16px;
+  }
 `
 
 const GridHeader = styled.div`
@@ -137,6 +141,11 @@ const GridHeader = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 12px;
+  }
 `
 
 const GridTag = styled.span`
@@ -145,6 +154,10 @@ const GridTag = styled.span`
   padding: 4px 12px;
   border-radius: 16px;
   border: 1px solid #000;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `
 
 const GridTitle = styled.h2`
@@ -154,7 +167,9 @@ const GridTitle = styled.h2`
   font-size: 20px;
   background: #cafe36;
   border-radius: 8px;
-  margin-bottom: 20px;
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
 `
 
 const GridWrapper = styled.div`
@@ -194,6 +209,7 @@ const TraderLeft = styled.div`
   gap: 1rem;
 
   @media (max-width: 768px) {
+    width: 100%;
     gap: 0.75rem;
   }
 `
@@ -239,18 +255,18 @@ const Info = styled.div`
 
 const TraderRight = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
   align-items: center;
-  flex-wrap: nowrap;
 
   @media (max-width: 768px) {
-    flex-wrap: wrap;
-    gap: 0.75rem;
+    width: 100%;
+    gap: 0.25rem;
+    /* flex-wrap: wrap; */
   }
 `
 
 const StatusTag = styled.div<{ $running: boolean }>`
-  padding: 0.25rem 0.75rem;
+  padding: 0.375rem 0.75rem;
   font-size: 0.75rem;
   font-weight: bold;
   border-radius: 0.375rem;
@@ -259,7 +275,8 @@ const StatusTag = styled.div<{ $running: boolean }>`
   color: ${(p) => (p.$running ? 'var(--up_color)' : 'var(--down_color)')};
 
   @media (max-width: 768px) {
-    font-size: 0.7rem;
+    flex-shrink: 0;
+    font-size: 10px;
   }
 `
 
@@ -270,15 +287,15 @@ const ActionGroup = styled.div`
   overflow-x: auto;
 
   @media (max-width: 768px) {
-    gap: 0.35rem;
+    gap: 0.25rem;
     width: 100%;
   }
 `
 
 const ActionButton = styled.button<{
-  bg: string
-  color: string
-  disabledStyle?: boolean
+  $bg: string
+  $color: string
+  $disabledStyle?: boolean
 }>`
   padding: 0.375rem 0.75rem;
   border-radius: 0.375rem;
@@ -287,8 +304,8 @@ const ActionButton = styled.button<{
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  background: ${(p) => p.bg};
-  color: ${(p) => p.color};
+  background: ${(p) => p.$bg};
+  color: ${(p) => p.$color};
   transition: 0.15s ease;
 
   &:hover {
@@ -296,7 +313,7 @@ const ActionButton = styled.button<{
   }
 
   ${(p) =>
-    p.disabledStyle &&
+    p.$disabledStyle &&
     `
     opacity: 0.5;
     cursor: not-allowed;
