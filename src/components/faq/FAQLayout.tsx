@@ -1,19 +1,16 @@
 import { useState, useMemo } from 'react'
 import { HelpCircle } from 'lucide-react'
-import { t, type Language } from '../../i18n/translations'
+import { useTranslation } from 'react-i18next'
 import { FAQSearchBar } from './FAQSearchBar'
 import { FAQSidebar } from './FAQSidebar'
 import { FAQContent } from './FAQContent'
 import { faqCategories } from '../../data/faqData'
 import type { FAQCategory } from '../../data/faqData'
 
-interface FAQLayoutProps {
-  language: Language
-}
-
-export function FAQLayout({ language }: FAQLayoutProps) {
+export function FAQLayout() {
   const [searchTerm, setSearchTerm] = useState('')
   const [activeItemId, setActiveItemId] = useState<string | null>(null)
+  const { t, i18n } = useTranslation()
 
   // Filter categories based on search term
   const filteredCategories = useMemo(() => {
@@ -26,8 +23,8 @@ export function FAQLayout({ language }: FAQLayoutProps) {
 
     faqCategories.forEach((category) => {
       const matchingItems = category.items.filter((item) => {
-        const question = t(item.questionKey, language).toLowerCase()
-        const answer = t(item.answerKey, language).toLowerCase()
+        const question = t(item.questionKey).toLowerCase()
+        const answer = t(item.answerKey).toLowerCase()
         return question.includes(term) || answer.includes(term)
       })
 
@@ -40,7 +37,7 @@ export function FAQLayout({ language }: FAQLayoutProps) {
     })
 
     return filtered
-  }, [searchTerm, language])
+  }, [searchTerm])
 
   const handleItemClick = (_categoryId: string, itemId: string) => {
     const element = document.getElementById(itemId)
@@ -72,15 +69,15 @@ export function FAQLayout({ language }: FAQLayoutProps) {
           </div>
         </div>
         <h1 className="text-4xl font-bold mb-4" style={{ color: '#EAECEF' }}>
-          {t('faqTitle', language)}
+          {t('faqTitle')}
         </h1>
         <p className="text-lg mb-8" style={{ color: '#848E9C' }}>
-          {t('faqSubtitle', language)}
+          {t('faqSubtitle')}
         </p>
 
         {/* Search Bar */}
         <div className="max-w-2xl mx-auto">
-          <FAQSearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} placeholder={language === 'zh' ? '搜索常见问题...' : 'Search FAQ...'} />
+          <FAQSearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} placeholder={i18n.language === 'zh' ? '搜索常见问题...' : 'Search FAQ...'} />
         </div>
       </div>
 
@@ -88,17 +85,17 @@ export function FAQLayout({ language }: FAQLayoutProps) {
       <div className="flex gap-8">
         {/* Sidebar - Hidden on mobile, visible on desktop */}
         <aside className="hidden lg:block w-64 flex-shrink-0">
-          <FAQSidebar categories={filteredCategories} activeItemId={activeItemId} language={language} onItemClick={handleItemClick} />
+          <FAQSidebar categories={filteredCategories} activeItemId={activeItemId} onItemClick={handleItemClick} />
         </aside>
 
         {/* Content Area */}
         <main className="flex-1 min-w-0">
           {filteredCategories.length > 0 ? (
-            <FAQContent categories={filteredCategories} language={language} onActiveItemChange={setActiveItemId} />
+            <FAQContent categories={filteredCategories} onActiveItemChange={setActiveItemId} />
           ) : (
             <div className="text-center py-12">
               <p className="text-lg" style={{ color: '#848E9C' }}>
-                {language === 'zh' ? '没有找到匹配的问题' : 'No matching questions found'}
+                {i18n.language === 'zh' ? '没有找到匹配的问题' : 'No matching questions found'}
               </p>
               <button
                 onClick={() => setSearchTerm('')}
@@ -108,7 +105,7 @@ export function FAQLayout({ language }: FAQLayoutProps) {
                   color: '#0B0E11',
                 }}
               >
-                {language === 'zh' ? '清除搜索' : 'Clear Search'}
+                {i18n.language === 'zh' ? '清除搜索' : 'Clear Search'}
               </button>
             </div>
           )}
@@ -124,10 +121,10 @@ export function FAQLayout({ language }: FAQLayoutProps) {
         }}
       >
         <h3 className="text-xl font-bold mb-3" style={{ color: '#EAECEF' }}>
-          {t('faqStillHaveQuestions', language)}
+          {t('faqStillHaveQuestions')}
         </h3>
         <p className="mb-6" style={{ color: '#848E9C' }}>
-          {t('faqContactUs', language)}
+          {t('faqContactUs')}
         </p>
         <div className="flex items-center justify-center gap-4">
           <a
@@ -153,7 +150,7 @@ export function FAQLayout({ language }: FAQLayoutProps) {
               color: '#0B0E11',
             }}
           >
-            {t('community', language)}
+            {t('community')}
           </a>
         </div>
       </div>
