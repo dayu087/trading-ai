@@ -5,7 +5,7 @@ import { t } from '../i18n/translations'
 import { Header } from './Header'
 import { ArrowLeft, KeyRound, Eye, EyeOff } from 'lucide-react'
 import PasswordChecklist from 'react-password-checklist'
-import { Input } from '@/components/ui/input'
+import Input from '@/components/ui/input'
 
 export function ResetPasswordPage() {
   const { language } = useLanguage()

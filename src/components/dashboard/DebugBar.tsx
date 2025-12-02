@@ -21,12 +21,15 @@ const DebugBox = styled.div`
   margin-bottom: 2.5rem;
   padding: 12px 24px;
   font-size: 1rem;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Helvetica Neue', monospace;
-  color: #000000;
   background: #f3f3f3;
   border-radius: 32px;
   img {
     width: 20px;
     height: 20px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 6px 12px;
+    font-size: 14px;
   }
 `

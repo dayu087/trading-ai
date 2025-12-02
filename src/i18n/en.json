@@ -36,6 +36,7 @@
   "side": "Side",
   "entryPrice": "Entry Price",
   "markPrice": "Mark Price",
+  "entryMarkPrice": "Entry/Mark Price",
   "quantity": "Quantity",
   "positionValue": "Position Value",
   "leverage": "Leverage",

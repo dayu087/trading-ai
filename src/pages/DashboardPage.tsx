@@ -7,7 +7,7 @@ import { t } from '../i18n/translations'
 import { EquityChart } from '../components/EquityChart'
 import { useLanguage } from '../contexts/LanguageContext'
 import { useAuth } from '../contexts/AuthContext'
-import type { SystemStatus, AccountInfo, Position, DecisionRecord, Statistics } from '../types' // <- 根据你项目调整路径
+import type { SystemStatus, AccountInfo, Position, DecisionRecord, Statistics } from '@/types'
 import AILearning from '../components/AILearning'
 import FooterView from '../components/FooterView'
 import SkeletonLoad from '../components/dashboard/SkeletonLoad'
@@ -115,10 +115,10 @@ export default function TraderDetails() {
 
           {status && (
             <StatusRow>
-              <Dot>•</Dot>
-              <StatusText>Cycles: {status.call_count}</StatusText>
-              <Dot>•</Dot>
-              <StatusText>Runtime: {status.runtime_minutes} min</StatusText>
+              <span>•</span>
+              <span>Cycles: {status.call_count}</span>
+              <span>•</span>
+              <span>Runtime: {status.runtime_minutes} min</span>
             </StatusRow>
           )}
         </HeaderBottom>
@@ -228,6 +228,11 @@ const TraderContainer = styled.div`
   align-items: center;
   width: 1220px;
   animation: ${fadeIn} 0.25s ease;
+
+  @media (max-width: 1220px) {
+    width: 100%;
+    padding: 0 16px;
+  }
 `
 
 /* Header card */
@@ -238,8 +243,13 @@ const HeaderCard = styled.div`
   padding: 2.5rem 1.5rem 2rem 4rem;
   background: #cafe36;
   box-shadow: 4px 4px 0px 0px #191a23;
-  border-radius: 24px 24px 24px 24px;
+  border-radius: 24px;
   border: 1px solid #191a23;
+
+  @media (max-width: 768px) {
+    padding: 12px;
+    border-radius: 16px;
+  }
 `
 
 const HeaderLineBg = styled.img`
@@ -247,6 +257,10 @@ const HeaderLineBg = styled.img`
   right: 24px;
   bottom: 32px;
   max-width: 76px;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `
 
 const HeaderTop = styled.div`
@@ -260,6 +274,10 @@ const HeaderTop = styled.div`
     align-items: center;
     gap: 12px;
   }
+
+  @media (max-width: 768px) {
+    margin-bottom: 1rem;
+  }
 `
 
 const AvatarBadge = styled.span`
@@ -270,7 +288,6 @@ const AvatarBadge = styled.span`
   justify-content: center;
   border-radius: 9999px;
   font-size: 1.125rem;
-  margin-right: 0.5rem;
   background: linear-gradient(135deg, #f0b90b 0%, #fcd535 100%);
 `
 const TraderTitle = styled.span`
@@ -280,15 +297,29 @@ const TraderTitle = styled.span`
   padding: 4px 16px;
   background: #ffffff;
   border-radius: 8px;
+
+  @media (max-width: 768px) {
+    padding: 2px 8px;
+    font-size: 20px;
+  }
 `
 const SelectorRow = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
+
+  @media (max-width: 768px) {
+    gap: 8px;
+  }
 `
 const SelectorLabel = styled.span`
   font-size: 1rem;
   color: #191a23;
+
+  @media (max-width: 768px) {
+    display: none;
+    font-size: 14px;
+  }
 `
 const Select = styled.select`
   background: #cafe36;
@@ -299,16 +330,27 @@ const Select = styled.select`
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
 `
 const HeaderBottom = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
   color: #848e9c;
+
+  @media (max-width: 768px) {
+    gap: 8px;
+  }
 `
 const ModelText = styled.div`
   font-size: 1rem;
   color: #191a23;
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `
 const ModelBadge = styled.span<{ $isQwen?: boolean }>`
   font-weight: 600;
@@ -318,13 +360,12 @@ const StatusRow = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-size: 16px;
   color: #191a23;
-`
-const Dot = styled.span`
-  color: #191a23;
-`
-const StatusText = styled.span`
-  color: #191a23;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `
 
 /* Stats grid */
@@ -333,6 +374,10 @@ const StatsGrid = styled.div`
   gap: 24px;
   width: 100%;
   margin-bottom: 1.5rem;
+
+  @media (max-width: 1220px) {
+    flex-wrap: wrap;
+  }
 `
 
 /* Two columns layout */
@@ -341,7 +386,8 @@ const TwoCol = styled.div`
   gap: 24px;
   width: 100%;
   margin-bottom: 78px;
-  @media (min-width: 1024px) {
+  @media (max-width: 1220px) {
+    flex-wrap: wrap;
   }
 `
 const LeftCol = styled.div`
@@ -349,13 +395,23 @@ const LeftCol = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
+
+  @media (max-width: 1220px) {
+    width: 100%;
+  }
 `
 const RightCol = styled.div`
   min-width: 392px;
   padding: 24px 16px;
-  background: #f3f3f3;
-  border-radius: 16px;
+  border-radius: 24px;
   overflow: hidden;
+  border: 1px solid #191a23;
+
+  @media (max-width: 1220px) {
+    min-width: 100%;
+    padding: 12px;
+    border-radius: 16px;
+  }
 `
 
 /* Chart placeholder */
@@ -363,21 +419,31 @@ const ChartWrap = styled.div`
   border-radius: 24px;
   overflow: hidden;
   border: 1px solid #0d4751;
-  /* padding: 24px; */
+  @media (max-width: 768px) {
+    border-radius: 16px;
+  }
 `
 
 /* Positions card */
 const PositionsCard = styled.div`
   flex: 1;
-  padding: 1.25rem;
-  background: #f3f3f3;
-  border-radius: 16px;
+  border-radius: 24px;
+  border: 1px solid #191a23;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    border-radius: 16px;
+  }
 `
 const PositionsHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
+  padding: 24px 24px 8px;
+
+  @media (max-width: 768px) {
+    padding: 12px 12px 4px;
+  }
 `
 const PositionsTitle = styled.h3`
   padding: 4px 12px;
@@ -386,6 +452,10 @@ const PositionsTitle = styled.h3`
   font-weight: bold;
   background: #cafe36;
   border-radius: 8px;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
 `
 const PositionsCount = styled.div`
   font-size: 0.875rem;
@@ -393,71 +463,9 @@ const PositionsCount = styled.div`
   border-radius: 16px;
   color: #191a23;
   border: 1px solid #000000;
-`
-const PositionsTableWrap = styled.div`
-  overflow-x: auto;
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.9rem;
+  @media (max-width: 768px) {
+    font-size: 12px;
   }
-  thead {
-    border-bottom: 1px solid #111;
-    th {
-      text-align: left;
-      padding: 0.5rem 0;
-    }
-  }
-  tbody tr {
-    border-bottom: 1px solid #2b3139;
-    td {
-      padding: 0.6rem 0;
-    }
-    .mono {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;
-    }
-    .bold {
-      font-weight: 700;
-    }
-    .leverage {
-      color: #f0b90b;
-    }
-    .liq {
-      color: #848e9c;
-    }
-  }
-`
-const SideBadge = styled.span<{ side: 'long' | 'short' }>`
-  padding: 0.25rem 0.5rem;
-  border-radius: 6px;
-  font-weight: 700;
-  font-size: 0.8rem;
-  color: ${({ side }) => (side === 'long' ? '#0ECB81' : '#F6465D')};
-  background: ${({ side }) => (side === 'long' ? 'rgba(14,203,129,0.1)' : 'rgba(246,70,93,0.1)')};
-`
-const NoPositions = styled.div`
-  text-align: center;
-  padding: 4rem 1rem;
-  color: #848e9c;
-  .emoji {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-    opacity: 0.6;
-  }
-`
-const NoPositionsTitle = styled.div`
-  font-size: 1.125rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  color: #191a23;
-`
-const NoPositionsDesc = styled.div`
-  color: #191a23;
-`
-
-const PnLText = styled.span<{ positive: boolean }>`
-  color: ${({ positive }) => (positive ? '#0ECB81' : '#F6465D')};
-  font-weight: 700;
 `
 
 /* Decisions card */
@@ -468,6 +476,10 @@ const DecisionsHeader = styled.div`
   display: flex;
   gap: 12px;
   align-items: center;
+
+  @media (max-width: 768px) {
+    gap: 6px;
+  }
 `
 
 const DecisionsTitle = styled.h4`
@@ -478,10 +490,18 @@ const DecisionsTitle = styled.h4`
   font-weight: bold;
   border-radius: 8px;
   background: #cafe36;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
 `
 const DecisionsSub = styled.div`
   font-size: 0.875rem;
   color: #191a23;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `
 const DecisionsList = styled.div`
   margin-top: 1rem;

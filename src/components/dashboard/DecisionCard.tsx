@@ -139,8 +139,8 @@ export default function DecisionCard({ decision }: { decision: DecisionRecord })
 /* Decision internal */
 const DecisionBox = styled.div`
   padding: 1rem;
-  background: #ffffff;
   border-radius: 16px;
+  border: 1px solid #f3f3f3;
   transition: transform 0.3s;
   &:hover {
     transform: translateY(-2px);
@@ -163,6 +163,10 @@ const DecisionCycle = styled.div`
   font-weight: bold;
   background: #0d4751;
   border-radius: 8px;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
 `
 const DecisionTime = styled.div`
   padding-bottom: 16px;
@@ -177,6 +181,10 @@ const DecisionStatus = styled.div<{ $success: boolean }>`
   font-size: 1rem;
   font-weight: bold;
   color: ${({ $success }) => ($success ? 'var(--up_color)' : 'var(--down_color)')};
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
 
   &::before {
     content: '';
@@ -195,7 +203,7 @@ const ToggleRow = styled.div`
 const ToggleButton = styled.button<{ color?: string }>`
   background: none;
   border: none;
-  color: ${({ color }) => color || '#60a5fa'};
+  color: #191a23;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -203,8 +211,8 @@ const ToggleButton = styled.button<{ color?: string }>`
   font-size: 0.875rem;
   transform: none !important;
 
-  strong {
-    color: #191a23;
+  @media (max-width: 768px) {
+    font-size: 12px;
   }
 `
 const ArrowBox = styled.div`
@@ -212,9 +220,17 @@ const ArrowBox = styled.div`
   border-radius: 50%;
   background: #f3f3f3;
 
+  @media (max-width: 768px) {
+    padding: 2px;
+  }
+
   img {
     width: 12px;
     height: 12px;
+    @media (max-width: 768px) {
+      width: 10px;
+      height: 10px;
+    }
   }
 `
 
@@ -223,13 +239,16 @@ const CodeBlock = styled.pre`
   border: 1px solid #2b3139;
   border-radius: 8px;
   padding: 0.75rem;
-  color: #191a23;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;
   white-space: pre-wrap;
   max-height: 24rem;
   overflow-y: auto;
   margin-top: 8px;
   background: rgba(243, 243, 243, 0.7);
+
+  @media (max-width: 768px) {
+    padding: 0.5rem;
+    font-size: 12px;
+  }
 `
 const ActionItem = styled.div`
   display: flex;
@@ -244,16 +263,25 @@ const ActionSymbol = styled.span`
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;
   font-size: 14px;
   color: #191a23;
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `
 const ActionBadge = styled.span<{ $isOpen: boolean }>`
   margin-left: auto;
   border-radius: 4px;
   font-size: 14px;
   /* color: ${({ $isOpen }) => ($isOpen ? '#60a5fa' : '#F0B90B')}; */
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `
 const ActionText = styled.div<{ color?: string }>`
   /* color: ${({ color }) => color || '#848E9C'}; */
-  font-size: 0.85rem;
+  font-size: 0.875rem;
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 
   img {
     width: 12px;
@@ -261,21 +289,20 @@ const ActionText = styled.div<{ color?: string }>`
   }
 `
 
-const ActionIcon = styled.img`
-  width: 12px;
-  height: 12px;
-`
-
 const AccountState = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding: 8px 24px;
+  padding: 8px 12px;
   background: rgba(243, 243, 243, 0.7);
   border-radius: 4px;
   color: #191a23;
   margin-top: 8px;
   font-size: 0.875rem;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `
 
 const WarningRow = styled.div`
@@ -298,6 +325,10 @@ const LogLine = styled.div<{ $success?: boolean }>`
   color: ${({ $success }) => ($success ? '#0ECB81' : '#F6465D')};
   font-size: 0.875rem;
   margin-top: 4px;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `
 
 const ErrorBox = styled.div`

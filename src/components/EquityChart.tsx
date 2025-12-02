@@ -107,6 +107,7 @@ export function EquityChart({ traderId }: EquityChartProps) {
     }
   })
 
+  const pageWidth = window.innerWidth
   const currentValue = chartData[chartData.length - 1]
   const isProfit = currentValue.raw_pnl >= 0
   const strokeColor = isProfit ? 'var(--up_color)' : 'var(--down_color)'
@@ -167,18 +168,17 @@ export function EquityChart({ traderId }: EquityChartProps) {
               <UnitLabel>USDT</UnitLabel>
             </EquityValue>
 
-            <div className="profit-row">
+            <ProfitRow>
               <ProfitTag $isProfit={isProfit}>
                 {isProfit ? <ArrowUp className="icon" /> : <ArrowDown className="icon" />}
                 {isProfit ? '+' : ''}
                 {currentValue.raw_pnl_pct}%
               </ProfitTag>
-
-              <span className="profit-amount">
+              <ProfitAmount>
                 ({isProfit ? '+' : ''}
                 {currentValue.raw_pnl.toFixed(2)} USDT)
-              </span>
-            </div>
+              </ProfitAmount>
+            </ProfitRow>
           </div>
         </div>
 
@@ -195,7 +195,7 @@ export function EquityChart({ traderId }: EquityChartProps) {
 
       {/* ---- Chart ---- */}
       <ChartContainer>
-        <Watermark>NOFX</Watermark>
+        <Watermark>Valkynor</Watermark>
 
         <ResponsiveContainer width="100%" height={280}>
           <LineChart data={chartData} margin={{ top: 10, right: 5, left: 5, bottom: 24 }}>
@@ -211,9 +211,9 @@ export function EquityChart({ traderId }: EquityChartProps) {
             <XAxis
               dataKey="time"
               stroke="#191A23"
-              tick={{ fill: '#191A23', fontSize: 12 }}
+              tick={{ fill: '#191A23', fontSize: 12, dy: 6 }}
               tickLine={{ stroke: '#F3F3F3' }}
-              interval={Math.floor(chartData.length / 10)}
+              interval={Math.floor(chartData.length / (pageWidth > 768 ? 10 : 5))}
               // angle={-15}
               textAnchor="middle"
               height={20}
@@ -287,51 +287,34 @@ export function EquityChart({ traderId }: EquityChartProps) {
 }
 
 const CardWrapper = styled.div`
-  padding: 12px 16px;
+  padding: 20px;
   border-radius: 24px;
   animation: fadeIn 0.3s ease;
 
-  @media (min-width: 640px) {
-    padding: 20px;
+  @media (max-width: 768px) {
+    padding: 12px;
   }
 `
 
 const Header = styled.div`
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   gap: 16px;
   margin-bottom: 16px;
 
-  @media (min-width: 640px) {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  @media (max-width: 768px) {
+    align-items: flex-end;
   }
 
   .row {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
+    align-items: baseline;
+    gap: 16px;
 
-    @media (min-width: 640px) {
-      flex-direction: row;
-      align-items: baseline;
-      gap: 16px;
-    }
-  }
-
-  .profit-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-
-    .profit-amount {
-      font-size: 12px;
-
-      @media (min-width: 640px) {
-        font-size: 14px;
-      }
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 4px;
     }
   }
 `
@@ -345,8 +328,9 @@ const Title = styled.h3`
   background: #cafe36;
   border-radius: 8px;
 
-  @media (max-width: 640px) {
-    font-size: 18px;
+  @media (max-width: 768px) {
+    font-size: 16px;
+    white-space: nowrap;
   }
 `
 
@@ -355,14 +339,32 @@ const EquityValue = styled.span`
   font-weight: bold;
   /* font-family: monospace; */
 
-  @media (max-width: 640px) {
-    font-size: 32px;
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
   }
 `
 
 const UnitLabel = styled.span`
   margin-left: 6px;
   font-size: 1rem;
+  @media (max-width: 768px) {
+    font-size: 14px;
+    margin-left: 4px;
+  }
+`
+
+const ProfitRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+`
+const ProfitAmount = styled.span`
+  font-size: 12px;
+
+  @media (max-width: 768px) {
+    font-size: 10px;
+  }
 `
 
 const ProfitTag = styled.span<{ $isProfit: boolean }>`
@@ -381,6 +383,11 @@ const ProfitTag = styled.span<{ $isProfit: boolean }>`
   .icon {
     width: 16px;
     height: 16px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 2px 4px;
+    font-size: 12px;
   }
 `
 
@@ -409,6 +416,10 @@ const ToggleButton = styled.button<{ $active: boolean }>`
     width: 16px;
     height: 16px;
   }
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `
 
 const ChartContainer = styled.div`
@@ -434,6 +445,9 @@ const FooterGrid = styled.div`
   margin-top: 12px;
   display: flex;
   gap: 12px;
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+  }
 `
 
 const FooterItem = styled.div`
@@ -446,17 +460,30 @@ const FooterItem = styled.div`
   &:hover {
     background: rgba(240, 185, 11, 0.1);
   }
+
+  @media (max-width: 768px) {
+    flex: 1 1 48%;
+    padding: 6px 8px;
+    border-radius: 4px;
+  }
 `
 
 const FooterLabel = styled.div`
   font-size: 12px;
   margin-bottom: 4px;
   text-transform: uppercase;
-  /* letter-spacing: 0.05em; */
+
+  @media (max-width: 768px) {
+    font-size: 10px;
+  }
 `
 
 const FooterValue = styled.div`
   font-weight: bold;
   font-family: monospace;
   font-size: 14px;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `

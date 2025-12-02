@@ -549,6 +549,9 @@ const ModalWrapper = styled.div`
   box-shadow: 4px 4px 0px 0px #191a23;
   border-radius: 24px;
   border: 1px solid #000000;
+  @media (max-width: 768px) {
+    border-radius: 16px;
+  }
 `
 
 const Form = styled.form`

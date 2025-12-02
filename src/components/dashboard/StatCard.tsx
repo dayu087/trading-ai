@@ -40,13 +40,18 @@ export default function StatCard({ index, title, value, change, positive, subtit
 
 const StatCardBox = styled.div<{ $bg?: string }>`
   position: relative;
-  flex: 1 1 25%;
+  flex: 1 1 24%;
   padding: 1rem;
   border-radius: 24px;
   border: 1px solid #191a23;
   color: ${({ $bg }) => ($bg == '#191A23' ? '#fff' : '#191a23')};
   box-shadow: 4px 4px 0px 0px #191a23;
   background: ${({ $bg }) => $bg || '#f3f3f3'};
+
+  @media (max-width: 1220px) {
+    flex: 1 1 48%;
+    border-radius: 16px;
+  }
 `
 
 const StatCardBg = styled.img`
@@ -70,6 +75,10 @@ const StatValue = styled.div`
   span {
     font-size: 14px;
   }
+
+  @media (max-width: 768px) {
+    margin: 6px 0 4px 0;
+  }
 `
 
 const StatValueCount = styled.div<{ $bg?: string }>`
@@ -79,13 +88,25 @@ const StatValueCount = styled.div<{ $bg?: string }>`
   font-size: 2rem;
   color: var(--brand-black);
   background: ${({ $bg }) => ($bg ? ' #FFFFFF' : 'var(--brand-green)')};
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
 `
 
 const StatChange = styled.div<{ $positive?: boolean }>`
   color: ${({ $positive }) => ($positive ? '#2B6D18' : '#A54162')};
   font-weight: 700;
   font-size: 1rem;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
 `
 const StatSubtitle = styled.div`
   font-size: 1rem;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
 `

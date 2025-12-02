@@ -77,7 +77,7 @@ export default function AILearning({ traderId }: AILearningProps) {
       <NoDataCard>
         <NoDataBrainIcon src={aiICon} />
         <NoDataHeader>
-          <Title>{t('aiLearning')}</Title>
+          <NoDataTitle>{t('aiLearning')}</NoDataTitle>
           <NoDataDesc>{t('noCompleteData')}</NoDataDesc>
         </NoDataHeader>
       </NoDataCard>
@@ -939,6 +939,10 @@ const NoDataCard = styled.div`
   padding: 1.5rem;
   border-radius: 24px;
   border: 1px solid #191a23;
+  @media (max-width: 768px) {
+    padding: 12px;
+    border-radius: 16px;
+  }
 `
 
 const NoDataHeader = styled.div`
@@ -949,14 +953,27 @@ const NoDataHeader = styled.div`
 const NoDataBrainIcon = styled.img`
   width: 60px;
   height: 60px;
+
+  @media (max-width: 768px) {
+    width: 48px;
+    height: 48px;
+  }
 `
 
 const NoDataTitle = styled.h2`
   font-size: 1.125rem;
   font-weight: 700;
-  color: #eaecef;
+  margin-bottom: 8px;
+  @media (max-width: 768px) {
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
 `
 
 const NoDataDesc = styled.div`
   color: #848e9c;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `

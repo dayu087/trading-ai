@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import type { Position } from '@/types'
+import { toNumberFormat } from '@/lib/utils'
 
 export default function PositionsTable({ positions }: { positions: Position[] | undefined }) {
   const { t } = useTranslation()
@@ -12,94 +13,137 @@ export default function PositionsTable({ positions }: { positions: Position[] | 
       <NoPositionsDesc>{t('noActivePositions')}</NoPositionsDesc>
     </NoPositions>
   ) : (
-    <PositionsTableWrap>
-      <StyledTable>
+    <TableWrapper>
+      <Table>
         <thead>
           <tr>
-            <Th>{t('symbol')}</Th>
-            <Th>{t('side')}</Th>
-            <Th>{t('entryPrice')}</Th>
-            <Th>{t('markPrice')}</Th>
-            <Th>{t('quantity')}</Th>
-            <Th>{t('positionValue')}</Th>
-            <Th>{t('leverage')}</Th>
-            <Th>{t('unrealizedPnL')}</Th>
-            <Th>{t('liqPrice')}</Th>
+            <th>{t('symbol')}</th>
+            <th>{t('side')}</th>
+            <th>{t('entryMarkPrice')}</th>
+            {/* <th>{t('entryPrice')}</th>
+            <th>{t('markPrice')}</th> */}
+            <th>{t('quantity')}</th>
+            <th>{t('positionValue')}</th>
+            <th>{t('leverage')}</th>
+            <th>{t('unrealizedPnL')}</th>
+            <th>{t('liqPrice')}</th>
           </tr>
         </thead>
 
         <tbody>
           {positions.map((pos, i) => (
-            <Tr key={i}>
-              <TdMono>{pos.symbol}</TdMono>
+            <tr key={i}>
+              <td>{pos.symbol}</td>
               <td>
                 <SideBadge side={pos.side === 'long' ? 'long' : 'short'}>{t(pos.side === 'long' ? 'long' : 'short')}</SideBadge>
               </td>
-              <TdMono>{pos.entry_price.toFixed(4)}</TdMono>
-              <TdMono>{pos.mark_price.toFixed(4)}</TdMono>
-              <TdMono>{pos.quantity.toFixed(4)}</TdMono>
-
-              <TdMonoBold>{(pos.quantity * pos.mark_price).toFixed(2)} USDT</TdMonoBold>
-
-              <TdMonoLeverage>{pos.leverage}x</TdMonoLeverage>
-
+              <td className="bold">
+                {toNumberFormat(pos.entry_price)}
+                <br />
+                {toNumberFormat(pos.mark_price)}
+              </td>
+              <td>{toNumberFormat(pos.quantity)}</td>
+              <td>
+                {toNumberFormat(pos.quantity * pos.mark_price)}
+                <br /> USDT
+              </td>
+              <td>{pos.leverage}x</td>
               <td>
                 <PnLText positive={pos.unrealized_pnl >= 0}>
                   {pos.unrealized_pnl >= 0 ? '+' : ''}
-                  {pos.unrealized_pnl.toFixed(2)} ({pos.unrealized_pnl_pct.toFixed(2)}%)
+                  {toNumberFormat(pos.unrealized_pnl)}
+                  <br />({pos.unrealized_pnl_pct.toFixed(2)}%)
                 </PnLText>
               </td>
-
-              <TdMonoLiq>{pos.liquidation_price.toFixed(4)}</TdMonoLiq>
-            </Tr>
+              <td>{toNumberFormat(pos.liquidation_price)}</td>
+            </tr>
           ))}
         </tbody>
-      </StyledTable>
-    </PositionsTableWrap>
+      </Table>
+    </TableWrapper>
   )
 }
 
-const PositionsTableWrap = styled.div`
-  overflow-x: auto;
+// 外层包裹用于纵向 & 横向滚动，并限制高度
+const TableWrapper = styled.div`
+  width: 100%;
+  max-height: 280px;
+  padding: 0 12px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+
+  @media (max-width: 768px) {
+    padding: 0;
+  }
 `
 
-const StyledTable = styled.table`
+const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.9rem;
-`
+  table-layout: fixed;
 
-const Th = styled.th`
-  text-align: left;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid #111;
-`
+  --col1-width: 100px;
+  --col2-width: 80px;
 
-const Tr = styled.tr`
-  border-bottom: 1px solid #2b3139;
-`
+  thead th {
+    position: sticky;
+    top: -1px;
+    z-index: 5;
+    padding: 8px 12px;
+    font-size: 12px;
+    text-align: left;
+    white-space: nowrap;
+    background: #fff;
+  }
 
-const TdBase = styled.td`
-  padding: 0.6rem 0;
-`
+  tbody td {
+    padding: 8px 12px;
+    font-size: 14px;
+    white-space: nowrap;
+    background: #fff;
+  }
 
-const TdMono = styled(TdBase)`
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;
-`
+  th:nth-child(1),
+  td:nth-child(1) {
+    position: sticky;
+    left: 0;
+    min-width: var(--col1-width);
+    max-width: var(--col1-width);
+    box-sizing: border-box;
+    z-index: 4;
+  }
 
-const TdMonoBold = styled(TdMono)`
-  font-weight: 700;
-`
+  th:nth-child(2),
+  td:nth-child(2) {
+    position: sticky;
+    left: calc(var(--col1-width));
+    min-width: var(--col2-width);
+    max-width: var(--col2-width);
+    box-sizing: border-box;
+    z-index: 4;
+  }
 
-const TdMonoLeverage = styled(TdMono)`
-  color: #f0b90b;
-`
+  th:nth-child(1),
+  th:nth-child(2) {
+    z-index: 6;
+  }
 
-const TdMonoLiq = styled(TdMono)`
-  color: #848e9c;
-`
+  /* 其余列允许换行或不换行，按需求 */
+  th,
+  td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
-// —————— No Positions ——————
+  .bold {
+    font-weight: 700;
+  }
+
+  @media (max-width: 768px) {
+    width: max-content;
+    table-layout: fixed;
+  }
+`
 
 const NoPositions = styled.div`
   text-align: center;
@@ -132,8 +176,8 @@ const SideBadge = styled.span<{ side: 'long' | 'short' }>`
   font-weight: 700;
   font-size: 0.8rem;
 
-  color: ${({ side }) => (side === 'long' ? '#0ECB81' : '#F6465D')};
-  background: ${({ side }) => (side === 'long' ? 'rgba(14,203,129,0.1)' : 'rgba(246,70,93,0.1)')};
+  color: ${({ side }) => (side === 'long' ? 'var(--up_color)' : 'var(--down_color)')};
+  background: ${({ side }) => (side === 'long' ? 'var(--up_bg)' : 'var(--down_bg)')};
 `
 
 const PnLText = styled.span<{ positive: boolean }>`
