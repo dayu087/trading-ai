@@ -114,7 +114,7 @@ export function TraderConfigModal({ isOpen, onClose, traderData, isEditMode = fa
   useEffect(() => {
     const fetchConfig = async () => {
       try {
-        const response = await fetch('/api/config')
+        const response = await fetch(`${import.meta.env.VITE_API_BASE}/config`)
         const config = await response.json()
         if (config.default_coins) {
           setAvailableCoins(config.default_coins)
@@ -132,7 +132,7 @@ export function TraderConfigModal({ isOpen, onClose, traderData, isEditMode = fa
   useEffect(() => {
     const fetchPromptTemplates = async () => {
       try {
-        const response = await fetch('/api/prompt-templates')
+        const response = await fetch(`${import.meta.env.VITE_API_BASE}/prompt-templates`)
         const data = await response.json()
         if (data.templates) {
           setPromptTemplates(data.templates)

@@ -49,7 +49,7 @@ export default function PositionsTable({ positions }: { positions: Position[] | 
               </td>
               <td>{pos.leverage}x</td>
               <td>
-                <PnLText positive={pos.unrealized_pnl >= 0}>
+                <PnLText $positive={pos.unrealized_pnl >= 0}>
                   {pos.unrealized_pnl >= 0 ? '+' : ''}
                   {toNumberFormat(pos.unrealized_pnl)}
                   <br />({pos.unrealized_pnl_pct.toFixed(2)}%)
@@ -180,7 +180,7 @@ const SideBadge = styled.span<{ side: 'long' | 'short' }>`
   background: ${({ side }) => (side === 'long' ? 'var(--up_bg)' : 'var(--down_bg)')};
 `
 
-const PnLText = styled.span<{ positive: boolean }>`
+const PnLText = styled.span<{ $positive: boolean }>`
   font-weight: 700;
-  color: ${({ positive }) => (positive ? '#0ECB81' : '#F6465D')};
+  color: ${({ $positive }) => ($positive ? '#0ECB81' : '#F6465D')};
 `

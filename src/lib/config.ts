@@ -13,7 +13,7 @@ export function getSystemConfig(): Promise<SystemConfig> {
   if (configPromise) {
     return configPromise
   }
-  configPromise = fetch('/api/config')
+  configPromise = fetch(`${import.meta.env.VITE_API_BASE}/config`)
     .then((res) => res.json())
     .then((data: SystemConfig) => {
       cachedConfig = data

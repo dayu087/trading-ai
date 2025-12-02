@@ -401,14 +401,14 @@ const LeftCol = styled.div`
   }
 `
 const RightCol = styled.div`
-  min-width: 392px;
+  width: 392px;
   padding: 24px 16px;
   border-radius: 24px;
   overflow: hidden;
   border: 1px solid #191a23;
 
   @media (max-width: 1220px) {
-    min-width: 100%;
+    width: 100%;
     padding: 12px;
     border-radius: 16px;
   }

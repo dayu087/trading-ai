@@ -64,6 +64,8 @@ export default function AILearning({ traderId }: AILearningProps) {
     dedupingInterval: 20000,
   })
 
+  console.log(performance, 'performance')
+
   if (error) {
     return (
       <div className="rounded p-6" style={{ background: '#1E2329', border: '1px solid #2B3139' }}>
