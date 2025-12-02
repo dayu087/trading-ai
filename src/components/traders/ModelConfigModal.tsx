@@ -6,6 +6,9 @@ import type { AIModel } from '../../types'
 import { getModelIcon } from '../ModelIcons'
 import { getShortName } from './utils'
 
+import Select from '@/components/ui/Select'
+import Input from '@/components/ui/input'
+
 import lessIcon from '@/assets/images/dashboard_icon_arrowless.png'
 import moreIcon from '@/assets/images/dashboard_icon_arrowmore.png'
 import yesIcon from '@/assets/images/home_icon_yesgreen.png'
@@ -64,41 +67,22 @@ export function ModelConfigModal({ allModels, configuredModels, editingModelId, 
         </ModalHeader>
 
         <Form onSubmit={handleSubmit}>
-          <ScrollArea>
+          <ScrollArea $isAuto={!!selectedModelId}>
             {!editingModelId && (
               <div>
                 <Label>{t('selectModel')}</Label>
-                <Dropdown>
-                  <DropdownHeader onClick={() => setDropdownOpen(!dropdownOpen)} $open={dropdownOpen}>
-                    {selectedModelId ? selectedModelId : t('pleaseSelectModel')}
-                    <DropdownIcon src={dropdownOpen ? lessIcon : moreIcon} />
-                  </DropdownHeader>
-                  {dropdownOpen && (
-                    <DropdownContent>
-                      <Option
-                        $active={!selectedModelId}
-                        onClick={() => {
-                          setSelectedModelId('')
-                          setDropdownOpen(false)
-                        }}
-                      >
-                        {t('pleaseSelectModel')}
-                      </Option>
-                      {availableModels.map((model: any) => (
-                        <Option
-                          key={model.id}
-                          $active={model.id === selectedModelId}
-                          onClick={() => {
-                            setSelectedModelId(model.id)
-                            setDropdownOpen(false)
-                          }}
-                        >
-                          {getShortName(model.name)} ({model.provider}){model.id === selectedModelId && <img src={yesIcon} alt="" />}
-                        </Option>
-                      ))}
-                    </DropdownContent>
+                <Select
+                  options={availableModels}
+                  value={selectedModelId}
+                  keyname="id"
+                  placeholder={t('pleaseSelectModel')}
+                  onChange={(value: any) => setSelectedModelId(value)}
+                  renderOption={(item) => (
+                    <span>
+                      {getShortName(item.name)} ({item.provider})
+                    </span>
                   )}
-                </Dropdown>
+                />
               </div>
             )}
 
@@ -106,10 +90,9 @@ export function ModelConfigModal({ allModels, configuredModels, editingModelId, 
               <ModelCard>
                 <ModelInfoRow>
                   <ModelIconWrapper>
-                    {getModelIcon(selectedModel.provider || selectedModel.id, {
-                      width: 32,
-                      height: 32,
-                    }) || <ModelFallbackIcon isDeepseek={selectedModel.id === 'deepseek'}>{selectedModel.name[0]}</ModelFallbackIcon>}
+                    {getModelIcon(selectedModel.provider || selectedModel.id) || (
+                      <ModelFallbackIcon isDeepseek={selectedModel.id === 'deepseek'}>{selectedModel.name[0]}</ModelFallbackIcon>
+                    )}
                   </ModelIconWrapper>
 
                   <div>
@@ -193,16 +176,23 @@ const ModalWrapper = styled.div`
   box-shadow: 4px 4px 0px 0px #191a23;
   border-radius: 24px;
   border: 1px solid #000000;
+  @media (max-width: 768px) {
+    border-radius: 16px;
+  }
 `
 
 const ModalHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 24px 24px 16px 24px;
+  padding: 24px 24px 20px 24px;
   position: sticky;
   top: 0;
   z-index: 10;
+
+  @media (max-width: 768px) {
+    padding: 12px 12px 10px;
+  }
 `
 
 const ModalTitle = styled.h3`
@@ -211,6 +201,10 @@ const ModalTitle = styled.h3`
   font-weight: bold;
   border-radius: 8px;
   background: var(--brand-green);
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
 `
 
 const DeleteButton = styled.button`
@@ -227,16 +221,33 @@ const DeleteButton = styled.button`
 
 const Form = styled.form`
   padding-bottom: 24px;
+
+  @media (max-width: 768px) {
+    padding-bottom: 12px;
+  }
 `
 
-const ScrollArea = styled.div`
-  margin-top: 4px;
+const ScrollArea = styled.div<{ $isAuto: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  overflow-y: auto;
+  overflow-y: ${({ $isAuto }) => ($isAuto ? 'auto' : '')};
   max-height: calc(100vh - 20rem);
   padding: 0 24px;
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: rgba(25, 26, 35, 0.2);
+  }
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  @media (max-width: 768px) {
+    max-height: calc(100vh - 30rem);
+    padding: 0 12px;
+  }
 `
 
 const Label = styled.label`
@@ -244,30 +255,21 @@ const Label = styled.label`
   font-size: 1rem;
   font-weight: bold;
   margin-bottom: 8px;
-`
 
-const Select = styled.select`
-  width: 100%;
-  padding: 8px 12px;
-  border-radius: 6px;
-  background: #0b0e11;
-  border: 1px solid #2b3139;
-  color: #eaecef;
-`
-
-const Input = styled.input`
-  width: 100%;
-  padding: 12px 24px;
-  border-radius: 9px;
-  font-size: 14px;
-  background: #fff;
-  border: 1px solid #a3a3a7;
+  @media (max-width: 768px) {
+    margin-bottom: 4px;
+    font-size: 14px;
+  }
 `
 
 const ModelCard = styled.div`
-  padding: 16px;
+  padding: 16px 24px;
   border-radius: 8px;
   background: #f3f3f3;
+
+  @media (max-width: 768px) {
+    padding: 8px 12px;
+  }
 `
 
 const ModelInfoRow = styled.div`
@@ -277,16 +279,27 @@ const ModelInfoRow = styled.div`
 `
 
 const ModelIconWrapper = styled.div`
-  width: 32px;
-  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 48px;
+  height: 48px;
+
+  @media (max-width: 768px) {
+    width: 32px;
+    height: 32px;
+  }
+
+  img,
+  svg {
+    width: 100%;
+    height: 100%;
+  }
 `
 
 const ModelFallbackIcon = styled.div<{ isDeepseek: boolean }>`
-  width: 32px;
-  height: 32px;
+  width: 100%;
+  height: 100%;
   border-radius: 9999px;
   display: flex;
   align-items: center;
@@ -296,7 +309,12 @@ const ModelFallbackIcon = styled.div<{ isDeepseek: boolean }>`
 `
 
 const ModelName = styled.div`
+  font-size: 1rem;
   font-weight: 600;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
 `
 
 const ModelMeta = styled.div`
@@ -328,6 +346,11 @@ const Footer = styled.div`
   padding: 24px 24px 0;
   position: sticky;
   bottom: 0;
+
+  @media (max-width: 768px) {
+    margin-top: 12px;
+    padding: 12px 12px 0;
+  }
 `
 
 const CancelButton = styled.button`
@@ -337,6 +360,11 @@ const CancelButton = styled.button`
   font-size: 16px;
   font-weight: bold;
   border: 1px solid #191a23;
+
+  @media (max-width: 768px) {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
 `
 
 const SaveButton = styled(CancelButton)`
@@ -346,61 +374,5 @@ const SaveButton = styled(CancelButton)`
 
   &:disabled {
     opacity: 0.5;
-  }
-`
-
-const DropdownHeader = styled.div<{ $open: boolean }>`
-  display: ${(p) => (p.$open ? 'none' : 'flex')};
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 15px;
-  color: #1a1a1a;
-`
-
-const DropdownIcon = styled.img`
-  width: 16px;
-  height: 16px;
-`
-
-const Dropdown = styled.div`
-  margin-top: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  border-radius: 8px;
-  border: 1px solid #a3a3a7;
-`
-
-const DropdownContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 16px;
-  animation: ${slideDown} 0.25s ease forwards;
-`
-
-const Option = styled.div<{ $active?: boolean }>`
-  padding: 12px 16px;
-  border-radius: 10px;
-  font-size: 15px;
-  cursor: pointer;
-  color: #1a1a1a;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  transition: all 0.3s ease-in-out;
-
-  background: ${(p) => (p.$active ? '#f3f3f3' : 'transparent')};
-
-  &:hover {
-    background: #f3f3f3;
-  }
-
-  img {
-    width: 12px;
-    height: 12px;
   }
 `

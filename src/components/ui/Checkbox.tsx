@@ -41,8 +41,11 @@ const CheckboxWrapper = styled.label<StyledProps>`
   `}
 
   span {
-    font-size: 14px;
     color: #000000;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 12px;
   }
 `
 
@@ -64,8 +67,16 @@ const StyledCheckbox = styled.div<StyledProps>`
   ${CheckboxWrapper}:hover & {
     border-color: #3b4450;
   }
+
+  @media (max-width: 768px) {
+    width: 16px;
+    height: 16px;
+  }
 `
 
 const CheckIcon = styled.div<StyledProps>`
   font-size: 14px;
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `

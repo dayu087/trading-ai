@@ -6,6 +6,7 @@ import { traderModalDescTitleMap, traderModalDescMap, traderModalTemplateNameMap
 import { Tooltip } from './traders/Tooltip'
 import Checkbox from '@/components/ui/Checkbox'
 import SelectBox from '@/components/ui/Select'
+import Input from '@/components/ui/input'
 
 import botIcon from '@/assets/images/config_logo_bot.png'
 import frameIcon from '@/assets/images/Frame.png'
@@ -279,13 +280,13 @@ export function TraderConfigModal({ isOpen, onClose, traderData, isEditMode = fa
             <SectionTitle>🤖 基础配置</SectionTitle>
 
             <FieldGroup>
-              <div>
+              <FieldColumn>
                 <Label>交易员名称</Label>
                 <Input type="text" value={formData.trader_name} onChange={(e) => handleInputChange('trader_name', e.target.value)} placeholder="请输入交易员名称" />
-              </div>
+              </FieldColumn>
 
               <Row2>
-                <div>
+                <FieldColumn>
                   <Label>AI模型</Label>
                   <SelectBox
                     value={formData.ai_model}
@@ -295,9 +296,9 @@ export function TraderConfigModal({ isOpen, onClose, traderData, isEditMode = fa
                     renderValue={(value) => <span> {getShortName(value).toUpperCase()}</span>}
                     renderOption={(item: any) => <span> {getShortName(item.name || item.id).toUpperCase()}</span>}
                   />
-                </div>
+                </FieldColumn>
 
-                <div>
+                <FieldColumn>
                   <Label>交易所</Label>
                   <SelectBox
                     value={formData.exchange_id}
@@ -307,7 +308,7 @@ export function TraderConfigModal({ isOpen, onClose, traderData, isEditMode = fa
                     renderValue={(value) => <span> {getShortName(value).toUpperCase()}</span>}
                     renderOption={(item: any) => <span> {getShortName(item.name || item.id).toUpperCase()}</span>}
                   />
-                </div>
+                </FieldColumn>
               </Row2>
             </FieldGroup>
           </SectionCard>
@@ -319,7 +320,7 @@ export function TraderConfigModal({ isOpen, onClose, traderData, isEditMode = fa
               {/* 保证金模式 + 初始余额 */}
               <Row2>
                 {/* 保证金模式 */}
-                <div>
+                <FieldColumn>
                   <Label>保证金模式</Label>
                   <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
                     <ToggleButton type="button" $active={formData.is_cross_margin === true} onClick={() => handleInputChange('is_cross_margin', true)}>
@@ -329,11 +330,11 @@ export function TraderConfigModal({ isOpen, onClose, traderData, isEditMode = fa
                       逐仓
                     </ToggleButton>
                   </div>
-                </div>
+                </FieldColumn>
                 {/* 初始余额 */}
-                <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                    <Label style={{ margin: 0 }}>
+                <FieldColumn>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Label>
                       初始余额 ($)
                       <span style={{ marginLeft: 4, cursor: 'pointer' }}>
                         {!isEditMode && <Tooltip content="⚠️ 请输入您交易所账户的实际余额，否则 P&L 统计会错误。">*</Tooltip>}
@@ -358,12 +359,12 @@ export function TraderConfigModal({ isOpen, onClose, traderData, isEditMode = fa
                     step="0.01"
                   />
                   {balanceFetchError && <HelperText color="red">{balanceFetchError}</HelperText>}
-                </div>
+                </FieldColumn>
               </Row2>
 
               {/* AI 扫描间隔 */}
               <Row2>
-                <div>
+                <FieldColumn>
                   <Label>{t('aiScanInterval')}</Label>
                   <Input
                     type="number"
@@ -376,27 +377,27 @@ export function TraderConfigModal({ isOpen, onClose, traderData, isEditMode = fa
                     max="60"
                   />
                   <HelperText>{t('scanIntervalRecommend')}</HelperText>
-                </div>
+                </FieldColumn>
                 <div></div>
               </Row2>
 
               {/* 杠杆设置 */}
               <Row2>
-                <div>
+                <FieldColumn>
                   <Label>BTC/ETH 杠杆</Label>
                   <Input type="number" value={formData.btc_eth_leverage} onChange={(e) => handleInputChange('btc_eth_leverage', Number(e.target.value))} min="1" max="125" />
-                </div>
+                </FieldColumn>
 
-                <div>
+                <FieldColumn>
                   <Label>山寨币杠杆</Label>
                   <Input type="number" value={formData.altcoin_leverage} onChange={(e) => handleInputChange('altcoin_leverage', Number(e.target.value))} min="1" max="75" />
-                </div>
+                </FieldColumn>
               </Row2>
 
               {/* 交易币种 */}
-              <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                  <Label>交易币种 (用逗号分隔，留空使用默认)</Label>
+              <FieldColumn>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Label>交易币种 (用逗号分隔，)</Label>
                   <YellowButton type="button" onClick={() => setShowCoinSelector(!showCoinSelector)}>
                     {showCoinSelector ? '收起选择' : '快速选择'}
                   </YellowButton>
@@ -419,7 +420,7 @@ export function TraderConfigModal({ isOpen, onClose, traderData, isEditMode = fa
                     </div>
                   </CoinSelectorBox>
                 )}
-              </div>
+              </FieldColumn>
             </div>
           </SectionCard>
 
@@ -441,7 +442,7 @@ export function TraderConfigModal({ isOpen, onClose, traderData, isEditMode = fa
             <SectionTitle>💬 交易策略提示词</SectionTitle>
             <FieldGroup>
               {/* 系统提示词模板选择 */}
-              <div>
+              <FieldColumn>
                 <Label>{t('systemPromptTemplate')}</Label>
                 <SelectBox
                   value={formData.system_prompt_template}
@@ -460,7 +461,7 @@ export function TraderConfigModal({ isOpen, onClose, traderData, isEditMode = fa
                   <TipText>{desc}</TipText>
                 </PromptDescBox>
                 <TipText>选择预设的交易策略模板（包含交易哲学、风控原则等）</TipText>
-              </div>
+              </FieldColumn>
 
               <Grid>
                 <CheckboxRow>
@@ -471,14 +472,14 @@ export function TraderConfigModal({ isOpen, onClose, traderData, isEditMode = fa
                   <span>启用后将完全替换默认策略</span>
                 </TipsInfo>
               </Grid>
-              <div>
+              <FieldColumn>
                 <Label>{formData.override_base_prompt ? '自定义提示词' : '附加提示词'}</Label>
                 <Textarea
                   value={formData.custom_prompt}
                   onChange={(e) => handleInputChange('custom_prompt', e.target.value)}
                   placeholder={formData.override_base_prompt ? '输入完整的交易策略提示词...' : '输入额外的交易策略提示...'}
                 />
-              </div>
+              </FieldColumn>
             </FieldGroup>
           </SectionCard>
         </ContentWrapper>
@@ -520,6 +521,10 @@ const ModalContainer = styled.div`
   border-radius: 24px;
   border: 1px solid #000000;
   background: #fff;
+
+  @media (max-width: 768px) {
+    border-radius: 16px;
+  }
 `
 
 const HeaderWrapper = styled.div`
@@ -528,6 +533,10 @@ const HeaderWrapper = styled.div`
   justify-content: space-between;
   padding: 1.5rem;
   border-bottom: 1px solid #191a23;
+
+  @media (max-width: 768px) {
+    padding: 12px;
+  }
 `
 
 const ContentWrapper = styled.div`
@@ -546,12 +555,20 @@ const ContentWrapper = styled.div`
   &::-webkit-scrollbar {
     width: 6px;
   }
+
+  @media (max-width: 768px) {
+    gap: 12px;
+    padding: 12px;
+  }
 `
 
 const LeftSection = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
+  @media (max-width: 768px) {
+    gap: 8px;
+  }
 `
 
 const IconBox = styled.div`
@@ -563,21 +580,35 @@ const IconBox = styled.div`
     width: 40px;
     height: 40px;
   }
+  @media (max-width: 768px) {
+    img {
+      width: 32px;
+      height: 32px;
+    }
+  }
 `
 
 const TitleBox = styled.div``
 
 const Title = styled.h2`
+  width: fit-content;
   padding: 4px 12px;
   font-size: 20px;
   font-weight: bold;
   border-radius: 8px;
   background: #cafe36;
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
 `
 
 const Subtitle = styled.p`
   font-size: 14px;
   margin-top: 4px;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `
 
 const CloseButton = styled.button`
@@ -598,8 +629,13 @@ const CloseButton = styled.button`
 
 const SectionCard = styled.div`
   border-radius: 16px;
-  padding: 1.25rem;
+  padding: 1.5rem;
   background: #ffffff;
+
+  @media (max-width: 768px) {
+    padding: 12px;
+    border-radius: 8px;
+  }
 `
 
 const SectionTitle = styled.h3`
@@ -613,6 +649,11 @@ const SectionTitle = styled.h3`
   margin-bottom: 1.25rem;
   border-radius: 8px;
   background: #f3f3f3;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+    margin-bottom: 14px;
+  }
 `
 
 const FieldGroup = styled.div`
@@ -621,23 +662,23 @@ const FieldGroup = styled.div`
   gap: 1rem;
 `
 
+const FieldColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  @media (max-width: 768px) {
+    gap: 4px;
+  }
+`
+
 const Label = styled.label`
   display: block;
   font-size: 1rem;
   font-weight: bold;
-  margin-bottom: 0.5rem;
-`
 
-const Input = styled.input`
-  width: 100%;
-  padding: 12px 24px;
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-  background: #fff;
-  border: 1px solid #a3a3a7;
-
-  &:focus {
-    outline: 1px solid #cafe36;
+  @media (max-width: 768px) {
+    font-size: 14px;
   }
 `
 
@@ -652,6 +693,10 @@ const Textarea = styled.textarea`
   &:focus {
     outline: 1px solid #cafe36;
   }
+  @media (max-width: 768px) {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
 `
 
 const Row2 = styled.div`
@@ -659,7 +704,7 @@ const Row2 = styled.div`
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
 
-  @media (max-width: 640px) {
+  @media (max-width: 768px) {
     grid-template-columns: 1fr;
   }
 `
@@ -683,8 +728,7 @@ const YellowButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 24px;
-  padding: 0 8px;
+  padding: 4px 8px;
   font-size: 0.75rem;
   background: #cafe36;
   color: #000;
@@ -694,6 +738,11 @@ const YellowButton = styled.button`
   &:disabled {
     background: #848e9c;
     cursor: not-allowed;
+  }
+
+  @media (max-width: 768px) {
+    padding: 2px 4px;
+    font-size: 10px;
   }
 `
 
@@ -715,6 +764,10 @@ const ToggleButton = styled.button<{ $active: boolean }>`
       : `
     background: #fff;
   `}
+
+  @media (max-width: 768px) {
+    padding: 8px 14px;
+  }
 `
 
 /* 币种选择器外层 */
@@ -774,6 +827,17 @@ const TipsInfo = styled.div`
     font-size: 14px;
     text-decoration: underline;
   }
+
+  @media (max-width: 768px) {
+    img {
+      width: 12px;
+      height: 12px;
+    }
+
+    span {
+      font-size: 12px;
+    }
+  }
 `
 
 const CheckboxRow = styled.div`
@@ -781,14 +845,8 @@ const CheckboxRow = styled.div`
   align-items: center;
   gap: 12px;
 
-  input[type='checkbox'] {
-    width: 16px;
-    height: 16px;
-  }
-
-  label {
-    font-size: 0.875rem;
-    color: #eaecef;
+  @media (max-width: 768px) {
+    gap: 6px;
   }
 `
 
@@ -806,11 +864,6 @@ const PromptDescTitle = styled.div`
   color: #f0b90b;
 `
 
-const PromptDescContent = styled.div`
-  font-size: 0.75rem;
-  color: #848e9c;
-`
-
 const TipText = styled.p`
   font-size: 0.75rem;
   color: #848e9c;
@@ -820,19 +873,26 @@ const TipText = styled.p`
 const Footer = styled.div`
   display: flex;
   gap: 0.75rem;
-  padding: 24px 48px;
+  padding: 24px;
   position: sticky;
   bottom: 0;
-  background: #ffffff;
+  @media (max-width: 768px) {
+    padding: 12px;
+  }
 `
 
 const CancelButton = styled.button`
   flex: 1;
-  padding: 16px;
+  padding: 16px 24px;
   border-radius: 16px;
   font-size: 0.875rem;
   font-weight: 600;
   border: 1px solid #191a23;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
 `
 
 const SaveButton = styled(CancelButton)`

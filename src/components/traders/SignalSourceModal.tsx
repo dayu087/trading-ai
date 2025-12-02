@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { styled } from 'styled-components'
 import { useTranslation } from 'react-i18next'
 
+import Input from '@/components/ui/input'
+
 interface SignalSourceModalProps {
   coinPoolUrl: string
   oiTopUrl: string
@@ -82,6 +84,10 @@ const ModalContainer = styled.div`
   border-radius: 24px;
   border: 1px solid #000000;
   background: #fff;
+
+  @media (max-width: 768px) {
+    padding: 12px;
+  }
 `
 
 const ModalTitle = styled.h3`
@@ -92,6 +98,11 @@ const ModalTitle = styled.h3`
   margin-bottom: 20px;
   border-radius: 8px;
   background: #cafe36;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
 `
 
 const Form = styled.form`
@@ -112,18 +123,10 @@ const Label = styled.label`
   font-size: 16px;
   font-weight: bold;
   margin-bottom: 0.5rem;
-`
 
-const Input = styled.input`
-  width: 100%;
-  padding: 12px 24px;
-  border-radius: 8px;
-  border: 1px solid #a3a3a7;
-  background: #fff;
-  font-size: 14px;
-
-  &:focus {
-    outline: 1px solid #cafe36;
+  @media (max-width: 768px) {
+    margin-bottom: 4px;
+    font-size: 14px;
   }
 `
 
@@ -131,12 +134,19 @@ const HelperText = styled.div`
   font-size: 12px;
   margin-top: 8px;
   color: #848e9c;
+
+  @media (max-width: 768px) {
+    margin-top: 4px;
+  }
 `
 
 const InfoBox = styled.div`
   padding: 1rem;
   border-radius: 16px;
   background: #f3f3f3;
+  @media (max-width: 768px) {
+    padding: 12px;
+  }
 `
 
 const InfoTitle = styled.div`
@@ -148,24 +158,39 @@ const InfoTitle = styled.div`
 const InfoText = styled.div`
   font-size: 0.75rem;
   line-height: 1.3;
+  margin-bottom: 0.5rem;
+
+  @media (max-width: 768px) {
+    margin-bottom: 4px;
+  }
 `
 
 const Footer = styled.div`
   display: flex;
   gap: 0.75rem;
   margin-top: 1.5rem;
-  padding-top: 1rem;
+  padding-top: 1.5rem;
   position: sticky;
   bottom: 0;
+
+  @media (max-width: 768px) {
+    margin-top: 12px;
+    padding-top: 12px;
+  }
 `
 
 const CancelButton = styled.button`
   flex: 1;
-  padding: 16px;
+  padding: 16px 24px;
   border-radius: 16px;
   font-size: 0.875rem;
   font-weight: 600;
   border: 1px solid #191a23;
+
+  @media (max-width: 768px) {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
 `
 
 const SaveButton = styled(CancelButton)`

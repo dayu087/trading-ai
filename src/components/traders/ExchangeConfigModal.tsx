@@ -12,6 +12,8 @@ import { Tooltip } from './Tooltip'
 import { getShortName } from './utils'
 import useCopy from '@/hooks/useCopy'
 
+import Input from '@/components/ui/input'
+import Select from '@/components/ui/Select'
 import Dropdown from '@/components/ui/Dropdown'
 import GuideOverlay from './exchange/GuideOverlay'
 
@@ -241,7 +243,7 @@ export function ExchangeConfigModal({ allExchanges, editingExchangeId, onSave, o
         </Header>
 
         <Form onSubmit={handleSubmit}>
-          <ScrollArea $id={selectedExchange?.id || ''} $selectOpen={showTwoStageKeyModal}>
+          <ScrollArea>
             {!editingExchangeId && (
               <div className="space-y-3">
                 <FromGroup>
@@ -250,7 +252,22 @@ export function ExchangeConfigModal({ allExchanges, editingExchangeId, onSave, o
                 </FromGroup>
                 <FromGroup>
                   <Lable>{t('environmentSteps.selectTitle')}</Lable>
-                  <Dropdown
+
+                  <Select
+                    options={availableExchanges}
+                    value={selectedExchangeId}
+                    keyname="id"
+                    isDisabled={webCryptoStatus !== 'secure'}
+                    placeholder={t('pleaseSelectExchange')}
+                    onChange={(value: any) => setSelectedExchangeId(value)}
+                    renderOption={(item) => (
+                      <span>
+                        {getShortName(item.name)} ({item.type.toUpperCase()})
+                      </span>
+                    )}
+                  />
+
+                  {/* <Dropdown
                     lable={t('pleaseSelectExchange')}
                     open={showTwoStageKeyModal}
                     DropdownDataList={availableExchanges}
@@ -258,7 +275,7 @@ export function ExchangeConfigModal({ allExchanges, editingExchangeId, onSave, o
                     setSelectId={setSelectedExchangeId}
                     setOpen={setShowTwoStageKeyModal}
                     isDisabled={webCryptoStatus !== 'secure'}
-                  />
+                  /> */}
                 </FromGroup>
               </div>
             )}
@@ -266,7 +283,7 @@ export function ExchangeConfigModal({ allExchanges, editingExchangeId, onSave, o
             {selectedExchange && (
               <ExchangeCard>
                 <ExchangeHeader>
-                  <ExchangeIconWrapper>{getExchangeIcon(selectedExchange.id, { width: 48, height: 48 })}</ExchangeIconWrapper>
+                  <ExchangeIconWrapper>{getExchangeIcon(selectedExchange.id)}</ExchangeIconWrapper>
                   <div>
                     <ExchangeName>{getShortName(selectedExchange.name)}</ExchangeName>
                     <ExchangeSubText>
@@ -397,11 +414,8 @@ export function ExchangeConfigModal({ allExchanges, editingExchangeId, onSave, o
                   <>
                     {/* 安全提示 banner */}
                     <Tips>
-                      <span style={{ color: '#F0B90B', fontSize: '16px' }}>🔐</span>
-                      <div>
-                        <h2>{t('hyperliquidAgentWalletTitle')}</h2>
-                        <p>{t('hyperliquidAgentWalletDesc')}</p>
-                      </div>
+                      <h2>{t('hyperliquidAgentWalletTitle')}</h2>
+                      <p>{t('hyperliquidAgentWalletDesc')}</p>
                     </Tips>
 
                     {/* Agent Private Key 字段 */}
@@ -539,16 +553,23 @@ const ModalWrapper = styled.div`
 
 const Form = styled.form`
   padding-bottom: 24px;
+
+  @media (max-width: 768px) {
+    padding-bottom: 12px;
+  }
 `
 
-const ScrollArea = styled.div<{ $id: string; $selectOpen: boolean }>`
+const ScrollArea = styled.div`
   margin-top: 4px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  overflow-y: ${({ $id, $selectOpen }) => ($id !== 'aster' || $selectOpen ? 'auto' : 'visible')};
+  overflow-y: auto;
   max-height: calc(100vh - 20rem);
   padding: 0 24px;
+  @media (max-width: 768px) {
+    padding: 0 12px;
+  }
 `
 
 const Header = styled.div`
@@ -559,6 +580,9 @@ const Header = styled.div`
   position: sticky;
   top: 0;
   z-index: 10;
+  @media (max-width: 768px) {
+    padding: 12px 12px 10px 12px;
+  }
 `
 
 const Title = styled.h3`
@@ -567,6 +591,10 @@ const Title = styled.h3`
   font-weight: bold;
   border-radius: 8px;
   background: var(--brand-green);
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
 `
 
 // 查看指南按钮（仅在 binance 时出现）
@@ -610,6 +638,10 @@ const FromGroup = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+
+  @media (max-width: 768px) {
+    gap: 4px;
+  }
 `
 
 const FromCustomGroup = styled.div`
@@ -639,7 +671,13 @@ const GroupButton = styled.button<{ $clear?: boolean }>`
   border-radius: 8px;
   font-size: 14px;
   color: #fff;
+  white-space: nowrap;
   background-color: ${({ $clear }) => ($clear ? '#F6465D' : '#000')};
+
+  @media (max-width: 768px) {
+    padding: 10px 8px;
+    font-size: 12px;
+  }
 `
 
 const Lable = styled.span`
@@ -648,28 +686,19 @@ const Lable = styled.span`
   gap: 4px;
   font-size: 16px;
   font-weight: bold;
-`
 
-const Input = styled.input`
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-size: 14px;
-  background: #fff;
-  border: 1px solid #a3a3a7;
-
-  &::placeholder {
-    color: #848e9c;
-  }
-
-  &:focus {
-    outline: 1px solid var(--brand-green);
+  @media (max-width: 768px) {
+    font-size: 14px;
   }
 `
 
 const ExchangeCard = styled.div`
-  padding: 12px 24px;
+  padding: 16px 24px;
   border-radius: 8px;
   background: #f3f3f3;
+  @media (max-width: 768px) {
+    padding: 8px 12px;
+  }
 `
 
 const ExchangeHeader = styled.div`
@@ -684,10 +713,24 @@ const ExchangeIconWrapper = styled.div`
   justify-content: center;
   width: 48px;
   height: 48px;
+
+  img,
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+  @media (max-width: 768px) {
+    width: 32px;
+    height: 32px;
+  }
 `
 
 const ExchangeName = styled.div`
+  font-size: 16px;
   font-weight: bold;
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
 `
 
 const ExchangeSubText = styled.div`
@@ -721,6 +764,10 @@ const GuideTitle = styled.span`
   strong {
     font-weight: 700;
   }
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `
 
 const ArrowIcon = styled.img`
@@ -733,6 +780,9 @@ const GuideContent = styled.div`
   padding-top: 12px;
   border-top: 1px solid #000;
   font-size: 14px;
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `
 
 const GuideParagraph = styled.p`
@@ -747,6 +797,9 @@ const GuideStepTitle = styled.p`
   font-size: 14px;
   font-weight: bold;
   margin-bottom: 4px;
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `
 
 const GuideSteps = styled.ol`
@@ -769,6 +822,9 @@ const WarningBox = styled.p`
 const GuideLink = styled.a`
   display: inline-block;
   font-size: 14px;
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
   &:hover {
     text-decoration: underline;
   }
@@ -777,15 +833,23 @@ const GuideLink = styled.a`
 const WhitelistIPBox = styled.div`
   padding: 24px;
   background: #f3f3f3;
-  border-radius: 16px;
-
+  border-radius: 8px;
   h2 {
     font-size: 16px;
     font-weight: bold;
   }
-
   span {
     font-size: 14px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 12px;
+    h2 {
+      font-size: 14px;
+    }
+    span {
+      font-size: 12px;
+    }
   }
 `
 
@@ -795,6 +859,10 @@ const IpInfo = styled.div`
   justify-content: space-between;
   margin-top: 8px;
   font-size: 14px;
+  @media (max-width: 768px) {
+    margin-top: 4px;
+    font-size: 12px;
+  }
 
   code {
     color: #f0b90b;
@@ -804,13 +872,17 @@ const IpInfo = styled.div`
     padding: 4px 8px;
     border-radius: 8px;
     border: 1px solid #000;
+
+    @media (max-width: 768px) {
+      padding: 2px 4px;
+    }
   }
 `
 
 const Tips = styled.div`
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
+  flex-direction: column;
+  gap: 8px;
   padding: 12px 24px;
   background: #f3f3f3;
   border-radius: 8px;
@@ -819,11 +891,21 @@ const Tips = styled.div`
     font-size: 16px;
     font-weight: bold;
   }
-  span {
-    color: #000;
-  }
+
   p {
     font-size: 14px;
+  }
+
+  @media (max-width: 768px) {
+    gap: 4px;
+    padding: 6px 12px;
+    font-size: 14px;
+    h2 {
+      font-size: 14px;
+    }
+    p {
+      font-size: 12px;
+    }
   }
 `
 
@@ -860,6 +942,11 @@ const Footer = styled.div`
   padding: 24px 24px 0;
   position: sticky;
   bottom: 0;
+
+  @media (max-width: 768px) {
+    margin-top: 12px;
+    padding: 12px 12px 0;
+  }
 `
 
 const CancelButton = styled.button`
@@ -869,6 +956,10 @@ const CancelButton = styled.button`
   font-size: 16px;
   font-weight: bold;
   border: 1px solid #191a23;
+  @media (max-width: 768px) {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
 `
 
 const SaveButton = styled(CancelButton)`
