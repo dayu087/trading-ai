@@ -1,7 +1,6 @@
 import { styled } from 'styled-components'
 import { useTranslation } from 'react-i18next'
 
-import logo from '@/assets/images/home_logo_1.png'
 import frameArrow from '@/assets/images/Frame.png'
 
 export default function FooterSection() {
@@ -12,7 +11,7 @@ export default function FooterSection() {
         {/* BRAND */}
         <BrandRow>
           <BrandLogoBox>
-            <BrandLogo src={logo} alt="Valkynor Logo" />
+            <BrandLogo src="/images/logo.png" alt="Valkynor Logo" />
           </BrandLogoBox>
           <BrandInfo>
             <BrandTitle>Valkynor</BrandTitle>

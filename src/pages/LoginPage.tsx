@@ -7,7 +7,6 @@ import { Eye, EyeOff } from 'lucide-react'
 
 import Input from '@/components/ui/InputBox'
 
-import logoIcon from '@/assets/images/home_logo_1.png'
 import vaikynorIcon from '@/assets/images/log_img_bg.png'
 
 export function LoginPage() {
@@ -83,7 +82,7 @@ export function LoginPage() {
           {/* Logo 部分 */}
           <LogoSection>
             <LogoAvatar>
-              <img src={logoIcon} alt="Valkynor Logo" />
+              <img src="/images/logo.png" alt="Valkynor Logo" />
             </LogoAvatar>
             <h1>Log in to Valkynor</h1>
             <p>{step === 'login' ? 'Please enter your email and password' : '请输入两步验证码'}</p>

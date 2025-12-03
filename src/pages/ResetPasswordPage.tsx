@@ -6,7 +6,6 @@ import { useAuth } from '../contexts/AuthContext'
 import { ArrowLeft } from 'lucide-react'
 import Input from '@/components/ui/InputBox'
 
-import logoIcon from '@/assets/images/home_logo_1.png'
 import vaikynorIcon from '@/assets/images/log_img_bg.png'
 
 export function ResetPasswordPage() {
@@ -76,7 +75,7 @@ export function ResetPasswordPage() {
           {/* Logo */}
           <LogoSection>
             <LogoAvatar>
-              <img src={logoIcon} alt="logo" />
+              <img src="/images/logo.png" alt="logo" />
             </LogoAvatar>
             <h1>{t('resetPasswordTitle')}</h1>
             <p>使用邮箱和 Google Authenticator 重置密码</p>

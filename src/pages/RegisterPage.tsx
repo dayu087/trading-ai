@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom'
 import { getSystemConfig } from '../lib/config'
 import { Eye, EyeOff } from 'lucide-react'
 
-import logoIcon from '@/assets/images/home_logo_1.png'
 import vaikynorIcon from '@/assets/images/log_img_bg.png'
 
 // 本地密码强度校验（与 UI 规则一致）
@@ -129,7 +128,7 @@ export function RegisterPage() {
           {/* Logo */}
           <LogoSection $step={step}>
             <LogoAvatar>
-              <img src={logoIcon} alt="Valkynor Logo" />
+              <img src="/images/logo.png" alt="Valkynor Logo" />
             </LogoAvatar>
             <h1> Valkynor</h1>
             <p>
