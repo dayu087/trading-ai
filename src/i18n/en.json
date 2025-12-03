@@ -48,7 +48,7 @@
   "noActivePositions": "No active trading positions",
 
   "recentDecisions": "Recent Decisions",
-  "lastCycles": "Last {count} trading cycles",
+  "lastCycles": "Last {{count}} trading cycles",
   "noDecisionsYet": "No Decisions Yet",
   "aiDecisionsWillAppear": "AI trading decisions will appear here",
   "cycle": "Cycle",

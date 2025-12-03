@@ -48,7 +48,7 @@
   "noActivePositions": "当前没有活跃的交易持仓",
 
   "recentDecisions": "最近决策",
-  "lastCycles": "最近 {count} 个交易周期",
+  "lastCycles": "最近 {{count}} 个交易周期",
   "noDecisionsYet": "暂无决策",
   "aiDecisionsWillAppear": "AI交易决策将显示在这里",
   "cycle": "周期",
