@@ -42,12 +42,12 @@ const LandingContainer = styled.section`
   padding-top: 6.5rem;
 
   @media (max-width: 1220px) {
-    padding-left: 16px;
-    padding-right: 16px;
+    padding-left: 32px;
+    padding-right: 32px;
   }
 
   @media (max-width: 768px) {
-    padding-top: 1rem;
+    padding: 1rem 0 0;
     gap: 4rem;
   }
 `

@@ -53,7 +53,7 @@ export default function HeroSection({ setShowLoginModal }: { setShowLoginModal: 
 
           {/* Right */}
           <RightWrapper style={{ opacity, scale }} whileHover={{ scale: 1.02 }} transition={{ type: 'spring', stiffness: 300 }}>
-            <BgImage initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} src={homeVaikynorIcon} alt=" Platform Background" style={{ opacity, scale }} />
+            <BgImage initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} src={homeVaikynorIcon} alt=" Platform Background" />
           </RightWrapper>
         </Grid>
       </HeroContainer>
@@ -86,7 +86,7 @@ const Grid = styled.div`
   justify-content: center;
   flex-wrap: wrap;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1220px) {
     flex-direction: column-reverse;
     gap: 40px;
   }
@@ -222,7 +222,7 @@ const RightWrapper = styled(motion.div)`
 
   @media (max-width: 1220px) {
     width: 100%;
-    height: auto;
+    height: 100%;
     aspect-ratio: 496 / 362;
   }
 `
