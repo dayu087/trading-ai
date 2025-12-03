@@ -96,7 +96,6 @@ const PreviewImageBox = styled(motion.div)`
 
 const PreviewImageItem = styled.div`
   flex: 1 1 50%;
-  max-width: 600px;
   height: auto;
   box-shadow: 4px 4px 0px 0px #191a23;
   border-radius: 24px;

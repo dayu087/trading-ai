@@ -41,6 +41,11 @@ const LandingContainer = styled.section`
   width: 100%;
   padding-top: 6.5rem;
 
+  @media (max-width: 1220px) {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
   @media (max-width: 768px) {
     padding-top: 1rem;
     gap: 4rem;

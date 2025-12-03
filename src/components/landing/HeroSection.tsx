@@ -86,7 +86,6 @@ const Grid = styled.div`
   justify-content: center;
   flex-wrap: wrap;
 
-  /* Mobile: 改为垂直布局、减小间距 */
   @media (max-width: 768px) {
     flex-direction: column-reverse;
     gap: 40px;
@@ -101,37 +100,14 @@ const LeftWrapper = styled(motion.div)`
   flex-direction: column;
   gap: 2rem;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1220px) {
     max-width: 100%;
     text-align: center;
     align-items: center;
+  }
+
+  @media (max-width: 1220px) {
     gap: 1rem;
-  }
-`
-
-const Badge = styled(motion.div)`
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.625rem 1rem;
-  margin-bottom: 10px;
-  border-radius: 9999px;
-  background: #f3f3f3;
-  font-size: 0.875rem;
-  font-weight: bold;
-  color: #191a23;
-
-  img {
-    width: 24px;
-    height: 24px;
-  }
-
-  @media (max-width: 768px) {
-    font-size: 0.75rem;
-    img {
-      width: 20px;
-      height: 20px;
-    }
   }
 `
 
@@ -184,6 +160,10 @@ const ButtonRow = styled.div`
   flex-wrap: wrap;
   width: 100%;
   gap: 1.5rem;
+
+  @media (max-width: 1220px) {
+    justify-content: center;
+  }
 
   @media (max-width: 768px) {
     gap: 1rem;
@@ -240,8 +220,7 @@ const RightWrapper = styled(motion.div)`
   border: 1px solid #191a23;
   overflow: hidden;
 
-  /* Mobile: 缩小比例并保持不变形 */
-  @media (max-width: 768px) {
+  @media (max-width: 1220px) {
     width: 100%;
     height: auto;
     aspect-ratio: 496 / 362;
