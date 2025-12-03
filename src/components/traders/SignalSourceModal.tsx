@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { styled } from 'styled-components'
 import { useTranslation } from 'react-i18next'
 
-import Input from '@/components/ui/Input'
+import Input from '@/components/ui/InputBox'
 
 interface SignalSourceModalProps {
   coinPoolUrl: string

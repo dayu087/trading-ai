@@ -12,7 +12,7 @@ import { Tooltip } from './Tooltip'
 import { getShortName } from './utils'
 import useCopy from '@/hooks/useCopy'
 
-import Input from '@/components/ui/Input'
+import Input from '@/components/ui/InputBox'
 import Select from '@/components/ui/Select'
 import Dropdown from '@/components/ui/Dropdown'
 import GuideOverlay from './exchange/GuideOverlay'

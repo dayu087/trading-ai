@@ -6,7 +6,7 @@ import { traderModalDescTitleMap, traderModalDescMap, traderModalTemplateNameMap
 import { Tooltip } from './traders/Tooltip'
 import Checkbox from '@/components/ui/Checkbox'
 import SelectBox from '@/components/ui/Select'
-import Input from '@/components/ui/Input'
+import Input from '@/components/ui/InputBox'
 
 import botIcon from '@/assets/images/config_logo_bot.png'
 import frameIcon from '@/assets/images/Frame.png'

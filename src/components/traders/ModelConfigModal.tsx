@@ -7,7 +7,7 @@ import { getModelIcon } from '../ModelIcons'
 import { getShortName } from './utils'
 
 import Select from '@/components/ui/Select'
-import Input from '@/components/ui/Input'
+import Input from '@/components/ui/InputBox'
 
 import lessIcon from '@/assets/images/dashboard_icon_arrowless.png'
 import moreIcon from '@/assets/images/dashboard_icon_arrowmore.png'

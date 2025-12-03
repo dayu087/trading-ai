@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import { Eye, EyeOff } from 'lucide-react'
 
-import Input from '@/components/ui/Input'
+import Input from '@/components/ui/InputBox'
 
 import logoIcon from '@/assets/images/home_logo_1.png'
 import vaikynorIcon from '@/assets/images/log_img_bg.png'
