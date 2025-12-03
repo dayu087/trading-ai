@@ -9,7 +9,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(({ className, type 
 
   return (
     <InputGroup>
-      <InputSection className={className} ref={ref} type={showPassword ? 'text' : type} {...props} />
+      <InputSection className={className} ref={ref} type={showPassword ? 'text' : type} {...props} autoComplete={type === 'password' ? 'current-password' : props.autoComplete} />
       {type === 'password' && <Toggle onClick={() => setShowPassword(!showPassword)}> {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}</Toggle>}
     </InputGroup>
   )
