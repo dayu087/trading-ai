@@ -65,8 +65,6 @@ export default function AILearning({ traderId }: AILearningProps) {
     dedupingInterval: 20000,
   })
 
-  console.log(performance, 'performance')
-
   const handlePerformanceTips = (type: number, isDesc: boolean = false) => {
     const tips = [t('poorPerformance'), t('averagePerformance'), t('goodPerformance'), t('outstandingPerformance')]
     const tipDescs = [t('poorPerformanceDesc'), t('averagePerformanceDesc'), t('goodPerformanceDesc'), t('outstandingPerformanceDesc')]

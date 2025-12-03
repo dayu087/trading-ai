@@ -24,15 +24,22 @@ export default function FooterView() {
 
 const FooterWrapper = styled.footer`
   margin-top: 4rem; /* mt-16 */
-  background: #ffffff;
+
+  @media (max-width: 768px) {
+    margin-top: 2rem;
+  }
 `
 
 const FooterInner = styled.div`
-  max-width: 1920px;
+  max-width: 1220px;
   margin: 0 auto;
   padding: 1.5rem; /* px-6 py-6 */
   text-align: center;
   font-size: 0.875rem; /* text-sm */
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `
 
 const GithubButton = styled.a`
@@ -45,6 +52,10 @@ const GithubButton = styled.a`
   font-weight: 600;
   border: 1px solid #2b3139;
   transition: all 0.2s;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 
   &:hover {
     transform: scale(1.05);
