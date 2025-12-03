@@ -1,10 +1,9 @@
 import { useState } from 'react'
 import { styled } from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts'
 import useSWR from 'swr'
 import { api } from '../lib/api'
-import { useLanguage } from '../contexts/LanguageContext'
-import { t } from '../i18n/translations'
 import { AlertTriangle, BarChart3, DollarSign, Percent, TrendingUp as ArrowUp, TrendingDown as ArrowDown } from 'lucide-react'
 
 interface EquityPoint {
@@ -20,8 +19,8 @@ interface EquityChartProps {
 }
 
 export function EquityChart({ traderId }: EquityChartProps) {
-  const { language } = useLanguage()
   const [displayMode, setDisplayMode] = useState<'dollar' | 'percent'>('dollar')
+  const { t } = useTranslation()
 
   const { data: history, error } = useSWR<EquityPoint[]>(traderId ? `equity-history-${traderId}` : 'equity-history', () => api.getEquityHistory(traderId), {
     refreshInterval: 30000, // 30秒刷新（历史数据更新频率较低）
@@ -48,7 +47,7 @@ export function EquityChart({ traderId }: EquityChartProps) {
           <AlertTriangle className="w-6 h-6" style={{ color: '#F6465D' }} />
           <div>
             <div className="font-semibold" style={{ color: '#F6465D' }}>
-              {t('loadingError', language)}
+              {t('loadingError')}
             </div>
             <div className="text-sm" style={{ color: '#848E9C' }}>
               {error.message}
@@ -66,14 +65,14 @@ export function EquityChart({ traderId }: EquityChartProps) {
     return (
       <div className="binance-card p-6">
         <h3 className="text-lg font-semibold mb-6" style={{ color: '#EAECEF' }}>
-          {t('accountEquityCurve', language)}
+          {t('accountEquityCurve')}
         </h3>
         <div className="text-center py-16" style={{ color: '#848E9C' }}>
           <div className="mb-4 flex justify-center opacity-50">
             <BarChart3 className="w-16 h-16" />
           </div>
-          <div className="text-lg font-semibold mb-2">{t('noHistoricalData', language)}</div>
-          <div className="text-sm">{t('dataWillAppear', language)}</div>
+          <div className="text-lg font-semibold mb-2">{t('noHistoricalData')}</div>
+          <div className="text-sm">{t('dataWillAppear')}</div>
         </div>
       </div>
     )
@@ -161,7 +160,7 @@ export function EquityChart({ traderId }: EquityChartProps) {
       {/* Header */}
       <Header>
         <div className="left">
-          <Title>{t('accountEquityCurve', language)}</Title>
+          <Title>{t('accountEquityCurve')}</Title>
           <div className="row">
             <EquityValue>
               {account?.total_equity.toFixed(2) || '0.00'}
@@ -234,7 +233,7 @@ export function EquityChart({ traderId }: EquityChartProps) {
               stroke="#474D57"
               strokeDasharray="3 3"
               label={{
-                value: displayMode === 'dollar' ? t('initialBalance', language).split(' ')[0] : '0%',
+                value: displayMode === 'dollar' ? t('initialBalance').split(' ')[0] : '0%',
                 fill: '#848E9C',
                 fontSize: 12,
               }}
@@ -261,25 +260,25 @@ export function EquityChart({ traderId }: EquityChartProps) {
       {/* ---- Footer ---- */}
       <FooterGrid>
         <FooterItem>
-          <FooterLabel>{t('initialBalance', language)}</FooterLabel>
+          <FooterLabel>{t('initialBalance')}</FooterLabel>
           <FooterValue>{initialBalance.toFixed(2)} USDT</FooterValue>
         </FooterItem>
 
         <FooterItem>
-          <FooterLabel>{t('currentEquity', language)}</FooterLabel>
+          <FooterLabel>{t('currentEquity')}</FooterLabel>
           <FooterValue>{currentValue.raw_equity.toFixed(2)} USDT</FooterValue>
         </FooterItem>
 
         <FooterItem>
-          <FooterLabel>{t('historicalCycles', language)}</FooterLabel>
+          <FooterLabel>{t('historicalCycles')}</FooterLabel>
           <FooterValue>
-            {validHistory.length} {t('cycles', language)}
+            {validHistory.length} {t('cycles')}
           </FooterValue>
         </FooterItem>
 
         <FooterItem>
-          <FooterLabel>{t('displayRange', language)}</FooterLabel>
-          <FooterValue>{validHistory.length > MAX_DISPLAY_POINTS ? `${t('recent', language)} ${MAX_DISPLAY_POINTS}` : t('allData', language)}</FooterValue>
+          <FooterLabel>{t('displayRange')}</FooterLabel>
+          <FooterValue>{validHistory.length > MAX_DISPLAY_POINTS ? `${t('recent')} ${MAX_DISPLAY_POINTS}` : t('allData')}</FooterValue>
         </FooterItem>
       </FooterGrid>
     </CardWrapper>

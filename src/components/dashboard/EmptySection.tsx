@@ -1,7 +1,8 @@
 import { styled } from 'styled-components'
-import { t, type Language } from '../../i18n/translations'
+import { useTranslation } from 'react-i18next'
 
-export default function EmptySection({ language, toTraders }: { language: Language; toTraders: () => void }) {
+export default function EmptySection({ toTraders }: { toTraders: () => void }) {
+  const { t } = useTranslation()
   return (
     <EmptyContainer>
       <EmptyInner>
@@ -12,10 +13,10 @@ export default function EmptySection({ language, toTraders }: { language: Langua
             <path d="M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
           </svg>
         </IconCircle>
-        <EmptyTitle>{t('dashboardEmptyTitle', language)}</EmptyTitle>
-        <EmptyDesc>{t('dashboardEmptyDescription', language)}</EmptyDesc>
+        <EmptyTitle>{t('dashboardEmptyTitle')}</EmptyTitle>
+        <EmptyDesc>{t('dashboardEmptyDescription')}</EmptyDesc>
 
-        <CTAButton onClick={toTraders}>{t('goToTradersPage', language)}</CTAButton>
+        <CTAButton onClick={toTraders}>{t('goToTradersPage')}</CTAButton>
       </EmptyInner>
     </EmptyContainer>
   )

@@ -36,8 +36,6 @@ export default function Select({ options, value, keyname, isDisabled, onChange, 
     setOpen(false)
   }
 
-  console.log(options, keyname, 'options')
-
   const selectedObj = options.find((o) => o[keyname] === value) || null
 
   return (

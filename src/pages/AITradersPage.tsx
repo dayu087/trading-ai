@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { styled } from 'styled-components'
 import useSWR from 'swr'
 import { api } from '../lib/api'
-import { useLanguage } from '../contexts/LanguageContext'
 import { useAuth } from '../contexts/AuthContext'
 import { useTradersConfigStore, useTradersModalStore } from '../stores'
 import { useTraderActions } from '@/hooks/useTraderActions'
@@ -20,7 +19,6 @@ interface AITradersPageProps {
 }
 
 export function AITradersPage({ onTraderSelect }: AITradersPageProps) {
-  const { language } = useLanguage()
   const { user, token } = useAuth()
   const navigate = useNavigate()
 
@@ -90,7 +88,6 @@ export function AITradersPage({ onTraderSelect }: AITradersPageProps) {
     allExchanges,
     supportedModels,
     supportedExchanges,
-    language,
     mutateTraders,
     setAllModels,
     setAllExchanges,
@@ -146,7 +143,7 @@ export function AITradersPage({ onTraderSelect }: AITradersPageProps) {
       />
 
       {/* Signal Source Warning */}
-      {showSignalWarning && <SignalSourceWarning language={language} onConfigure={() => setShowSignalSourceModal(true)} />}
+      {showSignalWarning && <SignalSourceWarning onConfigure={() => setShowSignalSourceModal(true)} />}
 
       {/* Configuration Status */}
       <ConfigurationSection>

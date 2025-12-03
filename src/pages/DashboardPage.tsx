@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import useSWR from 'swr'
 import { api } from '../lib/api'
 import styled, { keyframes } from 'styled-components'
-import { t } from '../i18n/translations'
+
 import { EquityChart } from '../components/EquityChart'
-import { useLanguage } from '../contexts/LanguageContext'
 import { useAuth } from '../contexts/AuthContext'
 import type { SystemStatus, AccountInfo, Position, DecisionRecord, Statistics } from '@/types'
 import AILearning from '../components/AILearning'
@@ -34,7 +34,7 @@ function getModelDisplayName(modelId: string): string {
 
 export default function TraderDetails() {
   const [lastUpdate, setLastUpdate] = useState<string>('--:--:--')
-  const { language } = useLanguage()
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { selectedTraderData, traders, tradersError, selectedTraderId, setSelectedTraderId } = useAuth()
 
@@ -76,8 +76,8 @@ export default function TraderDetails() {
     }
   }, [account])
 
-  if (tradersError) return <EmptySection language={language} toTraders={() => navigate('/traders')} />
-  if (traders && !traders?.length) return <EmptySection language={language} toTraders={() => navigate('/traders')} />
+  if (tradersError) return <EmptySection toTraders={() => navigate('/traders')} />
+  if (traders && !traders?.length) return <EmptySection toTraders={() => navigate('/traders')} />
 
   // If traders is still loading or selectedTrader is not ready, show skeleton
   if (!selectedTraderData) return <SkeletonLoad />
@@ -93,7 +93,7 @@ export default function TraderDetails() {
           {/* Trader Selector */}
           {traders && traders.length > 0 && (
             <SelectorRow>
-              <SelectorLabel>{t('switchTrader', language)}</SelectorLabel>
+              <SelectorLabel>{t('switchTrader')}</SelectorLabel>
               <Select value={selectedTraderId} onChange={(e) => setSelectedTraderId(e.target.value)}>
                 {traders.map((trader) => (
                   <option key={trader.trader_id} value={trader.trader_id}>
@@ -133,23 +133,21 @@ export default function TraderDetails() {
       <StatsGrid>
         <StatCard
           index={1}
-          title={t('totalEquity', language)}
+          title={t('totalEquity')}
           value={`${account?.total_equity?.toFixed(2) || '0.00'}`}
           change={account?.total_pnl_pct || 0}
           positive={(account?.total_pnl ?? 0) > 0}
         />
         <StatCard
           index={2}
-          title={t('availableBalance', language)}
+          title={t('availableBalance')}
           value={`${account?.available_balance?.toFixed(2) || '0.00'}`}
-          subtitle={`${
-            account?.available_balance && account?.total_equity ? ((account.available_balance / account.total_equity) * 100).toFixed(1) : '0.0'
-          }% ${t('free', language)}`}
+          subtitle={`${account?.available_balance && account?.total_equity ? ((account.available_balance / account.total_equity) * 100).toFixed(1) : '0.0'}% ${t('free')}`}
           bg="#CAFE36"
         />
         <StatCard
           index={3}
-          title={t('totalPnL', language)}
+          title={t('totalPnL')}
           value={`${account?.total_pnl !== undefined && account.total_pnl >= 0 ? '+' : ''}${account?.total_pnl?.toFixed(2) || '0.00'}`}
           change={account?.total_pnl_pct || 0}
           positive={(account?.total_pnl ?? 0) >= 0}
@@ -157,9 +155,9 @@ export default function TraderDetails() {
         <StatCard
           index={4}
           isChange={true}
-          title={t('positions', language)}
+          title={t('positions')}
           value={`${account?.position_count || 0}`}
-          subtitle={`${t('margin', language)}: ${account?.margin_used_pct?.toFixed(1) || '0.0'}%`}
+          subtitle={`${t('margin')}: ${account?.margin_used_pct?.toFixed(1) || '0.0'}%`}
           bg="#191A23"
         />
       </StatsGrid>
@@ -174,10 +172,10 @@ export default function TraderDetails() {
           {/* Current Positions */}
           <PositionsCard>
             <PositionsHeader>
-              <PositionsTitle>{t('currentPositions', language)}</PositionsTitle>
+              <PositionsTitle>{t('currentPositions')}</PositionsTitle>
               {positions && positions.length > 0 && (
                 <PositionsCount>
-                  {positions.length} {t('active', language)}
+                  {positions.length} {t('active')}
                 </PositionsCount>
               )}
             </PositionsHeader>
@@ -190,8 +188,8 @@ export default function TraderDetails() {
           <DecisionsCard>
             <DecisionsHeader>
               <div>
-                <DecisionsTitle>{t('recentDecisions', language)}</DecisionsTitle>
-                {decisions && decisions.length > 0 && <DecisionsSub>{t('lastCycles', language, { count: decisions.length })}</DecisionsSub>}
+                <DecisionsTitle>{t('recentDecisions')}</DecisionsTitle>
+                {decisions && decisions.length > 0 && <DecisionsSub>{t('lastCycles', { count: decisions.length })}</DecisionsSub>}
               </div>
             </DecisionsHeader>
 
@@ -201,8 +199,8 @@ export default function TraderDetails() {
               ) : (
                 <EmptyDecisions>
                   <div className="emoji">🧠</div>
-                  <EmptyDecisionsTitle>{t('noDecisionsYet', language)}</EmptyDecisionsTitle>
-                  <EmptyDecisionsDesc>{t('aiDecisionsWillAppear', language)}</EmptyDecisionsDesc>
+                  <EmptyDecisionsTitle>{t('noDecisionsYet')}</EmptyDecisionsTitle>
+                  <EmptyDecisionsDesc>{t('aiDecisionsWillAppear')}</EmptyDecisionsDesc>
                 </EmptyDecisions>
               )}
             </DecisionsList>

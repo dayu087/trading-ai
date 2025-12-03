@@ -1,12 +1,12 @@
 import { AlertTriangle } from 'lucide-react'
-import { t, type Language } from '../../../i18n/translations'
+import { useTranslation } from 'react-i18next'
 
 interface SignalSourceWarningProps {
-  language: Language
   onConfigure: () => void
 }
 
-export function SignalSourceWarning({ language, onConfigure }: SignalSourceWarningProps) {
+export function SignalSourceWarning({ onConfigure }: SignalSourceWarningProps) {
+  const { t } = useTranslation()
   return (
     <div
       className="rounded-lg px-4 py-3 flex items-start gap-3 animate-slide-in mb-8"
@@ -18,15 +18,15 @@ export function SignalSourceWarning({ language, onConfigure }: SignalSourceWarni
       <AlertTriangle size={20} className="flex-shrink-0 mt-0.5" style={{ color: '#F6465D' }} />
       <div className="flex-1">
         <div className="font-semibold mb-1" style={{ color: '#F6465D' }}>
-          ⚠️ {t('signalSourceNotConfigured', language)}
+          ⚠️ {t('signalSourceNotConfigured')}
         </div>
         <div className="text-sm" style={{ color: '#848E9C' }}>
-          <p className="mb-2">{t('signalSourceWarningMessage', language)}</p>
+          <p className="mb-2">{t('signalSourceWarningMessage')}</p>
           <p>
-            <strong>{t('solutions', language)}</strong>
+            <strong>{t('solutions')}</strong>
           </p>
           <ul className="list-disc list-inside space-y-1 ml-2 mt-1">
-            <li>点击"{t('signalSource', language)}"按钮配置API地址</li>
+            <li>点击"{t('signalSource')}"按钮配置API地址</li>
             <li>或在交易员配置中禁用"使用币种池"和"使用OI Top"</li>
             <li>或在交易员配置中设置自定义币种列表</li>
           </ul>
@@ -39,7 +39,7 @@ export function SignalSourceWarning({ language, onConfigure }: SignalSourceWarni
             color: '#000',
           }}
         >
-          {t('configureSignalSourceNow', language)}
+          {t('configureSignalSourceNow')}
         </button>
       </div>
     </div>

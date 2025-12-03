@@ -1,20 +1,21 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
+import { styled } from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
-import { useLanguage } from '../contexts/LanguageContext'
-import { t } from '../i18n/translations'
 import { Eye, EyeOff } from 'lucide-react'
+
+import Input from '@/components/ui/Input'
+
 import logoIcon from '@/assets/images/home_logo_1.png'
 import vaikynorIcon from '@/assets/images/log_img_bg.png'
 
 export function LoginPage() {
-  const { language } = useLanguage()
+  const { t } = useTranslation()
   const { login, loginAdmin, verifyOTP } = useAuth()
   const [step, setStep] = useState<'login' | 'otp'>('login')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
   const [otpCode, setOtpCode] = useState('')
   const [userID, setUserID] = useState('')
   const [error, setError] = useState('')
@@ -33,7 +34,7 @@ export function LoginPage() {
 
     const result = await loginAdmin(adminPassword)
     if (!result.success) {
-      setError(result.message || t('loginFailed', language))
+      setError(result.message || t('loginFailed'))
     }
     setLoading(false)
   }
@@ -52,7 +53,7 @@ export function LoginPage() {
         setStep('otp')
       }
     } else {
-      setError(result.message || t('loginFailed', language))
+      setError(result.message || t('loginFailed'))
     }
 
     setLoading(false)
@@ -66,7 +67,7 @@ export function LoginPage() {
 
     const result = await verifyOTP(userID, otpCode)
     if (!result.success) {
-      setError(result.message || t('verificationFailed', language))
+      setError(result.message || t('verificationFailed'))
     }
 
     setLoading(false)
@@ -94,52 +95,27 @@ export function LoginPage() {
               <FormSection onSubmit={handleAdminLogin}>
                 <div style={{ marginBottom: '1rem' }}>
                   <Label>管理员密码</Label>
-                  <input
-                    type="password"
-                    value={adminPassword}
-                    onChange={(e) => setAdminPassword(e.target.value)}
-                    style={{
-                      width: '100%',
-                      padding: '0.5rem',
-                      borderRadius: '0.5rem',
-                      background: 'var(--brand-black)',
-                      border: '1px solid var(--panel-border)',
-                      color: 'var(--brand-light-gray)',
-                    }}
-                    placeholder="请输入管理员密码"
-                    required
-                  />
+                  <Input type="password" value={adminPassword} onChange={(e) => setAdminPassword(e.target.value)} placeholder="请输入管理员密码" required />
                 </div>
                 {error && <ErrorBox>{error}</ErrorBox>}
                 <Button type="submit" disabled={loading}>
-                  {loading ? t('loading', language) : '登录'}
+                  {loading ? t('loading') : '登录'}
                 </Button>
               </FormSection>
             ) : step === 'login' ? (
               <FormSection onSubmit={handleLogin}>
                 <FormGroup>
-                  <Label>{t('email', language)}</Label>
-                  <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={t('emailPlaceholder', language)} required />
+                  <Label>{t('email')}</Label>
+                  <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder={t('emailPlaceholder')} required />
                 </FormGroup>
                 <FormGroup>
-                  <Label>{t('password', language)}</Label>
-                  <InputGroup>
-                    <Input
-                      type={showPassword ? 'text' : 'password'}
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      placeholder={t('passwordPlaceholder', language)}
-                      required
-                    />
-                    <PasswordToggle type="button" onClick={() => setShowPassword((v) => !v)}>
-                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                    </PasswordToggle>
-                  </InputGroup>
-                  <span onClick={() => navigate('/reset-password')}>{t('forgotPassword', language)}</span>
+                  <Label>{t('password')}</Label>
+                  <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder={t('passwordPlaceholder')} required />
+                  <span onClick={() => navigate('/reset-password')}>{t('forgotPassword')}</span>
                 </FormGroup>
                 {error && <ErrorBox>{error}</ErrorBox>}
                 <Button type="submit" disabled={loading}>
-                  {loading ? t('loading', language) : t('loginButton', language)}
+                  {loading ? t('loading') : t('loginButton')}
                 </Button>
               </FormSection>
             ) : (
@@ -148,22 +124,22 @@ export function LoginPage() {
                 <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
                   <div style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>📱</div>
                   <p style={{ fontSize: '0.875rem', color: '#848E9C' }}>
-                    {t('scanQRCodeInstructions', language)}
+                    {t('scanQRCodeInstructions')}
                     <br />
-                    {t('enterOTPCode', language)}
+                    {t('enterOTPCode')}
                   </p>
                 </div>
                 <div style={{ marginBottom: '1rem' }}>
-                  <Label>{t('otpCode', language)}</Label>
+                  <Label>{t('otpCode')}</Label>
                   <Input type="text" value={otpCode} onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))} maxLength={6} required />
                 </div>
                 {error && <ErrorBox>{error}</ErrorBox>}
                 <div style={{ display: 'flex', gap: '0.75rem' }}>
                   <SecondaryButton type="button" onClick={() => setStep('login')}>
-                    {t('back', language)}
+                    {t('back')}
                   </SecondaryButton>
                   <OTPButton type="submit" disabled={loading || otpCode.length !== 6}>
-                    {loading ? t('loading', language) : t('verifyOTP', language)}
+                    {loading ? t('loading') : t('verifyOTP')}
                   </OTPButton>
                 </div>
               </FormSection>
@@ -290,27 +266,6 @@ const Label = styled.label`
   display: block;
   font-size: 0.875rem;
   font-weight: 600;
-`
-
-const InputGroup = styled.div`
-  position: relative;
-`
-
-const Input = styled.input`
-  width: 100%;
-  padding: 16px 24px;
-  border-radius: 8px;
-  font-size: 16px;
-  border: 1px solid #191a23;
-  background: #fff;
-
-  &:focus {
-    outline: 1px solid #cafe36;
-  }
-
-  &::placeholder {
-    color: #848e9c;
-  }
 `
 
 const Button = styled.button`

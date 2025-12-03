@@ -150,29 +150,8 @@ export default function HeaderBar() {
 
                 {userDropdownOpen && (
                   <UserDropdown>
-                    <div
-                      style={{
-                        padding: '8px 12px',
-                        borderBottom: '1px solid var(--panel-border)',
-                      }}
-                    >
-                      <div
-                        style={{
-                          fontSize: '0.75rem',
-                          color: 'var(--text-secondary)',
-                        }}
-                      >
-                        {t('loggedInAs')}
-                      </div>
-                      <div
-                        style={{
-                          fontSize: '0.875rem',
-                          color: 'var(--brand-light-gray)',
-                        }}
-                      >
-                        {user.email}
-                      </div>
-                    </div>
+                    <p> {t('loggedInAs')}</p>
+                    <h2> {user.email}</h2>
                     {logout && (
                       <UserDropdownItem
                         onClick={() => {
@@ -350,7 +329,7 @@ const NavButton = styled.button<{ $active?: boolean }>`
     }
   }
 
-  &::before {
+  /* &::before {
     position: absolute;
     bottom: -4px;
     left: calc(50% - 4px);
@@ -368,7 +347,7 @@ const NavButton = styled.button<{ $active?: boolean }>`
       content: '';
      
     }
-  `}
+  `} */
 `
 
 const CenterGroup = styled.div`
@@ -448,13 +427,23 @@ const UserDropdown = styled.div`
   right: 0;
   top: 100%;
   margin-top: 0.5rem;
-  width: 12rem;
+  padding: 0.5rem;
+  width: 100%;
   border-radius: 0.5rem;
   overflow: hidden;
-  background: var(--brand-dark-gray);
-  border: 1px solid var(--panel-border);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border: 1px solid #000;
+  background: #fff;
   z-index: 50;
+
+  p {
+    font-size: 0.875rem;
+    color: var(--brand-black);
+  }
+
+  h2 {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+  }
 `
 
 const UserDropdownItem = styled.button`
@@ -463,6 +452,7 @@ const UserDropdownItem = styled.button`
   padding: 8px 12px;
   font-size: 0.875rem;
   font-weight: 600;
+  border-radius: 8px;
   background: var(--binance-red-bg);
   color: var(--binance-red);
   transition: opacity 0.2s;

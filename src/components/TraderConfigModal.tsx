@@ -6,7 +6,7 @@ import { traderModalDescTitleMap, traderModalDescMap, traderModalTemplateNameMap
 import { Tooltip } from './traders/Tooltip'
 import Checkbox from '@/components/ui/Checkbox'
 import SelectBox from '@/components/ui/Select'
-import Input from '@/components/ui/input'
+import Input from '@/components/ui/Input'
 
 import botIcon from '@/assets/images/config_logo_bot.png'
 import frameIcon from '@/assets/images/Frame.png'
@@ -266,8 +266,8 @@ export function TraderConfigModal({ isOpen, onClose, traderData, isEditMode = fa
               <img src={botIcon} alt="" />
             </IconBox>
             <TitleBox>
-              <Title>{isEditMode ? '修改交易员' : '创建交易员'}</Title>
-              <Subtitle>{isEditMode ? '修改交易员配置参数' : '配置新的AI交易员'}</Subtitle>
+              <Title>{isEditMode ? t('editTrader') : t('createTrader')}</Title>
+              <Subtitle>{isEditMode ? t('modifyTheTraderConfigurationParameters') : t('configureNewAITrader')}</Subtitle>
             </TitleBox>
           </LeftSection>
           <CloseButton onClick={onClose}>✕</CloseButton>
@@ -277,17 +277,17 @@ export function TraderConfigModal({ isOpen, onClose, traderData, isEditMode = fa
         <ContentWrapper>
           {/* Basic Info */}
           <SectionCard>
-            <SectionTitle>🤖 基础配置</SectionTitle>
+            <SectionTitle>{t('basicConfiguration')}</SectionTitle>
 
             <FieldGroup>
               <FieldColumn>
-                <Label>交易员名称</Label>
-                <Input type="text" value={formData.trader_name} onChange={(e) => handleInputChange('trader_name', e.target.value)} placeholder="请输入交易员名称" />
+                <Label>{t('traderName')}</Label>
+                <Input type="text" value={formData.trader_name} onChange={(e) => handleInputChange('trader_name', e.target.value)} placeholder={t('enterTraderName')} />
               </FieldColumn>
 
               <Row2>
                 <FieldColumn>
-                  <Label>AI模型</Label>
+                  <Label>{t('AIModel')}</Label>
                   <SelectBox
                     value={formData.ai_model}
                     keyname="id"
@@ -299,7 +299,7 @@ export function TraderConfigModal({ isOpen, onClose, traderData, isEditMode = fa
                 </FieldColumn>
 
                 <FieldColumn>
-                  <Label>交易所</Label>
+                  <Label>{t('Exchange')}</Label>
                   <SelectBox
                     value={formData.exchange_id}
                     keyname="id"
@@ -315,19 +315,19 @@ export function TraderConfigModal({ isOpen, onClose, traderData, isEditMode = fa
 
           {/* Trading Configuration */}
           <SectionCard>
-            <SectionTitle>⚖️ 交易配置</SectionTitle>
+            <SectionTitle>{t('tradingConfiguration')}</SectionTitle>
             <div className="space-y-4">
               {/* 保证金模式 + 初始余额 */}
               <Row2>
                 {/* 保证金模式 */}
                 <FieldColumn>
-                  <Label>保证金模式</Label>
+                  <Label>{t('marginMode')}</Label>
                   <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
                     <ToggleButton type="button" $active={formData.is_cross_margin === true} onClick={() => handleInputChange('is_cross_margin', true)}>
-                      全仓
+                      {t('crossMargin')}
                     </ToggleButton>
                     <ToggleButton type="button" $active={formData.is_cross_margin === false} onClick={() => handleInputChange('is_cross_margin', false)}>
-                      逐仓
+                      {t('isolatedMargin')}
                     </ToggleButton>
                   </div>
                 </FieldColumn>
@@ -335,7 +335,7 @@ export function TraderConfigModal({ isOpen, onClose, traderData, isEditMode = fa
                 <FieldColumn>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <Label>
-                      初始余额 ($)
+                      {t('initialBalance')} ($)
                       <span style={{ marginLeft: 4, cursor: 'pointer' }}>
                         {!isEditMode && <Tooltip content="⚠️ 请输入您交易所账户的实际余额，否则 P&L 统计会错误。">*</Tooltip>}
                         {isEditMode && <Tooltip content="点击“获取当前余额”可自动获取交易所账户净值">*</Tooltip>}
@@ -384,12 +384,15 @@ export function TraderConfigModal({ isOpen, onClose, traderData, isEditMode = fa
               {/* 杠杆设置 */}
               <Row2>
                 <FieldColumn>
-                  <Label>BTC/ETH 杠杆</Label>
+                  <Label>BTC/ETH {t('leverage')}</Label>
                   <Input type="number" value={formData.btc_eth_leverage} onChange={(e) => handleInputChange('btc_eth_leverage', Number(e.target.value))} min="1" max="125" />
                 </FieldColumn>
 
                 <FieldColumn>
-                  <Label>山寨币杠杆</Label>
+                  <Label>
+                    {t('Altcoins')}
+                    {t('leverage')}
+                  </Label>
                   <Input type="number" value={formData.altcoin_leverage} onChange={(e) => handleInputChange('altcoin_leverage', Number(e.target.value))} min="1" max="75" />
                 </FieldColumn>
               </Row2>
@@ -397,9 +400,11 @@ export function TraderConfigModal({ isOpen, onClose, traderData, isEditMode = fa
               {/* 交易币种 */}
               <FieldColumn>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <Label>交易币种 (用逗号分隔，)</Label>
+                  <Label>
+                    {t('tradingPairs')} {t('tradingPairsDesc')}{' '}
+                  </Label>
                   <YellowButton type="button" onClick={() => setShowCoinSelector(!showCoinSelector)}>
-                    {showCoinSelector ? '收起选择' : '快速选择'}
+                    {showCoinSelector ? t('lessSelect') : t('moreSelect')}
                   </YellowButton>
                 </div>
                 <Input
@@ -410,7 +415,7 @@ export function TraderConfigModal({ isOpen, onClose, traderData, isEditMode = fa
                 />
                 {showCoinSelector && (
                   <CoinSelectorBox>
-                    <span>点击选择币种：</span>
+                    <span>{t('selectTheCurrency')}：</span>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
                       {availableCoins.map((coin) => (
                         <CoinButton key={coin} type="button" $active={selectedCoins.includes(coin)} onClick={() => handleCoinToggle(coin)}>
@@ -426,20 +431,20 @@ export function TraderConfigModal({ isOpen, onClose, traderData, isEditMode = fa
 
           {/* Signal Sources */}
           <SectionCard>
-            <SectionTitle>📡 信号源配置</SectionTitle>
+            <SectionTitle>{t('signalSourceConfiguration')}</SectionTitle>
             <Grid>
               <CheckboxRow>
-                <Checkbox label="使用 Coin Pool 信号" checked={formData.use_coin_pool} onChange={(v: any) => handleInputChange('use_coin_pool', v)} />
+                <Checkbox label={t('useCoinPoolSignals')} checked={formData.use_coin_pool} onChange={(v: any) => handleInputChange('use_coin_pool', v)} />
               </CheckboxRow>
               <CheckboxRow>
-                <Checkbox label="使用 OI Top 信号" checked={formData.use_oi_top} onChange={(v: any) => handleInputChange('use_oi_top', v)} />
+                <Checkbox label={t('useOITopSignals')} checked={formData.use_oi_top} onChange={(v: any) => handleInputChange('use_oi_top', v)} />
               </CheckboxRow>
             </Grid>
           </SectionCard>
 
           {/* Trading Prompt */}
           <SectionCard>
-            <SectionTitle>💬 交易策略提示词</SectionTitle>
+            <SectionTitle>{t('strategyProm')}</SectionTitle>
             <FieldGroup>
               {/* 系统提示词模板选择 */}
               <FieldColumn>
@@ -460,24 +465,24 @@ export function TraderConfigModal({ isOpen, onClose, traderData, isEditMode = fa
                   <PromptDescTitle>{descTitle}</PromptDescTitle>
                   <TipText>{desc}</TipText>
                 </PromptDescBox>
-                <TipText>选择预设的交易策略模板（包含交易哲学、风控原则等）</TipText>
+                <TipText>{t('strategyPromTips')}</TipText>
               </FieldColumn>
 
               <Grid>
                 <CheckboxRow>
-                  <Checkbox label="覆盖默认提示词" checked={formData.override_base_prompt} onChange={(v: any) => handleInputChange('override_base_prompt', v)} />
+                  <Checkbox label={t('overrideDefaultProm')} checked={formData.override_base_prompt} onChange={(v: any) => handleInputChange('override_base_prompt', v)} />
                 </CheckboxRow>
                 <TipsInfo>
                   <img src={frameIcon} alt="" />
-                  <span>启用后将完全替换默认策略</span>
+                  <span>{t('overrideDefaultPromDesc')}</span>
                 </TipsInfo>
               </Grid>
               <FieldColumn>
-                <Label>{formData.override_base_prompt ? '自定义提示词' : '附加提示词'}</Label>
+                <Label>{formData.override_base_prompt ? t('customProm') : t('addItionalProm')}</Label>
                 <Textarea
                   value={formData.custom_prompt}
                   onChange={(e) => handleInputChange('custom_prompt', e.target.value)}
-                  placeholder={formData.override_base_prompt ? '输入完整的交易策略提示词...' : '输入额外的交易策略提示...'}
+                  placeholder={formData.override_base_prompt ? t('enterTheCompleteTradingStrategyPrompts') : t('enterAdditionalTradingStrategyPrompts')}
                 />
               </FieldColumn>
             </FieldGroup>
@@ -486,10 +491,10 @@ export function TraderConfigModal({ isOpen, onClose, traderData, isEditMode = fa
 
         {/* Footer */}
         <Footer>
-          <CancelButton onClick={onClose}>取消</CancelButton>
+          <CancelButton onClick={onClose}>{t('cancel')}</CancelButton>
           {onSave && (
             <SaveButton onClick={handleSave} disabled={isSaving || !formData.trader_name || !formData.ai_model || !formData.exchange_id}>
-              {isSaving ? '保存中...' : isEditMode ? '保存修改' : '创建交易员'}
+              {isSaving ? `${t('save')}...` : isEditMode ? t('save') : t('createTrader')}
             </SaveButton>
           )}
         </Footer>
@@ -826,6 +831,7 @@ const TipsInfo = styled.div`
   span {
     font-size: 14px;
     text-decoration: underline;
+    white-space: nowrap;
   }
 
   @media (max-width: 768px) {

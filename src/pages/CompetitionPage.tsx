@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { Trophy, Medal } from 'lucide-react'
+import { useMemo, useState } from 'react'
 import styled, { keyframes, css } from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import useSWR from 'swr'
@@ -25,6 +24,11 @@ export function CompetitionPage() {
     dedupingInterval: 10000,
   })
 
+  const sortedTraders = useMemo(() => {
+    if (!competition || !competition.traders) return []
+    return [...competition.traders].sort((a, b) => b.total_pnl_pct - a.total_pnl_pct)
+  }, [competition])
+
   const handleTraderClick = async (traderId: string) => {
     try {
       const traderConfig = await api.getTraderConfig(traderId)
@@ -42,21 +46,12 @@ export function CompetitionPage() {
     setSelectedTrader(null)
   }
 
-  if (!competition) {
-    return <SkeletonBox />
-  }
+  if (!competition) return <SkeletonBox />
 
   // 如果有数据返回但没有交易员，显示空状态
   if (!competition.traders || competition.traders.length === 0) {
     return <NoDataSection />
   }
-  console.log(competition, 'competition')
-
-  // 按收益率排序
-  const sortedTraders = [...competition.traders].sort((a, b) => b.total_pnl_pct - a.total_pnl_pct)
-
-  // 找出领先者
-  const leader = sortedTraders[0]
 
   return (
     <CompetitionWrapper>
@@ -77,10 +72,10 @@ export function CompetitionPage() {
 
         <LeaderSection>
           <LeaderLabel>{t('leader')}</LeaderLabel>
-          <LeaderName>{leader?.trader_name}</LeaderName>
-          <LeaderPnl positive={(leader?.total_pnl ?? 0) >= 0}>
-            {(leader?.total_pnl ?? 0) >= 0 ? '+' : ''}
-            {leader?.total_pnl_pct?.toFixed(2) || '0.00'}%
+          <LeaderName>{sortedTraders[0]?.trader_name}</LeaderName>
+          <LeaderPnl positive={(sortedTraders[0]?.total_pnl ?? 0) >= 0}>
+            {(sortedTraders[0]?.total_pnl ?? 0) >= 0 ? '+' : ''}
+            {sortedTraders[0]?.total_pnl_pct?.toFixed(2) || '0.00'}%
           </LeaderPnl>
         </LeaderSection>
       </Header>
@@ -132,7 +127,7 @@ export function CompetitionPage() {
                       {/* P&L */}
                       <StatBlock>
                         <StatLabel>{t('pnl')}</StatLabel>
-                        <StatValue colorOverride={(trader.total_pnl ?? 0) >= 0 ? '#0ECB81' : '#F6465D'} prominent>
+                        <StatValue colorOverride={(trader.total_pnl ?? 0) >= 0 ? 'var(--up_color)' : 'var(--down_color)'} prominent>
                           {(trader.total_pnl ?? 0) >= 0 ? '+' : ''}
                           {trader.total_pnl_pct?.toFixed(2) || '0.00'}%
                         </StatValue>
@@ -161,6 +156,7 @@ export function CompetitionPage() {
           </LeaderboardList>
         </Card>
       </SplitGrid>
+
       {competition.traders.length === 2 && (
         <HeadToHeadCard delayMs={300}>
           <H2>{t('headToHead')}</H2>

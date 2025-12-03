@@ -27,7 +27,7 @@ const InputGroup = styled.div`
 const InputSection = styled.input`
   width: 100%;
   padding: 12px 24px;
-  border-radius: 9px;
+  border-radius: 8px;
   font-size: 14px;
   background: #fff;
   border: 1px solid #a3a3a7;

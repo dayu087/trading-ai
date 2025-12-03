@@ -1,9 +1,8 @@
+import { useTranslation } from 'react-i18next'
 import { api } from '../lib/api'
 import type { TraderInfo, CreateTraderRequest, TraderConfigData, AIModel, Exchange } from '../types'
-import { t } from '../i18n/translations'
 import { confirmToast } from '../lib/notify'
 import { toast } from 'sonner'
-import type { Language } from '../i18n/translations'
 
 interface UseTraderActionsParams {
   traders: TraderInfo[] | undefined
@@ -11,7 +10,6 @@ interface UseTraderActionsParams {
   allExchanges: Exchange[]
   supportedModels: AIModel[]
   supportedExchanges: Exchange[]
-  language: Language
   mutateTraders: () => Promise<any>
   setAllModels: (models: AIModel[]) => void
   setAllExchanges: (exchanges: Exchange[]) => void
@@ -33,7 +31,6 @@ export function useTraderActions({
   allExchanges,
   supportedModels,
   supportedExchanges,
-  language,
   mutateTraders,
   setAllModels,
   setAllExchanges,
@@ -48,6 +45,8 @@ export function useTraderActions({
   editingTrader,
   setEditingTrader,
 }: UseTraderActionsParams) {
+  const { t } = useTranslation()
+
   // 检查模型是否正在被运行中的交易员使用(用于UI禁用)
   const isModelInUse = (modelId: string) => {
     return traders?.some((t) => t.ai_model === modelId && t.is_running) || false
@@ -84,12 +83,12 @@ export function useTraderActions({
       const exchange = allExchanges?.find((e) => e.id === data.exchange_id)
 
       if (!model?.enabled) {
-        toast.error(t('modelNotConfigured', language))
+        toast.error(t('modelNotConfigured'))
         return
       }
 
       if (!exchange?.enabled) {
-        toast.error(t('exchangeNotConfigured', language))
+        toast.error(t('exchangeNotConfigured'))
         return
       }
 
@@ -103,7 +102,7 @@ export function useTraderActions({
       await mutateTraders()
     } catch (error) {
       console.error('Failed to create trader:', error)
-      toast.error(t('createTraderFailed', language))
+      toast.error(t('createTraderFailed'))
     }
   }
 
@@ -114,7 +113,7 @@ export function useTraderActions({
       setShowEditModal(true)
     } catch (error) {
       console.error('Failed to fetch trader config:', error)
-      toast.error(t('getTraderConfigFailed', language))
+      toast.error(t('getTraderConfigFailed'))
     }
   }
 
@@ -144,12 +143,12 @@ export function useTraderActions({
       const exchange = enabledExchanges?.find((e) => e.id === data.exchange_id)
 
       if (!model) {
-        toast.error(t('modelConfigNotExist', language))
+        toast.error(t('modelConfigNotExist'))
         return
       }
 
       if (!exchange) {
-        toast.error(t('exchangeConfigNotExist', language))
+        toast.error(t('exchangeConfigNotExist'))
         return
       }
 
@@ -181,13 +180,13 @@ export function useTraderActions({
       await mutateTraders()
     } catch (error) {
       console.error('Failed to update trader:', error)
-      toast.error(t('updateTraderFailed', language))
+      toast.error(t('updateTraderFailed'))
     }
   }
 
   const handleDeleteTrader = async (traderId: string) => {
     {
-      const ok = await confirmToast(t('confirmDeleteTrader', language))
+      const ok = await confirmToast(t('confirmDeleteTrader'))
       if (!ok) return
     }
 
@@ -202,7 +201,7 @@ export function useTraderActions({
       await mutateTraders()
     } catch (error) {
       console.error('Failed to delete trader:', error)
-      toast.error(t('deleteTraderFailed', language))
+      toast.error(t('deleteTraderFailed'))
     }
   }
 
@@ -226,7 +225,7 @@ export function useTraderActions({
       await mutateTraders()
     } catch (error) {
       console.error('Failed to toggle trader:', error)
-      toast.error(t('operationFailed', language))
+      toast.error(t('operationFailed'))
     }
   }
 
@@ -265,12 +264,12 @@ export function useTraderActions({
     if (config.checkInUse(config.id)) {
       const usingTraders = config.getUsingTraders(config.id)
       const traderNames = usingTraders.map((t) => t.trader_name).join(', ')
-      toast.error(`${t(config.cannotDeleteKey, language)} · ${t('tradersUsing', language)}: ${traderNames} · ${t('pleaseDeleteTradersFirst', language)}`)
+      toast.error(`${t(config.cannotDeleteKey)} · ${t('tradersUsing')}: ${traderNames} · ${t('pleaseDeleteTradersFirst')}`)
       return
     }
 
     {
-      const ok = await confirmToast(t(config.confirmDeleteKey, language))
+      const ok = await confirmToast(t(config.confirmDeleteKey))
       if (!ok) return
     }
 
@@ -291,7 +290,7 @@ export function useTraderActions({
       config.closeModal()
     } catch (error) {
       console.error(`Failed to delete ${config.type} config:`, error)
-      toast.error(t(config.errorKey, language))
+      toast.error(t(config.errorKey))
     }
   }
 
@@ -347,7 +346,7 @@ export function useTraderActions({
       // 找到要配置的模型(优先从已配置列表,其次从支持列表)
       const modelToUpdate = existingModel || supportedModels?.find((m) => m.id === modelId)
       if (!modelToUpdate) {
-        toast.error(t('modelNotExist', language))
+        toast.error(t('modelNotExist'))
         return
       }
 
@@ -405,7 +404,7 @@ export function useTraderActions({
       setEditingModel(null)
     } catch (error) {
       console.error('Failed to save model config:', error)
-      toast.error(t('saveConfigFailed', language))
+      toast.error(t('saveConfigFailed'))
     }
   }
 
@@ -476,7 +475,7 @@ export function useTraderActions({
       // 找到要配置的交易所(从supportedExchanges中)
       const exchangeToUpdate = supportedExchanges?.find((e) => e.id === exchangeId)
       if (!exchangeToUpdate) {
-        toast.error(t('exchangeNotExist', language))
+        toast.error(t('exchangeNotExist'))
         return
       }
 
@@ -559,7 +558,7 @@ export function useTraderActions({
       setEditingExchange(null)
     } catch (error) {
       console.error('Failed to save exchange config:', error)
-      toast.error(t('saveConfigFailed', language))
+      toast.error(t('saveConfigFailed'))
     }
   }
 
@@ -584,7 +583,7 @@ export function useTraderActions({
       setShowSignalSourceModal(false)
     } catch (error) {
       console.error('Failed to save signal source:', error)
-      toast.error(t('saveSignalSourceFailed', language))
+      toast.error(t('saveSignalSourceFailed'))
     }
   }
 

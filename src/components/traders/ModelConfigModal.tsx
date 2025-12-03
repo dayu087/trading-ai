@@ -7,7 +7,7 @@ import { getModelIcon } from '../ModelIcons'
 import { getShortName } from './utils'
 
 import Select from '@/components/ui/Select'
-import Input from '@/components/ui/input'
+import Input from '@/components/ui/Input'
 
 import lessIcon from '@/assets/images/dashboard_icon_arrowless.png'
 import moreIcon from '@/assets/images/dashboard_icon_arrowmore.png'
@@ -108,7 +108,7 @@ export function ModelConfigModal({ allModels, configuredModels, editingModelId, 
             {selectedModel && (
               <>
                 <div>
-                  <Label>API Key</Label>
+                  <Label>{t('apiKey')}</Label>
                   <Input type="password" value={apiKey} onChange={(e) => setApiKey(e.target.value)} placeholder={t('enterAPIKey')} required />
                 </div>
 
@@ -119,9 +119,9 @@ export function ModelConfigModal({ allModels, configuredModels, editingModelId, 
                 </div>
 
                 <div>
-                  <Label> Model Name (可选)</Label>
+                  <Label>{t('modelName')} </Label>
                   <Input type="text" value={modelName} onChange={(e) => setModelName(e.target.value)} placeholder="例如: deepseek-chat, qwen3-max, gpt-5" />
-                  <InfoText>留空使用默认模型名称</InfoText>
+                  <InfoText>{t('defaultModelDesc')}</InfoText>
                 </div>
 
                 <InfoBox>

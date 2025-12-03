@@ -3,7 +3,7 @@ import { styled, keyframes } from 'styled-components'
 export default function SkeletonBox() {
   return (
     <Wrapper>
-      <BinanceCard padding={32} pulse>
+      <BinanceCard padding={32}>
         <FlexBetween>
           <SpaceY3 style={{ flex: 1 }}>
             <Skeleton h={32} w="256px" />
@@ -25,56 +25,47 @@ export default function SkeletonBox() {
 }
 
 const pulse = keyframes`
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+  0%, 100% { opacity: .6; }
+  50% { opacity: 1; }
 `
 
-/* ---------- Containers ---------- */
-
-export const Wrapper = styled.div`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 24px; /* space-y-6 */
+  gap: 24px;
+  width: 100%;
+  max-width: 1220px;
 `
 
-export const BinanceCard = styled.div<{ pulse?: boolean; padding?: number }>`
-  background: #111318;
+const BinanceCard = styled.div<{ padding?: number }>`
+  background: rgba(17, 19, 24, 0.5);
   border-radius: 16px;
-  padding: ${({ padding = 24 }) => padding}px; /* p-6 或 p-8 */
+  padding: ${({ padding = 24 }) => padding}px;
+  animation: ${pulse} 1.5s infinite;
 `
 
-/* Tailwind animate-pulse 等效 */
-const pulseAnimation = keyframes`
-  0%,100% { opacity: 1; }
-  50% { opacity: .5; }
-`
-
-/* ---------- Skeleton ---------- */
-
-export const Skeleton = styled.div<{ h?: number; w?: string }>`
+const Skeleton = styled.div<{ h?: number; w?: string }>`
   background: rgba(255, 255, 255, 0.08);
   border-radius: 8px;
   height: ${({ h }) => h || 16}px;
   width: ${({ w }) => w || '100%'};
 `
 
-/* ---------- Layout helpers ---------- */
-
-export const FlexBetween = styled.div`
+const FlexBetween = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px; /* mb-6 */
+  margin-bottom: 24px;
 `
 
-export const SpaceY3 = styled.div`
+const SpaceY3 = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 12px; /* space-y-3 */
+  gap: 12px;
 `
 
-export const SpaceY = styled.div`
+const SpaceY = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 24px; /* space-y-6 */
+  gap: 24px;
 `

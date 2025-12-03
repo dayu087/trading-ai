@@ -1,36 +1,32 @@
 import { BrowserRouter, useLocation } from 'react-router-dom'
 import { styled } from 'styled-components'
-import RouteView from './routes/route'
-import { LanguageProvider, useLanguage } from './contexts/LanguageContext'
+import { useTranslation } from 'react-i18next'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
 import { ScrollProvider } from './contexts/ScrollProvider'
 import { useSystemConfig } from './hooks/useSystemConfig'
-import { t } from './i18n/translations'
 import HeaderBar from '@/components/HeaderBar'
-import { Header } from '@/components/Header'
+
+import RouteView from './routes/route'
 
 function AppContent() {
-  const { language } = useLanguage()
   const { isLoading } = useAuth()
   const { loading } = useSystemConfig()
   const location = useLocation()
-
-  const currentPath = location.pathname
-  const currentPage = currentPath.replace('/', '') || ''
+  const { t } = useTranslation()
 
   // 加载中
   if (isLoading || loading) {
     return (
       <LoadingScreen>
         {/* <img src="/icons/nofx.svg" alt="NoFx Logo" className="w-16 h-16 mx-auto mb-4 animate-pulse" /> */}
-        <p>{t('loading', language)}</p>
+        <p>{t('loading')}</p>
       </LoadingScreen>
     )
   }
 
   return (
     <PageWrapper>
-      {currentPage === 'reset-password' ? <Header simple /> : <HeaderBar />}
+      {location.pathname !== '/reset-password' && <HeaderBar />}
       <ScrollProvider>
         <RouteView />
       </ScrollProvider>
@@ -40,13 +36,11 @@ function AppContent() {
 
 export default function AppWithProviders() {
   return (
-    <LanguageProvider>
-      <AuthProvider>
-        <BrowserRouter>
-          <AppContent />
-        </BrowserRouter>
-      </AuthProvider>
-    </LanguageProvider>
+    <AuthProvider>
+      <BrowserRouter>
+        <AppContent />
+      </BrowserRouter>
+    </AuthProvider>
   )
 }
 

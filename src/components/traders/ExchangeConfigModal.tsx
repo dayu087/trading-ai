@@ -12,7 +12,7 @@ import { Tooltip } from './Tooltip'
 import { getShortName } from './utils'
 import useCopy from '@/hooks/useCopy'
 
-import Input from '@/components/ui/input'
+import Input from '@/components/ui/Input'
 import Select from '@/components/ui/Select'
 import Dropdown from '@/components/ui/Dropdown'
 import GuideOverlay from './exchange/GuideOverlay'
@@ -243,7 +243,7 @@ export function ExchangeConfigModal({ allExchanges, editingExchangeId, onSave, o
         </Header>
 
         <Form onSubmit={handleSubmit}>
-          <ScrollArea>
+          <ScrollArea $id={selectedExchangeId}>
             {!editingExchangeId && (
               <div className="space-y-3">
                 <FromGroup>
@@ -562,12 +562,12 @@ const Form = styled.form`
   }
 `
 
-const ScrollArea = styled.div`
+const ScrollArea = styled.div<{ $id: string }>`
   margin-top: 4px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  overflow-y: auto;
+  overflow-y: ${({ $id }) => ($id ? 'auto' : 'visible')};
   max-height: calc(100vh - 20rem);
   padding: 0 24px;
   @media (max-width: 768px) {
