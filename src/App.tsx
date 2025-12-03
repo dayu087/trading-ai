@@ -45,10 +45,11 @@ export default function AppWithProviders() {
 }
 
 const PageWrapper = styled.div`
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: hidden;
 `
 
 const LoadingScreen = styled.div`
