@@ -34,10 +34,16 @@ const SkeletonWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 100%;
+  max-width: 1220px;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    padding: 0 16px;
+  }
 `
 const CardSkeleton = styled.div`
-  background: #1e2329;
-  border: 1px solid #2b3139;
+  background: rgba(17, 19, 24, 0.5);
   border-radius: 12px;
   padding: 1.25rem;
   animation: pulse 1.2s infinite ease-in-out;
@@ -54,7 +60,7 @@ const CardSkeleton = styled.div`
   }
 `
 const SkeletonBar = styled.div`
-  background: #0b0e11;
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 6px;
   margin-bottom: 0.5rem;
 `
@@ -66,15 +72,17 @@ const GridSkeleton = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 12px;
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 `
 const SmallCardSkeleton = styled.div`
-  background: #1e2329;
-  border: 1px solid #2b3139;
   border-radius: 12px;
   padding: 1rem;
   animation: pulse 1.2s infinite ease-in-out;
+  background: rgba(17, 19, 24, 0.5);
 `
 const LargeSkeleton = styled.div`
-  background: #0b0e11;
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 8px;
 `

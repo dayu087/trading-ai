@@ -9,6 +9,7 @@ import sharpeIcon from '@/assets/images/dashboard_icon_sharpe.png'
 import profitIcon from '@/assets/images/dashboard_icon_profit.png'
 import bestBgIcon from '@/assets/images/dashboard_img_bestperformer.png'
 import worstBgIcon from '@/assets/images/dashboard_img_worstperformer.png'
+import starIcon from '@/assets/images/dashboard_icon_star.png'
 
 interface TradeOutcome {
   symbol: string
@@ -65,6 +66,22 @@ export default function AILearning({ traderId }: AILearningProps) {
   })
 
   console.log(performance, 'performance')
+
+  const handlePerformanceTips = (type: number, isDesc: boolean = false) => {
+    const tips = [t('poorPerformance'), t('averagePerformance'), t('goodPerformance'), t('outstandingPerformance')]
+    const tipDescs = [t('poorPerformanceDesc'), t('averagePerformanceDesc'), t('goodPerformanceDesc'), t('outstandingPerformanceDesc')]
+    type = Math.max(0, Math.min(3, Math.floor(type) + 1))
+    if (isDesc) return tipDescs[type]
+    return tips[type]
+  }
+
+  const handleProfitFactorTips = (type: number, isDesc: boolean = false) => {
+    const tips = [t('poor'), t('fair'), t('good'), t('excellent')]
+    const tipDescs = [t('poorDesc'), t('fairDesc'), t('goodDesc'), t('excellentDesc')]
+    type = Math.max(0, Math.min(3, Math.floor(type) + 1))
+    if (isDesc) return tipDescs[type]
+    return tips[type]
+  }
 
   if (error) {
     return (
@@ -161,7 +178,16 @@ export default function AILearning({ traderId }: AILearningProps) {
             <ValueText $value={performance.sharpe_ratio || 0}>{performance.sharpe_ratio ? performance.sharpe_ratio.toFixed(2) : 'N/A'}</ValueText>
             {performance.sharpe_ratio !== undefined && (
               <Badge $value={performance.sharpe_ratio || 0}>
-                {performance.sharpe_ratio >= 2 ? '🟢 卓越表现' : performance.sharpe_ratio >= 1 ? '🟢 良好表现' : performance.sharpe_ratio >= 0 ? '🟡 波动较大' : '🔴 需要调整'}
+                <span></span>
+
+                {handlePerformanceTips(performance.sharpe_ratio)}
+                {/* {performance.sharpe_ratio >= 2
+                  ? t('outstandingPerformance')
+                  : performance.sharpe_ratio >= 1
+                    ? t('goodPerformance')
+                    : performance.sharpe_ratio >= 0
+                      ? t('averagePerformance')
+                      : t('poorPerformance')} */}
               </Badge>
             )}
           </CardValueBox>
@@ -169,10 +195,11 @@ export default function AILearning({ traderId }: AILearningProps) {
           {/* Info */}
           {performance.sharpe_ratio !== undefined && (
             <InfoBox>
-              {performance.sharpe_ratio >= 2 && '✨ AI策略非常有效！风险调整后收益优异，可适度扩大仓位但保持纪律。'}
+              {handlePerformanceTips(performance.sharpe_ratio, true)}
+              {/* {performance.sharpe_ratio >= 2 && '✨ AI策略非常有效！风险调整后收益优异，可适度扩大仓位但保持纪律。'}
               {performance.sharpe_ratio >= 1 && performance.sharpe_ratio < 2 && '✅ 策略表现稳健，风险收益平衡良好，继续保持当前策略。'}
               {performance.sharpe_ratio >= 0 && performance.sharpe_ratio < 1 && '⚠️ 收益为正但波动较大，AI正在优化策略，降低风险。'}
-              {performance.sharpe_ratio < 0 && '🚨 当前策略需要调整！AI已自动进入保守模式，减少仓位和交易频率。'}
+              {performance.sharpe_ratio < 0 && '🚨 当前策略需要调整！AI已自动进入保守模式，减少仓位和交易频率。'} */}
             </InfoBox>
           )}
         </Card>
@@ -209,18 +236,20 @@ export default function AILearning({ traderId }: AILearningProps) {
             <ValueText $value={performance.profit_factor || 0}>{(performance.profit_factor || 0) > 0 ? (performance.profit_factor || 0).toFixed(2) : 'N/A'}</ValueText>
 
             <Badge $value={performance.profit_factor || 0}>
-              {(performance.profit_factor || 0) >= 2 && t('excellent')}
+              {handleProfitFactorTips(performance.profit_factor)}
+              {/* {(performance.profit_factor || 0) >= 2 && t('excellent')}
               {(performance.profit_factor || 0) >= 1.5 && (performance.profit_factor || 0) < 2 && t('good')}
               {(performance.profit_factor || 0) >= 1 && (performance.profit_factor || 0) < 1.5 && t('fair')}
-              {(performance.profit_factor || 0) > 0 && (performance.profit_factor || 0) < 1 && t('poor')}
+              {(performance.profit_factor || 0) > 0 && (performance.profit_factor || 0) < 1 && t('poor')} */}
             </Badge>
           </CardValueBox>
 
           <InfoBox>
-            {(performance.profit_factor || 0) >= 2 && `🔥 盈利能力出色！每亏1元能赚${(performance.profit_factor || 0).toFixed(1)}元，AI策略表现优异。`}
+            {handleProfitFactorTips(performance.profit_factor, true)}
+            {/* {(performance.profit_factor || 0) >= 2 && `🔥 盈利能力出色！AI策略表现优异。`}
             {(performance.profit_factor || 0) >= 1.5 && (performance.profit_factor || 0) < 2 && '✓ 策略稳定盈利，盈亏比健康，继续保持纪律性交易。'}
             {(performance.profit_factor || 0) >= 1 && (performance.profit_factor || 0) < 1.5 && '⚠️ 策略略有盈利但需优化，AI正在调整仓位和止损策略。'}
-            {(performance.profit_factor || 0) > 0 && (performance.profit_factor || 0) < 1 && '❌ 平均亏损大于盈利，需要调整策略或降低交易频率。'}
+            {(performance.profit_factor || 0) > 0 && (performance.profit_factor || 0) < 1 && '❌ 平均亏损大于盈利，需要调整策略或降低交易频率。'} */}
           </InfoBox>
         </Card>
 
@@ -244,44 +273,46 @@ export default function AILearning({ traderId }: AILearningProps) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* 左侧：币种表现统计表格 */}
         {symbolStatsList.length > 0 && (
-          <Panel $isTable={true}>
+          <Panel>
             <HeaderTitle>{t('symbolPerformance')}</HeaderTitle>
             <StyledTable>
-              <thead>
-                <tr>
-                  <Th>Symbol</Th>
-                  <Th>Trades</Th>
-                  <Th>Win Rate</Th>
-                  <Th>Total P&L (USDT)</Th>
-                  <Th>Avg P&L (USDT)</Th>
-                </tr>
-              </thead>
+              <table>
+                <thead>
+                  <tr>
+                    <Th>Symbol</Th>
+                    <Th>Trades</Th>
+                    <Th>Win Rate</Th>
+                    <Th>Total P&L (USDT)</Th>
+                    <Th>Avg P&L (USDT)</Th>
+                  </tr>
+                </thead>
 
-              <tbody>
-                {symbolStatsList.map((stat, idx) => (
-                  <TableRow key={stat.symbol} $border={idx > 0}>
-                    <Td>
-                      <SymbolText>{stat.symbol}</SymbolText>
-                    </Td>
-                    <Td>{stat.total_trades}</Td>
-                    <Td $value={stat.win_rate}>{(stat.win_rate || 0).toFixed(1)}%</Td>
-                    <Td $value={stat.total_pn_l}>
-                      {(stat.total_pn_l || 0) > 0 ? '+' : ''}
-                      {(stat.total_pn_l || 0).toFixed(2)}
-                    </Td>
-                    <Td $value={stat.avg_pn_l}>
-                      {(stat.avg_pn_l || 0) > 0 ? '+' : ''}
-                      {(stat.avg_pn_l || 0).toFixed(2)}
-                    </Td>
-                  </TableRow>
-                ))}
-              </tbody>
+                <tbody>
+                  {symbolStatsList.map((stat, idx) => (
+                    <TableRow key={stat.symbol} $border={idx > 0}>
+                      <Td>
+                        <SymbolText>{stat.symbol}</SymbolText>
+                      </Td>
+                      <Td>{stat.total_trades}</Td>
+                      <Td $value={stat.win_rate}>{(stat.win_rate || 0).toFixed(1)}%</Td>
+                      <Td $value={stat.total_pn_l}>
+                        {(stat.total_pn_l || 0) > 0 ? '+' : ''}
+                        {(stat.total_pn_l || 0).toFixed(2)}
+                      </Td>
+                      <Td $value={stat.avg_pn_l}>
+                        {(stat.avg_pn_l || 0) > 0 ? '+' : ''}
+                        {(stat.avg_pn_l || 0).toFixed(2)}
+                      </Td>
+                    </TableRow>
+                  ))}
+                </tbody>
+              </table>
             </StyledTable>
           </Panel>
         )}
 
         {/* 右侧：历史成交记录 */}
-        <Panel>
+        <PanelRight>
           <TradeHistoryHeader>
             <HeaderTitle>{t('tradeHistory')}</HeaderTitle>
             <HeaderDesc>
@@ -378,42 +409,34 @@ export default function AILearning({ traderId }: AILearningProps) {
               </EmptyBox>
             )}
           </TradeList>
-        </Panel>
+        </PanelRight>
       </div>
 
       {/* AI学习说明 - 现代化设计 */}
 
       <InfoCard>
-        <Row>
-          <IconWrapper>
-            <Lightbulb className="w-5 h-5" style={{ color: '#FCD34D' }} />
-          </IconWrapper>
+        <Title style={{ color: '#fff' }}>{t('howAILearns')}</Title>
+        <PointsGrid>
+          <PointRow>
+            <Bullet src={starIcon} alt="" />
+            <PointText>{t('aiLearningPoint1')}</PointText>
+          </PointRow>
 
-          <div>
-            <Title>{t('howAILearns')}</Title>
-            <PointsGrid>
-              <PointRow>
-                <Bullet>•</Bullet>
-                <PointText>{t('aiLearningPoint1')}</PointText>
-              </PointRow>
+          <PointRow>
+            <Bullet src={starIcon} alt="" />
+            <PointText>{t('aiLearningPoint2')}</PointText>
+          </PointRow>
 
-              <PointRow>
-                <Bullet>•</Bullet>
-                <PointText>{t('aiLearningPoint2')}</PointText>
-              </PointRow>
+          <PointRow>
+            <Bullet src={starIcon} alt="" />
+            <PointText>{t('aiLearningPoint3')}</PointText>
+          </PointRow>
 
-              <PointRow>
-                <Bullet>•</Bullet>
-                <PointText>{t('aiLearningPoint3')}</PointText>
-              </PointRow>
-
-              <PointRow>
-                <Bullet>•</Bullet>
-                <PointText>{t('aiLearningPoint4')}</PointText>
-              </PointRow>
-            </PointsGrid>
-          </div>
-        </Row>
+          <PointRow>
+            <Bullet src={starIcon} alt="" />
+            <PointText>{t('aiLearningPoint4')}</PointText>
+          </PointRow>
+        </PointsGrid>
       </InfoCard>
     </AILearningWrapper>
   )
@@ -445,7 +468,11 @@ const AILearningWrapper = styled.div`
   flex-direction: column;
   gap: 24px;
   padding-bottom: 80px;
-  max-width: 100%;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    padding-bottom: 32px;
+  }
 `
 
 const TitleCard = styled.div`
@@ -458,6 +485,11 @@ const TitleCard = styled.div`
   gap: 16px;
   box-shadow: 4px 4px 0px 0px #191a23;
   border: 2px solid #191a23;
+
+  @media (max-width: 768px) {
+    padding: 12px;
+    border-radius: 16px;
+  }
 `
 
 const TitleCardIcon = styled.img`
@@ -465,6 +497,11 @@ const TitleCardIcon = styled.img`
   height: 60px;
   border-radius: 8px;
   border: 1px solid #191a23;
+
+  @media (max-width: 768px) {
+    width: 48px;
+    height: 40px;
+  }
 `
 
 const TitleText = styled.div`
@@ -480,6 +517,11 @@ const TitleMain = styled.h2`
   background: #ffffff;
   border-radius: 24px;
   border: 1px solid #191a23;
+
+  @media (max-width: 768px) {
+    width: fit-content;
+    font-size: 16px;
+  }
 `
 
 const TitleSub = styled.p`
@@ -487,30 +529,43 @@ const TitleSub = styled.p`
   font-size: 14px;
   margin: 4px 0 0;
   color: #3a3c42;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `
 
 const MetricsGrid = styled.div`
+  display: flex;
+  gap: 24px;
   width: 100%;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+  }
 `
 
 // ====== Metric Card（白、深蓝、亮绿 3种背景可切换） ======
 const MetricCard = styled.div<{ $bg: string }>`
+  flex: 1 1 25%;
   background: ${(props) => props.$bg || '#FFFFFF'};
   border-radius: 24px;
-  padding: 20px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
   box-shadow: 4px 4px 0px #191a23;
   border: 2px solid #191a23;
+
+  @media (max-width: 768px) {
+    flex: 1 1 100%;
+    padding: 12px;
+    border-radius: 16px;
+  }
 `
 
 const MetricLabel = styled.div`
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
-  color: #191a23;
   margin-bottom: 8px;
 `
 
@@ -518,16 +573,21 @@ const MetricValue = styled.div`
   font-size: 32px;
   font-weight: 700;
   margin-bottom: 4px;
-  color: #191a23;
+
+  @media (max-width: 768px) {
+    font-size: 24px;
+  }
 `
 
 const MetricUnit = styled.div`
   font-size: 1rem;
-  color: #3a3c42;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
 `
 
 const HighlightNumber = styled.span`
-  color: #191a23;
   font-weight: bold;
 `
 
@@ -536,6 +596,11 @@ const StatsGrid = styled.div`
   align-items: center;
   gap: 24px;
   height: 228px;
+
+  @media (max-width: 1024px) {
+    flex-wrap: wrap;
+    height: auto;
+  }
 `
 
 const Card = styled.div`
@@ -544,6 +609,12 @@ const Card = styled.div`
   overflow: hidden;
   background: #f3f3f3;
   border-radius: 24px;
+
+  @media (max-width: 768px) {
+    flex: 1 1 100%;
+    padding: 12px;
+    border-radius: 16px;
+  }
 `
 
 const CardHeader = styled.div`
@@ -559,6 +630,10 @@ const CardIcon = styled.img`
   height: 60px;
   border-radius: 8px;
   border: 1px solid #191a23;
+  @media (max-width: 768px) {
+    width: 48px;
+    height: 48px;
+  }
 `
 
 const CardTitle = styled.div`
@@ -567,14 +642,20 @@ const CardTitle = styled.div`
   margin-bottom: 4px;
   border-radius: 8px;
   font-size: 1.25rem;
-  color: #191a23;
   font-weight: bold;
   background: #cafe36;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
 `
 
 const CardSubTitle = styled.div`
   font-size: 0.875rem;
-  color: #191a23;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `
 
 const CardValueBox = styled.div`
@@ -589,6 +670,10 @@ const ValueText = styled.div<{ $value: number }>`
   font-weight: bold;
   /* font-family: monospace; */
   color: ${({ $value }) => ($value > 0 ? 'var(--up_color)' : 'var(--down_color)')};
+
+  @media (max-width: 768px) {
+    font-size: 24px;
+  }
 `
 
 const Badge = styled.div<{ $value: number }>`
@@ -598,11 +683,25 @@ const Badge = styled.div<{ $value: number }>`
   border-radius: 0.5rem;
   color: ${({ $value }) => ($value > 0 ? 'var(--up_color)' : 'var(--down_color)')};
   /* background: ${({ $value }) => ($value > 0 ? 'var(--up_bg)' : 'var(--down_bg)')}; */
+
+  span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: ${({ $value }) => ($value > 0 ? 'var(--up_bg)' : 'var(--down_bg)')};
+  }
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
 `
 
 const InfoBox = styled.div`
   font-size: 0.875rem;
-  color: #000000;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `
 
 const SymbolCard = styled.div`
@@ -623,6 +722,20 @@ const SymbolCard = styled.div`
     font-size: 2rem;
     font-weight: bold;
   }
+
+  @media (max-width: 768px) {
+    height: fit-content;
+    padding: 12px;
+    border-radius: 16px;
+
+    h6 {
+      font-size: 1.5rem;
+    }
+
+    span {
+      font-size: 12px;
+    }
+  }
 `
 
 const SymbolCardBg = styled.img`
@@ -636,33 +749,53 @@ const SymbolCardBg = styled.img`
 const SymbolCardInfo = styled.div`
   display: flex;
   font-size: 1rem;
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
 `
 
-const Panel = styled.div<{ $isTable?: boolean }>`
+const Panel = styled.div`
   max-height: calc(100vh - 200px);
-  padding: ${({ $isTable }) => ($isTable ? '24px' : '24px 0')};
-  border-radius: 1rem;
-  background: #f3f3f3;
+  padding: 24px;
+  background: #ffffff;
+  box-shadow: 4px 4px 0px 0px #191a23;
+  border-radius: 24px;
   border: 1px solid #191a23;
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    padding: 12px;
+    border-radius: 16px;
+  }
+`
+
+const PanelRight = styled(Panel)`
+  padding: 24px 0;
+  @media (max-width: 768px) {
+    padding: 12px 0;
+  }
 `
 
 const HeaderTitle = styled.h3`
   width: fit-content;
-  padding: 8px 12px;
+  /* padding: 8px 12px; */
   font-size: 1.25rem;
   font-weight: bold;
   color: #191a23;
   background: #ffffff;
   border-radius: 8px;
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
 `
 
-// ===== 表格 =====
-const StyledTable = styled.table`
+const StyledTable = styled.div`
   width: 100%;
   margin-top: 16px;
   background: #ffffff;
   border-radius: 8px;
+  overflow-y: auto;
+  max-height: 506px;
 
   thead {
     border-bottom: 1px solid #f3f3f3;
@@ -672,20 +805,44 @@ const StyledTable = styled.table`
     overflow-y: auto;
     max-height: 347px;
   }
+
+  tbody tr:nth-child(1) td {
+    padding-top: 16px;
+  }
+
+  tbody tr td:nth-child(1) {
+    width: 25%;
+  }
+
+  tbody tr td:nth-child(2) {
+    width: 14%;
+  }
+  tbody tr td:nth-child(3) {
+    width: 18%;
+  }
+  tbody tr td:nth-child(4) {
+    width: 18%;
+  }
+  tbody tr td:nth-child(5),
+  thead tr th:nth-child(5) {
+    width: 25%;
+    text-align: right;
+  }
 `
 
 const Th = styled.th`
   text-align: left;
-  padding: 16px;
-  font-size: 0.75rem;
-  color: #000000;
+  padding: 16px 0;
+  font-size: 12px;
+  font-weight: 500;
 `
 
 const Td = styled.td<{ $value?: number }>`
   text-align: left;
-  padding: 0.75rem 1rem;
+  padding: 8px 0;
   font-size: 0.875rem;
-  font-family: monospace;
+  font-weight: bold;
+  /* font-family: monospace; */
   color: ${({ $value }) => ($value ? ($value > 0 ? 'var(--up_color)' : 'var(--down_color)') : '#000')};
 `
 
@@ -700,30 +857,19 @@ const TableRow = styled.tr<{ $border?: boolean }>`
 
 const SymbolText = styled.span`
   font-weight: bold;
-  font-family: monospace;
-`
-
-// Container
-const TradeHistoryContainer = styled.div`
-  border-radius: 16px;
-  overflow: hidden;
-  background: rgba(30, 35, 41, 0.4);
-  border: 1px solid rgba(240, 185, 11, 0.2);
-  max-height: calc(100vh - 200px);
+  /* font-family: monospace; */
 `
 
 // Header
 const TradeHistoryHeader = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 12px;
   padding: 0 24px;
-`
-
-const HeaderRow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  @media (max-width: 768px) {
+    padding: 0 12px;
+    gap: 6px;
+  }
 `
 
 const HeaderDesc = styled.p`
@@ -736,19 +882,29 @@ const TradeList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
-  max-height: 378px;
+  max-height: 380px;
   margin-top: 16px;
   padding: 0 24px;
+  border-radius: 8px;
   overflow-y: auto;
+  @media (max-width: 768px) {
+    padding: 0 12px;
+    gap: 6px;
+  }
 `
 
 // Trade Item
 const TradeItem = styled.div`
-  padding: 16px;
+  padding: 16px 24px;
   transition: all 0.2s;
   transform-origin: center;
   background: #ffffff;
   border-radius: 8px;
+  border: 1px solid #f3f3f3;
+
+  @media (max-width: 768px) {
+    padding: 8px 12px;
+  }
 `
 
 const RowBetween = styled.div`
@@ -758,12 +914,17 @@ const RowBetween = styled.div`
   padding-bottom: 16px;
   margin-bottom: 16px;
   border-bottom: 1px solid #f3f3f3;
+
+  @media (max-width: 768px) {
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+  }
 `
 
 const Symbol = styled.span`
   font-size: 1rem;
   font-weight: bold;
-  font-family: monospace;
+  /* font-family: monospace; */
   color: #191a23;
 `
 
@@ -807,7 +968,7 @@ const Label = styled.div`
 `
 
 const Value = styled.div`
-  font-family: monospace;
+  /* font-family: monospace; */
   font-weight: bold;
 `
 
@@ -851,7 +1012,6 @@ const FooterMeta = styled.div`
   font-size: 0.875rem;
   padding-top: 12px;
   border-top: 1px solid #f3f3f3;
-  color: #000000;
 `
 
 const StopLossTag = styled.span`
@@ -868,32 +1028,20 @@ const EmptyBox = styled.div`
   text-align: center;
   color: #94a3b8;
   opacity: 0.8;
+  @media (max-width: 768px) {
+    padding: 12px;
+  }
 `
 
 const InfoCard = styled.div`
-  padding: 24px;
-  background: #f3f3f3;
+  padding: 16px 24px;
+  background: #191a23;
   border-radius: 24px;
   border: 1px solid #191a23;
-`
-
-const Row = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-`
-
-const IconWrapper = styled.div`
-  width: 40px;
-  height: 40px;
-  border-radius: 8px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background: rgba(240, 185, 11, 0.2);
-  border: 1px solid rgba(240, 185, 11, 0.3);
+  @media (max-width: 768px) {
+    padding: 12px;
+    border-radius: 16px;
+  }
 `
 
 const Title = styled.h3`
@@ -901,36 +1049,44 @@ const Title = styled.h3`
   margin-bottom: 8px;
   font-size: 1.25rem;
   color: #191a23;
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
 `
 
 const PointsGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-
+  display: flex;
   gap: 16px;
   font-size: 0.875rem;
 
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(4, 1fr);
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    font-size: 12px;
+    gap: 8px;
   }
 `
 
 const PointRow = styled.div`
+  flex: 1 1 24%;
   display: flex;
   align-items: flex-start;
   gap: 8px;
+  padding: 8px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+
+  @media (max-width: 768px) {
+    flex: 1 1 50%;
+  }
 `
 
-const Bullet = styled.span`
-  color: #191a23;
+const Bullet = styled.img`
+  width: 16px;
+  height: 16px;
 `
 
 const PointText = styled.span`
-  color: #191a23;
+  color: #ffffff;
 `
 
 const NoDataCard = styled.div`

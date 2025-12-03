@@ -100,23 +100,13 @@ body {
 }
 
 /* Scrollbar - Binance style */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--background);
-}
-
 ::-webkit-scrollbar-thumb {
-  background: var(--panel-border);
   border-radius: 4px;
-  transition: background 0.2s;
+  background: rgba(25, 26, 35, 0.1);
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--panel-border-hover);
+::-webkit-scrollbar {
+  width: 6px;
 }
 
 /* Animations */

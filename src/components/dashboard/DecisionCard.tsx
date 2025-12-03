@@ -337,4 +337,8 @@ const ErrorBox = styled.div`
   padding: 8px;
   border-radius: 6px;
   margin-top: 8px;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
 `

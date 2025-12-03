@@ -386,6 +386,7 @@ const TwoCol = styled.div`
   margin-bottom: 78px;
   @media (max-width: 1220px) {
     flex-wrap: wrap;
+    margin-bottom: 24px;
   }
 `
 const LeftCol = styled.div`
