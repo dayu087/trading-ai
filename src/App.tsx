@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
 import { ScrollProvider } from './contexts/ScrollProvider'
 import { useSystemConfig } from './hooks/useSystemConfig'
+import { ConfirmDialogProvider } from './components/ConfirmDialog'
 import HeaderBar from '@/components/HeaderBar'
 
 import RouteView from './routes/route'
@@ -38,7 +39,9 @@ export default function AppWithProviders() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <AppContent />
+        <ConfirmDialogProvider>
+          <AppContent />
+        </ConfirmDialogProvider>
       </AuthProvider>
     </BrowserRouter>
   )
