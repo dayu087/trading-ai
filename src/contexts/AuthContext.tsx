@@ -59,7 +59,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true)
   const [selectedTraderId, setSelectedTraderId] = useState<string>()
   const [selectedTraderData, setSelectedTraderData] = useState<any>(null)
-
   const navigate = useNavigate()
 
   const { data: traders, error: tradersError } = useSWR<TraderInfo[]>(user && token ? 'traders' : null, api.getTraders, {
