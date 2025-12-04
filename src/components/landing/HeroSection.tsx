@@ -39,13 +39,13 @@ export default function HeroSection({ setShowLoginModal }: { setShowLoginModal: 
             <Description variants={fadeInUp}>{t('heroDescription')}</Description>
 
             <ButtonRow>
-              <PrimaryButton onClick={() => setShowLoginModal(true)} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <PrimaryButton onClick={() => setShowLoginModal(true)} whileHover={{ x: 4, y: 4, boxShadow: 'none' }} whileTap={{ scale: 0.95 }}>
                 {t('getStartedNow')}
                 <motion.div>
                   <ArrowIcon src={homeArrowIcon} alt="" />
                 </motion.div>
               </PrimaryButton>
-              <LoginButton onClick={() => setShowLoginModal(true)} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <LoginButton onClick={() => setShowLoginModal(true)} whileHover={{ x: 4, y: 4, boxShadow: 'none' }} whileTap={{ scale: 0.95 }}>
                 {t('connectExchange')}
               </LoginButton>
             </ButtonRow>
@@ -195,6 +195,7 @@ const PrimaryButton = styled(motion.button)`
   border-radius: 16px;
   border: 1px solid #ffffff;
   cursor: pointer;
+  transition: all 0.1s ease;
 
   @media (max-width: 768px) {
     gap: 0.25rem;
