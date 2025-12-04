@@ -51,6 +51,7 @@ html {
   --binance-red-border: rgba(246, 70, 93, 0.2);
 
   /* UI Colors */
+  --text-white: #ffffff;
   --text-primary: #eaecef;
   --text-secondary: #848e9c;
   --text-tertiary: #5e6673;

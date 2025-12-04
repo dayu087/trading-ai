@@ -75,7 +75,7 @@ export function ConfirmDialogProvider({ children }: { children: React.ReactNode 
         <AlertDialogContent>
           <div className="flex flex-col gap-5 text-center">
             {state.title && <AlertDialogTitle className="text-xl">{state.title}</AlertDialogTitle>}
-            <AlertDialogDescription className="text-[var(--text-primary)] text-base font-medium">{state.message}</AlertDialogDescription>
+            <AlertDialogDescription className="text-[var(--text-white)] text-base font-medium">{state.message}</AlertDialogDescription>
           </div>
           <AlertDialogFooter>
             <AlertDialogCancel onClick={() => handleClose(false)}>{state.cancelText}</AlertDialogCancel>
