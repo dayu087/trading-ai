@@ -194,7 +194,7 @@ export function TraderConfigModal({ isOpen, onClose, traderData, isEditMode = fa
 
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch(`/api/account?trader_id=${traderData.trader_id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE}/account?trader_id=${traderData.trader_id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
