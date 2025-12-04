@@ -285,6 +285,9 @@ export function useTraderActions({
 
       // 重新获取用户配置以确保数据同步
       const refreshedItems = await config.refreshApi()
+
+      console.log(refreshedItems, ' delete refreshedItems')
+
       config.setItems(refreshedItems)
 
       config.closeModal()
@@ -398,6 +401,9 @@ export function useTraderActions({
 
       // 重新获取用户配置以确保数据同步
       const refreshedModels = await api.getModelConfigs()
+
+      console.log(refreshedModels, ' add refreshedItems')
+
       setAllModels(refreshedModels)
 
       setShowModelModal(false)

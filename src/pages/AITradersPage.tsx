@@ -129,6 +129,8 @@ export function AITradersPage({ onTraderSelect }: AITradersPageProps) {
     }
   }
 
+  console.log(configuredModels, 'configuredModels')
+
   return (
     <AITradersSection>
       {/* Header */}

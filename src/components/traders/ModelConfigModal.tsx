@@ -52,8 +52,6 @@ export function ModelConfigModal({ allModels, configuredModels, editingModelId, 
   // 可选择的模型列表(所有支持的模型)
   const availableModels = allModels || []
 
-  console.log(availableModels, 'availableModels')
-
   return (
     <Backdrop>
       <ModalWrapper>
