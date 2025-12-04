@@ -44,7 +44,7 @@ export function ConfirmDialogProvider({ children }: { children: React.ReactNode 
     return new Promise((resolve) => {
       setState({
         isOpen: true,
-        title: options.title,
+        title: options.title || '',
         message: options.message,
         okText: options.okText || '确认',
         cancelText: options.cancelText || '取消',
