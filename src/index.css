@@ -109,6 +109,10 @@ body {
   width: 6px;
 }
 
+::selection {
+  background: #cafe36;
+}
+
 /* Animations */
 @keyframes fadeIn {
   from {

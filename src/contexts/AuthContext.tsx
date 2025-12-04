@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import useSWR from 'swr'
 import { getSystemConfig } from '../lib/config'
 import { reset401Flag, httpClient } from '../lib/httpClient'
@@ -58,6 +59,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true)
   const [selectedTraderId, setSelectedTraderId] = useState<string>()
   const [selectedTraderData, setSelectedTraderData] = useState<any>(null)
+
+  const navigate = useNavigate()
 
   const { data: traders, error: tradersError } = useSWR<TraderInfo[]>(user && token ? 'traders' : null, api.getTraders, {
     refreshInterval: 10000,
@@ -122,7 +125,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await fetch('/api/login', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -153,7 +156,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const loginAdmin = async (password: string) => {
     try {
-      const response = await fetch('/api/admin-login', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE}/admin-login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password }),
@@ -176,6 +179,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const returnUrl = sessionStorage.getItem('returnUrl')
         if (returnUrl) {
           sessionStorage.removeItem('returnUrl')
+
           window.history.pushState({}, '', returnUrl)
           window.dispatchEvent(new PopStateEvent('popstate'))
         } else {
@@ -228,7 +232,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const verifyOTP = async (userID: string, otpCode: string) => {
     try {
-      const response = await fetch('/api/verify-otp', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE}/verify-otp`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -253,12 +257,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const returnUrl = sessionStorage.getItem('returnUrl')
         if (returnUrl) {
           sessionStorage.removeItem('returnUrl')
-          window.history.pushState({}, '', returnUrl)
-          window.dispatchEvent(new PopStateEvent('popstate'))
+          navigate(returnUrl)
         } else {
           // 跳转到配置页面
-          window.history.pushState({}, '', '/traders')
-          window.dispatchEvent(new PopStateEvent('popstate'))
+          navigate('/traders')
         }
 
         return { success: true, message: data.message }
@@ -272,7 +274,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const completeRegistration = async (userID: string, otpCode: string) => {
     try {
-      const response = await fetch('/api/complete-registration', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE}/complete-registration`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -292,17 +294,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(userInfo)
         localStorage.setItem('auth_token', data.token)
         localStorage.setItem('auth_user', JSON.stringify(userInfo))
-
         // Check and redirect to returnUrl if exists
         const returnUrl = sessionStorage.getItem('returnUrl')
         if (returnUrl) {
           sessionStorage.removeItem('returnUrl')
-          window.history.pushState({}, '', returnUrl)
-          window.dispatchEvent(new PopStateEvent('popstate'))
+          navigate(returnUrl)
         } else {
           // 跳转到配置页面
-          window.history.pushState({}, '', '/traders')
-          window.dispatchEvent(new PopStateEvent('popstate'))
+          navigate('/traders')
         }
 
         return { success: true, message: data.message }
@@ -316,7 +315,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const resetPassword = async (email: string, newPassword: string, otpCode: string) => {
     try {
-      const response = await fetch('/api/reset-password', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE}/reset-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -343,7 +342,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = () => {
     const savedToken = localStorage.getItem('auth_token')
     if (savedToken) {
-      fetch('/api/logout', {
+      fetch(`${import.meta.env.VITE_API_BASE}/logout`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${savedToken}` },
       }).catch(() => {
