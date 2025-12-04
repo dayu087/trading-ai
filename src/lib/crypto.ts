@@ -133,7 +133,7 @@ export class CryptoService {
   }
 
   static async fetchPublicKey(): Promise<string> {
-    const response = await fetch('/api/crypto/public-key')
+    const response = await fetch(`${import.meta.env.VITE_API_BASE}/crypto/public-key`)
     if (!response.ok) {
       throw new Error(`Failed to fetch public key: ${response.statusText}`)
     }
@@ -142,7 +142,7 @@ export class CryptoService {
   }
 
   static async decryptSensitiveData(payload: EncryptedPayload): Promise<string> {
-    const response = await fetch('/api/crypto/decrypt', {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE}/crypto/decrypt`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

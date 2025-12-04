@@ -50,6 +50,10 @@ const PageWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    max-height: 100vh;
+  }
 `
 
 const LoadingScreen = styled.div`
