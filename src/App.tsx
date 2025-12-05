@@ -48,14 +48,14 @@ export default function AppWithProviders() {
 }
 
 const PageWrapper = styled.div`
-  height: 100vh;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow: hidden;
 
   @media (max-width: 768px) {
-    max-height: 100vh;
+    max-height: 100dvh;
   }
 `
 
