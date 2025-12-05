@@ -44,9 +44,9 @@ export function ModelConfigModal({ allModels, configuredModels, editingModelId, 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (!selectedModelId || !apiKey.trim()) return
+    if (!selectedModelId) return
 
-    onSave(selectedModelId, apiKey.trim(), baseUrl.trim() || undefined, modelName.trim() || undefined)
+    onSave(selectedModelId, apiKey.trim() || '', baseUrl.trim() || undefined, modelName.trim() || undefined)
   }
 
   // 可选择的模型列表(所有支持的模型)
@@ -103,7 +103,7 @@ export function ModelConfigModal({ allModels, configuredModels, editingModelId, 
               </ModelCard>
             )}
 
-            {selectedModel && (
+            {/* {selectedModel && (
               <>
                 <div>
                   <Label>{t('apiKey')}</Label>
@@ -129,7 +129,7 @@ export function ModelConfigModal({ allModels, configuredModels, editingModelId, 
                   <InfoText>{t('modelConfigInfo3')}</InfoText>
                 </InfoBox>
               </>
-            )}
+            )} */}
           </ScrollArea>
 
           <Footer>
@@ -137,7 +137,7 @@ export function ModelConfigModal({ allModels, configuredModels, editingModelId, 
               {t('cancel')}
             </CancelButton>
 
-            <SaveButton type="submit" disabled={!selectedModel || !apiKey.trim()}>
+            <SaveButton type="submit" disabled={!selectedModel}>
               {t('saveConfig')}
             </SaveButton>
           </Footer>
