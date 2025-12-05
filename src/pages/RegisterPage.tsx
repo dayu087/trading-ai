@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom'
 import { getSystemConfig } from '../lib/config'
 import { Eye, EyeOff } from 'lucide-react'
 
+import Input from '@/components/ui/InputBox'
+
 import vaikynorIcon from '@/assets/images/log_img_bg.png'
 
 // 本地密码强度校验（与 UI 规则一致）
@@ -33,8 +35,6 @@ export function RegisterPage() {
   const [qrCodeURL, setQrCodeURL] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
   const navigate = useNavigate()
 
@@ -149,45 +149,18 @@ export function RegisterPage() {
                 <FormGroup>
                   <Label>{t('password')}</Label>
                   <Relative>
-                    <Input
-                      type={showPassword ? 'text' : 'password'}
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className="pr-10"
-                      placeholder={t('passwordPlaceholder')}
-                      required
-                    />
-                    <ToggleBtn type="button" aria-label={showPassword ? '隐藏密码' : '显示密码'} onMouseDown={(e) => e.preventDefault()} onClick={() => setShowPassword((v) => !v)}>
-                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                    </ToggleBtn>
+                    <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="pr-10" placeholder={t('passwordPlaceholder')} required />
                   </Relative>
                 </FormGroup>
                 <FormGroup>
                   <Label>{t('confirmPassword')}</Label>
-                  <Relative>
-                    <Input
-                      type={showConfirmPassword ? 'text' : 'password'}
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      className="pr-10"
-                      placeholder={t('confirmPasswordPlaceholder')}
-                      required
-                    />
-                    <ToggleBtn
-                      type="button"
-                      aria-label={showConfirmPassword ? '隐藏密码' : '显示密码'}
-                      onMouseDown={(e) => e.preventDefault()}
-                      onClick={() => setShowConfirmPassword((v) => !v)}
-                    >
-                      {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                    </ToggleBtn>
-                  </Relative>
+                  <Input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder={t('confirmPasswordPlaceholder')} required />
                 </FormGroup>
 
                 {betaMode && (
                   <div>
-                    <Label style={{ color: '#EAECEF' }}>内测码 *</Label>
-                    <BetaInput
+                    <Label>内测码 *</Label>
+                    <Input
                       type="text"
                       value={betaCode}
                       onChange={(e) => setBetaCode(e.target.value.replace(/[^a-z0-9]/gi, '').toLowerCase())}
@@ -402,62 +375,8 @@ const Label = styled.label`
   font-weight: 600;
 `
 
-const Input = styled.input`
-  width: 100%;
-  padding: 16px 24px;
-  border-radius: 8px;
-  font-size: 16px;
-  border: 1px solid #191a23;
-  background: #fff;
-
-  &:focus {
-    outline: 1px solid #cafe36;
-  }
-
-  &::placeholder {
-    color: #848e9c;
-  }
-`
-
 const Relative = styled.div`
   position: relative;
-`
-
-const ToggleBtn = styled.button`
-  position: absolute;
-  right: 0.5rem;
-  bottom: 0;
-  width: 2rem;
-  height: 2.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: 0;
-  padding: 0;
-  cursor: pointer;
-  color: var(--text-secondary);
-`
-
-const ChecklistWrapper = styled.div`
-  margin-top: 0.25rem;
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-
-  .title {
-    margin-bottom: 0.25rem;
-    color: var(--brand-light-gray);
-  }
-`
-
-const BetaInput = styled.input`
-  width: 100%;
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.375rem;
-  font-family: monospace;
-  background: #0b0e11;
-  border: 1px solid #2b3139;
-  color: #eaecef;
 `
 
 const ErrorBox = styled.div`
@@ -486,6 +405,11 @@ const SubmitBtn = styled.button`
   &:disabled {
     opacity: 0.5;
     transform: none;
+  }
+
+  @media (max-width: 768px) {
+    padding: 8px 0;
+    border-radius: 8px;
   }
 `
 

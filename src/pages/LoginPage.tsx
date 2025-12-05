@@ -3,7 +3,6 @@ import { styled } from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
-import { Eye, EyeOff } from 'lucide-react'
 
 import Input from '@/components/ui/InputBox'
 
@@ -286,6 +285,11 @@ const Button = styled.button`
     opacity: 0.5;
     transform: none;
   }
+
+  @media (max-width: 768px) {
+    padding: 8px 0;
+    border-radius: 8px;
+  }
 `
 
 const ErrorBox = styled.div`
@@ -304,23 +308,6 @@ const OTPButton = styled(Button)`
   flex: 1;
   background: #f0b90b;
   color: #000;
-`
-
-const PasswordToggle = styled.button`
-  position: absolute;
-  right: 8px;
-  top: 0;
-  bottom: 0;
-  width: 32px;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-secondary);
-  background: transparent;
-  border: none;
-  padding: 0;
-  cursor: pointer;
 `
 
 const RegisterBox = styled.div`

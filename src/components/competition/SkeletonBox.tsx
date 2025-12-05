@@ -35,6 +35,9 @@ const Wrapper = styled.div`
   gap: 24px;
   width: 100%;
   max-width: 1220px;
+  @media (max-width: 768px) {
+    padding: 0 16px;
+  }
 `
 
 const BinanceCard = styled.div<{ padding?: number }>`
@@ -55,6 +58,7 @@ const FlexBetween = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   margin-bottom: 24px;
 `
 
