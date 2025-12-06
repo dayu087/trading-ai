@@ -210,7 +210,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       otp_secret: string
       qr_code_url: string
       message: string
-    }>('/api/register', requestBody)
+    }>(`/register`, requestBody)
 
     if (result.success && result.data) {
       return {
