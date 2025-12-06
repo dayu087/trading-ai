@@ -84,7 +84,9 @@ export function ScrollProvider({ children }: { children: React.ReactNode }) {
     <ScrollContext.Provider value={{ scrollRef, getScrollElement }}>
       <Wrapper>
         {/* <ProgressBar style={{ scaleX: scrollYProgress }} /> */}
-        <ScrollContainer ref={scrollRef}>{children}</ScrollContainer>
+        <ScrollContainer ref={scrollRef} $path={location.pathname}>
+          {children}
+        </ScrollContainer>
       </Wrapper>
     </ScrollContext.Provider>
   )
@@ -101,7 +103,6 @@ export function useScrollContext() {
 const Wrapper = styled.div`
   position: relative;
   width: 100%;
-  height: 100%;
 `
 
 const ProgressBar = styled(motion.div)`
@@ -115,14 +116,15 @@ const ProgressBar = styled(motion.div)`
   z-index: 99999;
 `
 
-const ScrollContainer = styled.div`
+const ScrollContainer = styled.div<{ $path: string }>`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
   padding-top: 40px;
-  height: calc(100vh - 64px);
   overflow-y: scroll;
+  height: calc(100dvh - 64px);
+  height: ${({ $path }) => ($path === '/reset-password' ? 'calc(100dvh)' : 'calc(100dvh - 64px)')};
 
   &::-webkit-scrollbar {
     width: 6px;
@@ -131,5 +133,9 @@ const ScrollContainer = styled.div`
     /* background: rgba(136, 84, 255, 0.65); */
     background: #f3f3f3;
     border-radius: 4px;
+  }
+
+  @media (max-width: 768px) {
+    padding-top: 20px;
   }
 `

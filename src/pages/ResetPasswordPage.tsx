@@ -144,11 +144,11 @@ const PageWrapper = styled.div`
   justify-content: center;
   width: 1440px;
   padding-top: 64px;
-  min-height: calc(100vh - 40px);
 
   @media (max-width: 1024px) {
     width: 100%;
     padding: 0 16px;
+    padding-bottom: 24px;
   }
 `
 

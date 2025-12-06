@@ -162,11 +162,11 @@ const PageWrapper = styled.div`
   align-items: flex-start;
   justify-content: center;
   width: 1440px;
-  min-height: calc(100vh - 104px);
 
   @media (max-width: 1024px) {
     width: 100%;
     padding: 0 16px;
+    padding-bottom: 24px;
   }
 `
 
@@ -192,8 +192,8 @@ const PageContent = styled.div`
   width: 100%;
   padding-top: 7rem;
 
-  @media (max-width: 1024px) {
-    padding-top: 3rem;
+  @media (max-width: 768px) {
+    padding-top: 1rem;
   }
 `
 
