@@ -306,9 +306,13 @@ const PageContent = styled.div`
   justify-content: center;
   width: 100%;
   padding-top: 7rem;
+  max-height: 690px;
+  overflow-y: auto;
 
   @media (max-width: 768px) {
     padding-top: 1rem;
+    max-height: none;
+    overflow-y: visible;
   }
 `
 
@@ -507,9 +511,14 @@ const ContinueBtn = styled.button`
   background: #f0b90b;
   color: #000;
   transition: transform 0.2s ease;
+  margin-bottom: 24px;
 
   &:hover {
     transform: scale(1.05);
+  }
+
+  @media (max-width: 768px) {
+    margin-bottom: 0;
   }
 `
 
