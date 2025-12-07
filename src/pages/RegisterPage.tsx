@@ -306,7 +306,7 @@ const PageContent = styled.div`
   justify-content: center;
   width: 100%;
   padding-top: 7rem;
-  max-height: 690px;
+  max-height: 700px;
   overflow-y: auto;
 
   @media (max-width: 768px) {

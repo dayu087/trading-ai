@@ -121,18 +121,7 @@ export default function HeaderBar() {
 
           <CenterGroup>
             {rightNavList.map((item) => (
-              <TextLink
-                key={item.key}
-                href={
-                  item.key === 'GitHub'
-                    ? 'https://github.com/tinkle-community/nofx'
-                    : item.key === 'community'
-                      ? 'https://t.me/nofx_dev_community'
-                      : `#${item.key === 'features' ? 'features' : 'how-it-works'}`
-                }
-                target={item.key === 'GitHub' || item.key === 'community' ? '_blank' : undefined}
-                rel="noopener noreferrer"
-              >
+              <TextLink key={item.key} onClick={() => handlePositioning(item.key)} rel="noopener noreferrer">
                 {item.label}
               </TextLink>
             ))}
@@ -204,8 +193,19 @@ export default function HeaderBar() {
               <LogoLink href="/">
                 <img src={logoIcon} alt="Valkynor Logo" />
               </LogoLink>
-              <CloseButton onClick={() => setMobileMenuOpen(false)}>{/* <img src={Close} alt="" /> */}</CloseButton>
+              <CloseButton onClick={() => setMobileMenuOpen(false)}>
+                <X size={24} />
+              </CloseButton>
             </MobileMenuHeader>
+
+            <MobileUserInfo>
+              {user && (
+                <>
+                  <UserIcon>{user.email[0].toUpperCase()}</UserIcon>
+                  <h2> {user.email}</h2>
+                </>
+              )}
+            </MobileUserInfo>
             <MobileNav>
               {leftNavList.map((n: any) => (
                 <MobileNavItem to={n.key} key={n.key} onClick={() => setMobileMenuOpen(false)}>
@@ -250,6 +250,27 @@ export default function HeaderBar() {
                 ))}
               </MobileRPCList>
             </MobileSection>
+            <MobileBtns>
+              {user ? (
+                <LogoutBtn
+                  onClick={() => {
+                    logout()
+                    setMobileMenuOpen(false)
+                  }}
+                >
+                  {t('exitLogin')}
+                </LogoutBtn>
+              ) : (
+                <LoginBtn
+                  onClick={() => {
+                    navigate('/login')
+                    setMobileMenuOpen(false)
+                  }}
+                >
+                  {t('signIn')}
+                </LoginBtn>
+              )}
+            </MobileBtns>
           </MobileMenu>
         </>
       )}
@@ -292,6 +313,12 @@ const LogoLink = styled.a`
 
   img {
     width: 142px;
+  }
+
+  @media (max-width: 768px) {
+    img {
+      width: 120px;
+    }
   }
 `
 
@@ -363,12 +390,13 @@ const RIghtGroup = styled.div`
   gap: 1rem;
 `
 
-const TextLink = styled.a`
+const TextLink = styled.div`
   padding: 8px;
   font-size: 0.875rem;
   color: var(--brand-black);
   position: relative;
   transition: color 0.3s;
+  cursor: pointer;
 
   &::after {
     content: '';
@@ -577,18 +605,28 @@ const CloseButton = styled.div`
   }
 `
 
+const MobileUserInfo = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: fit-content;
+  margin: 24px 0;
+  border-radius: 8px;
+  padding: 4px 8px;
+  border: 1px solid #000;
+`
+
 const MobileNav = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 48px;
   gap: 24px;
+  margin-bottom: 24px;
 `
 
 const MobileNavItem = styled(NavLink)`
   text-decoration: none;
   font-size: 14px;
   font-weight: 300;
-  padding: 8px 0;
 
   &[aria-current='page'] {
     font-weight: 700;
@@ -604,6 +642,13 @@ const MobileNavBtn = styled.button`
 
 const MobileSection = styled.div`
   margin-top: 40px;
+`
+
+const MobileBtns = styled.div`
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  display: flex;
 `
 
 const MobileSectionTitle = styled.div`
@@ -636,4 +681,10 @@ const LoginBtn = styled.button`
   color: #fff;
   border-radius: 8px;
   background: #000;
+  border: 1px solid #000;
+`
+
+const LogoutBtn = styled(LoginBtn)`
+  color: #e74e4e;
+  background: #fff;
 `

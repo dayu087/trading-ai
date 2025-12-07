@@ -3,6 +3,7 @@ import { styled } from 'styled-components'
 import { X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '@/contexts/AuthContext'
 
 interface LoginModalProps {
   onClose: () => void
@@ -11,6 +12,18 @@ interface LoginModalProps {
 export default function LoginModal({ onClose }: LoginModalProps) {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const { user } = useAuth()
+
+  const goLogin = () => {
+    if (user?.email && user?.id) return
+    navigate('/login')
+    onClose()
+  }
+
+  const goRegister = () => {
+    navigate('/register')
+    onClose()
+  }
 
   return (
     <ModalOverlay initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose}>
@@ -29,22 +42,8 @@ export default function LoginModal({ onClose }: LoginModalProps) {
           {t('loginRegisterPrompt')}
         </p>
         <div className="space-y-3">
-          <Button
-            onClick={() => {
-              navigate('/login')
-              onClose()
-            }}
-          >
-            {t('signIn')}
-          </Button>
-          <RegisterButton
-            onClick={() => {
-              navigate('/register')
-              onClose()
-            }}
-          >
-            {t('registerNewAccount')}
-          </RegisterButton>
+          <Button onClick={goLogin}>{t('signIn')}</Button>
+          <RegisterButton onClick={goRegister}>{t('registerNewAccount')}</RegisterButton>
         </div>
       </ModalContainer>
     </ModalOverlay>
