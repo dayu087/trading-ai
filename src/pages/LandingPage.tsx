@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { styled } from 'styled-components'
+import { useNavigate } from 'react-router-dom'
 import HeroSection from '../components/landing/HeroSection'
 import AboutSection from '../components/landing/AboutSection'
 import FeaturesSection from '../components/landing/FeaturesSection'
@@ -14,19 +15,25 @@ import { useAuth } from '../contexts/AuthContext'
 export function LandingPage() {
   const [showLoginModal, setShowLoginModal] = useState(false)
   const { user } = useAuth()
+  const navigate = useNavigate()
   const isLoggedIn = !!user
+
+  const handleLoginClick = () => {
+    if (isLoggedIn) return navigate('/dashboard')
+    setShowLoginModal(true)
+  }
 
   console.log('LandingPage - user:', user, 'isLoggedIn:', isLoggedIn)
   return (
     <>
       <LandingContainer>
-        <HeroSection setShowLoginModal={setShowLoginModal} />
+        <HeroSection setShowLoginModal={handleLoginClick} />
         <AboutSection />
         <FeaturesSection />
         <HowItWorksSection />
         <PreviewSection />
         <CommunitySection />
-        <ReadySection setShowLoginModal={setShowLoginModal} />
+        <ReadySection setShowLoginModal={handleLoginClick} />
         {showLoginModal && <LoginModal onClose={() => setShowLoginModal(false)} />}
         <FooterSection />
       </LandingContainer>
