@@ -42,7 +42,7 @@ export default function LoginModal({ onClose }: LoginModalProps) {
           {t('loginRegisterPrompt')}
         </p>
         <div className="space-y-3">
-          <Button onClick={goLogin}>{t('signIn')}</Button>
+          {!user && <Button onClick={goLogin}>{t('signIn')}</Button>}
           <RegisterButton onClick={goRegister}>{t('registerNewAccount')}</RegisterButton>
         </div>
       </ModalContainer>
